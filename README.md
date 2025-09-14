@@ -1,5 +1,5 @@
 
-#Improving learning and teaching from 200% to 400% is the goal#
+#Improving learning and teaching from 200% to 400% is the tested and proven goal#
 
 ##**Everyone learns.** Some learn faster, some not so quickly. Some learn better. Some need improvement. All learn faster and better with proper practice *all learn to learn more efficiently and effectively*. Errors should never be taught and confusion has no place in the halls of Academia.##
 
