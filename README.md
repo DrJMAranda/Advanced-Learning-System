@@ -1,4 +1,4 @@
-
+https://github.com/DrJMAranda/Advanced-Learning-System/blob/main/README.md
 #Improving learning and teaching from 200% to 400% is the tested and proven goal#
 
 ##*Everyone learns.* Some learn faster. Some not so quickly. Some learn better. Some need and more support and clearer teaching. All learn faster and better in time. With proper practice *all learn to learn more efficiently and effectively*. Errors should never be taught and confusion has no room in the halls of Academia.##
