@@ -7,8 +7,39 @@
 </head>
 <body>
     <h1>Welcome to Advanced Learning!</h1>
-    <video controls width="960" height="540">
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Learning System</title>
+</head>
+<body>
+
+<h1>Welcome to Advanced Learning!</h1>
+
+<h2>Lista de Videos</h2>
+<ul>
+    <li onclick="cambiarVideo('URL_DEL_PRIMER_VIDEO.mp4')">Video 1</li>
+    <li onclick="cambiarVideo('URL_DEL_SEGUNDO_VIDEO.mp4')">Video 2</li>
+    <li onclick="cambiarVideo('URL_DEL_TERCER_VIDEO.mp4')">Video 3</li>
+</ul>
+
+<video id="mi-video" controls width="800">
+    <source src="URL_DEL_PRIMER_VIDEO.mp4" type="video/mp4">
+    Tu navegador no soporta el tag de video.
+</video>
+
+<script>
+        <video controls width="960" height="540">
   <source src="https://storage.googleapis.com/noenbalde/04%20Minnie's%20Pennie%20Song%20~English.mp4" type="video/mp4"></video>
+ = document.getElementById('mi-video');
+        videoPlayer.src = nuevaURL;
+        videoPlayer.load();
+    }
+</script>
+
+</body>
+</html>
+
 </body>
 </html>
 
