@@ -6,4 +6,4 @@
 ###To accentuate the positive I **reinforce good learning**. To *eliminate the negative* I must develop and maintain a Pensum which allows students to bloosom their way at their best pace. I have no time for Mr. Inbetween.###
 
 
-[The Journey Begins](https://drjmaranda.github.io/Advanced-Learning-System/)
+[Advanced Learning Systems](https://drjmaranda.github.io/Advanced-Learning-System/)
