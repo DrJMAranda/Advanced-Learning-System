@@ -3,66 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the Advanced Learning System!</title>
+    <title>Advanced Learning System - Video Library</title>
     <style>
-        /* Corregido: Aplicamos el estilo a los elementos de la lista (li) */
-        li {
-            margin-bottom: 5px; /* Ajusta el espacio entre los videos */
-            cursor: pointer; /* Indica que se puede hacer clic */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
         }
-        ul {
-            margin-top: 5px;
-            padding-left: 20px;
+
+        /* 1. LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
+        .content-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto; /* Centrar el contenido */
+        }
+
+        /* Contenedor del reproductor de video */
+        .video-player-section {
+            flex: 2; /* Ocupa 2/3 del espacio */
+        }
+
+        /* Contenedor del menú de videos */
+        .video-menu-section {
+            flex: 1; /* Ocupa 1/3 del espacio */
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
+        #video-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            
+            /* HABILITAR SCROLLBAR */
+            max-height: 700px; /* Limita la altura del menú */
+            overflow-y: auto; /* Agrega scroll vertical si se supera la altura */
+        }
+
+        /* Estilo para cada ítem/icono */
+        .video-icon-item {
+            display: flex; /* Alineación horizontal de icono y texto */
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .video-icon-item:hover {
+            background-color: #e6f7ff; /* Fondo azul claro al pasar el ratón */
+            border-color: #007bff;
+        }
+
+        .video-icon {
+            font-size: 1.5em; 
+            margin-right: 10px;
+        }
+        
+        /* Asegura que el video ocupe el 100% de su contenedor (video-player-section) */
+        #mi-video {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
-    <video id="mi-video" controls width="800"
-           src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
-        </video>
+    
+    <div class="content-container">
+        
+        <div class="video-player-section">
+            <video id="mi-video" controls width="800"
+                   src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
+            </video>
+        </div>
 
-    <h1>Menú de Videos</h1>
-    <ul id="video-menu">
-        </ul>
-
-    <script>
-        // DATOS: Lista centralizada de videos (fácil de actualizar)
+        <div class="video-menu-section">
+            <h1>Menú de Videos</h1>
+            <ul id="video-menu"></ul>
+        </div>
+        
+    </div> <script>
+        // DATOS: Lista centralizada de videos con el nuevo campo 'icon'
         const videoList = [
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'V1: Meet The Digits (U1S1)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'V2: Counting through Four (U1S2)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V3: The Disappointment (U1S1T3)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V4: The Revelation (U1S1T4)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V5: The Numerals (U1S1T5)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T1%20Meet%20the%20Digits.mp4', title: 'V6: Meet the Digits (U1S1T1)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T2%20The%20Search.mp4', title: 'V7: The Search (U1S1T2)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V8: The Disappointment (U1S1T3)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V9: The Revelation (U1S1T4)' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V10: The Numerals (U1S1T5)' }
+            // Los dos primeros videos con iconos de ejemplo (emojis)
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'V1: Meet The Digits', icon: '🔢' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'V2: Counting through Four', icon: '4️⃣' },
+            
+            // Los videos restantes, listos para que les asignes un icono
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V3: The Disappointment', icon: '😔' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V4: The Revelation', icon: '💡' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V5: The Numerals', icon: '✍️' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T1%20Meet%20the%20Digits.mp4', title: 'V6: Meet the Digits', icon: '🧑‍🤝‍🧑' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T2%20The%20Search.mp4', title: 'V7: The Search', icon: '🔍' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V8: The Disappointment', icon: '😞' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V9: The Revelation', icon: '✨' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V10: The Numerals', icon: '📖' }
+            // Agrega aquí los videos 11-20
         ];
 
-        // Función para cambiar la fuente (se mantiene igual, pero ahora funciona)
+        // Función de control del reproductor
         function cambiarVideo(nuevaURL) {
             const videoPlayer = document.getElementById('mi-video');
             videoPlayer.src = nuevaURL;
-            videoPlayer.load(); // Carga la nueva fuente
-            videoPlayer.play(); // Inicia la reproducción
+            videoPlayer.load(); 
+            videoPlayer.play();
         }
 
-        // Función que genera el menú de la lista dinámicamente
-        function construirMenu() {
+        // Función que genera el menú de la lista dinámicamente con ICONOS
+        function construirMenuDeIconos() {
             const ul = document.getElementById('video-menu');
             
             videoList.forEach(video => {
                 const li = document.createElement('li');
-                // Crea el evento onclick usando los datos del array
-                li.setAttribute('onclick', `cambiarVideo('${video.url}')`);
-                li.textContent = video.title;
+                
+                // Creamos el contenedor que será clicable
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'video-icon-item'; 
+                iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
+                
+                // 1. ICONO
+                if (video.icon) {
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'video-icon';
+                    iconSpan.textContent = video.icon; // Insertamos el emoji
+                    iconContainer.appendChild(iconSpan);
+                }
+                
+                // 2. TÍTULO
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = video.title;
+                iconContainer.appendChild(titleSpan);
+                
+                li.appendChild(iconContainer);
                 ul.appendChild(li);
             });
         }
 
-        // Llama a la función para construir el menú al cargar la página
-        construirMenu();
+        // Ejecuta la construcción del menú
+        construirMenuDeIconos();
     </script>
 </body>
 </html>
