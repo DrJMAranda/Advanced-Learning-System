@@ -1,116 +1,246 @@
-// DATOS: Lista centralizada con la nueva convención de nombres curriculares
-const videoList = [
-    // Estos SÍ están formalizados (A1P1U1S#)
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'A1P1U1S1: Meet The Digits', icon: '🔢', value: 'Orden y Colocación', character: 'zero', trait: 'El Guardián del Orden' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'A1P1U1S2: Counting through Four', icon: '4️⃣', value: 'Secuencia y Disciplina', character: 'four', trait: 'El Buscador del Equilibrio' },
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Learning System - Video Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
+        }
 
-    // Estos son PLACEHOLDERS (Marcadores de Posición) porque solo tienen 'V#'
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V3: Counting Through Nine', icon: '😔', value: 'Resiliencia', character: 'ms-logic', trait: 'La Maestra de la Lógica' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V4: Learning to Count', icon: '💡', value: 'Revelación', character: 'mr-digit', trait: 'El Creador de Estructuras' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V5: The Numerals', icon: '✍️', value: 'Sistema de Comunicación', character: 'zero', trait: 'El Guardián del Orden' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T1%20Meet%20the%20Digits.mp4', title: 'V6: Meet the Digits', icon: '🧑‍🤝‍🧑', value: 'Conocimiento Común', character: 'the-team', trait: 'El Colectivo Cívico' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T2%20The%20Search.mp4', title: 'V7: The Search', icon: '🔍', value: 'Curiosidad', character: 'four', trait: 'El Buscador del Equilibrio' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V8: The Disappointment', icon: '😞', value: 'Fracaso', character: 'ms-logic', trait: 'La Maestra de la Lógica' },
-    { url: 'https://storage.googleapis.in/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V9: The Revelation', icon: '✨', value: 'Descubrimiento', character: 'mr-digit', trait: 'El Creador de Estructuras' },
-    { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V10: The Numerals', icon: '📖', value: 'Alfabetización', character: 'zero', trait: 'El Guardián del Orden' }
-]; 
-2. Mejora del JavaScript (Reflejar la Convención Visualmente)
-Para que tu regla sea visualmente obvia, modificaremos la función mostrarVideos() para que compruebe si el título comienza con V# (marcador de posición) o A1P1U1S# (contenido final).
+        /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
+        .content-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-Solo tenemos que añadir un bloque if en la lógica de renderizado del título para desactivar el clic y cambiar el color del texto para los placeholders.
+        /* Contenedor del reproductor de video */
+        .video-player-section {
+            flex: 2;
+        }
 
-Reemplaza tu función mostrarVideos() completa con esta versión:
+        /* Contenedor del menú de videos */
+        .video-menu-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
+        #video-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px; /* Limita la altura del menú */
+            overflow-y: auto; /* Agrega scroll vertical si se supera la altura */
+        }
 
-JavaScript
+        /* Estilo para cada ítem/icono */
+        .video-icon-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
 
-// Función que genera el menú con ICONOS, VALORES, PERSONAJES y COLOR
-function mostrarVideos(listToRender) {
-    const ul = document.getElementById('video-menu');
-    ul.innerHTML = ''; 
+        /* Hover solo para los videos que NO son placeholders */
+        .video-icon-item:hover {
+            background-color: #d1ecf1 !important; 
+            border-color: #007bff;
+        }
+
+        .video-icon {
+            font-size: 1.5em; 
+            margin-right: 10px;
+        }
+        
+        #mi-video {
+            width: 100%;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* --- ESTILOS DE TEXTO --- */
+
+        .video-value {
+            display: block;
+            font-size: 0.8em;
+            color: #555;
+            margin-top: 2px;
+        }
+        
+        /* Estilo para títulos que marcan nuevas secciones curriculares (V3 en adelante) */
+        .video-title-new {
+            font-weight: bold;
+            color: #007bff; 
+            font-size: 1.1em;
+        }
+
+        /* --- ESTILOS DE FONDO POR PERSONAJE (CONSISTENCIA VISUAL) --- */
+        
+        .bg-zero { background-color: #e6f7ff; border-left: 5px solid #007bff; }
+        .bg-four { background-color: #fffbe6; border-left: 5px solid #ffc107; }
+        .bg-ms-logic { background-color: #ffe6e6; border-left: 5px solid #dc3545; }
+        .bg-mr-digit { background-color: #e2f7e4; border-left: 5px solid #28a745; }
+        .bg-the-team { background-color: #f8f9fa; border-left: 5px solid #6c757d; }
+        
+    </style>
+</head>
+<body>
     
-    listToRender.forEach((video, index) => {
-        const li = document.createElement('li');
-        const iconContainer = document.createElement('div');
+    <div class="content-container">
         
-        // 🛑 LÓGICA DE CONVENCIÓN (Placeholder vs. Final)
-        // Si el título empieza con 'V' y un dígito (Ej: V3, V4), es un placeholder.
-        const isPlaceholder = video.title.match(/^V\d/);
+        <div class="video-player-section">
+            <video id="mi-video" controls width="800"
+                   src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
+            </video>
+        </div>
+
+        <div class="video-menu-section">
+            <h1>Menú de Videos</h1>
+            <input type="text" id="searchInput" placeholder="Buscar por Valor, Personaje o Rasgo Clave..." onkeyup="filtrarVideos()" style="width: 95%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <ul id="video-menu"></ul>
+        </div>
         
-        // 1. Consistencia Visual (Color)
-        if (video.character) {
-            iconContainer.classList.add(`bg-${video.character}`);
-        }
-        
-        iconContainer.classList.add('video-icon-item'); 
-        
-        // Desactiva el clic si es un placeholder
-        if (!isPlaceholder) {
-            iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
-        } else {
-            // Estilo para indicar que el clic está deshabilitado
-            iconContainer.style.cursor = 'default'; 
-        }
-        
-        // 2. Icono
-        if (video.icon) {
-            const iconSpan = document.createElement('span');
-            iconSpan.className = 'video-icon';
-            iconSpan.textContent = video.icon;
-            iconContainer.appendChild(iconSpan);
-        }
-        
-        // 3. Contenedor de Texto (Título, Valor, Personaje, Rasgo)
-        const textContainer = document.createElement('div');
-        
-        // Título
-        const titleSpan = document.createElement('span');
-        titleSpan.textContent = video.title;
-        
-        // Coherencia Curricular: Si el índice es 2 o más (V3 en adelante), aplica el estilo de 'nueva sección'
-        if (index >= 2) {
-            titleSpan.classList.add('video-title-new');
-        }
-        
-        // 🛑 NUEVO: Si es un placeholder, atenúa el color del título
-        if (isPlaceholder) {
-            titleSpan.style.color = '#777777'; // Gris suave
+    </div> 
+
+    <script>
+        // DATOS: Lista centralizada con la convención de nombres curriculares
+        const videoList = [
+            // Estos SÍ están formalizados (A1P1U1S#) y son clicables
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'A1P1U1S1: Meet The Digits', icon: '🔢', value: 'Orden y Colocación', character: 'zero', trait: 'El Guardián del Orden' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'A1P1U1S2: Counting through Four', icon: '4️⃣', value: 'Secuencia y Disciplina', character: 'four', trait: 'El Buscador del Equilibrio' },
+
+            // Estos son PLACEHOLDERS (V#). No son clicables y se mostrarán atenuados.
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V3: Counting Through Nine', icon: '😔', value: 'Resiliencia', character: 'ms-logic', trait: 'La Maestra de la Lógica' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V4: Learning to Count', icon: '💡', value: 'Revelación', character: 'mr-digit', trait: 'El Creador de Estructuras' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V5: The Numerals', icon: '✍️', value: 'Sistema de Comunicación', character: 'zero', trait: 'El Guardián del Orden' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T1%20Meet%20the%20Digits.mp4', title: 'V6: Meet the Digits', icon: '🧑‍🤝‍🧑', value: 'Conocimiento Común', character: 'the-team', trait: 'El Colectivo Cívico' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T2%20The%20Search.mp4', title: 'V7: The Search', icon: '🔍', value: 'Curiosidad', character: 'four', trait: 'El Buscador del Equilibrio' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T3%20The%20Disappointment.mp4', title: 'V8: The Disappointment', icon: '😞', value: 'Fracaso', character: 'ms-logic', trait: 'La Maestra de la Lógica' },
+            { url: 'https://storage.googleapis.in/noenbalde/Giddyap/AP1U1S1T4%20The%20Revelation.mp4', title: 'V9: The Revelation', icon: '✨', value: 'Descubrimiento', character: 'mr-digit', trait: 'El Creador de Estructuras' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V10: The Numerals', icon: '📖', value: 'Alfabetización', character: 'zero', trait: 'El Guardián del Orden' }
+        ]; 
+
+        // Función de control del reproductor
+        function cambiarVideo(nuevaURL) {
+            const videoPlayer = document.getElementById('mi-video');
+            videoPlayer.src = nuevaURL;
+            videoPlayer.load(); 
+            videoPlayer.play();
         }
 
-        textContainer.appendChild(titleSpan);
+        // Función de Filtrado y Búsqueda
+        function filtrarVideos() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filteredList = videoList.filter(video => {
+                const searchableText = `${video.title} ${video.value} ${video.character} ${video.trait}`.toLowerCase();
+                return searchableText.includes(searchTerm);
+            });
 
-        // ... (El resto del código para Valor, Personaje y Rasgo sigue igual) ...
-        
-        // Valor
-        if (video.value) {
-            const valueSpan = document.createElement('span');
-            valueSpan.className = 'video-value';
-            valueSpan.textContent = `Valor: ${video.value}`;
-            textContainer.appendChild(valueSpan);
-        }
-        
-        // Personaje
-        if (video.character) {
-            const characterSpan = document.createElement('span');
-            characterSpan.className = 'video-value';
-            const displayName = video.character.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-            characterSpan.textContent = `Protagonista: ${displayName}`;
-            textContainer.appendChild(characterSpan);
+            mostrarVideos(filteredList);
         }
 
-        // Rasgo Clave (Consistencia Narrativa)
-        if (video.trait) {
-            const traitSpan = document.createElement('span');
-            traitSpan.className = 'video-value';
-            traitSpan.style.color = '#000080'; 
-            traitSpan.textContent = `Rasgo Clave: ${video.trait}`;
-            textContainer.appendChild(traitSpan);
+        // Función que genera el menú con ICONOS, VALORES, PERSONAJES y COLOR
+        function mostrarVideos(listToRender) {
+            const ul = document.getElementById('video-menu');
+            ul.innerHTML = ''; 
+            
+            listToRender.forEach((video, index) => {
+                const li = document.createElement('li');
+                const iconContainer = document.createElement('div');
+                
+                // 🛑 LÓGICA DE CONVENCIÓN (Placeholder vs. Final)
+                // Comprueba si el título empieza con 'V' y un dígito (Ej: V3).
+                const isPlaceholder = video.title.match(/^V\d/);
+
+                // 1. Consistencia Visual (Color y Estilo base)
+                if (video.character) {
+                    iconContainer.classList.add(`bg-${video.character}`);
+                }
+                iconContainer.classList.add('video-icon-item'); 
+                
+                // 2. Lógica de Clic: Solo se puede hacer clic si NO es un placeholder.
+                if (!isPlaceholder) {
+                    iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
+                    iconContainer.style.cursor = 'pointer'; 
+                } else {
+                    iconContainer.style.cursor = 'default'; 
+                    // Si es un placeholder, reduce un poco la opacidad para indicarlo.
+                    iconContainer.style.opacity = '0.7'; 
+                }
+                
+                // 3. Icono
+                if (video.icon) {
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'video-icon';
+                    iconSpan.textContent = video.icon;
+                    iconContainer.appendChild(iconSpan);
+                }
+                
+                // 4. Contenedor de Texto (Título, Valor, Personaje, Rasgo)
+                const textContainer = document.createElement('div');
+                
+                // Título
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = video.title;
+                
+                // Coherencia Curricular: Si el índice es 2 o más (V3 en adelante), aplica el estilo de 'nueva sección'
+                if (index >= 2) {
+                    titleSpan.classList.add('video-title-new');
+                }
+                
+                // 🛑 Si es un placeholder, atenúa el color del título para reforzar la convención.
+                if (isPlaceholder) {
+                    titleSpan.style.color = '#777777';
+                }
+
+                textContainer.appendChild(titleSpan);
+
+                // Valor
+                if (video.value) {
+                    const valueSpan = document.createElement('span');
+                    valueSpan.className = 'video-value';
+                    valueSpan.textContent = `Valor: ${video.value}`;
+                    textContainer.appendChild(valueSpan);
+                }
+                
+                // Personaje
+                if (video.character) {
+                    const characterSpan = document.createElement('span');
+                    characterSpan.className = 'video-value';
+                    // Capitaliza el nombre para la visualización
+                    const displayName = video.character.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    characterSpan.textContent = `Protagonista: ${displayName}`;
+                    textContainer.appendChild(characterSpan);
+                }
+
+                // Rasgo Clave (Consistencia Narrativa)
+                if (video.trait) {
+                    const traitSpan = document.createElement('span');
+                    traitSpan.className = 'video-value';
+                    traitSpan.style.color = '#000080'; // Azul oscuro para destacarlo
+                    traitSpan.textContent = `Rasgo Clave: ${video.trait}`;
+                    textContainer.appendChild(traitSpan);
+                }
+                
+                iconContainer.appendChild(textContainer);
+                li.appendChild(iconContainer);
+                ul.appendChild(li);
+            });
         }
-        
-        iconContainer.appendChild(textContainer);
-        li.appendChild(iconContainer);
-        ul.appendChild(li);
-    });
-}
+
         // Ejecuta la construcción del menú inicial
         mostrarVideos(videoList); 
     </script>
