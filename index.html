@@ -1,245 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - Video Library</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Learning System - Video Library</title>
 </head>
- <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f4f7f6;
-    }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f7f6;
+    }
 
-    /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
-    .content-container {
-        display: flex;
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+    /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
+    .content-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-    /* Contenedor del reproductor de video */
-    .video-player-section {
-        flex: 2;
-    }
+    /* Contenedor del reproductor de video */
+    .video-player-section {
+        flex: 2;
+    }
 
-    /* Contenedor del menú de videos */
-    .video-menu-section {
-        flex: 1;
-        background-color: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Contenedor del menú de videos */
+    .video-menu-section {
+        flex: 1;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
+    #video-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        /* EL PUNTO DE CUADRÍCULA ORGANIZACIONAL (4 COLUMNAS) */
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 10px; /* Espacio entre los ítems */
+
+        max-height: 700px; /* Limita la altura del menú */
+        overflow-y: auto; /* Agrega scroll vertical */
+    }
+
+    /* Estilo para cada ítem/icono (AHORA MÁS PEQUEÑO) */
+    .video-icon-item {
+        /* Se mantiene el Flexbox internamente para alinear el icono y el texto */
+        display: flex;
+        align-items: center;
+        padding: 5px; 
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        /* Ensures item can shrink within the grid cell */
+        min-width: 0;
+    }
+    
+    /* Target the text container to ensure text wraps within the grid item */
+    .video-icon-item > div {
+        flex-grow: 1;
+        flex-shrink: 1; 
+        word-wrap: break-word; 
+        overflow-wrap: break-word;
     }
     
-    /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
-    #video-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        
-        /* ----------------------------------------------------- */
-        /* EL PUNTO DE CUADRÍCULA ORGANIZACIONAL (4 COLUMNAS) */
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 10px; /* Espacio entre los nuevos ítems */
-        /* ----------------------------------------------------- */
 
-        max-height: 700px; /* Limita la altura del menú */
-        overflow-y: auto; /* Agrega scroll vertical si se supera la altura */
-    }
+    /* --- ESTILOS DE COLOR DE FONDO PARA PERSONAJES (Consistencia) --- */
 
-    /* Estilo para cada ítem/icono (AHORA MÁS PEQUEÑO) */
-    .video-icon-item {
-        /* Se mantiene el Flexbox internamente para alinear el icono y el texto */
-        display: flex;
-        align-items: center;
-        padding: 5px; /* REDUCIDO de 10px a 5px para un ítem más compacto */
-        margin-bottom: 8px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-    }
+    .bg-All { background-color: #e0f7fa; } /* Cian claro */
+    .bg-Numerak-Four { background-color: #fce4ec; } /* Rosa claro */
+    .bg-Numerak-Nine { background-color: #fffde7; } /* Amarillo claro */
+    .bg-Linguista { background-color: #e8f5e9; } /* Verde claro */
+    .bg-Polyglot { background-color: #f3e5f5; } /* Púrpura claro */
+    .bg-Bailey { background-color: #efebe9; } /* Marrón claro/Crema */
+    .bg-Placeholder { background-color: #f5f5f5; } /* Gris muy claro (para atenuar) */
 
-    /* Hover solo para los videos que NO son placeholders */
-    .video-icon-item:hover {
-        background-color: #d1ecf1 !important; 
-        border-color: #007bff;
-    }
+    /* Hover solo para los videos que NO son placeholders */
+    .video-icon-item:hover {
+        background-color: #d1ecf1 !important; 
+        border-color: #007bff;
+    }
 
-    .video-icon {
-        font-size: 1.2em; /* REDUCIDO de 1.5em a 1.2em para íconos más pequeños */
-        margin-right: 5px; /* REDUCIDO de 10px */
-    }
-    
-    #mi-video {
-        width: 100%;
-        display: block;
-        border-radius: 8px;
-    }
+    .video-icon {
+        font-size: 1.2em;
+        margin-right: 5px;
+    }
+    
+    #mi-video {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+    }
 
-    /* --- ESTILOS DE TEXTO --- */
+    /* --- ESTILOS DE TEXTO --- */
 
-    .video-value {
-        display: block;
-        font-size: 0.7em; /* REDUCIDO de 0.8em para texto más compacto */
-        color: #555;
-        margin-top: 2px;
-    }
-    
-    /* ... (Resto de los estilos no modificados) ... */
- </style>
+    .video-value {
+        display: block;
+        font-size: 0.7em; 
+        color: #555;
+        margin-top: 2px;
+    }
+ </style>
 </head>
 <body>
-    
-    <div class="content-container">
-        
-        <div class="video-player-section">
-            <video id="mi-video" controls width="800"
-                   src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
-            </video>
-        </div>
+    
+    <div class="content-container">
+        
+        <div class="video-player-section">
+            <video id="mi-video" controls width="800"
+                   src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
+            </video>
+        </div>
 
-        <div class="video-menu-section">
-            <h1>Menú de Videos</h1>
-            <input type="text" id="searchInput" placeholder="Buscar por Valor, Personaje o Rasgo Clave..." onkeyup="filtrarVideos()" style="width: 95%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <ul id="video-menu"></ul>
-        </div>
-        
-    </div> 
+        <div class="video-menu-section">
+            <h1>Menú de Videos</h1>
+            <input type="text" id="searchInput" placeholder="Buscar por Valor, Personaje o Rasgo Clave..." onkeyup="filtrarVideos()" style="width: 95%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <ul id="video-menu"></ul>
+        </div>
+        
+    </div> 
 
-    <script>
-        // DATOS: Lista centralizada con la convención de nombres curriculares
-        const videoList = [
-            // Estos SÍ están formalizados (A1P1U1S#) y son clicables
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',                      title: 'A1P1U1S1: Meet The Digits',          },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',           title: 'A1P1U1S2: Numeraks through Four',    },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',                   title: 'A1P1U1S3: Numerals Through Nine',    },           
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4',                          title: 'Enunciation 1',                      },
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4',                          title: 'Enunciation 2',                      },
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20001-010.mp4',                             title: 'Nouns 01-10 Esp-Eng',                },
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20011-020.mp4',                             title: 'Nouns 11-20 Esp-Eng',                },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Bailey's%20Place%20Values.mp4',                          title: 'Baileys Place Values',               },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Multiplication%206%20to%2010.mp4',                       title: 'Multiplication 6 to 10',             },
+    <script>
+        // DATOS: Lista centralizada con la convención de nombres curriculares
+        const videoList = [
+            // Estos SÍ están formalizados (A1P1U1S#) y son clicables
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'A1P1U1S1: Meet The Digits', icon: '🔢', value: 'Foundation', character: 'All', trait: 'Introduction' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'A1P1U1S2: Numeraks through Four', icon: '4️⃣', value: 'Progress', character: 'Numerak-Four', trait: 'Growth Mindset' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', title: 'A1P1U1S3: Numerals Through Nine', icon: '9️⃣', value: 'Precision', character: 'Numerak-Nine', trait: 'Detail Orientation' },           
+            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', title: 'Enunciation 1', icon: '🗣️', value: 'Clarity', character: 'Linguista', trait: 'Phonetics' },
+            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', title: 'Enunciation 2', icon: '🔊', value: 'Communication', character: 'Linguista', trait: 'Pronunciation' },
+            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20001-010.mp4', title: 'Nouns 01-10 Esp-Eng', icon: '🍎', value: 'Knowledge', character: 'Polyglot', trait: 'Vocabulary' },
+            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20011-020.mp4', title: 'Nouns 11-20 Esp-Eng', icon: '🌎', value: 'Connection', character: 'Polyglot', trait: 'Bilingualism' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Bailey\'s%20Place%20Values.mp4', title: 'Baileys Place Values', icon: '🧮', value: 'Order', character: 'Bailey', trait: 'A place and a time for everything' },
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Multiplication%206%20to%2010.mp4', title: 'Multiplication 6 to 10', icon: '✖️', value: 'Efficiency', character: 'All', trait: 'Skill Building' },
 
-            // Estos son PLACEHOLDERS (V#). No son clicables y se mostrarán atenuados.
+            // Este es un PLACEHOLDER. No es clicable y se muestra atenuado.
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V1: Placeholder Next Concept', icon: '💡', value: 'Future', character: 'Placeholder', trait: 'Next Lesson' }
+        ]; 
 
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4',                         title: 'Place Holder',              },
-        ]; 
+        // Función de control del reproductor
+        function cambiarVideo(nuevaURL) {
+            const videoPlayer = document.getElementById('mi-video');
+            videoPlayer.src = nuevaURL;
+            videoPlayer.load(); 
+            videoPlayer.play();
+        }
 
-        // Función de control del reproductor
-        function cambiarVideo(nuevaURL) {
-            const videoPlayer = document.getElementById('mi-video');
-            videoPlayer.src = nuevaURL;
-            videoPlayer.load(); 
-            videoPlayer.play();
-        }
+        // Función de Filtrado y Búsqueda
+        function filtrarVideos() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filteredList = videoList.filter(video => {
+                const searchableText = `${video.title} ${video.value} ${video.character} ${video.trait}`.toLowerCase();
+                return searchableText.includes(searchTerm);
+            });
 
-        // Función de Filtrado y Búsqueda
-        function filtrarVideos() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filteredList = videoList.filter(video => {
-                const searchableText = `${video.title} ${video.value} ${video.character} ${video.trait}`.toLowerCase();
-                return searchableText.includes(searchTerm);
-            });
+            mostrarVideos(filteredList);
+        }
 
-            mostrarVideos(filteredList);
-        }
+        // Función que genera el menú con ICONOS, VALORES, PERSONAJES y COLOR
+        function mostrarVideos(listToRender) {
+            const ul = document.getElementById('video-menu');
+            ul.innerHTML = ''; 
+            
+            listToRender.forEach((video, index) => {
+                const li = document.createElement('li');
+                const iconContainer = document.createElement('div');
+                
+                // 🛑 LÓGICA DE CONVENCIÓN (Placeholder vs. Final)
+                // Comprueba si el título empieza con 'V' y un dígito (Ej: V3).
+                const isPlaceholder = video.title.match(/^V\d/);
 
-        // Función que genera el menú con ICONOS, VALORES, PERSONAJES y COLOR
-        function mostrarVideos(listToRender) {
-            const ul = document.getElementById('video-menu');
-            ul.innerHTML = ''; 
-            
-            listToRender.forEach((video, index) => {
-                const li = document.createElement('li');
-                const iconContainer = document.createElement('div');
-                
-                // 🛑 LÓGICA DE CONVENCIÓN (Placeholder vs. Final)
-                // Comprueba si el título empieza con 'V' y un dígito (Ej: V3).
-                const isPlaceholder = video.title.match(/^V\d/);
+                // 1. Consistencia Visual (Color y Estilo base)
+                if (video.character) {
+                    iconContainer.classList.add(`bg-${video.character}`);
+                }
+                iconContainer.classList.add('video-icon-item'); 
+                
+                // 2. Lógica de Clic: Solo se puede hacer clic si NO es un placeholder.
+                if (!isPlaceholder) {
+                    iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
+                    iconContainer.style.cursor = 'pointer'; 
+                } else {
+                    iconContainer.style.cursor = 'default'; 
+                    // Si es un placeholder, reduce un poco la opacidad para indicarlo.
+                    iconContainer.style.opacity = '0.7'; 
+                }
+                
+                // 3. Icono
+                if (video.icon) {
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'video-icon';
+                    iconSpan.textContent = video.icon;
+                    iconContainer.appendChild(iconSpan);
+                }
+                
+                // 4. Contenedor de Texto (Título, Valor, Personaje, Rasgo)
+                const textContainer = document.createElement('div');
+                
+                // Título
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = video.title;
+                
+                // Coherencia Curricular: Si el índice es 2 o más (V3 en adelante), aplica el estilo de 'nueva sección'
+                if (index >= 2) {
+                    titleSpan.classList.add('video-title-new');
+                }
+                
+                // 🛑 Si es un placeholder, atenúa el color del título para reforzar la convención.
+                if (isPlaceholder) {
+                    titleSpan.style.color = '#777777';
+                }
 
-                // 1. Consistencia Visual (Color y Estilo base)
-                if (video.character) {
-                    iconContainer.classList.add(`bg-${video.character}`);
-                }
-                iconContainer.classList.add('video-icon-item'); 
-                
-                // 2. Lógica de Clic: Solo se puede hacer clic si NO es un placeholder.
-                if (!isPlaceholder) {
-                    iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
-                    iconContainer.style.cursor = 'pointer'; 
-                } else {
-                    iconContainer.style.cursor = 'default'; 
-                    // Si es un placeholder, reduce un poco la opacidad para indicarlo.
-                    iconContainer.style.opacity = '0.7'; 
-                }
-                
-                // 3. Icono
-                if (video.icon) {
-                    const iconSpan = document.createElement('span');
-                    iconSpan.className = 'video-icon';
-                    iconSpan.textContent = video.icon;
-                    iconContainer.appendChild(iconSpan);
-                }
-                
-                // 4. Contenedor de Texto (Título, Valor, Personaje, Rasgo)
-                const textContainer = document.createElement('div');
-                
-                // Título
-                const titleSpan = document.createElement('span');
-                titleSpan.textContent = video.title;
-                
-                // Coherencia Curricular: Si el índice es 2 o más (V3 en adelante), aplica el estilo de 'nueva sección'
-                if (index >= 2) {
-                    titleSpan.classList.add('video-title-new');
-                }
-                
-                // 🛑 Si es un placeholder, atenúa el color del título para reforzar la convención.
-                if (isPlaceholder) {
-                    titleSpan.style.color = '#777777';
-                }
+                textContainer.appendChild(titleSpan);
 
-                textContainer.appendChild(titleSpan);
+                // Valor
+                if (video.value) {
+                    const valueSpan = document.createElement('span');
+                    valueSpan.className = 'video-value';
+                    valueSpan.textContent = `Valor: ${video.value}`;
+                    textContainer.appendChild(valueSpan);
+                }
+                
+                // Personaje
+                if (video.character) {
+                    const characterSpan = document.createElement('span');
+                    characterSpan.className = 'video-value';
+                    // Capitaliza el nombre para la visualización
+                    const displayName = video.character.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    characterSpan.textContent = `Protagonista: ${displayName}`;
+                    textContainer.appendChild(characterSpan);
+                }
 
-                // Valor
-                if (video.value) {
-                    const valueSpan = document.createElement('span');
-                    valueSpan.className = 'video-value';
-                    valueSpan.textContent = `Valor: ${video.value}`;
-                    textContainer.appendChild(valueSpan);
-                }
-                
-                // Personaje
-                if (video.character) {
-                    const characterSpan = document.createElement('span');
-                    characterSpan.className = 'video-value';
-                    // Capitaliza el nombre para la visualización
-                    const displayName = video.character.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                    characterSpan.textContent = `Protagonista: ${displayName}`;
-                    textContainer.appendChild(characterSpan);
-                }
+                // Rasgo Clave (Consistencia Narrativa)
+                if (video.trait) {
+                    const traitSpan = document.createElement('span');
+                    traitSpan.className = 'video-value';
+                    traitSpan.style.color = '#000080'; // Azul oscuro para destacarlo
+                    traitSpan.textContent = `Rasgo Clave: ${video.trait}`;
+                    textContainer.appendChild(traitSpan);
+                }
+                
+                iconContainer.appendChild(textContainer);
+                li.appendChild(iconContainer);
+                ul.appendChild(li);
+            });
+        }
 
-                // Rasgo Clave (Consistencia Narrativa)
-                if (video.trait) {
-                    const traitSpan = document.createElement('span');
-                    traitSpan.className = 'video-value';
-                    traitSpan.style.color = '#000080'; // Azul oscuro para destacarlo
-                    traitSpan.textContent = `Rasgo Clave: ${video.trait}`;
-                    textContainer.appendChild(traitSpan);
-                }
-                
-                iconContainer.appendChild(textContainer);
-                li.appendChild(iconContainer);
-                ul.appendChild(li);
-            });
-        }
-
-        // Ejecuta la construcción del menú inicial
-        mostrarVideos(videoList); 
-    </script>
+        // Ejecuta la construcción del menú inicial
+        mostrarVideos(videoList); 
+    </script>
 </body>
 </html>
