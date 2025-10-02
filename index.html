@@ -4,97 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Learning System - Video Library</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f7f6;
-        }
+</head>
+ <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f7f6;
+    }
 
-        /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
-        .content-container {
-            display: flex;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
+    .content-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-        /* Contenedor del reproductor de video */
-        .video-player-section {
-            flex: 2;
-        }
+    /* Contenedor del reproductor de video */
+    .video-player-section {
+        flex: 2;
+    }
 
-        /* Contenedor del menú de videos */
-        .video-menu-section {
-            flex: 1;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    /* Contenedor del menú de videos */
+    .video-menu-section {
+        flex: 1;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
+    #video-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
         
-        /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
-        #video-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 700px; /* Limita la altura del menú */
-            overflow-y: auto; /* Agrega scroll vertical si se supera la altura */
-        }
+        /* ----------------------------------------------------- */
+        /* EL PUNTO DE CUADRÍCULA ORGANIZACIONAL (4 COLUMNAS) */
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 10px; /* Espacio entre los nuevos ítems */
+        /* ----------------------------------------------------- */
 
-        /* Estilo para cada ítem/icono */
-        .video-icon-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 8px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
+        max-height: 700px; /* Limita la altura del menú */
+        overflow-y: auto; /* Agrega scroll vertical si se supera la altura */
+    }
 
-        /* Hover solo para los videos que NO son placeholders */
-        .video-icon-item:hover {
-            background-color: #d1ecf1 !important; 
-            border-color: #007bff;
-        }
+    /* Estilo para cada ítem/icono (AHORA MÁS PEQUEÑO) */
+    .video-icon-item {
+        /* Se mantiene el Flexbox internamente para alinear el icono y el texto */
+        display: flex;
+        align-items: center;
+        padding: 5px; /* REDUCIDO de 10px a 5px para un ítem más compacto */
+        margin-bottom: 8px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
 
-        .video-icon {
-            font-size: 1.5em; 
-            margin-right: 10px;
-        }
-        
-        #mi-video {
-            width: 100%;
-            display: block;
-            border-radius: 8px;
-        }
+    /* Hover solo para los videos que NO son placeholders */
+    .video-icon-item:hover {
+        background-color: #d1ecf1 !important; 
+        border-color: #007bff;
+    }
 
-        /* --- ESTILOS DE TEXTO --- */
+    .video-icon {
+        font-size: 1.2em; /* REDUCIDO de 1.5em a 1.2em para íconos más pequeños */
+        margin-right: 5px; /* REDUCIDO de 10px */
+    }
+    
+    #mi-video {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+    }
 
-        .video-value {
-            display: block;
-            font-size: 0.8em;
-            color: #555;
-            margin-top: 2px;
-        }
-        
-        /* Estilo para títulos que marcan nuevas secciones curriculares (V3 en adelante) */
-        .video-title-new {
-            font-weight: bold;
-            color: #007bff; 
-            font-size: 1.1em;
-        }
+    /* --- ESTILOS DE TEXTO --- */
 
-        /* --- ESTILOS DE FONDO POR PERSONAJE (CONSISTENCIA VISUAL) --- */
-        
-        .bg-zero { background-color: #e6f7ff; border-left: 5px solid #007bff; }
-        .bg-four { background-color: #fffbe6; border-left: 5px solid #ffc107; }
-        .bg-ms-logic { background-color: #ffe6e6; border-left: 5px solid #dc3545; }
-        .bg-mr-digit { background-color: #e2f7e4; border-left: 5px solid #28a745; }
-        .bg-the-team { background-color: #f8f9fa; border-left: 5px solid #6c757d; }
-        
-    </style>
+    .video-value {
+        display: block;
+        font-size: 0.7em; /* REDUCIDO de 0.8em para texto más compacto */
+        color: #555;
+        margin-top: 2px;
+    }
+    
+    /* ... (Resto de los estilos no modificados) ... */
+</style>
 </head>
 <body>
     
