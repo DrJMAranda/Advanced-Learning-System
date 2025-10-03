@@ -72,6 +72,29 @@
         overflow-wrap: break-word;
         line-height: 1.1; /* Compact vertical spacing */
     }
+
+    /* Estilo para las carátulas/separadores */
+    .cover-item {
+        grid-column: 1 / -1; /* Ocupa las 4 columnas */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        color: #333;
+        background-color: #e0e0e0; /* Color de fondo gris para contraste */
+        border: none;
+        border-radius: 6px;
+        margin-top: 15px; /* Separación superior de la sección anterior */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        cursor: default !important; /* Asegura que no sea clicable */
+        opacity: 1 !important; /* Opacidad normal */
+    }
+    
+    .cover-item .video-icon {
+        margin-right: 10px;
+    }
     
 
     /* --- ESTILOS DE COLOR DE FONDO PARA PERSONAJES (Consistencia) --- */
@@ -129,19 +152,25 @@
     <script>
         // DATOS: Lista centralizada con la convención de nombres curriculares
         const videoList = [
-            // Estos SÍ están formalizados (A1P1U1S#) y son clicables
+            // UNIDAD 1: Aritmética Básica (S1-S3)
             { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'A1P1U1S1: The Digits', icon: '🔢', value: 'Foundation', character: 'Mr. Zero', trait: 'Existence' },
             { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'A1P1U1S2: Numeraks to 4', icon: '4️⃣', value: 'Progress', character: 'Miss One', trait: 'Subitizing' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', title: 'A1P1U1S3: Numerals to 9', icon: '9️⃣', value: 'Precision', character: 'Numeros', trait: 'Uniizing' },         
+            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', title: 'A1P1U1S3: Numerals to 9', icon: '9️⃣', value: 'Precision', character: 'Numeros', trait: 'Uniizing' },        
+            
+            // 🛑 CARÁTULA SECCIÓN 2: LINGÜÍSTICA Y COMUNICACIÓN
+            { type: 'cover', title: 'SECCIÓN 2: LINGÜÍSTICA', icon: '🌐', character: 'Linguista', value: 'Communication', trait: 'Bilingual', url: '' },
+
             { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Voc%2001-20.mp4', title: 'Enunciation 01-20', icon: '🗣️', value: 'Communication', character: 'Miss Clarity', trait: 'Speaking' },
             { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20001-010.mp4', title: 'Spanglish (01, 10)', icon: '🍎', value: 'Communication', character: 'Poly', trait: 'Bilingual' },
             { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20011-020.mp4', title: 'Spanglish (11, 20)', icon: '🌎', value: 'Communication', character: 'Poly', trait: 'Bilingual' },
+            
+            // 🛑 CARÁTULA SECCIÓN 3: MULTIPLICACIÓN (Operaciones Avanzadas)
+            { type: 'cover', title: 'SECCIÓN 3: OPERACIONES', icon: '➗', character: 'Numeros', value: 'Efficiency', trait: 'Haptic', url: '' },
+
             { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Multiplication%206%20to%2010.mp4', title: 'Products (6, 10)', icon: '✖️', value: 'Efficiency', character: 'Mr Kno Ndoall', trait: 'Haptic' },
             
-            // NEW ENTRY: The Civic Value of Responsibility (Placeholder URL)
+            // PLACEHOLDERS (Los mantengo al final)
             { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/Bailey%20Responsibility.mp4', title: 'V2: Responsibility', icon: '✅', value: 'Responsibility', character: 'Bailey', trait: 'Civic Duty' },
-            
-            // Last PLACEHOLDER entry
             { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T5%20The%20Numerals.mp4', title: 'V3: Placeholder Next Concept', icon: '💡', value: 'Future', character: 'Placeholder', trait: 'Next Lesson' },
         ];  
 
@@ -173,60 +202,77 @@
             
             listToRender.forEach((video, index) => {
                 const li = document.createElement('li');
-                const iconContainer = document.createElement('div');
+                const isCover = video.type === 'cover'; // DETECCIÓN DE CARÁTULA
+                const isPlaceholder = !isCover && video.title.match(/^V\d/); // Detección de placeholder
                 
-                // 🛑 LÓGICA DE CONVENCIÓN (Placeholder vs. Final)
-                const isPlaceholder = video.title.match(/^V\d/);
+                // Se agregó la condición de la carátula para manejar la lógica de búsqueda.
+                // Si la carátula contiene el término de búsqueda, se muestra como una carátula.
+                if (isCover) {
+                    // --- LÓGICA DE CARÁTULA ---
+                    const coverDiv = document.createElement('div');
+                    coverDiv.className = 'cover-item';
+                    
+                    // Añade ícono si existe
+                    if (video.icon) {
+                        const iconSpan = document.createElement('span');
+                        iconSpan.className = 'video-icon';
+                        iconSpan.textContent = video.icon;
+                        coverDiv.appendChild(iconSpan);
+                    }
+                    
+                    // Título de la sección
+                    const titleSpan = document.createElement('span');
+                    titleSpan.textContent = video.title;
+                    coverDiv.appendChild(titleSpan);
 
-                // 1. Consistencia Visual (Color y Estilo base)
-                const characterClass = video.character || 'Placeholder'; // Use Placeholder if undefined
-                iconContainer.classList.add(`bg-${characterClass}`);
-                iconContainer.classList.add('video-icon-item'); 
-                
-                // 2. Lógica de Clic: Solo se puede hacer clic si NO es un placeholder.
-                if (!isPlaceholder) {
-                    iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
-                    iconContainer.style.cursor = 'pointer'; 
+                    li.appendChild(coverDiv);
+
                 } else {
-                    iconContainer.style.cursor = 'default'; 
-                    // If it is a placeholder, reduce opacity to indicate it.
-                    iconContainer.style.opacity = '0.7'; 
-                }
-                
-                // 3. Icono
-                if (video.icon) {
-                    const iconSpan = document.createElement('span');
-                    iconSpan.className = 'video-icon';
-                    iconSpan.textContent = video.icon;
-                    iconContainer.appendChild(iconSpan);
-                }
-                
-                // 4. Contenedor de Texto (Solo Título)
-                const textContainer = document.createElement('div');
-                textContainer.style.flexGrow = '1'; 
-                textContainer.style.minWidth = '0'; 
-                textContainer.style.overflow = 'hidden';
+                    // --- LÓGICA DE ÍTEM DE VIDEO REGULAR/PLACEHOLDER ---
+                    const iconContainer = document.createElement('div');
+                    
+                    // 1. Consistencia Visual (Color y Estilo base)
+                    const characterClass = video.character || 'Placeholder';
+                    iconContainer.classList.add(`bg-${characterClass}`);
+                    iconContainer.classList.add('video-icon-item'); 
+                    
+                    // 2. Lógica de Clic: Solo se puede hacer clic si NO es un placeholder.
+                    if (!isPlaceholder) {
+                        iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
+                        iconContainer.style.cursor = 'pointer'; 
+                    } else {
+                        iconContainer.style.cursor = 'default'; 
+                        iconContainer.style.opacity = '0.7'; 
+                    }
+                    
+                    // 3. Icono
+                    if (video.icon) {
+                        const iconSpan = document.createElement('span');
+                        iconSpan.className = 'video-icon';
+                        iconSpan.textContent = video.icon;
+                        iconContainer.appendChild(iconSpan);
+                    }
+                    
+                    // 4. Contenedor de Texto (Solo Título)
+                    const textContainer = document.createElement('div');
+                    textContainer.style.flexGrow = '1'; 
+                    textContainer.style.minWidth = '0'; 
+                    textContainer.style.overflow = 'hidden';
 
-                // Título
-                const titleSpan = document.createElement('span');
-                titleSpan.textContent = video.title;
-                
-                // Coherencia Curricular: Applies 'new section' style
-                if (index >= 2) {
-                    titleSpan.classList.add('video-title-new');
-                }
-                
-                // 🛑 If it is a placeholder, dim the title color.
-                if (isPlaceholder) {
-                    titleSpan.style.color = '#777777';
+                    // Título
+                    const titleSpan = document.createElement('span');
+                    titleSpan.textContent = video.title;
+                    
+                    // 🛑 If it is a placeholder, dim the title color.
+                    if (isPlaceholder) {
+                        titleSpan.style.color = '#777777';
+                    }
+
+                    textContainer.appendChild(titleSpan);
+                    iconContainer.appendChild(textContainer);
+                    li.appendChild(iconContainer);
                 }
 
-                textContainer.appendChild(titleSpan);
-
-                // *** The logic for adding Value, Character, and Trait is intentionally omitted here ***
-                
-                iconContainer.appendChild(textContainer);
-                li.appendChild(iconContainer);
                 ul.appendChild(li);
             });
         }
