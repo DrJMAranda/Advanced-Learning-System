@@ -36,7 +36,7 @@
         .toc-item:hover {
             background-color: #f9f9f9;
         }
-        /* CRITICAL: Enforcing 400x277px size for the caratula */
+        /* CRITICAL: Enforcing 400x277px size for the caratula (The Student Image) */
         .toc-image {
             width: 400px;
             height: 277px;
@@ -59,7 +59,29 @@
             margin: 5px 0 0 0;
         }
 
-        /* START: Video Modal Styles (The Separate Window) */
+        /* ------------------------------------------- */
+        /* START: Custom Styles for the New Icon Triggers */
+        /* ------------------------------------------- */
+        .menu-trigger-icon {
+            font-size: 1.2em; 
+            color: #4CAF50; /* Base color */
+            margin-left: 10px;
+            cursor: pointer;
+            text-decoration: none; 
+            font-weight: bold;
+            display: inline-block; 
+            vertical-align: middle;
+            transition: color 0.2s;
+        }
+        .menu-trigger-icon:hover {
+            color: #388E3C; /* Darker green on hover for feedback */
+        }
+        /* ------------------------------------------- */
+        /* END: Custom Styles for the New Icon Triggers */
+        /* ------------------------------------------- */
+
+
+        /* START: Video Modal Styles (The Contained Program's Output) */
         .video-modal-overlay {
             position: fixed;
             top: 0;
@@ -67,7 +89,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
-            display: none; /* Hidden by default; JavaScript shows it as 'flex' */
+            display: none; 
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -120,7 +142,12 @@
             <img class="toc-image" src="caratula_02_zero.jpg" alt="Carátula de Mr. Zero">
         </a>
         <div class="toc-link-text">
-            <a href="#" class="video-activator" data-video-id="unidad1_zero">Sección 2: Mr. Sunya-Sifr Zero, The First Something!</a>
+            <a href="#" class="video-activator" data-video-id="unidad1_zero">
+                Sección 2: Mr. Sunya-Sifr Zero, The First Something!
+            </a>
+            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_zero" title="Launch Video Selection Menu">
+                ⧉
+            </a>
             <p>Descubriendo el concepto de la nada y el poder de la posición (0-indexing).</p>
         </div>
     </div>
@@ -131,6 +158,9 @@
         </a>
         <div class="toc-link-text">
             <a href="#" class="video-activator" data-video-id="unidad1_family">Sección 3: The Numeral Family Outing!</a>
+            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_family" style="color: #FFC107;" title="Launch Activity or Quiz">
+                ★
+            </a>
             <p>Introducción subliminal a la Base 10 y los números de dos dígitos.</p>
         </div>
     </div>
@@ -150,7 +180,7 @@
     </div>
 </div>
 <script>
-    // A. VIDEO URL MAPPING (Using your confirmed GCS video URLs)
+    // A. VIDEO URL MAPPING (The Simple Txt Format Data)
     const videoSources = {
         'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
         'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
@@ -170,6 +200,10 @@
     }
 
     function launchVideoWindow(url) {
+        if (!url) {
+            alert("Video resource not found. Check the videoSources map.");
+            return;
+        }
         videoElement.src = url;
         videoPlayerModal.style.display = 'flex'; // Show the modal
         videoElement.play();
@@ -189,13 +223,7 @@
             const videoId = iconLink.getAttribute('data-video-id');
             const videoUrl = videoSources[videoId];
 
-            if (videoUrl) {
-                launchVideoWindow(videoUrl); 
-            } else {
-                // This will fire for sections 2 and 3 until you replace their GCS links
-                console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
-                launchVideoWindow(videoUrl); // Attempt to launch, the browser may fail gracefully
-            }
+            launchVideoWindow(videoUrl); 
         });
     });
 
