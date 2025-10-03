@@ -3,375 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - Video Library</title>
+    <title>Tabla de Contenidos - Unidad 1: Fundamentos Numéricos</title>
+    <style>
+        body {
+            font-family: 'EB Garamond', serif; /* Manteniendo la coherencia tipográfica */
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .toc-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .toc-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .toc-item:hover {
+            background-color: #f9f9f9;
+        }
+        .toc-image {
+            width: 80px; /* Reducido para la vista del índice */
+            height: auto;
+            margin-right: 20px;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .toc-link-text {
+            flex-grow: 1;
+        }
+        .toc-link-text a {
+            text-decoration: none;
+            color: #0056b3;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .toc-link-text p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+    </style>
 </head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f4f7f6;
-    }
-
-    /* LAYOUT PRINCIPAL: Video a la izquierda, Menú a la derecha */
-    .content-container {
-        display: flex;
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    /* Contenedor del reproductor de video */
-    .video-player-section {
-        flex: 2;
-    }
-
-    /* Contenedor del menú de videos */
-    .video-menu-section {
-        flex: 1;
-        background-color: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Contenedor UL para la barra de desplazamiento (Scrollbar) */
-    #video-menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        
-        /* NETFLIX-LIKE: 3-COLUMN GRID LAYOUT */
-        display: grid;  
-        grid-template-columns: repeat(3, 1fr);  
-        gap: 15px; 
-
-        max-height: 700px; 
-        overflow-y: auto; 
-    }
-
-    /* Estilo para cada ítem de video (TIPO TARJETA/THUMBNAIL) */
-    .video-icon-item {
-        display: flex;
-        flex-direction: column; 
-        align-items: center;
-        text-align: center;
-        padding: 0;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px; 
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        min-width: 0;
-        height: 100%; 
-        background-color: #fff; 
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-    
-    /* Efecto Hover: Zoom y Sombra */
-    .video-icon-item:hover {
-        transform: scale(1.05); 
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-        border-color: #007bff;
-        cursor: pointer;
-        z-index: 10; 
-    }
-    
-    /* Contenedor del Thumbnail Visual */
-    .thumbnail-placeholder {
-        width: 100%;
-        height: 80px; 
-        border-radius: 8px 8px 0 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 2em; 
-        color: #333;
-    }
-
-    /* Contenedor de Texto */
-    .video-icon-item > .text-content {
-        padding: 8px 5px;
-        flex-grow: 1; 
-        width: 100%;
-        line-height: 1.2;
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-    }
-
-    /* Etiqueta 'WHO' (Quién está en escena) */
-    .who-tag {
-        font-size: 0.7em;
-        font-weight: normal;
-        color: #666; 
-        margin-top: 5px;
-        text-transform: uppercase;
-    }
-    
-    /* Estilos de Carátulas (Full-width con Imagen de Fondo) */
-    .cover-item {
-        grid-column: 1 / -1; 
-        display: flex;
-        align-items: flex-end; 
-        justify-content: center;
-        
-        /* Estilos de Contenedor */
-        height: 100px; 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        border-radius: 6px;
-        margin-top: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-        cursor: default !important;
-        opacity: 1 !important;
-        padding: 0;
-        overflow: hidden;
-    }
-    
-    /* Contenedor de texto blanco en el fondo de la carátula */
-    .cover-text-band {
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.9); 
-        color: #000;
-        text-align: center;
-        padding: 5px 0;
-        font-weight: bold;
-        font-family: 'EB Garamond', serif; 
-        font-size: 14px;
-        line-height: 1.1;
-    }
-
-    /* --- ESTILOS DE COLOR DE FONDO PARA PERSONAJES (Consistencia) --- */
-
-    .bg-All { background-color: #e0f7fa; } 
-    .bg-Numerak-Four { background-color: #fce4ec; } 
-    .bg-Numerak-Nine { background-color: #fffde7; } 
-    .bg-Linguista { background-color: #e8f5e9; } 
-    .bg-Polyglot { background-color: #f3e5f5; } 
-    .bg-Bailey { background-color: #efebe9; } 
-    .bg-Placeholder { background-color: #f5f5f5; } 
-
-    .video-title-new {
-        font-weight: bold;
-    }
-
-</style>
 <body>
+
+<div class="toc-container">
+    <h1>Índice de Contenidos - Unidad 1: Fundamentos Numéricos</h1>
     
-    <div class="content-container">
-        
-        <div class="video-player-section">
-            <video id="mi-video" controls width="800"
-                    src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">
-            </video>
+    <div class="toc-item">
+        <img class="toc-image" src="caratula_01_journey.jpg" alt="Carátula de Inicio: The Journey Begins">
+        <div class="toc-link-text">
+            <a href="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4">Unidad 1 - Inicio: The Journey Begins... (Meet The Digits)</a>
+            <p>Introducción a la estructura del curso y valores fundacionales.</p>
         </div>
+    </div>
 
-        <div class="video-menu-section">
-            <h1>Menú de Contenido</h1>
-            <ul id="video-menu"></ul>
+    <div class="toc-item">
+        <img class="toc-image" src="caratula_02_zero.jpg" alt="Carátula de Mr. Zero">
+        <div class="toc-link-text">
+            <a href="https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4">Sección 2: Mr. Sunya-Sifr Zero, The First Something!</a>
+            <p>Descubriendo el concepto de la nada y el poder de la posición (0-indexing).</p>
         </div>
-        
-    </div>  
+    </div>
 
-    <script>
-        // DATOS: Lista centralizada para 13 Unidades (0 hasta Números Racionales)
-        const videoList = [
-            
-            // =========================================================================
-            //  UNIDAD 01: INTRODUCCIÓN Y CONJUNTOS INICIALES (0 a 9)
-            // =========================================================================
-            // 🛑 CARÁTULA UNIDAD 01: EL MAPA (CLICABLE)
-            { 
-                type: 'cover', 
-                title: 'The Journey Begins...', 
-                imageURL: 'https://tu-storage.com/cover_section1_map.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4' 
-            }, 
+    <div class="toc-item">
+        <img class="toc-image" src="caratula_03_family.jpg" alt="Carátula de la Familia Numeral">
+        <div class="toc-link-text">
+            <a href="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4">Sección 3: The Numeral Family Outing!</a>
+            <p>Introducción subliminal a la Base 10 y los números de dos dígitos.</p>
+        </div>
+    </div>
+    
+</div>
 
-            // Sección 1: Aritmética Básica (S01-S03)
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', title: 'U01 S01: The Digits', icon: '🔢', who: 'Mr. Zero', value: 'Foundation', character: 'Mr. Zero', trait: 'Existence' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', title: 'U01 S02: Numeraks to 4', icon: '4️⃣', who: 'Miss One', value: 'Progress', character: 'Numerak-Four', trait: 'Subitizing' },
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', title: 'U01 S03: Numerals to 9', icon: '9️⃣', who: 'Numeros', value: 'Precision', character: 'Numerak-Nine', trait: 'Uniizing' },        
-            
-            // 🛑 CARÁTULA SECCIÓN 2: LINGÜÍSTICA Y COMUNICACIÓN (CLICABLE)
-            { 
-                type: 'cover', 
-                title: 'Mr. Zero, the Something!', 
-                imageURL: 'https://tu-storage.com/cover_section2_zero.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Voc%2001-20.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Voc%2001-20.mp4', title: 'U01 S04: Enunciation 01-20', icon: '🗣️', who: 'Clarity', value: 'Communication', character: 'Linguista', trait: 'Speaking' },
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20001-010.mp4', title: 'U01 S05: Spanglish (01, 10)', icon: '🍎', who: 'Poly', value: 'Communication', character: 'Polyglot', trait: 'Bilingual' },
-            { url: 'https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/fcs%20011-020.mp4', title: 'U01 S06: Spanglish (11, 20)', icon: '🌎', who: 'Poly', value: 'Communication', character: 'Polyglot', trait: 'Bilingual' },
-            
-            // 🛑 CARÁTULA SECCIÓN 3: MULTIPLICACIÓN (CLICABLE)
-            { 
-                type: 'cover', 
-                title: 'The Numerals', 
-                imageURL: 'https://tu-storage.com/cover_section3_family.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/Giddyap/Multiplication%206%20to%2010.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/Giddyap/Multiplication%206%20to%2010.mp4', title: 'U01 S07: Products (6, 10)', icon: '✖️', who: 'Mr Kno', value: 'Efficiency', character: 'Numeros', trait: 'Haptic' },
-
-            // Placeholder para la siguiente sección de U01
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/Bailey%20Responsibility.mp4', title: 'U01 S08: Civics & Value', icon: '✅', who: 'Bailey', value: 'Responsibility', character: 'Bailey', trait: 'Civic Duty' },
-            
-            // =========================================================================
-            //  UNIDAD 02: ADICIÓN Y SUSTRACCIÓN (CLICABLE)
-            // =========================================================================
-            { 
-                type: 'cover', 
-                title: 'UNIDAD 02: ADICIÓN & SUSTRACCIÓN', 
-                imageURL: 'https://tu-storage.com/cover_unit_02.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U02 S01: Concept Add', icon: '➕', who: 'The One', value: 'Union', character: 'Placeholder', trait: 'Placeholder' },
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U02 S02: Sums to 10', icon: '🔟', who: 'The Five', value: 'Balance', character: 'Placeholder', trait: 'Placeholder' },
-            
-            // =========================================================================
-            //  UNIDAD 03: VALOR POSICIONAL HASTA DECILLONES (CLICABLE)
-            // =========================================================================
-            { 
-                type: 'cover', 
-                title: 'UNIDAD 03: VALOR POSICIONAL (Decillones)', 
-                imageURL: 'https://tu-storage.com/cover_unit_03.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U03 S01: Place Value', icon: '📍', who: 'Ms. Ten', value: 'Order', character: 'Placeholder', trait: 'Placeholder' },
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U03 S02: Reading 999 Decillion', icon: '🏛️', who: 'The System', value: 'Vastness', character: 'Placeholder', trait: 'Placeholder' },
-            
-            // =========================================================================
-            //  UNIDAD 04: OPERACIONES CON NÚMEROS GRANDES (CLICABLE)
-            // =========================================================================
-            { 
-                type: 'cover', 
-                title: 'UNIDAD 04: OPERACIONES GRANDES', 
-                imageURL: 'https://tu-storage.com/cover_unit_04.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U04 S01: Addition Algorithm', icon: '🧮', who: 'Prof. Add', value: 'Efficiency', character: 'Placeholder', trait: 'Placeholder' },
-
-            // ... (Marcadores de posición para U05 a U12 omitidos por brevedad, asumiendo estructura similar)
-
-            // =========================================================================
-            //  UNIDAD 13: NÚMEROS RACIONALES (Q) (CLICABLE)
-            // =========================================================================
-            { 
-                type: 'cover', 
-                title: 'UNIDAD 13: NÚMEROS RACIONALES (Q)', 
-                imageURL: 'https://tu-storage.com/cover_unit_13.jpg',
-                targetURL: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4' 
-            }, 
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U13 S01: Rational Concept', icon: '🧮', who: 'Prof. Q', value: 'Completeness', character: 'Placeholder', trait: 'Placeholder' },
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U13 S02: Decimal Order', icon: '📐', who: 'Poly', value: 'Precision', character: 'Placeholder', trait: 'Placeholder' },
-            { url: 'https://storage.googleapis.com/noenbalde/PLACEHOLDER/video.mp4', title: 'U13 S03: Final Review', icon: '🏁', who: 'All', value: 'Mastery', character: 'Placeholder', trait: 'Placeholder' },
-        ];  
-
-        // Función de control del reproductor
-        function cambiarVideo(nuevaURL) {
-            const videoPlayer = document.getElementById('mi-video');
-            videoPlayer.src = nuevaURL;
-            videoPlayer.load(); 
-            videoPlayer.play();
-        }
-
-        // Función que genera el menú con ICONOS, VALORES, PERSONAJES y COLOR
-        function mostrarVideos(listToRender) {
-            const ul = document.getElementById('video-menu');
-            ul.innerHTML = ''; 
-            
-            listToRender.forEach((video, index) => {
-                const li = document.createElement('li');
-                const isCover = video.type === 'cover'; 
-                const isPlaceholder = !isCover && video.title.match(/^V\d/); 
-                
-                if (isCover) {
-                    // --- LÓGICA DE CARÁTULA (CLICABLE) ---
-                    const coverDiv = document.createElement('div');
-                    coverDiv.className = 'cover-item';
-                    
-                    // Si tiene un targetURL, la hace clicable
-                    if (video.targetURL) {
-                        coverDiv.setAttribute('onclick', `cambiarVideo('${video.targetURL}')`);
-                        coverDiv.style.cursor = 'pointer'; 
-                        
-                        // Añadir efecto visual de hover para indicar que es clicable
-                        coverDiv.style.transition = 'opacity 0.2s ease';
-                        coverDiv.onmouseover = function() { this.style.opacity = '0.9'; };
-                        coverDiv.onmouseout = function() { this.style.opacity = '1'; };
-                    }
-                    
-                    if (video.imageURL) {
-                        coverDiv.style.backgroundImage = `url('${video.imageURL}')`;
-                    }
-                    
-                    const textBand = document.createElement('div');
-                    textBand.className = 'cover-text-band';
-                    textBand.textContent = video.title; 
-                    
-                    coverDiv.appendChild(textBand);
-                    li.appendChild(coverDiv);
-
-                } else {
-                    // --- LÓGICA DE ÍTEM DE VIDEO REGULAR/PLACEHOLDER (NETFLIX-LIKE CARD) ---
-                    const iconContainer = document.createElement('div');
-                    
-                    // 1. Estilo base y clic
-                    const characterClass = video.character || 'Placeholder';
-                    iconContainer.classList.add(`bg-${characterClass}`);
-                    iconContainer.classList.add('video-icon-item'); 
-                    
-                    if (!isPlaceholder) {
-                        iconContainer.setAttribute('onclick', `cambiarVideo('${video.url}')`);
-                        iconContainer.style.cursor = 'pointer'; 
-                    } else {
-                        iconContainer.style.cursor = 'default'; 
-                        iconContainer.style.opacity = '0.7'; 
-                    }
-                    
-                    // 2. Thumbnail Visual
-                    const thumbnailDiv = document.createElement('div');
-                    thumbnailDiv.className = 'thumbnail-placeholder';
-                    
-                    if (video.icon) {
-                        thumbnailDiv.textContent = video.icon;
-                    } else {
-                        thumbnailDiv.textContent = '▶️';
-                    }
-                    thumbnailDiv.classList.add(`bg-${characterClass}`); 
-                    iconContainer.appendChild(thumbnailDiv);
-                    
-                    // 3. Contenedor de Texto 
-                    const textContainer = document.createElement('div');
-                    textContainer.className = 'text-content'; 
-                    
-                    // WHO'S ON FIRST
-                    const whoSpan = document.createElement('span');
-                    whoSpan.textContent = video.who || 'NARRATOR'; 
-                    whoSpan.classList.add('who-tag');
-                    
-                    // WHAT'S IT CALLED
-                    const titleSpan = document.createElement('span');
-                    titleSpan.textContent = video.title;
-                    titleSpan.classList.add('video-title-new'); 
-                    
-                    if (isPlaceholder) {
-                        titleSpan.style.color = '#777777';
-                        whoSpan.style.color = '#aaaaaa';
-                    }
-                    
-                    const textContentInner = document.createElement('div');
-                    textContentInner.style.display = 'flex';
-                    textContentInner.style.flexDirection = 'column';
-                    textContentInner.style.alignItems = 'center';
-
-                    textContentInner.appendChild(whoSpan);
-                    textContentInner.appendChild(titleSpan);
-                    
-                    textContainer.appendChild(textContentInner);
-                    iconContainer.appendChild(textContainer);
-                    li.appendChild(iconContainer);
-                }
-
-                ul.appendChild(li);
-            });
-        }
+</body>
+</html>
