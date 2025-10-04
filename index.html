@@ -5,60 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table of Contents - Book 1 Unit 1: Meet The Numerals</title>
     <style>
-        body {
-            font-family: 'EB Garamond', serif; 
-            line-height: 1.6;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .toc-container {
-            width: 80%;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-        }
-        .toc-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 25px;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .toc-item:hover {
-            background-color: #f9f9f9;
-        }
-        /* CRITICAL: Enforcing 400x277px size for the caratula */
-        .toc-image {
-            width: 400px;
-            height: 277px;
-            margin-right: 20px;
-            border-radius: 4px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-        .toc-link-text {
-            flex-grow: 1;
-        }
-        .toc-link-text a {
-            text-decoration: none;
-            color: #0056b3;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .toc-link-text p {
-            font-size: 0.9em;
-            color: #666;
-            margin: 5px 0 0 0;
-        }
+ body {
+        font-family: 'EB Garamond', serif;
+        line-height: 1.6;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .toc-container {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        color: #333;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 10px;
+    }
+    .toc-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .toc-item:hover {
+        background-color: #f9f9f9;
+    }
+    /* CRITICAL: Enforcing 400x277px size for the caratula */
+    .toc-image {
+        width: 400px;
+        height: 277px;
+        margin-right: 20px;
+        border-radius: 4px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    /* NEW: Dedicated style for the smaller 'Zero' UI icon */
+    .toc-zero-icon-img {
+        width: 80px;         /* Smaller size for the icon */
+        height: 80px;
+        margin-right: 20px;
+        border-radius: 50%;  /* Makes it round, like an icon */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    .toc-link-text {
+        flex-grow: 1;
+    }
+    .toc-link-text a {
+        text-decoration: none;
+        color: #0056b3;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .toc-link-text p {
+        font-size: 0.9em;
+        color: #666;
+        margin: 5px 0 0 0;
+    }
 
         /* START: Video Modal Styles (The Separate Window) */
         .video-modal-overlay {
