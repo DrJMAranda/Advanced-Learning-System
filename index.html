@@ -1,236 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table of Contents - Book 1 Unit 1: Meet The Numerals</title>
-    <style>
-        body {
-            font-family: 'EB Garamond', serif; 
-            line-height: 1.6;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .toc-container {
-            width: 80%;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-        }
-        .toc-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .toc-item:hover {
-            background-color: #f9f9f9;
-        }
-        /* CRITICAL: Enforcing 400x277px size for the caratula (The Student Image) */
-        .toc-image {
-            width: 400px;
-            height: 277px;
-            margin-right: 20px;
-            border-radius: 4px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .toc-link-text {
-            flex-grow: 1;
-        }
-        .toc-link-text a {
-            text-decoration: none;
-            color: #0056b3;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .toc-link-text p {
-            font-size: 0.9em;
-            color: #666;
-            margin: 5px 0 0 0;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table of Contents - Book 1 Unit 1: Meet The Numerals</title>
+    <style>
+        body {
+            font-family: 'EB Garamond', serif; 
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .toc-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .toc-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .toc-item:hover {
+            background-color: #f9f9f9;
+        }
+        /* CRITICAL: Enforcing 400x277px size for the caratula (The Student Image) */
+        .toc-image {
+            width: 400px;
+            height: 277px;
+            margin-right: 20px;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .toc-link-text {
+            flex-grow: 1;
+        }
+        .toc-link-text a {
+            text-decoration: none;
+            color: #0056b3;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .toc-link-text p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0 0 0;
+        }
 
-        /* ------------------------------------------- */
-        /* START: Custom Styles for the New Icon Triggers */
-        /* ------------------------------------------- */
-        .menu-trigger-icon {
-            font-size: 1.2em; 
-            color: #4CAF50; /* Base color */
-            margin-left: 10px;
-            cursor: pointer;
-            text-decoration: none; 
-            font-weight: bold;
-            display: inline-block; 
-            vertical-align: middle;
-            transition: color 0.2s;
-        }
-        .menu-trigger-icon:hover {
-            color: #388E3C; /* Darker green on hover for feedback */
-        }
-        /* ------------------------------------------- */
-        /* END: Custom Styles for the New Icon Triggers */
-        /* ------------------------------------------- */
+        /* ------------------------------------------- */
+        /* START: Custom Styles for the New Icon Triggers */
+        /* ------------------------------------------- */
+        .menu-trigger-icon {
+            font-size: 1.2em; 
+            color: #4CAF50; /* Base color */
+            margin-left: 10px;
+            cursor: pointer;
+            text-decoration: none; 
+            font-weight: bold;
+            display: inline-block; 
+            vertical-align: middle;
+            transition: color 0.2s;
+        }
+        .menu-trigger-icon:hover {
+            color: #388E3C; /* Darker green on hover for feedback */
+        }
+        /* ------------------------------------------- */
+        /* END: Custom Styles for the New Icon Triggers */
+        /* ------------------------------------------- */
 
 
-        /* START: Video Modal Styles (The Contained Program's Output) */
-        .video-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .video-container {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-        #myVideoElement {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        #closeVideoBtn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 4px;
-        }
-        /* END: Video Modal Styles */
-    </style>
+        /* START: Video Modal Styles (The Contained Program's Output) */
+        .video-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .video-container {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        #myVideoElement {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        #closeVideoBtn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        /* END: Video Modal Styles */
+    </style>
 </head>
 <body>
 
 <div class="toc-container">
-    <h1>Contents - Meet The Numerals</h1>
-    
-    <div class="toc-item">
-        <a href="#" class="video-activator" data-video-id="unidad1_inicio">
-            <img class="toc-image" 
-                 src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" 
-                 alt="The Journey Begins Icon"
-            >
-        </a>
-        <div class="toc-link-text">
-            <a href="#" class="video-activator" data-video-id="unidad1_inicio">Unidad 1 - Inicio: The Journey Begins... (Meet The Digits)</a>
-            <p>Introducción a la estructura del curso y valores fundacionales.</p>
-        </div>
-    </div>
+    <h1>Contents - Meet The Numerals</h1>
+    
+    <div class="toc-item">
+        <a href="#" class="video-activator" data-video-id="unidad1_inicio">
+            <img class="toc-image" 
+                 src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" 
+                 alt="The Journey Begins Icon"
+            >
+        </a>
+        <div class="toc-link-text">
+            <a href="#" class="video-activator" data-video-id="unidad1_inicio">Unidad 1 - Inicio: The Journey Begins... (Meet The Digits)</a>
+            <p>Introducción a la estructura del curso y valores fundacionales.</p>
+        </div>
+    </div>
 
-    <div class="toc-item">
-        <a href="#" class="video-activator" data-video-id="unidad1_zero">
-            <img class="toc-image" src="caratula_02_zero.jpg" alt="Carátula de Mr. Zero">
-        </a>
-        <div class="toc-link-text">
-            <a href="#" class="video-activator" data-video-id="unidad1_zero">
-                Sección 2: Mr. Sunya-Sifr Zero, The First Something!
-            </a>
-            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_zero" title="Launch Video Selection Menu">
-                ⧉
-            </a>
-            <p>Descubriendo el concepto de la nada y el poder de la posición (0-indexing).</p>
-        </div>
-    </div>
+    <div class="toc-item">
+        <a href="#" class="video-activator" data-video-id="unidad1_zero">
+                        <img class="toc-image" src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr%20Sunya-Sifr%20Zero%2C%20The%20First%20Something!.jpg" alt="Carátula de Mr. Zero">
+        </a>
+        <div class="toc-link-text">
+            <a href="#" class="video-activator" data-video-id="unidad1_zero">
+                Sección 2: Mr. Sunya-Sifr Zero, The First Something!
+            </a>
+            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_zero" title="Launch Video Selection Menu">
+                ⧉
+            </a>
+            <p>Descubriendo el concepto de la nada y el poder de la posición (0-indexing).</p>
+        </div>
+    </div>
 
-    <div class="toc-item">
-        <a href="#" class="video-activator" data-video-id="unidad1_family">
-            <img class="toc-image" src="caratula_03_family.jpg" alt="Carátula de la Familia Numeral">
-        </a>
-        <div class="toc-link-text">
-            <a href="#" class="video-activator" data-video-id="unidad1_family">Sección 3: The Numeral Family Outing!</a>
-            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_family" style="color: #FFC107;" title="Launch Activity or Quiz">
-                ★
-            </a>
-            <p>Introducción subliminal a la Base 10 y los números de dos dígitos.</p>
-        </div>
-    </div>
-    
+    <div class="toc-item">
+        <a href="#" class="video-activator" data-video-id="unidad1_family">
+            <img class="toc-image" src="caratula_03_family.jpg" alt="Carátula de la Familia Numeral">
+        </a>
+        <div class="toc-link-text">
+            <a href="#" class="video-activator" data-video-id="unidad1_family">Sección 3: The Numeral Family Outing!</a>
+            <a href="#" class="video-activator menu-trigger-icon" data-video-id="unidad1_family" style="color: #FFC107;" title="Launch Activity or Quiz">
+                ★
+            </a>
+            <p>Introducción subliminal a la Base 10 y los números de dos dígitos.</p>
+        </div>
+    </div>
+    
 </div>
 
 <div id="videoPlayerModal" class="video-modal-overlay">
-    <div class="video-container">
-        <video 
-            id="myVideoElement" 
-            controls 
-            preload="auto"
-            class="responsive-video-player"
-        >
-        </video>
-        <button id="closeVideoBtn">Return to Menu (X)</button>
-    </div>
+    <div class="video-container">
+        <video 
+            id="myVideoElement" 
+            controls 
+            preload="auto"
+            class="responsive-video-player"
+        >
+        </video>
+        <button id="closeVideoBtn">Return to Menu (X)</button>
+    </div>
 </div>
 <script>
-    // A. VIDEO URL MAPPING (The Simple Txt Format Data)
-    const videoSources = {
-        'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-        'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
-        'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
-    };
+    // A. VIDEO URL MAPPING (The Simple Txt Format Data)
+    const videoSources = {
+        'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
+        'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
+        'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
+    };
 
-    // B. DOM ELEMENTS
-    const videoPlayerModal = document.getElementById('videoPlayerModal');
-    const videoElement = document.getElementById('myVideoElement');
-    const closeVideoBtn = document.getElementById('closeVideoBtn');
+    // B. DOM ELEMENTS
+    const videoPlayerModal = document.getElementById('videoPlayerModal');
+    const videoElement = document.getElementById('myVideoElement');
+    const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-    // C. THE CORE UX LOGIC: Launch and Return
-    function closeVideoWindow() {
-        videoElement.pause();
-        videoElement.src = ""; // Clear the source
-        videoPlayerModal.style.display = 'none'; // Hide the modal (Return to Menu)
-    }
+    // C. THE CORE UX LOGIC: Launch and Return
+    function closeVideoWindow() {
+        videoElement.pause();
+        videoElement.src = ""; // Clear the source
+        videoPlayerModal.style.display = 'none'; // Hide the modal (Return to Menu)
+    }
 
-    function launchVideoWindow(url) {
-        if (!url) {
-            alert("Video resource not found. Check the videoSources map.");
-            return;
-        }
-        videoElement.src = url;
-        videoPlayerModal.style.display = 'flex'; // Show the modal
-        videoElement.play();
+    function launchVideoWindow(url) {
+        if (!url) {
+            alert("Video resource not found. Check the videoSources map.");
+            return;
+        }
+        videoElement.src = url;
+        videoPlayerModal.style.display = 'flex'; // Show the modal
+        videoElement.play();
 
-        // CRITICAL: Auto-return logic on video completion (Civic Value: A place and a time for everything)
-        videoElement.onended = () => {
-            console.log('Video finished. Auto-returning user to menu.');
-            closeVideoWindow(); 
-        };
-    }
+        // CRITICAL: Auto-return logic on video completion (Civic Value: A place and a time for everything)
+        videoElement.onended = () => {
+            console.log('Video finished. Auto-returning user to menu.');
+            closeVideoWindow(); 
+        };
+    }
 
-    // D. EVENT LISTENERS
-    // 1. Icon/Text Click Activation
-    document.querySelectorAll('.video-activator').forEach(iconLink => {
-        iconLink.addEventListener('click', (event) => {
-            event.preventDefault(); 
-            const videoId = iconLink.getAttribute('data-video-id');
-            const videoUrl = videoSources[videoId];
+    // D. EVENT LISTENERS
+    // 1. Icon/Text Click Activation
+    document.querySelectorAll('.video-activator').forEach(iconLink => {
+        iconLink.addEventListener('click', (event) => {
+            event.preventDefault(); 
+            const videoId = iconLink.getAttribute('data-video-id');
+            const videoUrl = videoSources[videoId];
 
-            launchVideoWindow(videoUrl); 
-        });
-    });
+            launchVideoWindow(videoUrl); 
+        });
+    });
 
-    // 2. Manual Close Button
-    if (closeVideoBtn) {
-        closeVideoBtn.addEventListener('click', closeVideoWindow);
-    }
+    // 2. Manual Close Button
+    if (closeVideoBtn) {
+        closeVideoBtn.addEventListener('click', closeVideoWindow);
+    }
 </script>
 </body>
 </html>
