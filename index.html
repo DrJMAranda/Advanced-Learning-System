@@ -53,14 +53,27 @@
         .fixed-menu-item a:hover {
             color: #0056b3;
         }
-        
-        .ai-credit {
-            font-size: 0.5em;
-            color: #6c757d;
-            text-align: left;
+
+        .fixed-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ccc;
             padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
             margin-bottom: 10px;
+        }
+
+        .fixed-menu-header h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 1.2em;
+        }
+
+        .powered-by-gemini {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin: 0;
+            padding: 0;
         }
 
         .credits-box {
@@ -181,118 +194,117 @@
     </style>
 </head>
 <body>
-
-<div class="main-container">
-    <div class="toc-grid">
-        <div class="toc-item">
-            <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_inicio">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon">
-            </a>
-            <div class="toc-link-text">
-                <a href="#" class="video-activator" data-video-id="unidad1_inicio">A1P1U1S1: The Journey Begins...</a>
-                <p>.</p>
+    <div class="main-container">
+        <div class="toc-grid">
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_inicio">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_inicio">A1P1U1S1: The Journey Begins...</a>
+                    <p>.</p>
+                </div>
+            </div>
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Carátula de Mr. Zero">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_zero">A1P1U1S2: Mr. Zero, The First Something!</a>
+                    <p> (0-indexing).</p>
+                </div>
+            </div>
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_family">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Numeral%20Family%20Outing.jpg" alt="Numeral Family Outing Icon">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_family">A1P1U1S3: The Numeral Family!</a>
+                    <p>.</p>
+                </div>
             </div>
         </div>
-        <div class="toc-item">
-            <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="CMr. Zero Icon">
-            </a>
-            <div class="toc-link-text">
-                <a href="#" class="video-activator" data-video-id="unidad1_zero">A1P1U1S2: Mr. Zero, The First Something!</a>
-                <p> (0-indexing).</p>
-            </div>
+    </div>
+
+    <div class="fixed-menu-container">
+        <div class="fixed-menu-header">
+            <h3>Advanced Learning Systems</h3>
+            <p class="powered-by-gemini">Powered by Google Gemini</p>
         </div>
-        <div class="toc-item">
-            <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_family">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Numeral Family Icon">
-            </a>
-            <div class="toc-link-text">
-                <a href="#" class="video-activator" data-video-id="unidad1_family">A1P1U1S3: The Numeral Family!</a>
-                <p>.</p>
-            </div>
+        <div style="height: 1.0em;"></div> 
+        <div>
+            <ul class="fixed-menu-list">
+                <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
+                <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
+                <li class="fixed-menu-item"><a href="#sci">3. Science</a></li>
+                <li class="fixed-menu-item"><a href="#hist">4. History</a></li>
+                <li class="fixed-menu-item"><a href="#art">5. Art</a></li>
+                <li class="fixed-menu-item"><a href="#music">6. Physical Education</a></li>
+            </ul>
+        </div>
+        <div class="credits-box">
+            <p>.</p>
         </div>
     </div>
-</div>
 
-<div class="fixed-menu-container">
-    <h3 style="border-bottom: 2px solid #ccc; padding-bottom: 10px; font-size: 1.2em; text-align: Left;">Advanced Learning Systems</h1>
-    <div class="ai-credit">
-        Powered by Google Gemini.
+    <div id="videoPlayerModal" class="video-modal-overlay">
+        <div class="video-container">
+            <video
+                id="myVideoElement"
+                controls
+                preload="auto"
+                class="responsive-video-player"
+            ></video>
+            <button id="closeVideoBtn">Return (X)</button>
+        </div>
     </div>
-    <div style="height: 1.0em;"></div> <div>
-        <ul class="fixed-menu-list">
-            <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
-            <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
-            <li class="fixed-menu-item"><a href="#sci">3. Science</a></li>
-            <li class="fixed-menu-item"><a href="#hist">4. History</a></li>
-            <li class="fixed-menu-item"><a href="#art">5. Art</a></li>
-            <li class="fixed-menu-item"><a href="#music">6. Physical Education</a></li>
-        </ul>
-    </div>
-    <div class="credits-box">
-        <p>.</p>
-    </div>
-</div>
 
-<div id="videoPlayerModal" class="video-modal-overlay">
-    <div class="video-container">
-        <video
-            id="myVideoElement"
-            controls
-            preload="auto"
-            class="responsive-video-player"
-        ></video>
-        <button id="closeVideoBtn">Return (X)</button>
-    </div>
-</div>
-
-<script>
-    const videoSources = {
-        'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-        'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
-        'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
-    };
-
-    const videoPlayerModal = document.getElementById('videoPlayerModal');
-    const videoElement = document.getElementById('myVideoElement');
-    const closeVideoBtn = document.getElementById('closeVideoBtn');
-
-    function closeVideoWindow() {
-        videoElement.pause();
-        videoElement.src = "";
-        videoPlayerModal.style.display = 'none';
-    }
-
-    function launchVideoWindow(url) {
-        videoElement.src = url;
-        videoPlayerModal.style.display = 'flex';
-        videoElement.play();
-
-        videoElement.onended = () => {
-            console.log('Video finished. Auto-returning user to menu.');
-            closeVideoWindow();
+    <script>
+        const videoSources = {
+            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
+            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
+            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
         };
-    }
 
-    document.querySelectorAll('.video-activator').forEach(iconLink => {
-        iconLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            const videoId = iconLink.getAttribute('data-video-id');
-            const videoUrl = videoSources[videoId];
+        const videoPlayerModal = document.getElementById('videoPlayerModal');
+        const videoElement = document.getElementById('myVideoElement');
+        const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-            if (videoUrl) {
-                launchVideoWindow(videoUrl);
-            } else {
-                console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
-                launchVideoWindow(videoUrl);
-            }
+        function closeVideoWindow() {
+            videoElement.pause();
+            videoElement.src = "";
+            videoPlayerModal.style.display = 'none';
+        }
+
+        function launchVideoWindow(url) {
+            videoElement.src = url;
+            videoPlayerModal.style.display = 'flex';
+            videoElement.play();
+
+            videoElement.onended = () => {
+                console.log('Video finished. Auto-returning user to menu.');
+                closeVideoWindow();
+            };
+        }
+
+        document.querySelectorAll('.video-activator').forEach(iconLink => {
+            iconLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                const videoId = iconLink.getAttribute('data-video-id');
+                const videoUrl = videoSources[videoId];
+
+                if (videoUrl) {
+                    launchVideoWindow(videoUrl);
+                } else {
+                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
+                    launchVideoWindow(videoUrl);
+                }
+            });
         });
-    });
 
-    if (closeVideoBtn) {
-        closeVideoBtn.addEventListener('click', closeVideoWindow);
-    }
-</script>
-
+        if (closeVideoBtn) {
+            closeVideoBtn.addEventListener('click', closeVideoWindow);
+        }
+    </script>
 </body>
 </html>
