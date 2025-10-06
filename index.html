@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Learning Systems</title>
+    
     <style>
+        /* CSS */
         body {
             font-family: 'EB Garamond', serif;
             line-height: 1.6;
@@ -15,6 +17,7 @@
             height: 100vh;
         }
 
+        /* CSS */
         .main-container {
             flex: 1;
             padding: 10px;
@@ -23,6 +26,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* CSS */
         .fixed-menu-container {
             width: 2in;
             padding: 10px;
@@ -34,12 +38,14 @@
             font-size: 0.9em;
         }
 
+        /* CSS */
         .fixed-menu-list {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
 
+        /* CSS */
         .fixed-menu-item a {
             text-decoration: none;
             color: #000;
@@ -50,10 +56,12 @@
             border-bottom: 1px solid #ddd;
         }
 
+        /* CSS */
         .fixed-menu-item a:hover {
             color: #0056b3;
         }
 
+        /* CSS */
         .fixed-menu-header {
             display: flex;
             align-items: center;
@@ -63,12 +71,14 @@
             margin-bottom: 10px;
         }
 
+        /* CSS */
         .fixed-menu-header h3 {
             margin: 0;
             padding: 0;
             font-size: 1.2em;
         }
 
+        /* CSS */
         .powered-by-gemini {
             font-size: 0.8em;
             color: #6c757d;
@@ -76,6 +86,7 @@
             padding: 0;
         }
 
+        /* CSS */
         .credits-box {
             font-size: 0.5em;
             color: #6c757d;
@@ -84,6 +95,7 @@
             padding-top: 10px;
         }
 
+        /* CSS */
         h3 {
             color: #333;
             border-bottom: 2px solid #ccc;
@@ -92,6 +104,7 @@
             text-align: center;
         }
 
+        /* CSS */
         .toc-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -99,6 +112,7 @@
             justify-content: center;
         }
 
+        /* CSS */
         .toc-item {
             display: flex;
             flex-direction: column;
@@ -112,17 +126,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
+        /* CSS */
         .toc-item:hover {
             background-color: #f9f9f9;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* CSS */
         .toc-image-container {
             width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
 
+        /* CSS */
         .toc-image-container img {
             width: 100%;
             height: auto;
@@ -130,6 +147,7 @@
             display: block;
         }
 
+        /* CSS */
         .toc-link-text {
             flex-grow: 1;
             display: flex;
@@ -137,6 +155,7 @@
             align-items: center;
         }
 
+        /* CSS */
         .toc-link-text a {
             text-decoration: none;
             color: #0056b3;
@@ -144,12 +163,14 @@
             font-weight: bold;
         }
 
+        /* CSS */
         .toc-link-text p {
             font-size: 0.5em;
             color: #666;
             margin: 5px 0 0 0;
         }
 
+        /* CSS */
         .video-modal-overlay {
             position: fixed;
             top: 0;
@@ -163,18 +184,21 @@
             z-index: 1000;
         }
 
+        /* CSS */
         .video-container {
             max-width: 90%;
             max-height: 90%;
             position: relative;
         }
 
+        /* CSS */
         #myVideoElement {
             width: 100%;
             height: auto;
             display: block;
         }
 
+        /* CSS */
         #closeVideoBtn {
             position: absolute;
             bottom: 20px;
@@ -260,22 +284,30 @@
     </div>
 
     <script>
+        // JavaScript
+        // This object maps video IDs to their URLs.
         const videoSources = {
             'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
             'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
             'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
         };
 
+        // JavaScript
+        // Get references to the video player elements in the HTML.
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const videoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
 
+        // JavaScript
+        // This function closes the video modal.
         function closeVideoWindow() {
             videoElement.pause();
             videoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
+        // JavaScript
+        // This function opens the video modal and starts playing the video.
         function launchVideoWindow(url) {
             videoElement.src = url;
             videoPlayerModal.style.display = 'flex';
@@ -287,6 +319,8 @@
             };
         }
 
+        // JavaScript
+        // Add a click listener to all elements that launch a video.
         document.querySelectorAll('.video-activator').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -302,6 +336,8 @@
             });
         });
 
+        // JavaScript
+        // Add a click listener to the close button.
         if (closeVideoBtn) {
             closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
