@@ -8,30 +8,75 @@
         body {
             font-family: 'EB Garamond', serif;
             line-height: 1.6;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
             background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
         }
-        .toc-container {
-            width: 80%;
-            margin: 0 auto;
+
+        .main-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .fixed-menu-container {
+            width: 2in;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-left: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.8em;
+        }
+
+        .fixed-menu-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .fixed-menu-item a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1em;
+            font-weight: bold;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .fixed-menu-item a:hover {
+            color: #0056b3;
+        }
+
+        .credits-box {
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
         h1 {
             color: #333;
             border-bottom: 2px solid #ccc;
             padding-bottom: 10px;
-            font-size: 1.5em; /* Adjusted to be proportional to icon title */
+            font-size: 1.5em;
             text-align: center;
         }
+
         .toc-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
             justify-content: center;
         }
+
         .toc-item {
             display: flex;
             flex-direction: column;
@@ -44,38 +89,45 @@
             transition: background-color 0.3s, box-shadow 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
+
         .toc-item:hover {
             background-color: #f9f9f9;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .toc-image-container {
             width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
+
         .toc-image-container img {
             width: 100%;
             height: auto;
             border-radius: 4px;
             display: block;
         }
+
         .toc-link-text {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .toc-link-text a {
             text-decoration: none;
             color: #0056b3;
             font-size: 1.2em;
             font-weight: bold;
         }
+
         .toc-link-text p {
             font-size: 0.9em;
             color: #666;
             margin: 5px 0 0 0;
         }
+
         .video-modal-overlay {
             position: fixed;
             top: 0;
@@ -88,16 +140,19 @@
             align-items: center;
             z-index: 1000;
         }
+
         .video-container {
             max-width: 90%;
             max-height: 90%;
             position: relative;
         }
+
         #myVideoElement {
             width: 100%;
             height: auto;
             display: block;
         }
+
         #closeVideoBtn {
             position: absolute;
             bottom: 20px;
@@ -118,7 +173,7 @@
 </head>
 <body>
 
-<div class="toc-container">
+<div class="main-container">
     <h1>Advanced Learning System</h1>
     <div class="toc-grid">
         <div class="toc-item">
@@ -148,6 +203,22 @@
                 <p>Introducción subliminal a la Base 10 y los números de dos dígitos.</p>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="fixed-menu-container">
+    <div>
+        <ul class="fixed-menu-list">
+            <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
+            <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
+            <li class="fixed-menu-item"><a href="#sci">3. Science</a></li>
+            <li class="fixed-menu-item"><a href="#hist">4. History</a></li>
+            <li class="fixed-menu-item"><a href="#art">5. Art</a></li>
+            <li class="fixed-menu-item"><a href="#music">6. Music</a></li>
+        </ul>
+    </div>
+    <div class="credits-box">
+        <p>This page is powered by Google AI.</p>
     </div>
 </div>
 
