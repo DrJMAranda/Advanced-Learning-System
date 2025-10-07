@@ -7,6 +7,13 @@
     
     <style>
         /* CSS */
+        /* CSS Reset for h3 and p tags */
+        h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* General Body Styles */
         body {
             font-family: 'EB Garamond', serif;
             line-height: 1.6;
@@ -18,7 +25,7 @@
             height: 100vh;
         }
 
-        /* CSS */
+        /* Main Container for the Grid */
         .main-container {
             flex: 1;
             padding: 10px;
@@ -27,9 +34,9 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* CSS */
+        /* Fixed Menu Container for the Sidebar */
         .fixed-menu-container {
-            width: 2.5in;
+            width: 250px; /* A fixed width that is large enough to fit titles */
             padding: 10px;
             background-color: #e9ecef;
             border-left: 1px solid #ccc;
@@ -39,14 +46,14 @@
             font-size: 0.9em;
         }
 
-        /* CSS */
+        /* Fixed Menu List */
         .fixed-menu-list {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
 
-        /* CSS */
+        /* Fixed Menu Items */
         .fixed-menu-item a {
             text-decoration: none;
             color: #000;
@@ -57,37 +64,28 @@
             border-bottom: 1px solid #ddd;
         }
 
-        /* CSS */
-        .fixed-menu-item a:hover {
-            color: #0056b3;
-        }
-
-        /* CSS */
+        /* Fixed Menu Header */
         .fixed-menu-header {
             display: flex;
             align-items: center;
             gap: 10px;
             border-bottom: 2px solid #ccc;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
 
-        /* CSS */
+        /* Fixed Menu Header Title */
         .fixed-menu-header h3 {
-            margin: 0;
-            padding: 0;
-            font-size: 1.2em;
+            font-size: 1.2em; /* The title's font size */
         }
 
-        /* CSS */
+        /* Powered by Gemini Text */
         .powered-by-gemini {
             font-size: 0.8em;
             color: #6c757d;
-            margin: 0;
-            padding: 0;
         }
 
-        /* CSS */
+        /* Credits Box */
         .credits-box {
             font-size: 0.5em;
             color: #6c757d;
@@ -96,16 +94,7 @@
             padding-top: 10px;
         }
 
-        /* CSS */
-        h3 {
-            color: #333;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            font-size: 1.5em;
-            text-align: center;
-        }
-
-        /* CSS */
+        /* Table of Contents Grid */
         .toc-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -113,13 +102,12 @@
             justify-content: center;
         }
 
-        /* CSS */
+        /* Table of Contents Item */
         .toc-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin: 0;
             padding: 10px;
             border: 1px solid #eee;
             border-radius: 4px;
@@ -127,20 +115,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* CSS */
+        /* Table of Contents Item on Hover */
         .toc-item:hover {
             background-color: #f9f9f9;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* CSS */
+        /* Table of Contents Image Container */
         .toc-image-container {
             width: 100%;
             height: auto;
             margin-bottom: 15px;
         }
 
-        /* CSS */
+        /* Table of Contents Image */
         .toc-image-container img {
             width: 100%;
             height: auto;
@@ -148,7 +136,7 @@
             display: block;
         }
 
-        /* CSS */
+        /* Table of Contents Link Text */
         .toc-link-text {
             flex-grow: 1;
             display: flex;
@@ -156,7 +144,7 @@
             align-items: center;
         }
 
-        /* CSS */
+        /* Table of Contents Link Text Anchor */
         .toc-link-text a {
             text-decoration: none;
             color: #0056b3;
@@ -164,14 +152,13 @@
             font-weight: bold;
         }
 
-        /* CSS */
+        /* Table of Contents Link Text Paragraph */
         .toc-link-text p {
             font-size: 0.5em;
             color: #666;
-            margin: 5px 0 0 0;
         }
 
-        /* CSS */
+        /* Video Modal Overlay */
         .video-modal-overlay {
             position: fixed;
             top: 0;
@@ -185,21 +172,21 @@
             z-index: 1000;
         }
 
-        /* CSS */
+        /* Video Container */
         .video-container {
             max-width: 90%;
             max-height: 90%;
             position: relative;
         }
 
-        /* CSS */
+        /* Video Element */
         #myVideoElement {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        /* CSS */
+        /* Close Video Button */
         #closeVideoBtn {
             position: absolute;
             bottom: 20px;
@@ -252,10 +239,10 @@
     </div>
 
     <div class="fixed-menu-container">
-       <div class="fixed-menu-header">
-    <h3>Advanced Learning Systems</h3>
-    <p class="powered-by-gemini">Powered by Google Gemini</p>
-</div>
+        <div class="fixed-menu-header">
+            <h3>Advanced Learning Systems</h3>
+            <p class="powered-by-gemini">Powered by Google Gemini</p>
+        </div>
         <div style="height: 1.0em;"></div> 
         <div>
             <ul class="fixed-menu-list">
