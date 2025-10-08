@@ -204,14 +204,25 @@
 
     <div class="main-container" id="lesson-index-list">
         <div class="toc-grid">
-            <a href="#" class="media-activator-icon" data-lesson-title="Lesson 1: Addition" data-path="video/add.mp4" data-type="video">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon" title="Lesson 1: Addition (Video)">
+            <a href="#" class="media-activator-icon" 
+                data-lesson-title="AP1U1S1: Meet The Digits" 
+                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4" 
+                data-type="video">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="Meet The Digits Icon" class="content-icon" title="Lesson 1: Meet The Digits (Video)">
             </a>
-            <a href="#" class="media-activator-icon" data-lesson-title="Lesson 2: Subtraction" data-path="image/sub.pdf" data-type="image">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero Icon" class="content-icon" title="Lesson 2: Subtraction (Image/PDF)">
+            
+            <a href="#" class="media-activator-icon" 
+                data-lesson-title="AP1U1S2: Counting through Four" 
+                data-path="https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4" 
+                data-type="video">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Counting through Four Icon" class="content-icon" title="Lesson 2: Counting through Four (Video)">
             </a>
-            <a href="#" class="media-activator-icon" data-lesson-title="Lesson 3: Multiplication" data-path="video/mul.mp4" data-type="video">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family Icon" class="content-icon" title="Lesson 3: Multiplication (Video)">
+            
+            <a href="#" class="media-activator-icon" 
+                data-lesson-title="AP1U1S3: Section 3" 
+                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4" 
+                data-type="video">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Section 3 Icon" class="content-icon" title="Lesson 3: Section 3 (Video)">
             </a>
             <div id="next-row-container"></div>
         </div>
@@ -303,15 +314,56 @@
         let lastMarker = null; // Stores last session state
         let operationalIntegrityLog = []; // PHASE O: The critical log for session history
 
-        // 4. MOCK DATA (For lessons in HTML)
+        // 4. MOCK DATA (Retained for completeness, though index uses HTML)
         const arithmeticIndexData = [
-            { title: 'Lesson 1: Addition', path: 'video/add.mp4', type: 'video' },
-            { title: 'Lesson 2: Subtraction', path: 'image/sub.pdf', type: 'image' },
-            { title: 'Lesson 3: Multiplication', path: 'video/mul.mp4', type: 'video' },
+            { title: 'AP1U1S1: Meet The Digits', path: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', type: 'video' },
+            { title: 'AP1U1S2: Counting through Four', path: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', type: 'video' },
+            { title: 'AP1U1S3: Section 3', path: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', type: 'video' },
             { title: 'Lesson 4: Division', path: 'image/div.pdf', type: 'image' },
             { title: 'Lesson 5: Speed Read Test', path: null, type: 'text' } // Example of a non-media lesson
         ];
 
+
+        // =================================================================
+        // PHASE Q3: NEW HELPER FUNCTION - Updates the global lastMarker state
+        // =================================================================
+
+        /**
+         * PHASE Q3: Updates the global lastMarker state based on the current view.
+         */
+        function updateLastMarkerForSave() {
+            if (!container.classList.contains('hidden')) {
+                // Media Player is visible
+                const currentMediaType = videoPlayer.classList.contains('hidden') ? 'image' : 'video';
+                
+                // Find the current path based on what's active (more robust)
+                let currentMediaPath = '';
+                if (currentMediaType === 'video') {
+                    currentMediaPath = videoPlayer.src;
+                } else if (!staticImage.classList.contains('hidden')) {
+                     // Attempt to get the path if it were a real embed, otherwise use the title as path
+                    currentMediaPath = staticImage.querySelector('iframe')?.src || titleDisplay.textContent; 
+                }
+
+                lastMarker = {
+                    userId: currentUserId,
+                    lessonTitle: titleDisplay.textContent, 
+                    mediaPath: currentMediaPath, 
+                    mediaType: currentMediaType,
+                    playbackTime: videoPlayer.currentTime || 0,
+                    scrollPosition: staticImage.scrollTop || 0
+                };
+            } else {
+                // Lesson Index is visible
+                lastMarker = {
+                    userId: currentUserId,
+                    lessonTitle: 'Index Scroll Position',
+                    scrollPosition: lessonIndexList.scrollTop,
+                    mediaPath: null,
+                    mediaType: 'scroll'
+                };
+            }
+        }
 
         // =================================================================
         // PHASE O/N/L/M: LOGGING, PERSISTENCE, & SHUTDOWN PROTOCOLS
@@ -342,29 +394,9 @@
          * PHASE M/L: Saves the current state persistently via API (Server Write Simulation).
          * Implements local storage as the ONETH Safety Protocol fallback.
          */
-        async function savePlaceMarker(lessonTitle, mediaPath, mediaType) {
-            // 1. Construct lastMarker object
-            if (!container.classList.contains('hidden')) {
-                let playbackTime = videoPlayer.currentTime;
-                let scrollPosition = staticImage.scrollTop || 0; 
-
-                lastMarker = {
-                    userId: currentUserId,
-                    lessonTitle,
-                    mediaPath,
-                    mediaType,
-                    playbackTime: playbackTime,
-                    scrollPosition: scrollPosition
-                };
-            } else {
-                lastMarker = {
-                    userId: currentUserId,
-                    lessonTitle: 'Index Scroll Position',
-                    scrollPosition: lessonIndexList.scrollTop,
-                    mediaPath: null,
-                    mediaType: 'scroll'
-                };
-            }
+        async function savePlaceMarker() { // Removed redundant parameters
+            // 1. Construct lastMarker object using new helper function
+            updateLastMarkerForSave();
             
             // 2. NEW SERVER PERSISTENCE LOGIC (Write Priority)
             try {
@@ -408,12 +440,13 @@
 
                 const response = await new Promise(resolve => setTimeout(() => resolve({
                     status: 200, 
-                    json: async () => JSON.parse(localStorage.getItem(localKey)) // Local storage acts as API proxy
+                    // Simulate the server returning the local storage content (for testing environment)
+                    json: async () => JSON.parse(localStorage.getItem(localKey)) 
                 }), 100));
 
                 if (response.status === 200) {
                     retrievedMarker = await response.json();
-                    logOperationalEvent(`Marker Loaded: ${retrievedMarker.lessonTitle} (API Read)`);
+                    logOperationalEvent(`Marker Loaded: ${retrievedMarker?.lessonTitle} (API Read)`);
                 } else {
                     throw new Error('Server returned non-200 status. Using local fallback.');
                 }
@@ -424,12 +457,15 @@
                 const storedData = localStorage.getItem(localKey);
                 if (storedData) {
                     retrievedMarker = JSON.parse(storedData);
-                    logOperationalEvent(`Marker Loaded: ${retrievedMarker.lessonTitle} (Local Fallback)`);
+                    logOperationalEvent(`Marker Loaded: ${retrievedMarker?.lessonTitle} (Local Fallback)`);
                 }
             }
             
             if (!retrievedMarker || !retrievedMarker.lessonTitle) {
-                alert("No marker has been saved for this user.");
+                alert("No marker has been saved for this user. Save a new one.");
+                // Reset button to Save state if Load failed
+                placeMarkerBtn.textContent = '📌 Save Marker';
+                placeMarkerBtn.onclick = savePlaceMarker;
                 return;
             }
 
@@ -440,25 +476,27 @@
                 lessonIndexList.scrollTop = lastMarker.scrollPosition;
                 alert("Index scroll position restored.");
             } else {
-                // Find the lesson data to load the player correctly
-                const lesson = arithmeticIndexData.find(l => l.lessonTitle === lastMarker.lessonTitle);
-                if (lesson) {
-                    loadMediaPlayer(lesson.title, lesson.path, lesson.type);
-                } else {
-                    alert(`Error: Cannot find lesson data for "${lastMarker.lessonTitle}". Loading player, but state may be incomplete.`);
-                    loadMediaPlayer(lastMarker.lessonTitle, lastMarker.mediaPath, lastMarker.mediaType);
-                }
-
+                // Find the lesson data to load the player correctly (using HTML data as source of truth is better)
+                // However, since we use the path from the marker, we load directly.
+                
+                loadMediaPlayer(lastMarker.lessonTitle, lastMarker.mediaPath, lastMarker.mediaType);
                 
                 if (lastMarker.mediaType === 'video') {
-                    videoPlayer.currentTime = lastMarker.playbackTime;
-                    videoPlayer.pause();
-                    isPaused = true;
-                    playPauseBtn.textContent = '▶️ Play';
+                    // Wait for the video metadata to load before setting currentTime
+                    videoPlayer.addEventListener('loadedmetadata', function restoreVideo() {
+                         videoPlayer.currentTime = lastMarker.playbackTime;
+                         videoPlayer.pause();
+                         isPaused = true;
+                         playPauseBtn.textContent = '▶️ Play';
+                         videoPlayer.removeEventListener('loadedmetadata', restoreVideo);
+                         alert(`Video content restored to: ${lastMarker.lessonTitle} at ${Math.round(lastMarker.playbackTime)} seconds.`);
+                    });
                 } else if (lastMarker.mediaType === 'image') {
                     staticImage.scrollTop = lastMarker.scrollPosition;
+                    alert(`Content restored to: ${lastMarker.lessonTitle}.`);
+                } else {
+                     alert(`Content restored to: ${lastMarker.lessonTitle}.`);
                 }
-                alert(`Content restored to: ${lastMarker.lessonTitle}.`);
             }
 
             // 3. Reset button state
@@ -483,7 +521,7 @@
             stopBtn.classList.add('hidden');
             toggleViewBtn.classList.add('hidden');
             returnMenuBtn.classList.add('hidden');
-            placeMarkerBtn.classList.add('hidden');
+            placeMarkerBtn.classList.remove('hidden'); // Keep marker button visible
             
             const countdownDisplay = document.getElementById('shutdown-countdown');
             if (countdownDisplay) {
@@ -492,6 +530,11 @@
             
             playPauseBtn.textContent = '▶️ Play';
             isPaused = true; // Ensure state is reset
+
+            // Set the marker button to LOAD since we just performed a save
+            placeMarkerBtn.textContent = '📍 Load Marker';
+            placeMarkerBtn.onclick = loadPlaceMarker;
+
             logOperationalEvent("Media Player Wiped (Shutdown Complete)");
         }
 
@@ -502,7 +545,9 @@
             logOperationalEvent("Shutdown Protocol Initiated");
             
             // --- CRITICAL LGC FORTIFICATION: State and Log Backup ---
-            // 1. Save lastMarker state
+            // 1. Perform the final state capture for the media player or index
+            updateLastMarkerForSave(); 
+            // 2. Save lastMarker state (ONETH SAFETY PROTOCOL)
             const markerKey = getPersistenceKey();
             const lastMarkerData = JSON.stringify(lastMarker); 
             if (lastMarkerData && lastMarker) {
@@ -514,7 +559,7 @@
                 }
             }
             
-            // 2. Save the entire Operational Integrity Log
+            // 3. Save the entire Operational Integrity Log
             const logKey = `LGC_O_LOG_${currentUserId.toUpperCase()}`;
             const logData = JSON.stringify(operationalIntegrityLog);
             if (logData) {
@@ -598,13 +643,20 @@
                 videoPlayer.src = path;
                 videoPlayer.classList.remove('hidden');
                 staticImage.classList.add('hidden');
+                staticImage.innerHTML = ''; // Clear old static content
                 isPaused = true;
                 playPauseBtn.textContent = '▶️ Play';
             } else if (type === 'image') {
-                // In a real app, this would load a PDF viewer or a large image
+                // Mock for PDF/large image viewer
                 staticImage.innerHTML = `<img src="https://via.placeholder.com/1000x2000?text=${title.replace(/ /g, '+')}" alt="${title}" style="width: 100%; height: auto;">`;
                 staticImage.classList.remove('hidden');
                 videoPlayer.classList.add('hidden');
+                videoPlayer.src = ''; // Clear old video source
+            } else {
+                // Non-media lessons (e.g., text, quiz)
+                alert(`Cannot display non-media content type: ${type}`);
+                container.classList.add('hidden');
+                return;
             }
             
             // 4. Show controls
@@ -718,20 +770,31 @@
                     // Ensure the marker button is set to save scroll position
                     placeMarkerBtn.textContent = '📌 Save Marker';
                     placeMarkerBtn.onclick = savePlaceMarker;
-                    // Prepare the lastMarker for a scroll save
-                    lastMarker = {
-                        userId: currentUserId,
-                        lessonTitle: 'Index Scroll Position',
-                        scrollPosition: lessonIndexList.scrollTop,
-                        mediaPath: null,
-                        mediaType: 'scroll'
-                    };
+                    // Update the marker on scroll, preparing for potential save
+                    updateLastMarkerForSave();
                 });
             }
 
-            // Attempt to load the last marker on start (ONETH: Resume Session)
-            loadPlaceMarker(); 
+            // PHASE Q: Initial Marker Check (Set button correctly on startup)
+            const initialMarker = localStorage.getItem(getPersistenceKey());
+            if (initialMarker) {
+                // If a local marker exists, set the button to load it
+                placeMarkerBtn.textContent = '📍 Load Marker';
+                placeMarkerBtn.onclick = loadPlaceMarker;
+            } else {
+                // Otherwise, set it to the default save behavior
+                placeMarkerBtn.textContent = '📌 Save Marker';
+                placeMarkerBtn.onclick = savePlaceMarker;
+            }
         });
     </script>
 </body>
 </html>
+Key Changes Applied:
+HTML data-path Replacement: The three icon links in the <div class="toc-grid"> now use your full Google Storage URLs and are all set to data-type="video".
+
+JS savePlaceMarker Refactoring: The new updateLastMarkerForSave() helper function was integrated into savePlaceMarker() and wipePlayer() to automatically grab the current state, making the core persistence logic cleaner and more robust.
+
+Marker Button Initialization Fix: Added logic in DOMContentLoaded to correctly set the initial marker button state to "📍 Load Marker" if a previous session was saved, or "📌 Save Marker" if not.
+
+Video Metadata Listener: Added a listener in loadP
