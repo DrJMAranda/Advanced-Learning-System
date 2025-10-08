@@ -314,15 +314,6 @@
         let lastMarker = null; // Stores last session state
         let operationalIntegrityLog = []; // PHASE O: The critical log for session history
 
-        // 4. MOCK DATA (Retained for completeness, though index uses HTML)
-        const arithmeticIndexData = [
-            { title: 'AP1U1S1: Meet The Digits', path: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', type: 'video' },
-            { title: 'AP1U1S2: Counting through Four', path: 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', type: 'video' },
-            { title: 'AP1U1S3: Section 3', path: 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', type: 'video' },
-            { title: 'Lesson 4: Division', path: 'image/div.pdf', type: 'image' },
-            { title: 'Lesson 5: Speed Read Test', path: null, type: 'text' } // Example of a non-media lesson
-        ];
-
 
         // =================================================================
         // PHASE Q3: NEW HELPER FUNCTION - Updates the global lastMarker state
@@ -790,11 +781,3 @@
     </script>
 </body>
 </html>
-Key Changes Applied:
-HTML data-path Replacement: The three icon links in the <div class="toc-grid"> now use your full Google Storage URLs and are all set to data-type="video".
-
-JS savePlaceMarker Refactoring: The new updateLastMarkerForSave() helper function was integrated into savePlaceMarker() and wipePlayer() to automatically grab the current state, making the core persistence logic cleaner and more robust.
-
-Marker Button Initialization Fix: Added logic in DOMContentLoaded to correctly set the initial marker button state to "📍 Load Marker" if a previous session was saved, or "📌 Save Marker" if not.
-
-Video Metadata Listener: Added a listener in loadP
