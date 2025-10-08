@@ -1,5 +1,3 @@
-HTML
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -203,23 +201,26 @@ HTML
     </div>
 
     <script>
-        // JavaScript
+        // Maps video IDs to their URLs.
         const videoSources = {
             'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
             'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
             'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
         };
 
+        // Gets references to the video player elements in the HTML.
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const videoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
 
+        // Closes the video modal.
         function closeVideoWindow() {
             videoElement.pause();
             videoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
+        // Opens the video modal and starts playing the video.
         function launchVideoWindow(url) {
             videoElement.src = url;
             videoPlayerModal.style.display = 'flex';
@@ -230,6 +231,7 @@ HTML
             };
         }
 
+        // Adds a click listener to all elements that launch a video.
         document.querySelectorAll('.video-activator-icon').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -245,6 +247,7 @@ HTML
             });
         });
 
+        // Adds a click listener to the close button.
         if (closeVideoBtn) {
             closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
