@@ -3,269 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - ONETH UI</title>
+    <title>Advanced Learning Systems</title>
+    
     <style>
-        /* ================================================= */
-        /* == CSS SWIPE AND WIPE (ONETH UI Principles) == */
-        /* ================================================= */
-        
+        /* General Body Styles */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
+            font-family: 'EB Garamond', serif;
+            line-height: 1.6;
             padding: 0;
+            margin: 0;
+            background-color: #f4f4f4;
             display: flex;
-            flex-direction: column;
             height: 100vh;
-            overflow: hidden;
-            background-color: #f4f4f9;
         }
 
-        /* --- 1. Maximized Layout Structure --- */
-        #top-half {
-            display: flex;
-            flex-grow: 1; 
-            overflow: hidden;
-        }
-
-        /* --- 2. Final UI Zones Definitions --- */
-        #video-container {
-            flex-grow: 1; 
-            display: flex;
-            flex-direction: column;
+        /* Main Container for the Grid */
+        .main-container {
+            flex: 1;
             padding: 10px;
-            box-sizing: border-box;
-            background-color: #1a1a1a;
+            overflow-y: auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        #sidebar-menu {
-            width: 300px; 
-            background-color: #ffffff;
+
+        /* Fixed Menu Container for the Sidebar */
+        .fixed-menu-container {
+            width: 250px;
+            padding: 10px;
+            background-color: #e9ecef;
             border-left: 1px solid #ccc;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; 
-        }
-        
-        #zone-4-ai-practice {
-            height: 100px;
-            background-color: #e0e0e0;
-            border-top: 2px solid #333;
-            padding: 10px;
-            text-align: center;
+            justify-content: space-between;
+            font-size: 0.9em;
         }
 
-        /* --- 3. Menu Spacing and Collapsible Structure --- */
-        #menu-header {
-            margin: 0;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
-
-        #outline-menu {
-            list-style: none;
-            padding: 0 10px;
-            margin: 0;
-        }
-
-        #outline-menu li {
-            margin: 2px 0; 
+        /* Fixed Menu List */
+        .fixed-menu-list {
+            list-style-type: none;
             padding: 0;
+            margin: 0;
         }
-        
-        #outline-menu li a {
-            display: block;
+
+        /* Fixed Menu Items */
+        .fixed-menu-item a {
             text-decoration: none;
-            color: #333;
-            padding: 5px 0;
-            line-height: 1.2;
+            color: #000;
+            font-size: .9em;
+            font-weight: bold;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
         }
 
-        /* CSS for Collapsible Menu Headers */
-        .menu-header {
-            cursor: pointer;
-            user-select: none;
-            padding: 5px 0;
-            list-style: none; 
-        }
-        .menu-content {
-            list-style: none;
-            padding-left: 15px;
-            margin: 0;
-            transition: all 0.3s ease;
+        /* Fixed Menu Header */
+        .fixed-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
 
-        /* --- 4. Tiny Image Fix --- */
-        .menu-icon-tiny {
-            width: 0.25in; 
-            height: auto; 
-            vertical-align: middle; 
-            display: inline-block; 
-            margin-right: 5px;
-            border: none;
-            padding: 0;
+        /* Fixed Menu Header Title */
+        .fixed-menu-header h3 {
+            font-size: 1.2em;
         }
-        
-        /* --- 5. Middle Zone Contextual Icon Row --- */
-        #contextual-icon-row {
-            height: 80px; 
-            background-color: #f0f0f0;
+
+        /* Powered by Gemini Text */
+        .powered-by-gemini {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        /* Credits Box */
+        .credits-box {
+            font-size: 0.5em;
+            color: #6c757d;
+            text-align: center;
             border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            overflow-x: auto; 
-            white-space: nowrap; 
-            padding: 5px 0;
+            padding-top: 10px;
         }
-        
-        .context-icon {
-            display: inline-block;
-            width: 70px; 
-            height: 70px;
-            margin: 0 5px;
-            text-align: center;
-            line-height: 1.1;
+
+        /* Table of Contents Grid for a compact icon layout */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(1in, 1fr));
+            gap: 10px;
+            padding: 10px;
+            justify-content: center;
         }
-        
-        /* --- 6. Final Video Playback Fix (Eliminates Autoplay Block Error) --- */
-        #main-video {
-            flex-grow: 1; 
-            background-color: black;
-            color: white;
-            text-align: center;
-            font-size: 20px;
-            /* SWIPE AND WIPE FIX: Removed interfering display: flex */
+
+        /* New styling for the small icons */
+        .content-icon {
+            width: 1in;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
         }
-        
-        #active-lesson-video {
+
+        /* Video Modal Overlay */
+        .video-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Video Container */
+        .video-container {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        /* Video Element */
+        #myVideoElement {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Close Video Button */
+        #closeVideoBtn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: 2px solid #fff;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1001;
         }
     </style>
 </head>
 <body>
-
-    <div id="top-half">
-        
-        <div id="video-container">
-            
-            <div id="contextual-icon-row">
-                <div class="context-icon">Icon A</div>
-                <div class="context-icon">Icon B</div>
-            </div>
-            
-            <div id="main-video">
-                VIDEO MONITOR: ALS LIFT-OFF COMPLETE. READY FOR CONTENT.
-            </div>
-            
+    <div class="main-container">
+        <div class="toc-grid">
+            <a href="#" class="video-activator-icon" data-video-id="unidad1_inicio">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon" title="A journey into learning begins with an understanding of core concepts.">
+            </a>
+            <a href="#" class="video-activator-icon" data-video-id="unidad1_zero">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero Icon" class="content-icon" title="Learn about Mr. Zero and the beginning of numbers.">
+            </a>
+            <a href="#" class="video-activator-icon" data-video-id="unidad1_family">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family Icon" class="content-icon" title="Meet the numeral family and their adventures.">
+            </a>
         </div>
-        
-        <div id="sidebar-menu">
-            <h2 id="menu-header">Advanced Learning Systems</h2>
-            <ul id="outline-menu">
-                <li class="menu-header" onclick="toggleSection('section-1')">
-                    <strong>1. Arithmetic 1</strong>
-                </li>
-                <ul id="section-1" class="menu-content active">
-                    <li class="menu-header" onclick="toggleSection('section-1a')">
-                        &nbsp;&nbsp;&nbsp;1a. G1: Numerals, Addition to 10
-                    </li>
-                    <ul id="section-1a" class="menu-content active">
-                        <li>
-                            <a href="#" onclick="loadModule('1a1'); return false;" title="1a1. The Journey Begins...">
-                                <img src="path/to/1a1-icon.jpg" class="menu-icon-tiny" alt="Icon for The Journey Begins">
-                                The Journey Begins... 
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="loadModule('1a2'); return false;" title="1a2. Mr Zero: The First Something!">
-                                <img src="path/to/1a2-icon.jpg" class="menu-icon-tiny" alt="Icon for Mr Zero">
-                                Mr Zero: The First Something!
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="loadModule('1a3'); return false;" title="1a3. The Numeral Family.">
-                                <img src="path/to/1a3-icon.jpg" class="menu-icon-tiny" alt="Icon for The Numeral Family">
-                                The Numeral Family.
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    <li class="menu-header" onclick="toggleSection('section-1b')">
-                        &nbsp;&nbsp;&nbsp;1b. G2: Subtraction, Place Value
-                    </li>
-                    <ul id="section-1b" class="menu-content" style="display: none;">
-                        <li>Placeholder Lesson 1b1</li>
-                    </ul>
-                </ul>
-                
-                <li class="menu-header" onclick="toggleSection('section-2')">
-                    <strong>2. Arithmetic 2 (Decillions)</strong>
-                </li>
-                <ul id="section-2" class="menu-content" style="display: none;">
-                    <li>Placeholder Lesson 2a1</li>
-                </ul>
-                
-                <li class="menu-header" onclick="toggleSection('section-5')">
-                    <strong>5. Algebra I (Zero Intercept)</strong>
-                </li>
-                <ul id="section-5" class="menu-content" style="display: none;">
-                    <li>Placeholder Lesson 5a1</li>
-                </ul>
+        </div>
+
+    <div class="fixed-menu-container">
+        <div class="fixed-menu-header">
+            <h3>Advanced Learning Systems</h3>
+            <p class="powered-by-gemini">Powered by Google Gemini</p>
+        </div>
+        <div style="height: 1.0em;"></div>
+        <div>
+            <ul class="fixed-menu-list">
+                <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
+                <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
+                <li class="fixed-menu-item"><a href="#sci">3. Management</a></li>
+                <li class="fixed-menu-item"><a href="#hist">4. Organization</a></li>
+                <li class="fixed-menu-item"><a href="#art">5. Education</a></li>
+                <li class="fixed-menu-item"><a href="#music">6. Training Trainers</a></li>
+                <li class="fixed-menu-item"><a href="#music">7. Knowledge Transfer</a></li>
             </ul>
         </div>
+        <div class="credits-box">
+            <p>.</p>
+        </div>
     </div>
-    
-    <div id="zone-4-ai-practice">
-        RESERVED ZONE 4: INTERACTIVE AI GUIDED PRACTICE (Kinesthetic/Active Recall)
+
+    <div id="videoPlayerModal" class="video-modal-overlay">
+        <div class="video-container">
+            <video
+                id="myVideoElement"
+                controls
+                preload="auto"
+                class="responsive-video-player"
+            ></video>
+            <button id="closeVideoBtn">Return (X)</button>
+        </div>
     </div>
 
     <script>
-        // =======================================================
-        // == JAVASCRIPT: Functional Integration (Bucket Call & Collapse) ==
-        // =======================================================
+        // Maps video IDs to their URLs.
+        const videoSources = {
+            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
+            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
+            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
+        };
 
-        // CRITICAL: REPLACE 'YOUR-BUCKET-NAME'
-        const BUCKET_BASE_URL = "https://storage.googleapis.com/YOUR-BUCKET-NAME/";
+        // Gets references to the video player elements in the HTML.
+        const videoPlayerModal = document.getElementById('videoPlayerModal');
+        const videoElement = document.getElementById('myVideoElement');
+        const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-        function loadModule(moduleId) {
-            // 1. Construct the full URL for the video content
-            const videoFileName = `module-${moduleId}.mp4`; // ADJUST EXTENSION IF NEEDED
-            const videoURL = BUCKET_BASE_URL + videoFileName;
-
-            // 2. Identify the target container
-            const videoContainer = document.getElementById('main-video');
-            
-            // 3. FINAL SWIPE AND WIPE: Inject video element, controls visible, NO autoplay
-            videoContainer.innerHTML = `
-                <video id="active-lesson-video" width="100%" height="100%" controls>
-                    <source src="${videoURL}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <p style="color: white; font-size: 14px; margin-top: 5px;">
-                    Playing: ${moduleId} from bucket. (Click Play)
-                </p>
-            `;
-            
-            // Optional: Force load, but rely on user clicking play button
-            const videoElement = document.getElementById('active-lesson-video');
-            if (videoElement) {
-                videoElement.load();
-            }
+        // Closes the video modal.
+        function closeVideoWindow() {
+            videoElement.pause();
+            videoElement.src = "";
+            videoPlayerModal.style.display = 'none';
         }
-        
-        // Function to handle collapsing/expanding menu sections
-        function toggleSection(sectionId) {
-            const content = document.getElementById(sectionId);
-            if (content) {
-                if (content.style.display === 'none' || content.style.display === '') {
-                    content.style.display = 'block';
+
+        // Opens the video modal and starts playing the video.
+        function launchVideoWindow(url) {
+            videoElement.src = url;
+            videoPlayerModal.style.display = 'flex';
+            videoElement.play();
+            videoElement.onended = () => {
+                console.log('Video finished. Auto-returning user to menu.');
+                closeVideoWindow();
+            };
+        }
+
+        // Adds a click listener to all elements that launch a video.
+        document.querySelectorAll('.video-activator-icon').forEach(iconLink => {
+            iconLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                const videoId = iconLink.getAttribute('data-video-id');
+                const videoUrl = videoSources[videoId];
+
+                if (videoUrl) {
+                    launchVideoWindow(videoUrl);
                 } else {
-                    content.style.display = 'none';
+                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
+                    launchVideoWindow(videoUrl);
                 }
-            }
+            });
+        });
+
+        // Adds a click listener to the close button.
+        if (closeVideoBtn) {
+            closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
     </script>
-
 </body>
 </html>
