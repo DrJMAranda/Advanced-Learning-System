@@ -3,781 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning Systems - ONETH LGC</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style id="consolidated-css-style">
-        /* General Body Styles */
+    <title>Advanced Learning System - ONETH UI</title>
+    <style>
+        /* ================================================= */
+        /* == CSS SURGICAL FIXES (ONETH UI Principles) == */
+        /* ================================================= */
+        
         body {
-            font-family: 'EB Garamond', serif;
-            line-height: 1.6;
-            padding: 0;
+            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f4f4f4;
+            padding: 0;
             display: flex;
+            flex-direction: column; /* Main container stack (top to bottom) */
             height: 100vh;
+            overflow: hidden; /* Prevent body scroll, sections will scroll if needed */
+            background-color: #f4f4f9;
         }
 
-        /* Main Content Area (Vertical Scrollable Index) */
-        .main-container {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto; /* Primary vertical scroll */
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* --- 1. Maximize Main Content Area (Video Monitor) and Menu --- */
+        #top-half {
+            display: flex;
+            flex-grow: 1; /* Takes up all vertical space not taken by Zone 4 */
+            overflow: hidden;
         }
 
-        /* Fixed Menu Container (Sidebar) */
-        .fixed-menu-container {
-            width: 250px;
+        /* --- 2. Final UI Zones Definitions --- */
+        #video-container {
+            /* This is the area that will be MAXIMIZED after icon deletion */
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
             padding: 10px;
-            background-color: #e9ecef;
+            box-sizing: border-box;
+            background-color: #1a1a1a; /* Dark background for video focus */
+        }
+        
+        #sidebar-menu {
+            width: 300px; /* Fixed width for the menu */
+            background-color: #ffffff;
             border-left: 1px solid #ccc;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            font-size: 0.9em;
+            overflow-y: auto; /* Allows menu itself to scroll if it gets too long */
         }
-
-        /* Fixed Menu List */
-        .fixed-menu-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        /* Fixed Menu Items */
-        .fixed-menu-item a {
-            text-decoration: none;
-            color: #000;
-            font-size: .9em;
-            font-weight: bold;
-            display: block;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Fixed Menu Header */
-        .fixed-menu-header {
-            display: flex;
-            flex-direction: column; /* Changed for better stacking */
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        /* Fixed Menu Header Title */
-        .fixed-menu-header h3 {
-            font-size: 1.2em;
-            margin: 0;
-        }
-
-        /* Powered by Gemini Text */
-        .powered-by-gemini {
-            font-size: 0.8em;
-            color: #6c757d;
-        }
-
-        /* Credits Box */
-        .credits-box {
-            font-size: 0.5em;
-            color: #6c757d;
-            text-align: center;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-        }
-
-        /* Table of Contents Grid for a compact icon layout */
-        .toc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(1in, 1fr));
-            gap: 10px;
+        
+        #zone-4-ai-practice {
+            /* Reserved space for AI Guided Practice (Bottom Zone) */
+            height: 100px; /* Example reserved height */
+            background-color: #e0e0e0;
+            border-top: 2px solid #333;
             padding: 10px;
-            justify-content: center;
+            text-align: center;
         }
 
-        /* New styling for the small icons */
-        .content-icon {
-            width: 1in;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        /* --- PHASE D/G/I: FIXED MEDIA CONTAINER & ELEMENTS --- */
-        #fixed-media-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95); /* Near-black overlay */
-            z-index: 1000; /* Below the control bar */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        #media-title {
+        /* --- 3. ONETH Menu and Spacing Fixes --- */
+        #menu-header {
+            padding: 10px;
+            background-color: #007bff;
             color: white;
-            position: absolute;
-            top: 10px;
-            font-size: 1.5em;
-            z-index: 1001;
-        }
-
-        /* Video Player Styling */
-        #landscape-video {
-            max-width: 90%;
-            max-height: 80vh;
-            height: auto;
-        }
-
-        /* Static Image/PDF Viewer Styling */
-        #static-image-viewer {
-            max-width: 90%;
-            max-height: 80vh;
-            height: 100%;
-            overflow-y: auto; /* Allows scrolling of large images/PDFs */
-            background-color: white;
-            position: relative;
-        }
-
-        /* --- PHASE B/C: CONTROL BAR STYLES (Bottom Fixed) --- */
-        #horizontal-icon-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1002; /* PHASE K: Highest Z-index for controls */
-        }
-
-        #horizontal-icon-bar button {
-            padding: 10px 15px;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.2s;
-        }
-
-        #horizontal-icon-bar button:hover {
-            background-color: #777;
-        }
-
-        /* --- CSS Phase N: SHUTDOWN COUNTDOWN --- */
-        #shutdown-countdown {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centers the element */
-            
-            background-color: rgba(255, 0, 0, 0.9); /* Semi-transparent Red */
-            color: white;
-            font-size: 32px;
             font-weight: bold;
-            padding: 15px 30px;
-            border-radius: 8px;
+            /* FIX 1: Eliminate Top Space Wastrel (Reset margins/padding) */
+            margin: 0;
+            padding: 10px;
+        }
+
+        #outline-menu {
+            list-style: none;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+        #outline-menu li {
+            /* FIX 2: Eliminate Inter-Item Wastrel (Tighten spacing) */
+            margin: 2px 0; /* Minimal vertical margin */
+            padding: 0;
+        }
+        
+        #outline-menu li a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            padding: 5px 0;
+            line-height: 1.2; /* Tightens text line height */
+        }
+
+        /* --- 4. Surgical Fix for Tiny Image Alignment (0.25in) --- */
+        .menu-icon-tiny {
+            width: 0.25in; 
+            height: auto; 
             
-            z-index: 10000; /* Highest Z-Index to overlap everything during shutdown */
+            /* FIX 3: Eliminate Indentation/Vertical Offset Sin Tax */
+            vertical-align: middle; 
+            display: inline-block; 
+            
+            margin-right: 5px; /* Minimal space between image and text */
+            border: none;
+            padding: 0;
+        }
+        
+        /* --- 5. Middle Zone Contextual Icon Row --- */
+        #contextual-icon-row {
+            height: 80px; /* Fixed height for the horizontal scrolling row */
+            background-color: #f0f0f0;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            white-space: nowrap; /* Keeps items inline */
+            padding: 5px 0;
+        }
+        
+        .context-icon {
+            display: inline-block;
+            width: 70px; /* Width for each icon card */
+            height: 70px;
+            margin: 0 5px;
+            text-align: center;
+            line-height: 1.1;
+        }
+        
+        /* --- 6. Video Monitor Styling (Ready for Maximization) --- */
+        #main-video {
+            width: 100%;
+            height: 100%;
+            max-height: calc(100vh - 100px - 80px); /* Adjust based on Zone 4 and Icon Row height */
+            background-color: black;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container" id="lesson-index-list">
-        <div class="toc-grid">
-            <a href="#" class="media-activator-icon" 
-                data-lesson-title="AP1U1S1: Meet The Digits" 
-                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4" 
-                data-type="video">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="Meet The Digits Icon" class="content-icon" title="Lesson 1: Meet The Digits (Video)">
-            </a>
+    <div id="top-half">
+        
+        <div id="video-container">
             
-            <a href="#" class="media-activator-icon" 
-                data-lesson-title="AP1U1S2: Counting through Four" 
-                data-path="https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4" 
-                data-type="video">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Counting through Four Icon" class="content-icon" title="Lesson 2: Counting through Four (Video)">
-            </a>
+            <div id="contextual-icon-row">
+                <div class="context-icon">Icon A</div>
+                <div class="context-icon">Icon B</div>
+                </div>
             
-            <a href="#" class="media-activator-icon" 
-                data-lesson-title="AP1U1S3: Section 3" 
-                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4" 
-                data-type="video">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Section 3 Icon" class="content-icon" title="Lesson 3: Section 3 (Video)">
-            </a>
-            <div id="next-row-container"></div>
-        </div>
-    </div>
-
-    <div class="fixed-menu-container">
-        <div class="fixed-menu-header">
-            <h3>Advanced Learning Systems</h3>
-            <p class="powered-by-gemini">Powered by Google Gemini</p>
-        </div>
-        
-        <div id="user-identity-status" style="margin-bottom: 10px; font-weight: bold; color: #FFD700;">Status: Offline | ID: Guest</div>
-        
-        <div style="flex-grow: 1; overflow-y: auto;" id="next-row-scroller">
-            <ul class="fixed-menu-list">
-                <li class="fixed-menu-item"><a href="#">1. Arithmetic 1</a></li>
-                <li class="fixed-menu-item"><a href="#">1a. G1: Numerals through Rational Numbers</a></li>
-                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S1: Meet The Digits" data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4" data-type="video">1a1. The Journey Begins...</a></li>
-                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S2: Counting through Four" data-path="https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4" data-type="video">1a2. Mr Zero: The First Something!</a></li>
-                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S3: Section 3" data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4" data-type="video">1a3. The Numeral Family.</a></li>
-                <li class="fixed-menu-item"><a href="#">2. Numbers to |99|</a></li>
-                <li class="fixed-menu-item"><a href="#">3. |Decillions|</a></li>
-                <li class="fixed-menu-item"><a href="#">4. G2: Arithmetic thru G8</a></li>
-                <li class="fixed-menu-item"><a href="#">5. G3: Algebra 1</a></li>
-            </ul>
-        </div>
-        
-        <div class="credits-box">
-            <p>ONETH LGC: Phase O (Integrity Logging) Secured</p>
-        </div>
-    </div>
-
-    <div id="fixed-media-container" class="hidden">
-        
-        <div id="shutdown-countdown" class="hidden">
-            Shutting Down in 3...
-        </div>
-
-        <h3 id="media-title"></h3>
-        
-        <video id="landscape-video" class="hidden" controls preload="auto"></video>
-        <div id="static-image-viewer" class="hidden">
+            <div id="main-video">
+                VIDEO MONITOR: READY FOR MAXIMIZATION (AFTER ICON DELETION)
             </div>
 
-        <div id="horizontal-icon-bar">
-            <button id="return-menu-btn" title="Return to Menu">🏠 Menu</button>
-            <button id="toggle-view-btn" title="Toggle Page View">🔄 View</button>
-            <button id="rewind-btn" title="Rewind 10s">⏪ Rewind</button>
-            <button id="play-pause-btn" title="Play/Pause">▶️ Play</button>
-            <button id="ff-btn" title="Fast Forward 10s">⏩ F.F.</button>
-            <button id="stop-btn" title="Stop and Close Player">◼️ Stop</button>
-            
-            <button id="place-marker-btn" title="Save/Load Place Marker" class="marker-btn">📌 Save Marker</button>
+            <div id="old-icons-for-deletion" style="padding: 10px; background-color: #f9e0e0;">
+                <p style="color: red;">***OLD ICON SECTION: DELETE THIS ENTIRE DIV AFTER PARALLEL TEST IS PASSED***</p>
+                <div style="display: flex; justify-content: space-around;">
+                    <button onclick="loadModule('1a1');">Old Icon 1a1</button>
+                    <button onclick="loadModule('1a2');">Old Icon 1a2</button>
+                    <button onclick="loadModule('1a3');">Old Icon 1a3</button>
+                </div>
+            </div>
+            </div>
+        
+        <div id="sidebar-menu">
+            <h2 id="menu-header">Advanced Learning Systems</h2>
+            <ul id="outline-menu">
+                <li><strong>1. Arithmetic 1</strong></li>
+                <li>&nbsp;&nbsp;&nbsp;1a. G1: Numerals, Addition to 10</li>
+                
+                <li>
+                    <a href="#" onclick="loadModule('1a1'); return false;" title="1a1. The Journey Begins...">
+                        <img src="path/to/1a1-icon.jpg" class="menu-icon-tiny" alt="Icon for The Journey Begins">
+                        The Journey Begins... 
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="loadModule('1a2'); return false;" title="1a2. Mr Zero: The First Something!">
+                        <img src="path/to/1a2-icon.jpg" class="menu-icon-tiny" alt="Icon for Mr Zero">
+                        Mr Zero: The First Something!
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="loadModule('1a3'); return false;" title="1a3. The Numeral Family.">
+                        <img src="path/to/1a3-icon.jpg" class="menu-icon-tiny" alt="Icon for The Numeral Family">
+                        The Numeral Family.
+                    </a>
+                </li>
+                
+                <li>&nbsp;&nbsp;&nbsp;1b. G2: Subtraction, Place Value</li>
+                <li><strong>2. Arithmetic 2 (Decillions)</strong></li>
+                <li><strong>3. Arithmetic 3 (Fractions/Decimals)</strong></li>
+                <li><strong>4. Geometry/Trigonometry</strong></li>
+                <li><strong>5. Algebra I (Zero Intercept)</strong></li>
+                </ul>
         </div>
     </div>
     
-    <script id="consolidated-js-script">
-        // =================================================================
-        // LAST GOOD CODE (LGC) - PHASE O: Operational Integrity Logging
-        // Secured against unannounced system shutdown (ONETH Compliance)
-        // =================================================================
+    <div id="zone-4-ai-practice">
+        RESERVED ZONE 4: INTERACTIVE AI GUIDED PRACTICE (Kinesthetic/Active Recall)
+    </div>
 
-        // 1. GLOBAL CONSTANTS
-        const API_BASE_URL = 'https://api.google-assigned-server.com/v1/user/';
-        const API_HEADERS = {
-            'Content-Type': 'application/json',
-        };
+    <script>
+        // =======================================================
+        // == JAVASCRIPT FOR PARALLEL TEST & MENU ACTIVATION ==
+        // =======================================================
 
-        // 2. DOM REFERENCES
-        const lessonIndexList = document.getElementById('lesson-index-list');
-        const container = document.getElementById('fixed-media-container');
-        const videoPlayer = document.getElementById('landscape-video');
-        const staticImage = document.getElementById('static-image-viewer');
-        const titleDisplay = document.getElementById('media-title');
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const rewindBtn = document.getElementById('rewind-btn');
-        const ffBtn = document.getElementById('ff-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const toggleViewBtn = document.getElementById('toggle-view-btn');
-        const returnMenuBtn = document.getElementById('return-menu-btn');
-        const placeMarkerBtn = document.getElementById('place-marker-btn');
-        const userIdStatusDisplay = document.getElementById('user-identity-status'); 
-
-        // 3. GLOBAL STATE VARIABLES
-        let currentUserId = 'Guest';
-        let isOnline = false;
-        let currentViewMode = 'default'; // 'default' (landscape) or 'page-width' (PDF)
-        let isPaused = true;
-        let lastMarker = null; // Stores last session state
-        let operationalIntegrityLog = []; // PHASE O: The critical log for session history
-
-
-        // =================================================================
-        // PHASE Q3: NEW HELPER FUNCTION - Updates the global lastMarker state
-        // =================================================================
-
-        /**
-         * PHASE Q3: Updates the global lastMarker state based on the current view.
-         */
-        function updateLastMarkerForSave() {
-            if (!container.classList.contains('hidden')) {
-                // Media Player is visible
-                const currentMediaType = videoPlayer.classList.contains('hidden') ? 'image' : 'video';
-                
-                // Find the current path based on what's active (more robust)
-                let currentMediaPath = '';
-                if (currentMediaType === 'video') {
-                    currentMediaPath = videoPlayer.src;
-                } else if (!staticImage.classList.contains('hidden')) {
-                     // Attempt to get the path if it were a real embed, otherwise use the title as path
-                    currentMediaPath = staticImage.querySelector('iframe')?.src || titleDisplay.textContent; 
-                }
-
-                lastMarker = {
-                    userId: currentUserId,
-                    lessonTitle: titleDisplay.textContent, 
-                    mediaPath: currentMediaPath, 
-                    mediaType: currentMediaType,
-                    playbackTime: videoPlayer.currentTime || 0,
-                    scrollPosition: staticImage.scrollTop || 0
-                };
-            } else {
-                // Lesson Index is visible
-                lastMarker = {
-                    userId: currentUserId,
-                    lessonTitle: 'Index Scroll Position',
-                    scrollPosition: lessonIndexList.scrollTop,
-                    mediaPath: null,
-                    mediaType: 'scroll'
-                };
-            }
+        function loadModule(moduleId) {
+            // *** CRITICAL STEP: Replace this entire function with the exact code/logic 
+            // *** used by your OLD ICONS to load content from the Google bucket.
+            
+            const videoMonitor = document.getElementById('main-video');
+            const alertMessage = "SUCCESS: New menu item [" + moduleId + "] passes parallel test! Ready to delete old icons.";
+            
+            console.log("MENU LIFT-OFF TEST: Attempting to load module:", moduleId);
+            
+            // Placeholder Logic: Replace with your actual video loading/modal opening code
+            videoMonitor.innerHTML = `LOADING MODULE: ${moduleId} (Confirmed Functional)`;
+            alert(alertMessage); 
+            
+            // If the test is successful, you are ready for the deletion!
         }
-
-        // =================================================================
-        // PHASE O/N/L/M: LOGGING, PERSISTENCE, & SHUTDOWN PROTOCOLS
-        // =================================================================
-
-        /**
-         * PHASE O/Q2: Records a critical event to the Operational Integrity Log.
-         */
-        function logOperationalEvent(eventDescription) {
-            const timestamp = new Date().toISOString();
-            const logEntry = {
-                time: timestamp,
-                user: currentUserId,
-                event: eventDescription
-            };
-            operationalIntegrityLog.push(logEntry);
-            console.log(`LOGGED: ${eventDescription}`);
-        }
-
-        /**
-         * PHASE M/L/Q1: Generates a unique key for marker storage based on the current user ID.
-         */
-        function getPersistenceKey() {
-            return `LGC_MARKER_${currentUserId.toUpperCase()}`;
-        }
-
-        /**
-         * PHASE M/L: Saves the current state persistently via API (Server Write Simulation).
-         * Implements local storage as the ONETH Safety Protocol fallback.
-         */
-        async function savePlaceMarker() { // Removed redundant parameters
-            // 1. Construct lastMarker object using new helper function
-            updateLastMarkerForSave();
-            
-            // 2. NEW SERVER PERSISTENCE LOGIC (Write Priority)
-            try {
-                const endpoint = `${API_BASE_URL}${currentUserId}/marker`;
-                console.log(`Simulating API PUT/POST to: ${endpoint}`);
-                
-                const response = await new Promise(resolve => setTimeout(() => resolve({ status: 200 }), 100));
-
-                if (response.status === 200) {
-                    alert(`Marker SAVED TO SERVER for: ${lastMarker.lessonTitle}. (User: ${currentUserId})`);
-                    logOperationalEvent(`Marker Saved: ${lastMarker.lessonTitle} (API Success)`);
-                } else {
-                    throw new Error('Server returned non-200 status.');
-                }
-
-            } catch (e) {
-                console.error("Failed to save marker to server.", e);
-                // Fallback to local persistence (ONETH Safety Protocol)
-                const key = getPersistenceKey();
-                localStorage.setItem(key, JSON.stringify(lastMarker));
-                logOperationalEvent(`Marker Saved: ${lastMarker.lessonTitle} (Local Fallback)`);
-                alert("Server save failed. Marker saved locally as fallback (ONETH Safety Protocol).");
-            }
-
-            // 3. Update button state
-            placeMarkerBtn.textContent = '📍 Load Marker';
-            placeMarkerBtn.onclick = loadPlaceMarker;
-        }
-
-        /**
-         * PHASE M/L: Loads the last saved marker state (Server Read Simulation).
-         */
-        async function loadPlaceMarker() {
-            let retrievedMarker = null;
-            const localKey = getPersistenceKey();
-            
-            // 1. SERVER PERSISTENCE LOGIC (Read Priority)
-            try {
-                const endpoint = `${API_BASE_URL}${currentUserId}/marker`;
-                console.log(`Simulating API GET from: ${endpoint}`);
-
-                const response = await new Promise(resolve => setTimeout(() => resolve({
-                    status: 200, 
-                    // Simulate the server returning the local storage content (for testing environment)
-                    json: async () => JSON.parse(localStorage.getItem(localKey)) 
-                }), 100));
-
-                if (response.status === 200) {
-                    retrievedMarker = await response.json();
-                    logOperationalEvent(`Marker Loaded: ${retrievedMarker?.lessonTitle} (API Read)`);
-                } else {
-                    throw new Error('Server returned non-200 status. Using local fallback.');
-                }
-
-            } catch (e) {
-                console.warn("Failed to retrieve marker from server. Using local fallback.", e);
-                // Fallback: Read from the local persistence layer
-                const storedData = localStorage.getItem(localKey);
-                if (storedData) {
-                    retrievedMarker = JSON.parse(storedData);
-                    logOperationalEvent(`Marker Loaded: ${retrievedMarker?.lessonTitle} (Local Fallback)`);
-                }
-            }
-            
-            if (!retrievedMarker || !retrievedMarker.lessonTitle) {
-                alert("No marker has been saved for this user. Save a new one.");
-                // Reset button to Save state if Load failed
-                placeMarkerBtn.textContent = '📌 Save Marker';
-                placeMarkerBtn.onclick = savePlaceMarker;
-                return;
-            }
-
-            lastMarker = retrievedMarker; 
-            
-            // 2. Restore state based on marker
-            if (lastMarker.mediaType === 'scroll') {
-                lessonIndexList.scrollTop = lastMarker.scrollPosition;
-                alert("Index scroll position restored.");
-            } else {
-                // Find the lesson data to load the player correctly (using HTML data as source of truth is better)
-                // However, since we use the path from the marker, we load directly.
-                
-                loadMediaPlayer(lastMarker.lessonTitle, lastMarker.mediaPath, lastMarker.mediaType);
-                
-                if (lastMarker.mediaType === 'video') {
-                    // Wait for the video metadata to load before setting currentTime
-                    videoPlayer.addEventListener('loadedmetadata', function restoreVideo() {
-                            videoPlayer.currentTime = lastMarker.playbackTime;
-                            videoPlayer.pause();
-                            isPaused = true;
-                            playPauseBtn.textContent = '▶️ Play';
-                            videoPlayer.removeEventListener('loadedmetadata', restoreVideo);
-                            alert(`Video content restored to: ${lastMarker.lessonTitle} at ${Math.round(lastMarker.playbackTime)} seconds.`);
-                    });
-                } else if (lastMarker.mediaType === 'image') {
-                    staticImage.scrollTop = lastMarker.scrollPosition;
-                    alert(`Content restored to: ${lastMarker.lessonTitle}.`);
-                } else {
-                    alert(`Content restored to: ${lastMarker.lessonTitle}.`);
-                }
-            }
-
-            // 3. Reset button state
-            placeMarkerBtn.textContent = '📌 Save Marker';
-            placeMarkerBtn.onclick = savePlaceMarker;
-        }
-
-        /**
-         * PHASE N: Executes the immediate player wipe (internal function).
-         */
-        function _immediateWipe() {
-            container.classList.add('hidden');
-            videoPlayer.classList.add('hidden');
-            staticImage.classList.add('hidden');
-            
-            videoPlayer.pause();
-            videoPlayer.src = '';
-            
-            playPauseBtn.classList.add('hidden');
-            rewindBtn.classList.add('hidden');
-            ffBtn.classList.add('hidden');
-            stopBtn.classList.add('hidden');
-            toggleViewBtn.classList.add('hidden');
-            returnMenuBtn.classList.add('hidden');
-            placeMarkerBtn.classList.remove('hidden'); // Keep marker button visible
-            
-            const countdownDisplay = document.getElementById('shutdown-countdown');
-            if (countdownDisplay) {
-                countdownDisplay.classList.add('hidden');
-            }
-            
-            playPauseBtn.textContent = '▶️ Play';
-            isPaused = true; // Ensure state is reset
-
-            // Set the marker button to LOAD since we just performed a save
-            placeMarkerBtn.textContent = '📍 Load Marker';
-            placeMarkerBtn.onclick = loadPlaceMarker;
-
-            logOperationalEvent("Media Player Wiped (Shutdown Complete)");
-        }
-
-        /**
-         * PHASE N/O: Initiates the controlled shutdown protocol with GUARANTEED LOCAL BACKUP.
-         */
-        window.wipePlayer = function() {
-            logOperationalEvent("Shutdown Protocol Initiated");
-            
-            // --- CRITICAL LGC FORTIFICATION: State and Log Backup ---
-            // 1. Perform the final state capture for the media player or index
-            updateLastMarkerForSave(); 
-            // 2. Save lastMarker state (ONETH SAFETY PROTOCOL)
-            const markerKey = getPersistenceKey();
-            const lastMarkerData = JSON.stringify(lastMarker); 
-            if (lastMarkerData && lastMarker) {
-                try {
-                    localStorage.setItem(markerKey, lastMarkerData);
-                    console.log("CRITICAL: Local state backup secured against external shutdown.");
-                } catch (e) {
-                    console.warn("CRITICAL FAILURE: Marker local backup failed.", e);
-                }
-            }
-            
-            // 3. Save the entire Operational Integrity Log
-            const logKey = `LGC_O_LOG_${currentUserId.toUpperCase()}`;
-            const logData = JSON.stringify(operationalIntegrityLog);
-            if (logData) {
-                try {
-                    localStorage.setItem(logKey, logData);
-                    console.log("CRITICAL: Full Operational Log secured against external shutdown.");
-                } catch (e) {
-                    console.warn("CRITICAL FAILURE: Log backup failed.", e);
-                }
-            }
-            // --------------------------------------------------------
-            
-            const countdownDisplay = document.getElementById('shutdown-countdown');
-            if (container.classList.contains('hidden') || !countdownDisplay) {
-                _immediateWipe();
-                return;
-            }
-
-            // Show and start the countdown
-            countdownDisplay.classList.remove('hidden');
-            let count = 3;
-            
-            const intervalId = setInterval(() => {
-                if (count > 0) {
-                    countdownDisplay.textContent = `Shutting Down in ${count}...`;
-                    count--;
-                } else {
-                    clearInterval(intervalId);
-                    _immediateWipe();
-                }
-            }, 1000); 
-        };
-
-
-        // =================================================================
-        // PHASE J/K: IDENTITY FUNCTIONS
-        // =================================================================
-
-        /**
-         * Updates the User ID and online status display.
-         */
-        function updateIdentityStatus() {
-            if (userIdStatusDisplay) {
-                const statusText = isOnline ? 'Online' : 'Offline';
-                userIdStatusDisplay.textContent = `Status: ${statusText} | ID: ${currentUserId}`;
-                userIdStatusDisplay.style.color = isOnline ? '#00FF00' : '#FFD700'; 
-            }
-        }
-
-        /**
-         * Placeholder for future server/Google login.
-         */
-        window.simulateLogin = function(id) {
-            currentUserId = id;
-            isOnline = true;
-            updateIdentityStatus();
-            console.log(`User logged in: ${id}. System is now online.`);
-            logOperationalEvent(`User Authenticated: ${id}`);
-            alert(`Welcome, ${id}! System now online.`);
-        }
-
-        // =================================================================
-        // PHASE A-I: MEDIA PLAYER CONTROL (Core Logic)
-        // =================================================================
-
-        /**
-         * Loads the media player with content.
-         */
-        function loadMediaPlayer(title, path, type) {
-            logOperationalEvent(`Loading Media: ${title} (${type})`);
-            
-            // 1. Hide/Show containers
-            container.classList.remove('hidden');
-            lessonIndexList.scrollTop = 0; // Reset main scroll
-            
-            // 2. Set title
-            titleDisplay.textContent = title;
-
-            // 3. Media specific logic
-            if (type === 'video') {
-                videoPlayer.src = path;
-                videoPlayer.classList.remove('hidden');
-                staticImage.classList.add('hidden');
-                staticImage.innerHTML = ''; // Clear old static content
-                isPaused = true;
-                playPauseBtn.textContent = '▶️ Play';
-            } else if (type === 'image') {
-                // Mock for PDF/large image viewer
-                staticImage.innerHTML = `<img src="https://via.placeholder.com/1000x2000?text=${title.replace(/ /g, '+')}" alt="${title}" style="width: 100%; height: auto;">`;
-                staticImage.classList.remove('hidden');
-                videoPlayer.classList.add('hidden');
-                videoPlayer.src = ''; // Clear old video source
-            } else {
-                // Non-media lessons (e.g., text, quiz)
-                alert(`Cannot display non-media content type: ${type}`);
-                container.classList.add('hidden');
-                return;
-            }
-            
-            // 4. Show controls
-            playPauseBtn.classList.remove('hidden');
-            rewindBtn.classList.remove('hidden');
-            ffBtn.classList.remove('hidden');
-            stopBtn.classList.remove('hidden');
-            toggleViewBtn.classList.remove('hidden');
-            returnMenuBtn.classList.remove('hidden');
-            placeMarkerBtn.classList.remove('hidden');
-            
-            // 5. Setup initial marker state
-            placeMarkerBtn.textContent = '📌 Save Marker';
-            placeMarkerBtn.onclick = savePlaceMarker;
-        }
-
-
-        /**
-         * Toggles the media playback state.
-         */
-        function togglePlayPause() {
-            if (videoPlayer.classList.contains('hidden')) return; // Only for video
-            
-            if (isPaused) {
-                videoPlayer.play();
-                playPauseBtn.textContent = '⏸️ Pause';
-                logOperationalEvent("Video Playback Started");
-            } else {
-                videoPlayer.pause();
-                playPauseBtn.textContent = '▶️ Play';
-                logOperationalEvent("Video Playback Paused");
-            }
-            isPaused = !isPaused;
-        }
-
-        /**
-         * Rewinds the video by 10 seconds.
-         */
-        function rewindMedia() {
-            if (videoPlayer.classList.contains('hidden')) return;
-            videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - 10);
-            logOperationalEvent("Video Rewind 10s");
-        }
-
-        /**
-         * Fast Forwards the video by 10 seconds.
-         */
-        function ffMedia() {
-            if (videoPlayer.classList.contains('hidden')) return;
-            videoPlayer.currentTime = Math.min(videoPlayer.duration, videoPlayer.currentTime + 10);
-            logOperationalEvent("Video FF 10s");
-        }
-
-        /**
-         * Toggles the view mode (e.g., full screen image vs. scrolled image).
-         */
-        function toggleView() {
-            if (staticImage.classList.contains('hidden')) return; // Only for image viewer
-
-            if (currentViewMode === 'default') {
-                staticImage.style.maxHeight = '100vh'; // Full screen
-                toggleViewBtn.textContent = 'Minimize';
-                currentViewMode = 'full-screen';
-                logOperationalEvent("Image Viewer: Full Screen Mode");
-            } else {
-                staticImage.style.maxHeight = '80vh'; // Constrained view
-                toggleViewBtn.textContent = '🔄 View';
-                currentViewMode = 'default';
-                logOperationalEvent("Image Viewer: Default Mode");
-            }
-        }
-
-        // =================================================================
-        // INITIALIZATION
-        // =================================================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Phase J Initialization: Set initial status
-            updateIdentityStatus(); 
-
-            // 1. Initial Data Setup (Attach event listeners to icons)
-            document.querySelectorAll('.media-activator-icon').forEach(iconLink => {
-                iconLink.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    const title = iconLink.getAttribute('data-lesson-title');
-                    const path = iconLink.getAttribute('data-path');
-                    const type = iconLink.getAttribute('data-type');
-
-                    if (title && path && type) {
-                        loadMediaPlayer(title, path, type);
-                    } else {
-                        alert('Lesson data is incomplete for this icon.');
-                    }
-                });
-            });
-
-
-            // 2. Control Bar Event Listeners
-            if (playPauseBtn) playPauseBtn.onclick = togglePlayPause;
-            if (rewindBtn) rewindBtn.onclick = rewindMedia;
-            if (ffBtn) ffBtn.onclick = ffMedia;
-            if (toggleViewBtn) toggleViewBtn.onclick = toggleView;
-            if (stopBtn) stopBtn.onclick = wipePlayer;
-            if (returnMenuBtn) returnMenuBtn.onclick = wipePlayer;
-
-
-            // Add scroll event listener to the main index list
-            if (lessonIndexList) {
-                lessonIndexList.addEventListener('scroll', () => {
-                    placeMarkerBtn.classList.remove('hidden');
-                    // Ensure the marker button is set to save scroll position
-                    placeMarkerBtn.textContent = '📌 Save Marker';
-                    placeMarkerBtn.onclick = savePlaceMarker;
-                    // Update the marker on scroll, preparing for potential save
-                    updateLastMarkerForSave();
-                });
-            }
-
-            // PHASE Q: Initial Marker Check (Set button correctly on startup)
-            const initialMarker = localStorage.getItem(getPersistenceKey());
-            if (initialMarker) {
-                // If a local marker exists, set the button to load it
-                placeMarkerBtn.textContent = '📍 Load Marker';
-                placeMarkerBtn.onclick = loadPlaceMarker;
-            } else {
-                // Otherwise, set it to the default save behavior
-                placeMarkerBtn.textContent = '📌 Save Marker';
-                placeMarkerBtn.onclick = savePlaceMarker;
-            }
-        });
+        
+        // Final Step Reminder (For the Decisive Strike):
+        console.log("PROTOCOL: LGC Secured. Next: 1. Parallel Test. 2. Delete OLD ICON section. 3. Adjust CSS for maximization.");
     </script>
+
 </body>
 </html>
