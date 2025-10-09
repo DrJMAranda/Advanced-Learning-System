@@ -6,7 +6,7 @@
     <title>Advanced Learning System - ONETH UI</title>
     <style>
         /* ================================================= */
-        /* == CSS SURGICAL FIXES (ONETH UI Principles) == */
+        /* == CSS SWIPE AND WIPE (ONETH UI Principles) == */
         /* ================================================= */
         
         body {
@@ -20,7 +20,7 @@
             background-color: #f4f4f9;
         }
 
-        /* --- 1. Maximize Main Content Area (Video Monitor) and Menu --- */
+        /* --- 1. Maximized Layout Structure --- */
         #top-half {
             display: flex;
             flex-grow: 1; 
@@ -29,7 +29,6 @@
 
         /* --- 2. Final UI Zones Definitions --- */
         #video-container {
-            /* This area is now MAXIMIZED */
             flex-grow: 1; 
             display: flex;
             flex-direction: column;
@@ -48,7 +47,6 @@
         }
         
         #zone-4-ai-practice {
-            /* Reserved space for AI Guided Practice (Bottom Zone) */
             height: 100px;
             background-color: #e0e0e0;
             border-top: 2px solid #333;
@@ -56,7 +54,7 @@
             text-align: center;
         }
 
-        /* --- 3. ONETH Menu and Spacing Fixes --- */
+        /* --- 3. Menu Spacing and Collapsible Structure --- */
         #menu-header {
             margin: 0;
             padding: 10px;
@@ -84,7 +82,21 @@
             line-height: 1.2;
         }
 
-        /* --- 4. Surgical Fix for Tiny Image Alignment (0.25in) --- */
+        /* CSS for Collapsible Menu Headers */
+        .menu-header {
+            cursor: pointer;
+            user-select: none;
+            padding: 5px 0;
+            list-style: none; 
+        }
+        .menu-content {
+            list-style: none;
+            padding-left: 15px;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* --- 4. Tiny Image Fix --- */
         .menu-icon-tiny {
             width: 0.25in; 
             height: auto; 
@@ -115,21 +127,17 @@
             line-height: 1.1;
         }
         
-        /* --- 6. Video Monitor Styling (Final Maximized Home) --- */
+        /* --- 6. Final Video Playback Fix (Eliminates Autoplay Block Error) --- */
         #main-video {
-            /* Now takes up all available vertical space between icon row and zone 4 */
             flex-grow: 1; 
             background-color: black;
             color: white;
             text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-size: 20px;
+            /* SWIPE AND WIPE FIX: Removed interfering display: flex */
         }
         
         #active-lesson-video {
-            /* Ensure the video element inside the container fills it entirely */
             width: 100%;
             height: 100%;
         }
@@ -150,38 +158,60 @@
                 VIDEO MONITOR: ALS LIFT-OFF COMPLETE. READY FOR CONTENT.
             </div>
             
-            </div>
+        </div>
         
         <div id="sidebar-menu">
             <h2 id="menu-header">Advanced Learning Systems</h2>
             <ul id="outline-menu">
-                <li><strong>1. Arithmetic 1</strong></li>
-                <li>&nbsp;&nbsp;&nbsp;1a. G1: Numerals, Addition to 10</li>
+                <li class="menu-header" onclick="toggleSection('section-1')">
+                    <strong>1. Arithmetic 1</strong>
+                </li>
+                <ul id="section-1" class="menu-content active">
+                    <li class="menu-header" onclick="toggleSection('section-1a')">
+                        &nbsp;&nbsp;&nbsp;1a. G1: Numerals, Addition to 10
+                    </li>
+                    <ul id="section-1a" class="menu-content active">
+                        <li>
+                            <a href="#" onclick="loadModule('1a1'); return false;" title="1a1. The Journey Begins...">
+                                <img src="path/to/1a1-icon.jpg" class="menu-icon-tiny" alt="Icon for The Journey Begins">
+                                The Journey Begins... 
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="loadModule('1a2'); return false;" title="1a2. Mr Zero: The First Something!">
+                                <img src="path/to/1a2-icon.jpg" class="menu-icon-tiny" alt="Icon for Mr Zero">
+                                Mr Zero: The First Something!
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="loadModule('1a3'); return false;" title="1a3. The Numeral Family.">
+                                <img src="path/to/1a3-icon.jpg" class="menu-icon-tiny" alt="Icon for The Numeral Family">
+                                The Numeral Family.
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <li class="menu-header" onclick="toggleSection('section-1b')">
+                        &nbsp;&nbsp;&nbsp;1b. G2: Subtraction, Place Value
+                    </li>
+                    <ul id="section-1b" class="menu-content" style="display: none;">
+                        <li>Placeholder Lesson 1b1</li>
+                    </ul>
+                </ul>
                 
-                <li>
-                    <a href="#" onclick="loadModule('1a1'); return false;" title="1a1. The Journey Begins...">
-                        <img src="path/to/1a1-icon.jpg" class="menu-icon-tiny" alt="Icon for The Journey Begins">
-                        The Journey Begins... 
-                    </a>
+                <li class="menu-header" onclick="toggleSection('section-2')">
+                    <strong>2. Arithmetic 2 (Decillions)</strong>
                 </li>
-                <li>
-                    <a href="#" onclick="loadModule('1a2'); return false;" title="1a2. Mr Zero: The First Something!">
-                        <img src="path/to/1a2-icon.jpg" class="menu-icon-tiny" alt="Icon for Mr Zero">
-                        Mr Zero: The First Something!
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadModule('1a3'); return false;" title="1a3. The Numeral Family.">
-                        <img src="path/to/1a3-icon.jpg" class="menu-icon-tiny" alt="Icon for The Numeral Family">
-                        The Numeral Family.
-                    </a>
-                </li>
+                <ul id="section-2" class="menu-content" style="display: none;">
+                    <li>Placeholder Lesson 2a1</li>
+                </ul>
                 
-                <li>&nbsp;&nbsp;&nbsp;1b. G2: Subtraction, Place Value</li>
-                <li><strong>2. Arithmetic 2 (Decillions)</strong></li>
-                <li><strong>3. Arithmetic 3 (Fractions/Decimals)</strong></li>
-                <li><strong>4. Geometry/Trigonometry</strong></li>
-                <li><strong>5. Algebra I (Zero Intercept)</strong></li>
+                <li class="menu-header" onclick="toggleSection('section-5')">
+                    <strong>5. Algebra I (Zero Intercept)</strong>
+                </li>
+                <ul id="section-5" class="menu-content" style="display: none;">
+                    <li>Placeholder Lesson 5a1</li>
+                </ul>
             </ul>
         </div>
     </div>
@@ -192,38 +222,47 @@
 
     <script>
         // =======================================================
-        // == JAVASCRIPT: Final Bucket Call Integration ==
+        // == JAVASCRIPT: Functional Integration (Bucket Call & Collapse) ==
         // =======================================================
 
-        // CRITICAL: REPLACE 'YOUR-BUCKET-NAME' with your actual Google Storage Bucket name/path
+        // CRITICAL: REPLACE 'YOUR-BUCKET-NAME'
         const BUCKET_BASE_URL = "https://storage.googleapis.com/YOUR-BUCKET-NAME/";
 
         function loadModule(moduleId) {
             // 1. Construct the full URL for the video content
-            const videoFileName = `module-${moduleId}.mp4`;
+            const videoFileName = `module-${moduleId}.mp4`; // ADJUST EXTENSION IF NEEDED
             const videoURL = BUCKET_BASE_URL + videoFileName;
 
             // 2. Identify the target container
             const videoContainer = document.getElementById('main-video');
             
-            // 3. SURGICAL FIX: Directly inject the functional HTML5 <video> element
+            // 3. FINAL SWIPE AND WIPE: Inject video element, controls visible, NO autoplay
             videoContainer.innerHTML = `
-                <video id="active-lesson-video" width="100%" height="100%" controls autoplay>
+                <video id="active-lesson-video" width="100%" height="100%" controls>
                     <source src="${videoURL}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p style="color: white; font-size: 14px; margin-top: 5px;">
-                    Playing: ${moduleId} from bucket.
+                    Playing: ${moduleId} from bucket. (Click Play)
                 </p>
             `;
             
-            // Optional: Attempt to force the video to play immediately
+            // Optional: Force load, but rely on user clicking play button
             const videoElement = document.getElementById('active-lesson-video');
             if (videoElement) {
                 videoElement.load();
-                videoElement.play().catch(error => {
-                    console.warn("Autoplay blocked. User interaction required:", error);
-                });
+            }
+        }
+        
+        // Function to handle collapsing/expanding menu sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            if (content) {
+                if (content.style.display === 'none' || content.style.display === '') {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
             }
         }
     </script>
