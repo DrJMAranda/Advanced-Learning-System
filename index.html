@@ -220,7 +220,7 @@
             
             <a href="#" class="media-activator-icon" 
                 data-lesson-title="AP1U1S3: Section 3" 
-                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9 250928 2033 TN.mp4" 
+                data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4" 
                 data-type="video">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Section 3 Icon" class="content-icon" title="Lesson 3: Section 3 (Video)">
             </a>
@@ -240,9 +240,9 @@
             <ul class="fixed-menu-list">
                 <li class="fixed-menu-item"><a href="#">1. Arithmetic 1</a></li>
                 <li class="fixed-menu-item"><a href="#">1a. G1: Numerals through Rational Numbers</a></li>
-                <li class="fixed-menu-item"><a href="#">1a1. The Journey Begins...</a></li>
-                <li class="fixed-menu-item"><a href="#">1a2. Mr Zero: The First Something!</a></li>
-                <li class="fixed-menu-item"><a href="#">1a3. The Numeral Family.</a></li>
+                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S1: Meet The Digits" data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4" data-type="video">1a1. The Journey Begins...</a></li>
+                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S2: Counting through Four" data-path="https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4" data-type="video">1a2. Mr Zero: The First Something!</a></li>
+                <li class="fixed-menu-item"><a href="#" data-lesson-title="AP1U1S3: Section 3" data-path="https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4" data-type="video">1a3. The Numeral Family.</a></li>
                 <li class="fixed-menu-item"><a href="#">2. Numbers to |99|</a></li>
                 <li class="fixed-menu-item"><a href="#">3. |Decillions|</a></li>
                 <li class="fixed-menu-item"><a href="#">4. G2: Arithmetic thru G8</a></li>
@@ -475,18 +475,18 @@
                 if (lastMarker.mediaType === 'video') {
                     // Wait for the video metadata to load before setting currentTime
                     videoPlayer.addEventListener('loadedmetadata', function restoreVideo() {
-                         videoPlayer.currentTime = lastMarker.playbackTime;
-                         videoPlayer.pause();
-                         isPaused = true;
-                         playPauseBtn.textContent = '▶️ Play';
-                         videoPlayer.removeEventListener('loadedmetadata', restoreVideo);
-                         alert(`Video content restored to: ${lastMarker.lessonTitle} at ${Math.round(lastMarker.playbackTime)} seconds.`);
+                            videoPlayer.currentTime = lastMarker.playbackTime;
+                            videoPlayer.pause();
+                            isPaused = true;
+                            playPauseBtn.textContent = '▶️ Play';
+                            videoPlayer.removeEventListener('loadedmetadata', restoreVideo);
+                            alert(`Video content restored to: ${lastMarker.lessonTitle} at ${Math.round(lastMarker.playbackTime)} seconds.`);
                     });
                 } else if (lastMarker.mediaType === 'image') {
                     staticImage.scrollTop = lastMarker.scrollPosition;
                     alert(`Content restored to: ${lastMarker.lessonTitle}.`);
                 } else {
-                     alert(`Content restored to: ${lastMarker.lessonTitle}.`);
+                    alert(`Content restored to: ${lastMarker.lessonTitle}.`);
                 }
             }
 
