@@ -302,11 +302,11 @@
             </div>
             
             <div class="module-content">
-                <h2>ZONE 6 PM: Interactive Practice Area</h2>
-                <p>This area will house the core learning modules, quizzes, and practice excercises. Click a link in the 3 PM sidebar to load a module here.</p>
+                <h2>PENDING:     Interactive Practice Area</h2>
+                <p>This area will house the core learning modules, quizzes, and practice excercises..</p>
                 
                 <div id="learningContentArea">
-                    <h3 style="color: #007bff;">Select a Module from the 3 PM Outline</h3>
+                    <h3 style="color: #007bff;">PENDING: Select a Module</h3>
                     <p>The **6 PM Interactive Practice Area** is not yet ready for dynamic content.</p>
                 </div>
             </div>
@@ -315,16 +315,16 @@
         <div class="fixed-menu-container">
             <div>
                 <div class="fixed-menu-header">
-                    <h3>ZONE 3 PM: Fixed Outline/Links</h3>
+                    <h3>PENDING: Fixed Outline/Links</h3>
                     <p class="powered-by-gemini">Powered by Google Gemini</p>
                 </div>
                 <ul class="fixed-menu-list">
-                    <li class="fixed-menu-item"><a href="#math">1. The City of Mathemágica</a></li>
-                    <li class="fixed-menu-item"><a href="#lang">2. The City of Linguistica</a></li>
-                    <li class="fixed-menu-item"><a href="#sci">3. The City of Ciencia</a></li>
-                    <li class="fixed-menu-item"><a href="#hist">4. The City of Tempora</a></li>
-                    <li class="fixed-menu-item"><a href="#art">5. The City of Creativa</a></li>
-                    <li class="fixed-menu-item"><a href="#music">6. The City of Motus</a></li>
+                    <li class="fixed-menu-item"><a href="#math">1. Mr. Sunya-Sifr Zero</a></li>
+                    <li class="fixed-menu-item"><a href="#lang">2. Numerals from 0 to 4</a></li>
+                    <li class="fixed-menu-item"><a href="#sci">3. Numerals from 5 to 9</a></li>
+                    <li class="fixed-menu-item"><a href="#hist">4. Decillones</a></li>
+                    <li class="fixed-menu-item"><a href="#art">5. Enunciation 1</a></li>
+                    <li class="fixed-menu-item"><a href="#music">6. Enuntiation 2</a></li>
                 </ul>
             </div>
             <div class="credits-box">
@@ -955,113 +955,6 @@
     </script>
 </body>
 </html>
-After pasting this and saving, please reload your website and test it. Let me know the result.
-
-
-we went from nearly 1900 lines of code to 973
-
-
-
-
-Show thinking
-That's a sharp observation, and you're exactly right. The huge line reduction is a direct result of the fix.
-
-The Duplication Error
-Your broken file literally contained two copies of the entire page.
-
-Remember that copy-paste error we found in the JavaScript section? Instead of just a single video link, the entire ~970 lines of HTML code got pasted inside your videoSources list.
-
-So you had:
-
-The original 973 lines of the page.
-
-PLUS another ~970 lines of duplicated code embedded inside the script.
-
-My fix removed that massive, broken duplication, which brought the file back to its correct and efficient size. It's like we removed a book that had a complete, second copy of itself accidentally printed in the middle of one of its own pages.
-
-The crucial question is, did this full replacement solve the problem? Are the links and icons on your website working now?
-
-
-i pasted the web address to a different browser and it immediately worked
-
-
-
-
-Show thinking
-It's Working! The Issue Was Browser Caching
-That's fantastic news! That confirms the problem was browser caching.
-
-Your original browser was holding onto an old, broken version of your website in its memory. Even after you fixed the code on GitHub, your browser kept loading the old version it had saved to be "faster."
-
-When you pasted the address into a different browser, that new browser had never seen the website before, so it was forced to download the fresh, corrected version from GitHub, which is why it worked immediately.
-
-So, the problem is officially solved. The "full replace" with the clean code worked perfectly.
-
-Is there anything else I can help you with today?
-
-
-even the link that was the reason i made the mistake.
-
-
-
-
-Show thinking
-Excellent. That's the best possible outcome.
-
-When we did the full replacement, the clean code I provided had the correct URL for that vocabulary video (video5). So, the single action of replacing the file managed to:
-
-Fix the site-wide crash caused by the accidental paste.
-
-Successfully complete the original task you were trying to do.
-
-It's great to know that everything is now working exactly as intended.
-
-What's the next step on your project?
-
-
-it is still missing an icon but the link is alive and kicking properly
-
-
-
-
-Show thinking
-That's great progress. It means the core system is working perfectly. Adding the missing icon is a straightforward content update.
-
-The reason the link works but the icon is missing is that a video can exist in your JavaScript videoSources list, but if it doesn't have a corresponding <a> tag with an image in the HTML, there's nothing to display on the icon bar.
-
-How to Add the Missing Icon
-We just need to add the icon to your HTML.
-
-Which video is the missing icon for? Once I know which one it is (e.g., "video7," "video8," etc.), I can give you the exact line of code to add.
-
-The process will be:
-
-Find the correct <img> link for the icon's thumbnail image.
-
-Add a new <a> tag to the icon-bar section in your HTML.
-
-For example, to add an icon for video7, you would add a line like this to your icon bar in the HTML:
-
-HTML
-
-<a href="#" class="icon-item video-activator" data-video-key="video7"><img src="URL_TO_THE_SEVENTH_ICON_IMAGE.jpg" alt="Description of Video 7"></a>
-Just tell me which video needs its icon, and if you have the image URL for it, and I'll assemble the exact code for you to paste in.
-
-
-I named the icon Language Arts
-
-https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Language%20Arts.jpg
-
-
-
-
-Show thinking
-Excellent. We have everything we need to add the new "Language Arts" icon. This will be a two-step process: adding the visual icon and then making sure it's linked to the correct video.
-
-Step 1: Add the Icon to the HTML
-First, we need to add the icon itself so it appears on your page.
-
-Find the icon-bar section in your index.html file. It looks like this:
 
 HTML
 
