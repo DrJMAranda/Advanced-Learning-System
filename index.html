@@ -6,110 +6,60 @@
     <title>Advanced Learning Systems</title>
     
     <style>
-        /* --- CRITICAL: ENFORCE T-STRUCTURE LAYOUT (The Single Page Fix) --- */
+        /* --- ARCHITECTURAL SKELETON: T-STRUCTURE ENFORCEMENT --- */
         html, body {
-            height: 100%; /* Ensures the body fills the entire viewport */
+            height: 100%; 
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevents the main browser window from scrolling */
+            overflow: hidden; /* Prevents main browser scroll */
             font-family: 'EB Garamond', serif;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4; /* Lighthouse Gray */
         }
 
-        /* Main Container for the Flexbox Layout */
+        /* Flex Container: Full Screen Height and Width */
         .main-container {
-            display: flex; /* Use Flexbox for primary layout */
-            height: 100vh; /* Fills the entire viewport height */
+            display: flex; 
+            height: 100vh;
             width: 100%;
         }
 
-        /* --- MAIN CONTENT AREA (Left and Center Zones) --- */
+        /* --- CONTENT AREA (SCROLLABLE - ORDER 1) --- */
         .content-area {
+            order: 1; /* FORCES content to the LEFT */
             flex-grow: 1; /* Takes up all remaining space */
-            overflow-y: scroll; /* ONLY the content area is scrollable vertically */
+            overflow-y: scroll; /* ONLY this area scrolls vertically */
             padding: 20px;
             box-sizing: border-box;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- FIXED SIDEBAR (Right Vertical Bar) --- */
+        /* --- FIXED SIDEBAR (NON-SCROLLABLE - ORDER 2) --- */
         .fixed-menu-container {
+            order: 2; /* FORCES sidebar to the RIGHT */
             flex-shrink: 0; /* Prevents shrinking */
-            width: 350px; /* Fixed width for the sidebar */
+            width: 350px; /* Fixed width */
             height: 100%;
             padding: 20px 10px;
             background-color: #e9ecef;
             border-left: 1px solid #ccc;
             box-sizing: border-box;
-            overflow-y: hidden;
+            overflow-y: hidden; /* Sidebar does NOT scroll */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* --- ICON GRID LAYOUT --- */
-        .toc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 20px; /* Space below the icons */
-        }
-        
-        .toc-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .toc-image-container img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-            display: block;
-        }
-
-        /* Video Modal Styles (Kept largely the same) */
+        /* Video Modal Styles (Functional Shell) */
         .video-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-        .video-container {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-        #myVideoElement {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        #closeVideoBtn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #333;
-            color: white;
-            border: 2px solid #fff;
-            cursor: pointer;
-            z-index: 1001;
-        }
+        .video-container { max-width: 90%; max-height: 90%; position: relative; }
+        #myVideoElement { width: 100%; height: auto; display: block; }
+        #closeVideoBtn { position: absolute; bottom: 20px; left: 20px; padding: 10px 15px; background-color: #333; color: white; border: 2px solid #fff; cursor: pointer; z-index: 1001; }
         
-        /* Sidebar Menu Styles (Simplified) */
+        /* Sidebar Menu Styles (Placeholder) */
         .fixed-menu-list { list-style-type: none; padding: 0; margin: 0; }
         .fixed-menu-item a { text-decoration: none; color: #000; font-size: .9em; font-weight: bold; display: block; padding: 10px 0; border-bottom: 1px solid #ddd; }
         .fixed-menu-header { border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; }
@@ -120,48 +70,9 @@
     <div class="main-container">
         
         <div class="content-area">
-            
-            <div class="toc-grid">
-                <div class="toc-item">
-                    <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_inicio">
-                        <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon">
-                    </a>
-                    <div class="toc-link-text">
-                        <a href="#" class="video-activator" data-video-id="unidad1_inicio">A1P1U1S1: The Journey Begins...</a>
-                        <p>.</p>
-                    </div>
-                </div>
-                
-                <div class="toc-item">
-                    <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
-                        <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Carátula de Mr. Zero">
-                    </a>
-                    <div class="toc-link-text">
-                        <a href="#" class="video-activator" data-video-id="unidad1_zero">A1P1U1S2: Mr. Zero, The First Something!</a>
-                        <p> (0-indexing).</p>
-                    </div>
-                </div>
-                
-                <div class="toc-item">
-                    <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_family">
-                        <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Carátula The Numerals">
-                    </a>
-                    <div class="toc-link-text">
-                        <a href="#" class="video-activator" data-video-id="unidad1_family">A1P1U1S3: The Numerals</a>
-                        <p> (0-indexing).</p>
-                    </div>
-                </div>
-                
-                <div class="toc-item">
-                    <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero"> 
-                        <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Carátula Decillones">
-                    </a>
-                    <div class="toc-link-text">
-                        <a href="#" class="video-activator" data-video-id="unidad1_zero">Video Decillones</a>
-                        <p> (0-indexing).</p>
-                    </div>
-                </div>
-            </div>
+            <h1>Advanced Learning Systems</h1>
+            <p>Architectural Framework is Live and Stable.</p>
+            <p>This is the scrollable content area (Left Side).</p>
             
             </div>
         
@@ -188,71 +99,39 @@
 
     <div id="videoPlayerModal" class="video-modal-overlay">
         <div class="video-container">
-            <video
-                id="myVideoElement"
-                controls
-                preload="auto"
-                class="responsive-video-player"
-            ></video>
+            <video id="myVideoElement" controls preload="auto" class="responsive-video-player"></video>
             <button id="closeVideoBtn">Return (X)</button>
         </div>
     </div>
 
     <script>
-        // JavaScript
-        // This object maps video IDs to their URLs.
-        const videoSources = {
-            // Icon 1
-            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-            
-            // Icon 2 (Mr. Zero) and Icon 4 (Decillones/Robot) SHARE this video link
-            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 
-            
-            // Icon 3 (The Numeral Family) - This ID was being overwritten!
-            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 
-        };
-
-        // Get references to the video player elements in the HTML.
+        // JavaScript: Clean, minimal logic. All video sources removed.
+        const videoSources = {}; 
+        
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const videoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-        // This function closes the video modal.
         function closeVideoWindow() {
             videoElement.pause();
             videoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
-        // This function opens the video modal and starts playing the video.
+        // Functions are preserved for future content
         function launchVideoWindow(url) {
             videoElement.src = url;
             videoPlayerModal.style.display = 'flex';
-            videoElement.play();
-
-            videoElement.onended = () => {
-                console.log('Video finished. Auto-returning user to menu.');
-                closeVideoWindow();
-            };
         }
 
-        // Add a click listener to all elements that launch a video.
+        // No elements to attach to, but the listener logic is preserved
         document.querySelectorAll('.video-activator').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
-                const videoId = iconLink.getAttribute('data-video-id');
-                const videoUrl = videoSources[videoId];
-
-                if (videoUrl) {
-                    launchVideoWindow(videoUrl);
-                } else {
-                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
-                    launchVideoWindow(videoUrl);
-                }
+                console.error("Content is currently disabled for architectural testing.");
             });
         });
 
-        // Add a click listener to the close button.
         if (closeVideoBtn) {
             closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
