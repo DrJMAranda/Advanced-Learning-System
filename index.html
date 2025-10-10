@@ -52,30 +52,30 @@
             justify-content: space-between;
         }
 
-        /* --- ZONE 9 PM: HORIZONTAL ICON BAR STYLE --- */
+        /* --- ZONE 9 PM: HORIZONTAL ICON BAR STYLE (COMPACT) --- */
         .horizontal-feature-bar {
             flex-shrink: 0; 
             width: 100%;
-            height: 120px; /* Increased height to better fit images */
+            height: 70px; 
             background-color: #f9f9f9;
             border: 1px solid #ccc;
-            margin: 20px 0; 
+            margin: 10px 0; 
             
             display: flex; 
             overflow-x: auto; 
             overflow-y: hidden; 
             white-space: nowrap; 
             align-items: center; 
-            padding: 0 10px; 
+            padding: 0 5px; 
         }
         
         .icon-item {
             flex-shrink: 0;
-            width: 180px; /* Fixed icon width */
-            height: 100px; /* Fixed icon height */
-            margin-right: 15px;
+            width: 90px; 
+            height: 60px; 
+            margin-right: 8px; 
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
             border-radius: 4px;
             overflow: hidden;
             border: 2px solid transparent;
@@ -83,13 +83,13 @@
         }
 
         .icon-item:hover {
-            border-color: #007bff; /* Highlight on hover */
+            border-color: #007bff; 
         }
 
         .icon-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures image covers the container without distortion */
+            object-fit: cover; 
             display: block;
         }
         
@@ -107,14 +107,12 @@
             max-width: 90%; 
             max-height: 90%; 
             position: relative; 
-            /* Enforce 16:9 aspect ratio for the container within the modal */
             width: 80vw; 
             max-width: 1000px;
-            padding-top: 45vw; /* 16:9 ratio for 80vw width (9/16 * 80) */
-            max-height: calc(100vh - 100px); /* Keep some space for controls */
+            padding-top: 45vw; 
+            max-height: calc(100vh - 100px); 
             
         }
-        /* Style the actual video element to fill its aspect-ratio parent */
         #myVideoElement { 
             position: absolute; 
             top: 0; left: 0; width: 100%; height: 100%; 
@@ -123,7 +121,7 @@
         
         #closeVideoBtn { 
             position: absolute; 
-            bottom: -50px; /* Positioned outside the video area */
+            bottom: -50px; 
             left: 50%; 
             transform: translateX(-50%);
             padding: 10px 25px; 
@@ -141,6 +139,68 @@
         .fixed-menu-item a { text-decoration: none; color: #000; font-size: .9em; font-weight: bold; display: block; padding: 10px 0; border-bottom: 1px solid #ddd; }
         .fixed-menu-header { border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; }
         .powered-by-gemini, .credits-box p { font-size: 0.8em; color: #6c757d; }
+        
+        /* Style for video links in content modules */
+        .vid-link {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* --- COLLAPSIBLE ROW STYLES (Loadable Rows) --- */
+        .collapsible-header {
+            cursor: pointer;
+            padding: 10px 15px;
+            margin: 10px 0;
+            background-color: #e3f2fd; /* Light blue background for math/lang default */
+            color: #000; 
+            font-size: 1.1em;
+            border-left: 5px solid #007bff; /* Default blue for math */
+            border-radius: 4px;
+            user-select: none;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Specific header colors override default */
+        #lang-module .collapsible-header { border-left-color: #6a0dad; background-color: #f3e5f5; }
+        #sci-module .collapsible-header { border-left-color: #008080; background-color: #e0f7fa; }
+        #hist-module .collapsible-header { border-left-color: #9c6e31; background-color: #fff3e0; }
+        #art-module .collapsible-header { border-left-color: #d81b60; background-color: #fce4ec; }
+        #music-module .collapsible-header { border-left-color: #338800; background-color: #e8f5e9; }
+
+
+        .collapsible-header:hover {
+            opacity: 0.9;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .collapsible-content {
+            max-height: 0; /* Key for collapse */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+            padding: 0 15px;
+            border: 1px solid #eee;
+            border-top: none;
+            margin-bottom: 10px;
+        }
+        
+        .collapsible-content.active {
+            max-height: 5000px; /* Large enough value to cover all future content */
+            padding: 10px 15px;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .collapsible-content ul {
+            list-style-type: none;
+            margin: 10px 0 10px 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -149,24 +209,38 @@
         <div class="content-area">
             <h1>Advanced Learning Systems</h1>
             
-            <div class="video-aspect-ratio-container" style="position: relative; width: 100%; padding-top: 56.25%; background-color: #e0f2f1; margin-bottom: 20px;">
-                <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #00796b; font-size: 1.5em; text-align: center;">ZONE 12 NOON: Video Monitor Placeholder</p>
+            <div class="video-aspect-ratio-container" id="monitor-container" style="position: relative; width: 100%; padding-top: 56.25%; background-color: #e0f2f1; margin-bottom: 10px;">
+                
+                <video id="mainVideoMonitor" controls preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></video>
+                
+                <div id="defaultCaratula" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #00796b;">
+                    <p style="color: white; font-size: 1.5em; text-align: center;">ZONE 12 NOON: Monitor Ready.</p>
+                    <p style="color: white; font-size: 0.9em; text-align: center;">Click an icon below or a link in the 6 PM area to load a video.</p>
                 </div>
+                
+            </div>
             
+            <button id="fullscreenBtn" style="display: none; padding: 8px 15px; margin-bottom: 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                View Full Screen
+            </button>
+
             <div id="icon-bar" class="horizontal-feature-bar">
                 <a href="#" class="icon-item video-activator" data-video-key="video1"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins"></a>
                 <a href="#" class="icon-item video-activator" data-video-key="video2"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero"></a>
                 <a href="#" class="icon-item video-activator" data-video-key="video3"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family"></a>
                 <a href="#" class="icon-item video-activator" data-video-key="video4"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video5"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg" alt="Vowel Sounds"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video6"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg" alt="Vocabulary 01-20"></a>
             </div>
             
             <div class="module-content">
                 <h2>ZONE 6 PM: Interactive Practice Area</h2>
-                <p>Click on any icon in the 9 PM Zone to test the video modal launch and play.</p>
+                <p>This area will house the core learning modules, quizzes, and practice assignments. Click a link in the 3 PM sidebar to load a module here.</p>
                 
-                <p style="height: 600px; background-color: #e8e8e8; padding: 10px;">
-                    6 PM Zone Content (Scrollable)
-                </p>
+                <div id="learningContentArea">
+                    <h3 style="color: #007bff;">Select a Module from the 3 PM Outline</h3>
+                    <p>The **6 PM Interactive Practice Area** is ready for dynamic content. Please click an item in the sidebar to load a module here.</p>
+                </div>
             </div>
         </div>
         
@@ -177,12 +251,12 @@
                     <p class="powered-by-gemini">Powered by Google Gemini</p>
                 </div>
                 <ul class="fixed-menu-list">
-                    <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
-                    <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
-                    <li class="fixed-menu-item"><a href="#sci">3. Science</a></li>
-                    <li class="fixed-menu-item"><a href="#hist">4. History</a></li>
-                    <li class="fixed-menu-item"><a href="#art">5. Art</a></li>
-                    <li class="fixed-menu-item"><a href="#music">6. Physical Education</a></li>
+                    <li class="fixed-menu-item"><a href="#math">1. The City of Mathemágica</a></li>
+                    <li class="fixed-menu-item"><a href="#lang">2. The City of Linguistica</a></li>
+                    <li class="fixed-menu-item"><a href="#sci">3. The City of Ciencia</a></li>
+                    <li class="fixed-menu-item"><a href="#hist">4. The City of Tempora</a></li>
+                    <li class="fixed-menu-item"><a href="#art">5. The City of Creativa</a></li>
+                    <li class="fixed-menu-item"><a href="#music">6. The City of Motus</a></li>
                 </ul>
             </div>
             <div class="credits-box">
@@ -204,46 +278,469 @@
             "video1": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4",
             "video2": "https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4",
             "video3": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4",
-            "video4": "https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4"
+            "video4": "https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4",
+            "video5": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U2S1-3%20Vowel%20Sounds.mp4", 
+            "video6": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4",
+            "video7": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4", 
+            "video8": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_21-40.mp4", // NEW VIDEO (Placeholder URL)
+            "video9": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_41-60.mp4"  // Placeholder for next set
+            // Add your other video URLs here
         }; 
         
+        // --- ICON URL Mapping (for use as posters/carátulas) ---
+        const iconSources = {
+            // Icons already in 9 PM bar (videos 1-4 not explicitly mapped here as they use the same link for 9 PM icon and poster)
+            "video5": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg",
+            "video6": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
+            "video7": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
+            "video8": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp", // NEW ICON
+            "video9": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp" // Re-using the new icon for the placeholder
+        };
+
+        // Elements for the Main Monitor (12 NOON Zone)
+        const mainVideoMonitor = document.getElementById('mainVideoMonitor');
+        const defaultCaratula = document.getElementById('defaultCaratula');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const learningContentArea = document.getElementById('learningContentArea'); // New Target for 6 PM Content
+
+        // Elements for the Modal (Full Screen)
         const videoPlayerModal = document.getElementById('videoPlayerModal');
-        const videoElement = document.getElementById('myVideoElement');
+        const modalVideoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
+        
+        let currentVideoUrl = ""; // Stores the URL of the video playing
+        let currentPosterUrl = ""; // Stores the URL of the current video's title card
+
+
+        // --- 6 PM ZONE CONTENT MODULES (Mapped to 3 PM Links) ---
+        const contentModules = {
+            "math": `
+                <section id="math-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 5px;">1. The City of Mathemágica: The Power of Numerals</h3>
+                    
+                    <p>Welcome to **Mathemágica**. Click on a row below to expand its content and view video links.</p>
+
+                    <div class="collapsible-header" data-target="math-content-1">
+                        1.1. Foundations: Digits and Place Value 
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="math-content-1" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li><a href="#" class="vid-link" data-video-key="video1" style="color: #007bff; font-weight: bold;">Meet the Digits (0, 1, 2)</a></li>
+                            <li><a href="#" class="vid-link" data-video-key="video2" style="color: #007bff; font-weight: bold;">Counting Through Four (Introduction to Zero)</a></li>
+                            <li><a href="#" class="vid-link" data-video-key="video3" style="color: #007bff; font-weight: bold;">Counting to Nine</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="collapsible-header" data-target="math-content-2">
+                        1.2. Practice & Assessment: Digit Sequencing
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="math-content-2" class="collapsible-content">
+                        <div style="padding: 15px; background-color: #f0f8ff; border: 1px solid #007bff; border-radius: 5px;">
+                            <h4>Task: Confirm the Sequence 0 to 9</h4>
+                            <p>Click the button to count up. Confirm you know the next digit in the sequence.</p>
+                            
+                            <div style="display: flex; align-items: center; justify-content: center; margin-top: 15px;">
+                                <button id="math-counter-btn" style="padding: 10px 20px; font-size: 1.2em; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Start Counting (0)
+                                </button>
+                                <span id="math-feedback" style="margin-left: 20px; font-weight: bold; color: #007bff;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+            "lang": `
+                <section id="lang-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #6a0dad; border-bottom: 2px solid #6a0dad; padding-bottom: 5px;">2. The City of Linguistica: Vocabulary Nest</h3>
+                    <p>Welcome to the **Vocabulary Nest**. Click on any section title below to load the list of available videos (lessons load to the 12 NOON Monitor).</p>
+
+                    <div class="collapsible-header" data-target="content-2-1">
+                        2.1. Foundation and Phonics (Vowel Sounds) 
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="content-2-1" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li><a href="#" class="vid-link" data-video-key="video5" style="color: #6a0dad; font-weight: bold;">Vowel Sounds and Pronunciation</a></li>
+                            <li><a href="#" class="vid-link" data-video-key="video7" style="color: #6a0dad; font-weight: bold;">English Vowels (Dedicated Lesson)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="collapsible-header" data-target="content-2-2">
+                        2.2. Core Vocabulary Blocks (01-100) 
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="content-2-2" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li><a href="#" class="vid-link" data-video-key="video6" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 01-20 (Bilingual Span/Glish)</a></li>
+                            <li><a href="#" class="vid-link" data-video-key="video8" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 21-40</a></li> 
+                            <li><a href="#" class="vid-link" data-video-key="video9" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 41-60</a></li>
+                            
+                            <li>[Placeholder for Vocabulary Set 61-80]</li>
+                            <li>[Placeholder for Vocabulary Set 81-100]</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="collapsible-header" data-target="content-2-5">
+                        2.5. Practice Area: Spelling & Recall
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="content-2-5" class="collapsible-content">
+                        <div style="padding: 15px; background-color: #f7f3f9; border: 1px solid #6a0dad; border-radius: 5px;">
+                            <h4>Task: Spell the Phonics Topic</h4>
+                            <p>The first foundational lesson covered a key letter sound. **Spell that word:**</p>
+                            
+                            <div style="display: flex; align-items: center; justify-content: flex-start; margin-top: 15px;">
+                                <input type="text" id="lang-input" placeholder="Enter word here" style="padding: 10px; font-size: 1em; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+                                <button id="lang-check-btn" style="padding: 10px 20px; font-size: 1em; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Check Spelling
+                                </button>
+                            </div>
+                            <p id="lang-spelling-feedback" style="margin-top: 10px; font-size: 1em;"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="collapsible-header" data-target="content-2-3">
+                        2.3. Specialized/Thematic Vocabulary 
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="content-2-3" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li>[Placeholder for Thematic Block 1]</li>
+                            <li>[Placeholder for Thematic Block 2]</li>
+                        </ul>
+                    </div>
+
+                    <div class="collapsible-header" data-target="content-2-4">
+                        2.4. Advanced Terminology and Etymology 
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="content-2-4" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li>[Placeholder for Advanced Terms]</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">**Note:** The total content list here, once fully populated, will contain your several hundred vocabulary videos.</p>
+                </section>
+            `,
+            "sci": `
+                <section id="sci-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #008080; border-bottom: 2px solid #008080; padding-bottom: 5px;">3. The City of Ciencia: Natural Systems</h3>
+                    <p>Welcome to **Ciencia**. Explore natural systems, physics, and efficient cycles.</p>
+                    
+                    <div class="collapsible-header" data-target="sci-content-1" style="background-color: #e0f7fa; border-left-color: #008080;">
+                        3.1. Physical Laws and Principles
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="sci-content-1" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li>[Placeholder for Gravity Video]</li>
+                            <li>[Placeholder for Energy Video]</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="collapsible-header" data-target="sci-content-2" style="background-color: #e0f7fa; border-left-color: #008080;">
+                        3.2. Biological Cycles
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="sci-content-2" class="collapsible-content">
+                        <p style="height: 100px; background-color: #f0ffff; padding: 10px;">[Interactive Placeholder: Water Cycle Simulation]</p>
+                    </div>
+                </section>
+            `,
+            "hist": `
+                <section id="hist-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #9c6e31; border-bottom: 2px solid #9c6e31; padding-bottom: 5px;">4. The City of Tempora: Chronology and Events</h3>
+                    <p>Welcome to **Tempora**. We study the non-Petered-out linear progression of time and historical milestones.</p>
+
+                    <div class="collapsible-header" data-target="hist-content-1" style="background-color: #fff3e0; border-left-color: #9c6e31;">
+                        4.1. Ancient Civilizations
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="hist-content-1" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li>[Placeholder for Egyptian History Video]</li>
+                        </ul>
+                    </div>
+                </section>
+            `,
+            "art": `
+                <section id="art-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #d81b60; border-bottom: 2px solid #d81b60; padding-bottom: 5px;">5. The City of Creativa: Principles of Design</h3>
+                    <p>Welcome to **Creativa**. Explore the expressive arts and the foundations of design.</p>
+                    
+                    <div class="collapsible-header" data-target="art-content-1" style="background-color: #fce4ec; border-left-color: #d81b60;">
+                        5.1. Color Theory
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="art-content-1" class="collapsible-content">
+                        <p style="height: 100px; background-color: #ffcdd2; padding: 10px;">[Interactive Placeholder: Color Wheel Tool]</p>
+                    </div>
+                </section>
+            `,
+            "music": `
+                <section id="music-module" style="padding-bottom: 40px;">
+                    <h3 style="color: #338800; border-bottom: 2px solid #338800; padding-bottom: 5px;">6. The City of Motus: Movement and Wellness</h3>
+                    <p>Welcome to **Motus**. Focus on physical education, movement, and bodily health.</p>
+
+                    <div class="collapsible-header" data-target="music-content-1" style="background-color: #e8f5e9; border-left-color: #338800;">
+                        6.1. Basic Movement and Stretching
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div id="music-content-1" class="collapsible-content">
+                        <ul style="list-style-type: none; margin-left: 0;">
+                            <li>[Placeholder for Stretching Routine Video]</li>
+                        </ul>
+                    </div>
+                </section>
+            `
+        };
+
+
+        // --- Core Video Logic Functions (Updated to use iconSources map) ---
+        function showMonitorPoster() {
+            if (currentPosterUrl) {
+                mainVideoMonitor.pause();
+                mainVideoMonitor.setAttribute('poster', currentPosterUrl);
+                mainVideoMonitor.style.display = 'block';
+                defaultCaratula.style.display = 'none';
+                fullscreenBtn.style.display = 'block';
+            } else {
+                mainVideoMonitor.style.display = 'none';
+                defaultCaratula.style.display = 'flex';
+                fullscreenBtn.style.display = 'none';
+            }
+        }
+        mainVideoMonitor.addEventListener('ended', showMonitorPoster);
+        mainVideoMonitor.addEventListener('pause', () => {
+            if (mainVideoMonitor.currentTime > 0 && !mainVideoMonitor.ended) {
+                showMonitorPoster();
+            }
+        });
+        mainVideoMonitor.addEventListener('loadedmetadata', () => {
+            mainVideoMonitor.removeAttribute('poster');
+        });
 
         function closeVideoWindow() {
-            // Stop video playback and hide the modal
-            videoElement.pause();
-            videoElement.src = "";
+            modalVideoElement.pause();
+            modalVideoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
-        function launchVideoWindow(url) {
-            // Set video source and show the modal
-            videoElement.src = url;
+        function launchVideoToModal(url) {
+            mainVideoMonitor.pause();
+            modalVideoElement.src = url;
             videoPlayerModal.style.display = 'flex';
-            videoElement.load(); // Ensure video is loaded
-            videoElement.play(); // Auto-play the video
+            modalVideoElement.load(); 
+            modalVideoElement.play();
         }
 
-        // --- Event Listener for 9 PM Icons ---
-        document.querySelectorAll('.video-activator').forEach(iconLink => {
+        function launchVideoToMonitor(url, posterUrl) {
+            currentVideoUrl = url;
+            currentPosterUrl = posterUrl;
+            
+            defaultCaratula.style.display = 'none';
+            mainVideoMonitor.style.display = 'block';
+            fullscreenBtn.style.display = 'block'; 
+            
+            mainVideoMonitor.removeAttribute('poster');
+            mainVideoMonitor.src = url;
+            mainVideoMonitor.load();
+            mainVideoMonitor.play();
+        }
+        
+        // --- Mathemágica Interactive Logic (6 PM Zone) ---
+        let currentCount = 0;
+        const maxCount = 9;
+
+        function bindMathCounter() {
+            // Must check for existence because the element only exists when the module is loaded
+            const counterBtn = document.getElementById('math-counter-btn');
+            const feedbackSpan = document.getElementById('math-feedback');
+            
+            if (counterBtn) {
+                // Reset the count when the module is loaded
+                currentCount = 0;
+                counterBtn.textContent = `Start Counting (${currentCount})`;
+                feedbackSpan.textContent = "Click to confirm the next digit is 1.";
+                counterBtn.disabled = false; // Re-enable if it was previously completed
+
+                counterBtn.addEventListener('click', () => {
+                    if (currentCount < maxCount) {
+                        currentCount++;
+                        counterBtn.textContent = `Next Digit: (${currentCount})`;
+                        feedbackSpan.textContent = `Click to confirm the next digit is ${currentCount + 1}.`;
+                    } else if (currentCount === maxCount) {
+                        counterBtn.textContent = "Sequence Complete!";
+                        feedbackSpan.textContent = "You have confirmed the full sequence 0 through 9. Excellent!";
+                        currentCount++; // Move past 9 to prevent repeated completion message
+                        counterBtn.disabled = true; // Disable the button after completion
+                    }
+                });
+            }
+        }
+
+        // --- Linguistica Interactive Logic (6 PM Zone) ---
+        function bindSpellingCheck() {
+            const checkBtn = document.getElementById('lang-check-btn');
+            const inputField = document.getElementById('lang-input');
+            const feedbackDiv = document.getElementById('lang-spelling-feedback');
+            const targetWord = "VOWEL"; // The word to be spelled correctly
+
+            if (checkBtn) {
+                checkBtn.addEventListener('click', () => {
+                    const userInput = inputField.value.toUpperCase().trim();
+                    feedbackDiv.style.fontWeight = 'bold';
+                    
+                    if (userInput === targetWord) {
+                        feedbackDiv.style.color = '#28a745'; // Green for success
+                        feedbackDiv.textContent = `Correct! You successfully spelled: ${targetWord}.`;
+                        inputField.disabled = true;
+                        checkBtn.disabled = true;
+                    } else if (userInput.length === 0) {
+                        feedbackDiv.style.color = '#ffc107'; // Yellow for incomplete
+                        feedbackDiv.textContent = `Please enter your spelling. (Target word has ${targetWord.length} letters).`;
+                    } else {
+                        feedbackDiv.style.color = '#dc3545'; // Red for error
+                        feedbackDiv.textContent = `Incorrect. Try again. You entered "${userInput}".`;
+                        inputField.value = ''; // Clear input on fail
+                    }
+                });
+            }
+        }
+
+        // --- Dynamic Content Loading Function (6 PM Zone) ---
+        function loadModule(moduleKey) {
+            const moduleHTML = contentModules[moduleKey];
+            if (moduleHTML) {
+                // Inject the new HTML content into the 6 PM Area
+                learningContentArea.innerHTML = moduleHTML;
+                
+                // Scroll to the top of the content area for a clean load view
+                const contentAreaElement = document.querySelector('.content-area');
+                if (contentAreaElement) {
+                    contentAreaElement.scrollTop = 0;
+                }
+                
+                // Re-bind the click handler for the new video links inside the dynamically loaded content
+                bindDynamicVideoLinks();
+                // Bind the collapsible headers for the loadable rows
+                bindCollapsibleHeaders(); 
+                
+                // NEW: Bind interactive elements if the correct module is loaded
+                if (moduleKey === 'math') {
+                    bindMathCounter();
+                } else if (moduleKey === 'lang') {
+                    bindSpellingCheck();
+                }
+            } else {
+                learningContentArea.innerHTML = `<h3 style="color: red;">Error: Module not found for key: ${moduleKey}</h3>`;
+            }
+        }
+        
+        // --- Function to bind video links in dynamic content ---
+        function bindDynamicVideoLinks() {
+            document.querySelectorAll('.vid-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    
+                    const videoKey = link.getAttribute('data-video-key');
+                    const videoUrl = videoSources[videoKey];
+                    
+                    // Use the dedicated iconSources map to get the poster URL
+                    // Fallback: If iconSources doesn't have it (like for video1-4), use a standard poster or null
+                    const posterUrl = iconSources[videoKey] || 'https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg';
+
+                    if (videoUrl) {
+                        launchVideoToMonitor(videoUrl, posterUrl);
+                    } else {
+                        console.error("Video URL not found for key:", videoKey);
+                    }
+                });
+            });
+        }
+        
+        // --- Function to bind collapsible headers (Loadable Rows) ---
+        function bindCollapsibleHeaders() {
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const targetId = header.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    const icon = header.querySelector('.toggle-icon');
+
+                    if (content) {
+                        // Toggle the active state
+                        const isActive = content.classList.contains('active');
+
+                        // Collapse all others (optional, but good for cleanliness)
+                        document.querySelectorAll('.collapsible-content.active').forEach(c => {
+                            c.classList.remove('active');
+                            const parentHeader = document.querySelector(`.collapsible-header[data-target="${c.id}"]`);
+                            if (parentHeader) {
+                                parentHeader.querySelector('.toggle-icon').textContent = '▶';
+                            }
+                        });
+                        
+                        // Expand the clicked one if it wasn't active
+                        if (!isActive) {
+                            content.classList.add('active');
+                            icon.textContent = '▼';
+                        }
+                    }
+                });
+            });
+        }
+
+        // --- Event Listener for 9 PM Icons (Video Launch) ---
+        document.querySelectorAll('.icon-item').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
+                
                 const videoKey = iconLink.getAttribute('data-video-key');
                 const videoUrl = videoSources[videoKey];
+                
+                // For 9 PM icons, the icon itself is the poster
+                const iconImageElement = iconLink.querySelector('img');
+                const posterUrl = iconImageElement ? iconImageElement.src : null;
 
-                if (videoUrl) {
-                    launchVideoWindow(videoUrl);
+                if (videoUrl && posterUrl) {
+                    launchVideoToMonitor(videoUrl, posterUrl);
                 } else {
-                    console.error("Video URL not found for key:", videoKey);
+                    console.error("Video URL or Poster URL not found for key:", videoKey);
                 }
             });
+        });
+
+        // --- Event Listener for 3 PM Links (Dynamic Content Load) ---
+        document.querySelectorAll('.fixed-menu-item a').forEach(menuLink => {
+            menuLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                // The link's href is used as the key to load the correct module
+                const moduleKey = menuLink.getAttribute('href').substring(1); 
+                loadModule(moduleKey);
+            });
+        });
+
+        // --- Other Event Listeners ---
+        fullscreenBtn.addEventListener('click', () => {
+            if (currentVideoUrl) {
+                launchVideoToModal(currentVideoUrl);
+            }
         });
 
         if (closeVideoBtn) {
             closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
+        
+        // Initial State Setup: Show default poster and load the first module
+        showMonitorPoster(); 
+        loadModule('math'); 
+        
+        // Ensure initial module links are bound
+        bindDynamicVideoLinks();
+        bindCollapsibleHeaders(); 
     </script>
 </body>
 </html>
