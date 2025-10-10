@@ -4,93 +4,342 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Learning Systems</title>
-    <link rel="stylesheet" href="style.css"> 
+    
+    <style>
+        /* CSS */
+        /* CSS Reset for h3 and p tags */
+        h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* General Body Styles */
+        body {
+            font-family: 'EB Garamond', serif;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            'Lighthouse Gray is #F4F4F4 in hex color'
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Main Container for the Grid */
+        .main-container {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fixed Menu Container for the Sidebar */
+        .fixed-menu-container {
+            width: 250px; /* A fixed width that is large enough to fit titles */
+            padding: 10px;
+            background-color: #e9ecef;
+            border-left: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        /* Fixed Menu List */
+        .fixed-menu-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Fixed Menu Items */
+        .fixed-menu-item a {
+            text-decoration: none;
+            color: #000;
+            font-size: .9em;
+            font-weight: bold;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Fixed Menu Header */
+        .fixed-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Fixed Menu Header Title */
+        .fixed-menu-header h3 {
+            font-size: 1.2em; /* The title's font size */
+        }
+
+        /* Powered by Gemini Text */
+        .powered-by-gemini {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        /* Credits Box */
+        .credits-box {
+            font-size: 0.5em;
+            color: #6c757d;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        /* Table of Contents Grid */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        /* Table of Contents Item */
+        .toc-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Table of Contents Item on Hover */
+        .toc-item:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table of Contents Image Container */
+        .toc-image-container {
+            width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        /* Table of Contents Image */
+        .toc-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        /* Table of Contents Link Text */
+        .toc-link-text {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Table of Contents Link Text Anchor */
+        .toc-link-text a {
+            text-decoration: none;
+            color: #0056b3;
+            font-size: .5em;
+            font-weight: bold;
+        }
+
+        /* Table of Contents Link Text Paragraph */
+        .toc-link-text p {
+            font-size: 0.5em;
+            color: #666;
+        }
+
+        /* Video Modal Overlay */
+        .video-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Video Container */
+        .video-container {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        /* Video Element */
+        #myVideoElement {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Close Video Button */
+        #closeVideoBtn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: 2px solid #fff;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1001;
+        }
+    </style>
 </head>
 <body>
-
     <div class="main-container">
-        
-        <aside class="sidebar">
-            <h2 class="system-title">Advanced Learning Systems</h2>
-            <p class="powered-by">Powered by Google Gemini</p>
-            
-            <nav class="sidebar-menu">
-                <ol>
-                    <li class="sidebar-item" data-mode="math">
-                        <input type="radio" id="mode-math" name="learning-mode" value="math" checked>
-                        <label for="mode-math">1. Mathematics</label>
-                        <div class="selection-bar"></div> 
-                    </li>
-
-                    <li class="sidebar-item" data-mode="la">
-                        <input type="radio" id="mode-la" name="learning-mode" value="la">
-                        <label for="mode-la">2. Language Arts</label>
-                        <div class="selection-bar"></div>
-                    </li>
-
-                    <li class="sidebar-item" data-mode="mgmt">
-                        <input type="radio" id="mode-mgmt" name="learning-mode" value="mgmt">
-                        <label for="mode-mgmt">3. Management</label>
-                        <div class="selection-bar"></div>
-                    </li>
-
-                    <li class="sidebar-item non-mode">4. Organization</li>
-                    <li class="sidebar-item non-mode">5. Education</li>
-                    <li class="sidebar-item non-mode">6. Training Trainers</li>
-                    <li class="sidebar-item non-mode">7. Knowledge Transfer</li>
-                </ol>
-            </nav>
-        </aside>
-
-        <main class="content-area">
-            
-            <div class="icon-nav-bar precursor-bar">
-                <a href="#" id="icon-math" class="live-icon active" data-mode="math">
-                    <img src="path/to/your/journey_begins_icon.png" alt="The Journey Begins...">
-                    <p>The Journey Begins...</p>
+        <div class="toc-grid">
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_inicio">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon">
                 </a>
-                <a href="#" id="icon-la" class="live-icon" data-mode="la">
-                    <img src="path/to/your/mr_zero_icon.png" alt="Mr. Zero, The first Something!">
-                    <p>Mr. Zero, The first Something!</p>
-                </a>
-                <a href="#" id="icon-mgmt" class="live-icon" data-mode="mgmt">
-                    <img src="path/to/your/newest_family_icon.png" alt="The Newest Family">
-                    <p>The Newest Family</p>
-                </a>
-            </div>
-
-            <div class="video-controls-bar">
-                <button id="play-btn" class="control-btn" title="Play">▶</button>
-                <button id="pause-btn" class="control-btn" title="Pause">⏸</button>
-                <button id="stop-btn" class="control-btn" title="Stop">◼</button>
-                <button id="ff-btn" class="control-btn" title="Fast Forward">⏩</button>
-            </div>
-
-            <div class="video-monitor-container">
-                <div class="video-wrapper">
-                    <video id="main-video-player" controls preload="auto" poster="path/to/video/poster.jpg">
-                        <source src="path/to/your/GCS/initial_video.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_inicio">A1P1U1S1: The Journey Begins...</a>
+                    <p>.</p>
                 </div>
             </div>
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Carátula de Mr. Zero">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_zero">A1P1U1S2: Mr. Zero, The First Something!</a>
+                    <p> (0-indexing).</p>
+                </div>
+            </div>
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Carátula The Numerals">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_zero">A1P1U1S3: The Numerals</a>
+                    <p> (0-indexing).</p>
+                </div>
+            </div>
+            <div class="toc-item">
+                <a href="#" class="video-activator toc-image-container" data-video-id="unidad1_zero">
+                    <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Carátula Decillones">
+                </a>
+                <div class="toc-link-text">
+                    <a href="#" class="video-activator" data-video-id="unidad1_zero">Video Decillones</a>
+                    <p> (0-indexing).</p>
+                </div>
+            </div>
+
             
-            <div id="math-content" class="module-content active">
-                <h2>Mathematics: Set Theory</h2>
-                <p>Content for the Mathematics module will display here.</p>
-            </div>
-            <div id="la-content" class="module-content">
-                <h2>Language Arts</h2>
-                <p>Content for the Language Arts module will display here.</p>
-            </div>
-            <div id="mgmt-content" class="module-content">
-                <h2>Management</h2>
-                <p>Content for the Management module will display here.</p>
-            </div>
-            
-        </main>
+        </div>
     </div>
 
-    <script src="script.js"></script> 
+    <div class="fixed-menu-container">
+        <div class="fixed-menu-header">
+            <h3>Advanced Learning Systems</h3>
+            <p class="powered-by-gemini">Powered by Google Gemini</p>
+        </div>
+        <div style="height: 1.0em;"></div> 
+        <div>
+            <ul class="fixed-menu-list">
+                <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
+                <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
+                <li class="fixed-menu-item"><a href="#sci">3. Science</a></li>
+                <li class="fixed-menu-item"><a href="#hist">4. History</a></li>
+                <li class="fixed-menu-item"><a href="#art">5. Art</a></li>
+                <li class="fixed-menu-item"><a href="#music">6. Physical Education</a></li>
+            </ul>
+        </div>
+        <div class="credits-box">
+            <p>.</p>
+        </div>
+    </div>
+
+    <div id="videoPlayerModal" class="video-modal-overlay">
+        <div class="video-container">
+            <video
+                id="myVideoElement"
+                controls
+                preload="auto"
+                class="responsive-video-player"
+            ></video>
+            <button id="closeVideoBtn">Return (X)</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript
+        // This object maps video IDs to their URLs.
+        const videoSources = {
+            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
+            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
+            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
+        };
+
+        // JavaScript
+        // Get references to the video player elements in the HTML.
+        const videoPlayerModal = document.getElementById('videoPlayerModal');
+        const videoElement = document.getElementById('myVideoElement');
+        const closeVideoBtn = document.getElementById('closeVideoBtn');
+
+        // JavaScript
+        // This function closes the video modal.
+        function closeVideoWindow() {
+            videoElement.pause();
+            videoElement.src = "";
+            videoPlayerModal.style.display = 'none';
+        }
+
+        // JavaScript
+        // This function opens the video modal and starts playing the video.
+        function launchVideoWindow(url) {
+            videoElement.src = url;
+            videoPlayerModal.style.display = 'flex';
+            videoElement.play();
+
+            videoElement.onended = () => {
+                console.log('Video finished. Auto-returning user to menu.');
+                closeVideoWindow();
+            };
+        }
+
+        // JavaScript
+        // Add a click listener to all elements that launch a video.
+        document.querySelectorAll('.video-activator').forEach(iconLink => {
+            iconLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                const videoId = iconLink.getAttribute('data-video-id');
+                const videoUrl = videoSources[videoId];
+
+                if (videoUrl) {
+                    launchVideoWindow(videoUrl);
+                } else {
+                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
+                    launchVideoWindow(videoUrl);
+                }
+            });
+        });
+
+        // JavaScript
+        // Add a click listener to the close button.
+        if (closeVideoBtn) {
+            closeVideoBtn.addEventListener('click', closeVideoWindow);
+        }
+    </script>
 </body>
 </html>
