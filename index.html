@@ -11,7 +11,6 @@
             height: 100%; 
             margin: 0;
             padding: 0;
-            /* Scrollbar FIX: Allow main page scroll if window is small */
             overflow-x: hidden; 
             overflow-y: auto;  
             font-family: 'EB Garamond', serif;
@@ -29,7 +28,7 @@
             order: 1; 
             flex-grow: 1; 
             overflow-y: scroll; /* <-- This controls the scroll for the main learning content */
-            padding: 10px 20px 20px 20px; /* Reduced top padding to reclaim space */
+            padding: 10px 20px 20px 20px; 
             box-sizing: border-box;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -38,15 +37,12 @@
             flex-direction: column; 
         }
         
-        /* Removed the H1 style as the H1 tag itself is being removed from the body */
-
-
         /* --- FIXED SIDEBAR (NON-SCROLLABLE RIGHT - 3 O'CLOCK ZONE) --- */
         .fixed-menu-container {
             order: 2; 
             flex-shrink: 0; 
             width: 350px; 
-            height: 100vh; /* Ensures it always fills the screen vertically */
+            height: 100vh; 
             padding: 20px 10px;
             background-color: #e9ecef;
             border-left: 1px solid #ccc;
@@ -186,7 +182,7 @@
         }
 
         .collapsible-content {
-            max-height: 0; /* Key for collapse */
+            max-height: 0; 
             overflow: hidden;
             transition: max-height 0.3s ease-out, padding 0.3s;
             padding: 0 15px;
@@ -196,7 +192,7 @@
         }
         
         .collapsible-content.active {
-            max-height: 5000px; /* Large enough value to cover all future content */
+            max-height: 5000px; 
             padding: 10px 15px;
             border-radius: 0 0 4px 4px;
         }
@@ -234,6 +230,7 @@
     <div class="main-container">
         
         <div class="content-area">
+            
             <div class="video-aspect-ratio-container" id="monitor-container" style="position: relative; width: 100%; padding-top: 56.25%; background-color: #e0f2f1; margin-bottom: 10px;">
                 
                 <video id="mainVideoMonitor" controls preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></video>
@@ -307,19 +304,16 @@
             "video5": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U2S1-3%20Vowel%20Sounds.mp4",
             "video6": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4",
             "video7": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4",
-            "video8": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_21-40.mp4", // Placeholder URL
-            "video9": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_41-60.mp4"  // Placeholder URL
-            // Add your other video URLs here
+            "video8": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/L2%201-10.mp4",  // <-- URL UPDATED
+            "video9": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_41-60.mp4"  
         }; 
         
         // --- ICON URL Mapping (for use as posters/carátulas) ---
         const iconSources = {
-            // Icons already in 9 PM bar (videos 1-4 not explicitly mapped here as they use the same link for 9 PM icon and poster)
             "video5": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg",
             "video6": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
             "video7": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
-            // Corrected Icon URL for placeholders
-            "video8": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp", 
+            "video8": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp", // <-- ICON UPDATED
             "video9": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp" 
         };
 
@@ -327,18 +321,206 @@
         const mainVideoMonitor = document.getElementById('mainVideoMonitor');
         const defaultCaratula = document.getElementById('defaultCaratula');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const learningContentArea = document.getElementById('learningContentArea'); // New Target for 6 PM Content
+        const learningContentArea = document.getElementById('learningContentArea'); 
 
         // Elements for the Modal (Full Screen)
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const modalVideoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
         
-        let currentVideoUrl = ""; // Stores the URL of the video playing
-        let currentPosterUrl = ""; // Stores the URL of the current video's title card
+        let currentVideoUrl = ""; 
+        let currentPosterUrl = ""; 
 
+        // --- QUIZ DATA (Using the previous placeholder question) ---
+        const scienceQuizQuestions = [
+            {
+                question: "What is the largest organ in the human body?",
+                options: ["Heart", "Liver", "Skin", "Brain"],
+                correctAnswer: "Skin"
+            }
+        ];
+        let currentQuizIndex = 0; 
+        let quizAnswered = false;
+        
+        // --- Core Video Logic Functions ---
+        function showMonitorPoster() {
+            if (currentPosterUrl) {
+                mainVideoMonitor.pause();
+                mainVideoMonitor.setAttribute('poster', currentPosterUrl);
+                mainVideoMonitor.style.display = 'block';
+                defaultCaratula.style.display = 'none';
+                fullscreenBtn.style.display = 'block';
+            } else {
+                mainVideoMonitor.style.display = 'none';
+                defaultCaratula.style.display = 'flex';
+                fullscreenBtn.style.display = 'none';
+            }
+        }
+        mainVideoMonitor.addEventListener('ended', showMonitorPoster);
+        mainVideoMonitor.addEventListener('pause', () => {
+            if (mainVideoMonitor.currentTime > 0 && !mainVideoMonitor.ended) {
+                showMonitorPoster();
+            }
+        });
+        mainVideoMonitor.addEventListener('loadedmetadata', () => {
+            mainVideoMonitor.removeAttribute('poster');
+        });
 
-        // --- 6 PM ZONE CONTENT MODULES (Mapped to 3 PM Links) ---
+        function closeVideoWindow() {
+            modalVideoElement.pause();
+            modalVideoElement.src = "";
+            videoPlayerModal.style.display = 'none';
+        }
+
+        function launchVideoToMonitor(url, posterUrl) {
+            currentVideoUrl = url;
+            currentPosterUrl = posterUrl;
+            
+            defaultCaratula.style.display = 'none';
+            mainVideoMonitor.style.display = 'block';
+            fullscreenBtn.style.display = 'block'; 
+            
+            mainVideoMonitor.removeAttribute('poster');
+            mainVideoMonitor.src = url;
+            mainVideoMonitor.load();
+            mainVideoMonitor.play();
+        }
+
+        function launchVideoToModal(url) {
+            mainVideoMonitor.pause();
+            modalVideoElement.src = url;
+            videoPlayerModal.style.display = 'flex';
+            modalVideoElement.load(); 
+            modalVideoElement.play();
+        }
+        
+        // --- Mathemágica Interactive Logic ---
+        let currentCount = 0;
+        const maxCount = 9;
+
+        function bindMathCounter() {
+            const counterBtn = document.getElementById('math-counter-btn');
+            const feedbackSpan = document.getElementById('math-feedback');
+            
+            if (counterBtn) {
+                currentCount = 0;
+                counterBtn.textContent = `Start Counting (${currentCount})`;
+                feedbackSpan.textContent = "Click to confirm the next digit is 1.";
+                counterBtn.disabled = false; 
+
+                counterBtn.addEventListener('click', () => {
+                    if (currentCount < maxCount) {
+                        currentCount++;
+                        counterBtn.textContent = `Next Digit: (${currentCount})`;
+                        feedbackSpan.textContent = `Click to confirm the next digit is ${currentCount + 1}.`;
+                    } else if (currentCount === maxCount) {
+                        counterBtn.textContent = "Sequence Complete!";
+                        feedbackSpan.textContent = "You have confirmed the full sequence 0 through 9. Excellent!";
+                        currentCount++; 
+                        counterBtn.disabled = true; 
+                    }
+                });
+            }
+        }
+
+        // --- Linguistica Interactive Logic ---
+        function bindSpellingCheck() {
+            const checkBtn = document.getElementById('lang-check-btn');
+            const inputField = document.getElementById('lang-input');
+            const feedbackDiv = document.getElementById('lang-spelling-feedback');
+            const targetWord = "VOWEL"; 
+
+            if (checkBtn) {
+                checkBtn.addEventListener('click', () => {
+                    const userInput = inputField.value.toUpperCase().trim();
+                    feedbackDiv.style.fontWeight = 'bold';
+                    
+                    if (userInput === targetWord) {
+                        feedbackDiv.style.color = '#28a745'; 
+                        feedbackDiv.textContent = `Correct! You successfully spelled: ${targetWord}.`;
+                        inputField.disabled = true;
+                        checkBtn.disabled = true;
+                    } else if (userInput.length === 0) {
+                        feedbackDiv.style.color = '#ffc107'; 
+                        feedbackDiv.textContent = `Please enter your spelling. (Target word has ${targetWord.length} letters).`;
+                    } else {
+                        feedbackDiv.style.color = '#dc3545'; 
+                        feedbackDiv.textContent = `Incorrect. Try again. You entered "${userInput}".`;
+                        inputField.value = ''; 
+                    }
+                });
+            }
+        }
+        
+        // --- Ciencia Quiz Logic ---
+        function loadQuizQuestion(index) {
+            const quizArea = document.getElementById('quiz-area');
+            const questionElement = document.getElementById('quiz-question');
+            const optionsElement = document.getElementById('quiz-options');
+            const feedbackElement = document.getElementById('quiz-feedback');
+
+            if (!quizArea) return; 
+
+            if (index < scienceQuizQuestions.length) {
+                const q = scienceQuizQuestions[index];
+                questionElement.textContent = `Question ${index + 1}: ${q.question}`;
+                optionsElement.innerHTML = ''; 
+                feedbackElement.textContent = '';
+                quizAnswered = false;
+
+                const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+                shuffledOptions.forEach(option => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'quiz-option';
+                    optionDiv.textContent = option;
+                    optionDiv.addEventListener('click', () => checkAnswer(option, q.correctAnswer, optionsElement, feedbackElement));
+                    optionsElement.appendChild(optionDiv);
+                });
+            } else {
+                questionElement.textContent = "Quiz Complete!";
+                optionsElement.innerHTML = `<p>You have finished the available questions.</p><button onclick="loadQuizQuestion(0)" style="padding: 10px 20px; margin-top: 10px; background-color: #008080; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Over</button>`;
+                feedbackElement.textContent = '';
+            }
+        }
+        
+        function checkAnswer(selectedOption, correctAnswer, optionsContainer, feedbackElement) {
+            if (quizAnswered) return; 
+            quizAnswered = true;
+
+            const options = optionsContainer.querySelectorAll('.quiz-option');
+            let isCorrect = (selectedOption === correctAnswer);
+
+            options.forEach(optionDiv => {
+                optionDiv.style.pointerEvents = 'none'; 
+                if (optionDiv.textContent === correctAnswer) {
+                    optionDiv.classList.add('correct');
+                    if (isCorrect) {
+                        optionDiv.style.boxShadow = '0 0 10px #28a745';
+                    }
+                } else if (optionDiv.textContent === selectedOption) {
+                    optionDiv.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                feedbackElement.textContent = "Correct! Well done.";
+                feedbackElement.style.color = '#28a745';
+                currentQuizIndex++;
+                setTimeout(() => loadQuizQuestion(currentQuizIndex), 1500); 
+            } else {
+                feedbackElement.textContent = `Incorrect. The correct answer was: ${correctAnswer}.`;
+                feedbackElement.style.color = '#dc3545';
+                optionsContainer.innerHTML += `<button onclick="loadQuizQuestion(currentQuizIndex)" style="padding: 8px 15px; margin-top: 10px; background-color: #ffc107; color: black; border: none; border-radius: 5px; cursor: pointer;">Try Again</button>`;
+            }
+        }
+        
+        function bindScienceQuiz() {
+            currentQuizIndex = 0;
+            loadQuizQuestion(currentQuizIndex);
+        }
+
+        // --- 6 PM ZONE CONTENT MODULES ---
         const contentModules = {
             "math": `
                 <section id="math-module" style="padding-bottom: 40px;">
@@ -401,7 +583,7 @@
                         <ul style="list-style-type: none; margin-left: 0;">
                             <li><a href="#" class="vid-link" data-video-key="video6" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 01-20 (Bilingual Span/Glish)</a></li>
                             <li><a href="#" class="vid-link" data-video-key="video8" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 21-40</a></li> 
-                            <li><a href="#" class="vid-link" data-video-key="video9" style="color: #6a0dad; font-weight: bold;">Vocabulary Set 41-60</a></li>
+                            <li>[Placeholder for Vocabulary Set 41-60]</li>
                             
                             <li>[Placeholder for Vocabulary Set 61-80]</li>
                             <li>[Placeholder for Vocabulary Set 81-100]</li>
@@ -481,10 +663,9 @@
                     </div>
                     <div id="sci-content-3" class="collapsible-content">
                         <div id="quiz-area" style="padding: 15px; background-color: #f0ffff; border: 1px solid #008080; border-radius: 5px;">
-                            <h4 id="quiz-question">Please provide the first question to begin the quiz.</h4>
+                            <h4 id="quiz-question">Question 1: What is the largest organ in the human body?</h4>
                             <div id="quiz-options">
-                                <p>Options will appear here once the question is loaded.</p>
-                            </div>
+                                </div>
                             <p id="quiz-feedback" style="margin-top: 15px; font-weight: bold;"></p>
                         </div>
                     </div>
@@ -538,203 +719,6 @@
                 </section>
             `
         };
-        
-        // --- QUIZ DATA (Placeholder - will be updated in next step) ---
-        const scienceQuizQuestions = [
-            // Question 1 placeholder (Default question)
-            {
-                question: "What is the primary element that makes up the sun?",
-                options: ["Hydrogen", "Oxygen", "Iron", "Carbon"],
-                correctAnswer: "Hydrogen"
-            }
-        ];
-        
-        let currentQuizIndex = 0; // Tracks current question index
-        let quizAnswered = false; // Flag to prevent multiple clicks
-
-        // --- Core Video Logic Functions (Updated to use iconSources map) ---
-        function showMonitorPoster() {
-            if (currentPosterUrl) {
-                mainVideoMonitor.pause();
-                mainVideoMonitor.setAttribute('poster', currentPosterUrl);
-                mainVideoMonitor.style.display = 'block';
-                defaultCaratula.style.display = 'none';
-                fullscreenBtn.style.display = 'block';
-            } else {
-                mainVideoMonitor.style.display = 'none';
-                defaultCaratula.style.display = 'flex';
-                fullscreenBtn.style.display = 'none';
-            }
-        }
-        mainVideoMonitor.addEventListener('ended', showMonitorPoster);
-        mainVideoMonitor.addEventListener('pause', () => {
-            if (mainVideoMonitor.currentTime > 0 && !mainVideoMonitor.ended) {
-                showMonitorPoster();
-            }
-        });
-        mainVideoMonitor.addEventListener('loadedmetadata', () => {
-            mainVideoMonitor.removeAttribute('poster');
-        });
-
-        function closeVideoWindow() {
-            modalVideoElement.pause();
-            modalVideoElement.src = "";
-            videoPlayerModal.style.display = 'none';
-        }
-
-        function launchVideoToModal(url) {
-            mainVideoMonitor.pause();
-            modalVideoElement.src = url;
-            videoPlayerModal.style.display = 'flex';
-            modalVideoElement.load(); 
-            modalVideoElement.play();
-        }
-
-        function launchVideoToMonitor(url, posterUrl) {
-            currentVideoUrl = url;
-            currentPosterUrl = posterUrl;
-            
-            defaultCaratula.style.display = 'none';
-            mainVideoMonitor.style.display = 'block';
-            fullscreenBtn.style.display = 'block'; 
-            
-            mainVideoMonitor.removeAttribute('poster');
-            mainVideoMonitor.src = url;
-            mainVideoMonitor.load();
-            mainVideoMonitor.play();
-        }
-        
-        // --- Mathemágica Interactive Logic (6 PM Zone) ---
-        let currentCount = 0;
-        const maxCount = 9;
-
-        function bindMathCounter() {
-            const counterBtn = document.getElementById('math-counter-btn');
-            const feedbackSpan = document.getElementById('math-feedback');
-            
-            if (counterBtn) {
-                currentCount = 0;
-                counterBtn.textContent = `Start Counting (${currentCount})`;
-                feedbackSpan.textContent = "Click to confirm the next digit is 1.";
-                counterBtn.disabled = false; 
-
-                counterBtn.addEventListener('click', () => {
-                    if (currentCount < maxCount) {
-                        currentCount++;
-                        counterBtn.textContent = `Next Digit: (${currentCount})`;
-                        feedbackSpan.textContent = `Click to confirm the next digit is ${currentCount + 1}.`;
-                    } else if (currentCount === maxCount) {
-                        counterBtn.textContent = "Sequence Complete!";
-                        feedbackSpan.textContent = "You have confirmed the full sequence 0 through 9. Excellent!";
-                        currentCount++; 
-                        counterBtn.disabled = true; 
-                    }
-                });
-            }
-        }
-
-        // --- Linguistica Interactive Logic (6 PM Zone) ---
-        function bindSpellingCheck() {
-            const checkBtn = document.getElementById('lang-check-btn');
-            const inputField = document.getElementById('lang-input');
-            const feedbackDiv = document.getElementById('lang-spelling-feedback');
-            const targetWord = "VOWEL"; 
-
-            if (checkBtn) {
-                checkBtn.addEventListener('click', () => {
-                    const userInput = inputField.value.toUpperCase().trim();
-                    feedbackDiv.style.fontWeight = 'bold';
-                    
-                    if (userInput === targetWord) {
-                        feedbackDiv.style.color = '#28a745'; 
-                        feedbackDiv.textContent = `Correct! You successfully spelled: ${targetWord}.`;
-                        inputField.disabled = true;
-                        checkBtn.disabled = true;
-                    } else if (userInput.length === 0) {
-                        feedbackDiv.style.color = '#ffc107'; 
-                        feedbackDiv.textContent = `Please enter your spelling. (Target word has ${targetWord.length} letters).`;
-                    } else {
-                        feedbackDiv.style.color = '#dc3545'; 
-                        feedbackDiv.textContent = `Incorrect. Try again. You entered "${userInput}".`;
-                        inputField.value = ''; 
-                    }
-                });
-            }
-        }
-        
-        // --- Ciencia Quiz Logic (6 PM Zone) ---
-        function loadQuizQuestion(index) {
-            const quizArea = document.getElementById('quiz-area');
-            const questionElement = document.getElementById('quiz-question');
-            const optionsElement = document.getElementById('quiz-options');
-            const feedbackElement = document.getElementById('quiz-feedback');
-
-            if (!quizArea) return; 
-
-            if (index < scienceQuizQuestions.length) {
-                const q = scienceQuizQuestions[index];
-                questionElement.textContent = `Question ${index + 1}: ${q.question}`;
-                optionsElement.innerHTML = ''; // Clear previous options
-                feedbackElement.textContent = '';
-                quizAnswered = false;
-
-                // Shuffle options (optional, but good practice)
-                const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
-
-                shuffledOptions.forEach(option => {
-                    const optionDiv = document.createElement('div');
-                    optionDiv.className = 'quiz-option';
-                    optionDiv.textContent = option;
-                    optionDiv.addEventListener('click', () => checkAnswer(option, q.correctAnswer, optionsElement, feedbackElement));
-                    optionsElement.appendChild(optionDiv);
-                });
-            } else {
-                questionElement.textContent = "Quiz Complete!";
-                optionsElement.innerHTML = `<p>You have finished the available questions.</p><button onclick="loadQuizQuestion(0)" style="padding: 10px 20px; margin-top: 10px; background-color: #008080; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Over</button>`;
-                feedbackElement.textContent = '';
-            }
-        }
-        
-        function checkAnswer(selectedOption, correctAnswer, optionsContainer, feedbackElement) {
-            if (quizAnswered) return; // Prevent double-clicking
-            quizAnswered = true;
-
-            const options = optionsContainer.querySelectorAll('.quiz-option');
-            let isCorrect = (selectedOption === correctAnswer);
-
-            options.forEach(optionDiv => {
-                optionDiv.style.pointerEvents = 'none'; // Disable all options
-                if (optionDiv.textContent === correctAnswer) {
-                    optionDiv.classList.add('correct');
-                    if (isCorrect) {
-                        // Correct option was clicked
-                        optionDiv.style.boxShadow = '0 0 10px #28a745';
-                    }
-                } else if (optionDiv.textContent === selectedOption) {
-                    // Incorrect option was clicked
-                    optionDiv.classList.add('incorrect');
-                }
-            });
-
-            if (isCorrect) {
-                feedbackElement.textContent = "Correct! Well done.";
-                feedbackElement.style.color = '#28a745';
-                currentQuizIndex++;
-                setTimeout(() => loadQuizQuestion(currentQuizIndex), 1500); // Load next question after a delay
-            } else {
-                feedbackElement.textContent = `Incorrect. The correct answer was: ${correctAnswer}. Try again!`;
-                feedbackElement.style.color = '#dc3545';
-                // Reset flag and re-enable quiz for re-attempt (or add 'next' button later)
-                // For now, let's keep it locked on error, and add a simple reset button
-                optionsContainer.innerHTML += `<button onclick="loadQuizQuestion(currentQuizIndex)" style="padding: 8px 15px; margin-top: 10px; background-color: #ffc107; color: black; border: none; border-radius: 5px; cursor: pointer;">Try Again</button>`;
-            }
-        }
-        
-        function bindScienceQuiz() {
-            // Load the first question when the science module is loaded
-            currentQuizIndex = 0;
-            loadQuizQuestion(currentQuizIndex);
-        }
 
         // --- Dynamic Content Loading Function (6 PM Zone) ---
         function loadModule(moduleKey) {
@@ -755,7 +739,6 @@
                 } else if (moduleKey === 'lang') {
                     bindSpellingCheck();
                 } else if (moduleKey === 'sci') {
-                    // Call the new bind function for the science quiz structure
                     bindScienceQuiz();
                 }
             } else {
@@ -772,7 +755,6 @@
                     const videoKey = link.getAttribute('data-video-key');
                     const videoUrl = videoSources[videoKey];
                     
-                    // Use the dedicated iconSources map to get the poster URL
                     const posterUrl = iconSources[videoKey] || 'https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg';
 
                     if (videoUrl) {
@@ -793,10 +775,8 @@
                     const icon = header.querySelector('.toggle-icon');
 
                     if (content) {
-                        // Toggle the active state
                         const isActive = content.classList.contains('active');
 
-                        // Collapse all others that are siblings within the same module section
                         const parentSection = header.closest('section');
                         if (parentSection) {
                             parentSection.querySelectorAll('.collapsible-content.active').forEach(c => {
@@ -810,7 +790,6 @@
                             });
                         }
                         
-                        // Toggle the clicked one
                         if (!isActive) {
                             content.classList.add('active');
                             icon.textContent = '▼';
@@ -832,7 +811,6 @@
                 const videoKey = iconLink.getAttribute('data-video-key');
                 const videoUrl = videoSources[videoKey];
                 
-                // For 9 PM icons, the icon itself is the poster
                 const iconImageElement = iconLink.querySelector('img');
                 const posterUrl = iconImageElement ? iconImageElement.src : null;
 
@@ -848,7 +826,6 @@
         document.querySelectorAll('.fixed-menu-item a').forEach(menuLink => {
             menuLink.addEventListener('click', (event) => {
                 event.preventDefault();
-                // The link's href is used as the key to load the correct module
                 const moduleKey = menuLink.getAttribute('href').substring(1); 
                 loadModule(moduleKey);
             });
