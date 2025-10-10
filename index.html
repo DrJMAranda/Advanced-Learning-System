@@ -23,7 +23,7 @@
             width: 100%;
         }
 
-        /* --- CONTENT AREA (SCROLLABLE - ORDER 1) --- */
+        /* --- CONTENT AREA (SCROLLABLE LEFT - ORDER 1) --- */
         .content-area {
             order: 1; /* FORCES content to the LEFT */
             flex-grow: 1; /* Takes up all remaining space */
@@ -32,24 +32,48 @@
             box-sizing: border-box;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            
+            /* The Content Area itself is a Flex Column to arrange its internal sections (Icons, Bar, Modules) vertically */
+            display: flex;
+            flex-direction: column; 
         }
 
-        /* --- FIXED SIDEBAR (NON-SCROLLABLE - ORDER 2) --- */
+        /* --- FIXED SIDEBAR (NON-SCROLLABLE RIGHT - ORDER 2) --- */
         .fixed-menu-container {
             order: 2; /* FORCES sidebar to the RIGHT */
-            flex-shrink: 0; /* Prevents shrinking */
-            width: 350px; /* Fixed width */
+            flex-shrink: 0; 
+            width: 350px; 
             height: 100%;
             padding: 20px 10px;
             background-color: #e9ecef;
             border-left: 1px solid #ccc;
             box-sizing: border-box;
-            overflow-y: hidden; /* Sidebar does NOT scroll */
+            overflow-y: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
+        /* --- HORIZONTAL FEATURE BAR STYLE (Fixed Height, Always Visible) --- */
+        .horizontal-feature-bar {
+            flex-shrink: 0; /* Prevents bar from shrinking if content is too tall */
+            width: 100%;
+            height: 100px; /* Example height for the bar */
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            margin: 20px 0; /* Vertical spacing */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            color: #333;
+        }
+        
+        /* The main module content section must grow to fill space and scroll */
+        .module-content {
+            flex-grow: 1; /* This section takes up remaining scrollable height */
+        }
+        
         /* Video Modal Styles (Functional Shell) */
         .video-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9);
@@ -71,10 +95,25 @@
         
         <div class="content-area">
             <h1>Advanced Learning Systems</h1>
-            <p>Architectural Framework is Live and Stable.</p>
-            <p>This is the scrollable content area (Left Side).</p>
+            <p>Architectural Framework is Live and Stable. Scrollbar integrity check is ongoing.</p>
             
+            <div class="toc-grid">
+                <p style="text-align: center;">1. Top Content Placeholder (Future Icons Go Here)</p>
             </div>
+            
+            <div class="horizontal-feature-bar">
+                2. Horizontal Feature Bar Placeholder
+            </div>
+            
+            <div class="module-content">
+                <h2>Module Content Area</h2>
+                <p>This section is designed to scroll when the content exceeds the screen height.</p>
+                
+                <p style="height: 600px; background-color: #e8e8e8; padding: 10px;">
+                    3. Scrollbar Test Filler Content (Scroll Down to See This)
+                </p>
+            </div>
+        </div>
         
         <div class="fixed-menu-container">
             <div>
@@ -105,7 +144,7 @@
     </div>
 
     <script>
-        // JavaScript: Clean, minimal logic. All video sources removed.
+        // JavaScript is kept minimal, structural, and clean.
         const videoSources = {}; 
         
         const videoPlayerModal = document.getElementById('videoPlayerModal');
@@ -118,13 +157,7 @@
             videoPlayerModal.style.display = 'none';
         }
 
-        // Functions are preserved for future content
-        function launchVideoWindow(url) {
-            videoElement.src = url;
-            videoPlayerModal.style.display = 'flex';
-        }
-
-        // No elements to attach to, but the listener logic is preserved
+        // Event listeners are empty and will not cause errors.
         document.querySelectorAll('.video-activator').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
