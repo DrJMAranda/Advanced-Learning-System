@@ -99,7 +99,7 @@
             flex-grow: 1;
         }
         
-        /* --- VIDEO MODAL STYLES --- */
+        /* --- VIDEO MODAL STYLES (Used for Full Screen) --- */
         .video-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95);
             display: none; justify-content: center; align-items: center; z-index: 1000;
@@ -147,15 +147,58 @@
             text-decoration: underline;
         }
 
+        /* Custom Control Bar Styles */
+        .custom-controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #343a40; /* Dark background for controls */
+            border-radius: 0 0 4px 4px;
+            margin-bottom: 15px; 
+            align-items: center;
+        }
+
+        .control-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+
+        .control-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .control-btn.stop-btn {
+            background-color: #dc3545;
+        }
+        
+        .control-btn.clear-btn {
+            background-color: #6c757d; /* Grey/Muted for the 'Clear' function */
+        }
+        
+        .control-btn.clear-btn:hover {
+            background-color: #5a6268;
+        }
+
+
+        .control-btn.stop-btn:hover {
+            background-color: #c82333;
+        }
+        
         /* --- COLLAPSIBLE ROW STYLES (Loadable Rows) --- */
         .collapsible-header {
             cursor: pointer;
             padding: 10px 15px;
             margin: 10px 0;
-            background-color: #e3f2fd; /* Light blue background for math/lang default */
+            background-color: #e3f2fd; 
             color: #000; 
             font-size: 1.1em;
-            border-left: 5px solid #007bff; /* Default blue for math */
+            border-left: 5px solid #007bff; 
             border-radius: 4px;
             user-select: none;
             transition: background-color 0.2s;
@@ -233,7 +276,7 @@
             
             <div class="video-aspect-ratio-container" id="monitor-container" style="position: relative; width: 100%; padding-top: 56.25%; background-color: #e0f2f1; margin-bottom: 10px;">
                 
-                <video id="mainVideoMonitor" controls preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></video>
+                <video id="mainVideoMonitor" preload="auto" oncontextmenu="return false;" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></video>
                 
                 <div id="defaultCaratula" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #00796b;">
                     <p style="color: white; font-size: 1.5em; text-align: center;">ZONE 12 NOON: Monitor Ready.</p>
@@ -242,17 +285,20 @@
                 
             </div>
             
-            <button id="fullscreenBtn" style="display: none; padding: 8px 15px; margin-bottom: 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                View Full Screen
-            </button>
+            <div id="customControlBar" class="custom-controls" style="display: none;">
+                <button id="playPauseBtn" class="control-btn">▶ Play</button>
+                <button id="stopReturnBtn" class="control-btn stop-btn">■ Stop</button>
+                <button id="clearMonitorBtn" class="control-btn clear-btn">Clear Monitor</button>
+                <button id="fullscreenBtn" class="control-btn" style="background-color: #20c997;">View Full Screen</button>
+            </div>
 
             <div id="icon-bar" class="horizontal-feature-bar">
                 <a href="#" class="icon-item video-activator" data-video-key="video1"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins"></a>
-                <a href="#" class="icon-item video-activator" data-video-key="video2"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero"></a>
-                <a href="#" class="icon-item video-activator" data-video-key="video3"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video2"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr.%20Zero"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video3"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The%20Numeral%20Family"></a>
                 <a href="#" class="icon-item video-activator" data-video-key="video4"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones"></a>
-                <a href="#" class="icon-item video-activator" data-video-key="video5"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg" alt="Vowel Sounds"></a>
-                <a href="#" class="icon-item video-activator" data-video-key="video6"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg" alt="Vocabulary 01-20"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video5"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg" alt="Vowel%20Sounds"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video6"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg" alt="Vocabulary%2001-20"></a>
             </div>
             
             <div class="module-content">
@@ -289,7 +335,7 @@
 
     <div id="videoPlayerModal" class="video-modal-overlay">
         <div class="video-container">
-            <video id="myVideoElement" controls preload="auto" class="responsive-video-player"></video>
+            <video id="myVideoElement" controls preload="auto" class="responsive-video-player"></video> 
             <button id="closeVideoBtn">Return (X)</button>
         </div>
     </div>
@@ -304,23 +350,36 @@
             "video5": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U2S1-3%20Vowel%20Sounds.mp4",
             "video6": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4",
             "video7": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4",
-            "video8": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/L2%201-10.mp4",  // <-- URL UPDATED
+            "video8": "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/L2%201-10.mp4",  
             "video9": "https://storage.googleapis.com/noenbalde/Linguistica/Placeholder_Vocab_41-60.mp4"  
         }; 
         
         // --- ICON URL Mapping (for use as posters/carátulas) ---
         const iconSources = {
+            "video1": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg",
+            "video2": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg",
+            "video3": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg",
+            "video4": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg",
             "video5": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Vowels.jpg",
             "video6": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
             "video7": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/dictionary-432043_640.jpg",
-            "video8": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp", // <-- ICON UPDATED
+            "video8": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp", 
             "video9": "https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/english-teacher-9839206_1280.webp" 
         };
 
         // Elements for the Main Monitor (12 NOON Zone)
         const mainVideoMonitor = document.getElementById('mainVideoMonitor');
         const defaultCaratula = document.getElementById('defaultCaratula');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const customControlBar = document.getElementById('customControlBar');
+        
+        // Custom control buttons
+        const monitorControls = {
+            playPauseBtn: document.getElementById('playPauseBtn'),
+            stopReturnBtn: document.getElementById('stopReturnBtn'),
+            clearMonitorBtn: document.getElementById('clearMonitorBtn'),
+            fullscreenBtn: document.getElementById('fullscreenBtn')
+        };
+        
         const learningContentArea = document.getElementById('learningContentArea'); 
 
         // Elements for the Modal (Full Screen)
@@ -344,26 +403,76 @@
         
         // --- Core Video Logic Functions ---
         function showMonitorPoster() {
-            if (currentPosterUrl) {
+            if (currentVideoUrl) {
                 mainVideoMonitor.pause();
-                mainVideoMonitor.setAttribute('poster', currentPosterUrl);
-                mainVideoMonitor.style.display = 'block';
-                defaultCaratula.style.display = 'none';
-                fullscreenBtn.style.display = 'block';
+                mainVideoMonitor.currentTime = 0; // Rewind to start
+            }
+            
+            // This is the "Clear Screen / Turn Off TV" state
+            mainVideoMonitor.style.display = 'none';
+            defaultCaratula.style.display = 'flex';
+            customControlBar.style.display = 'none'; // Hide controls 
+            
+            monitorControls.playPauseBtn.textContent = '▶ Play'; // Reset button text
+        }
+        
+        function updatePlayPauseButton() {
+            if (mainVideoMonitor.paused) {
+                monitorControls.playPauseBtn.textContent = '▶ Play';
             } else {
-                mainVideoMonitor.style.display = 'none';
-                defaultCaratula.style.display = 'flex';
-                fullscreenBtn.style.display = 'none';
+                monitorControls.playPauseBtn.textContent = '⏸ Pause';
             }
         }
-        mainVideoMonitor.addEventListener('ended', showMonitorPoster);
-        mainVideoMonitor.addEventListener('pause', () => {
-            if (mainVideoMonitor.currentTime > 0 && !mainVideoMonitor.ended) {
-                showMonitorPoster();
+        
+        // Listeners for custom controls and state management
+        mainVideoMonitor.addEventListener('ended', () => {
+             // When video ends, it pauses at the end and shows the poster
+             mainVideoMonitor.setAttribute('poster', currentPosterUrl); 
+             mainVideoMonitor.style.display = 'block';
+             defaultCaratula.style.display = 'none';
+             customControlBar.style.display = 'flex';
+             monitorControls.playPauseBtn.textContent = '⟳ Replay';
+        });
+        
+        mainVideoMonitor.addEventListener('pause', updatePlayPauseButton);
+        mainVideoMonitor.addEventListener('play', () => {
+             // Remove poster when playback starts
+            mainVideoMonitor.removeAttribute('poster');
+            updatePlayPauseButton();
+        });
+        
+        monitorControls.playPauseBtn.addEventListener('click', () => {
+            if (mainVideoMonitor.paused) {
+                mainVideoMonitor.play();
+            } else {
+                mainVideoMonitor.pause();
             }
         });
-        mainVideoMonitor.addEventListener('loadedmetadata', () => {
-            mainVideoMonitor.removeAttribute('poster');
+        
+        // **STOP BUTTON BEHAVIOR: Pause, Rewind, and show Poster (ready for re-play)**
+        monitorControls.stopReturnBtn.addEventListener('click', () => {
+            mainVideoMonitor.pause();
+            mainVideoMonitor.currentTime = 0;
+            // Show the poster, making it ready for a fresh play (preferred behavior)
+            if (currentPosterUrl) {
+                mainVideoMonitor.setAttribute('poster', currentPosterUrl); 
+                mainVideoMonitor.style.display = 'block';
+                defaultCaratula.style.display = 'none';
+                customControlBar.style.display = 'flex';
+                monitorControls.playPauseBtn.textContent = '▶ Play';
+            } else {
+                showMonitorPoster(); // Fallback to full clear if no poster is set
+            }
+        });
+        
+        // **CLEAR MONITOR BUTTON BEHAVIOR: Turn Off TV (Full Reset)**
+        monitorControls.clearMonitorBtn.addEventListener('click', showMonitorPoster);
+
+
+        monitorControls.fullscreenBtn.addEventListener('click', () => {
+            if (currentVideoUrl) {
+                launchVideoToModal(currentVideoUrl);
+            }
         });
 
         function closeVideoWindow() {
@@ -378,20 +487,23 @@
             
             defaultCaratula.style.display = 'none';
             mainVideoMonitor.style.display = 'block';
-            fullscreenBtn.style.display = 'block'; 
+            customControlBar.style.display = 'flex'; // Show custom controls
             
-            mainVideoMonitor.removeAttribute('poster');
+            // Set the poster before loading 
+            mainVideoMonitor.setAttribute('poster', posterUrl); 
+
+            // Load and play the video
             mainVideoMonitor.src = url;
             mainVideoMonitor.load();
             mainVideoMonitor.play();
         }
 
         function launchVideoToModal(url) {
-            mainVideoMonitor.pause();
+            mainVideoMonitor.pause(); // Pause the small monitor when modal is opened
             modalVideoElement.src = url;
-            videoPlayerModal.style.display = 'flex';
             modalVideoElement.load(); 
             modalVideoElement.play();
+            videoPlayerModal.style.display = 'flex';
         }
         
         // --- Mathemágica Interactive Logic ---
@@ -827,15 +939,9 @@
             menuLink.addEventListener('click', (event) => {
                 event.preventDefault();
                 const moduleKey = menuLink.getAttribute('href').substring(1); 
+                launchVideoToMonitor(null, null); // Stop any playing video when switching modules
                 loadModule(moduleKey);
             });
-        });
-
-        // --- Other Event Listeners ---
-        fullscreenBtn.addEventListener('click', () => {
-            if (currentVideoUrl) {
-                launchVideoToModal(currentVideoUrl);
-            }
         });
 
         if (closeVideoBtn) {
