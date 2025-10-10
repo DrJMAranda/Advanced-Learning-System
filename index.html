@@ -11,36 +11,34 @@
             height: 100%; 
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevents main browser scroll */
+            overflow: hidden; 
             font-family: 'EB Garamond', serif;
             background-color: #f4f4f4; 
         }
 
-        /* Flex Container: Full Screen Height and Width */
         .main-container {
             display: flex; 
             height: 100vh;
             width: 100%;
         }
 
-        /* --- CONTENT AREA (SCROLLABLE LEFT - ORDER 1) --- */
+        /* --- CONTENT AREA (SCROLLABLE LEFT - 12, 9, 6 O'CLOCK ZONES) --- */
         .content-area {
-            order: 1; /* FORCES content to the LEFT */
+            order: 1; 
             flex-grow: 1; 
-            overflow-y: scroll; /* ONLY this area scrolls vertically */
+            overflow-y: scroll; 
             padding: 20px;
             box-sizing: border-box;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             
-            /* The Content Area itself is a Flex Column to arrange its internal sections (Icons, Bar, Modules) vertically */
             display: flex;
             flex-direction: column; 
         }
 
-        /* --- FIXED SIDEBAR (NON-SCROLLABLE RIGHT - ORDER 2) --- */
+        /* --- FIXED SIDEBAR (NON-SCROLLABLE RIGHT - 3 O'CLOCK ZONE) --- */
         .fixed-menu-container {
-            order: 2; /* FORCES sidebar to the RIGHT */
+            order: 2; 
             flex-shrink: 0; 
             width: 350px; 
             height: 100%;
@@ -54,43 +52,91 @@
             justify-content: space-between;
         }
 
-        /* --- HORIZONTAL FEATURE BAR STYLE (CRITICAL: HORIZONTAL SCROLL) --- */
+        /* --- ZONE 9 PM: HORIZONTAL ICON BAR STYLE --- */
         .horizontal-feature-bar {
             flex-shrink: 0; 
             width: 100%;
-            height: 100px; 
+            height: 120px; /* Increased height to better fit images */
             background-color: #f9f9f9;
             border: 1px solid #ccc;
             margin: 20px 0; 
             
-            /* CRITICAL SCROLLBAR INCLUSION */
             display: flex; 
-            overflow-x: auto; /* Activates horizontal scrollbar if content exceeds width */
-            overflow-y: hidden; /* Prevents vertical scrollbar */
-            white-space: nowrap; /* Prevents contents from wrapping */
-            
-            /* Visual Styling */
+            overflow-x: auto; 
+            overflow-y: hidden; 
+            white-space: nowrap; 
             align-items: center; 
-            font-size: 1.2em;
-            color: #333;
             padding: 0 10px; 
         }
         
-        /* The main module content section must grow to fill space and scroll */
+        .icon-item {
+            flex-shrink: 0;
+            width: 180px; /* Fixed icon width */
+            height: 100px; /* Fixed icon height */
+            margin-right: 15px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .icon-item:hover {
+            border-color: #007bff; /* Highlight on hover */
+        }
+
+        .icon-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the container without distortion */
+            display: block;
+        }
+        
+        /* The main module content section (6 PM Zone) must grow to fill space and scroll */
         .module-content {
             flex-grow: 1;
         }
         
-        /* Video Modal Styles (Functional Shell) */
+        /* --- VIDEO MODAL STYLES --- */
         .video-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95);
             display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-        .video-container { max-width: 90%; max-height: 90%; position: relative; }
-        #myVideoElement { width: 100%; height: auto; display: block; }
-        #closeVideoBtn { position: absolute; bottom: 20px; left: 20px; padding: 10px 15px; background-color: #333; color: white; border: 2px solid #fff; cursor: pointer; z-index: 1001; }
+        .video-container { 
+            max-width: 90%; 
+            max-height: 90%; 
+            position: relative; 
+            /* Enforce 16:9 aspect ratio for the container within the modal */
+            width: 80vw; 
+            max-width: 1000px;
+            padding-top: 45vw; /* 16:9 ratio for 80vw width (9/16 * 80) */
+            max-height: calc(100vh - 100px); /* Keep some space for controls */
+            
+        }
+        /* Style the actual video element to fill its aspect-ratio parent */
+        #myVideoElement { 
+            position: absolute; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            display: block; 
+        }
         
-        /* Sidebar Menu Styles (Placeholder) */
+        #closeVideoBtn { 
+            position: absolute; 
+            bottom: -50px; /* Positioned outside the video area */
+            left: 50%; 
+            transform: translateX(-50%);
+            padding: 10px 25px; 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            border-radius: 5px;
+            cursor: pointer; 
+            z-index: 1001; 
+            font-size: 1.1em;
+        }
+        
+        /* Sidebar Menu Styles (3 PM Zone) */
         .fixed-menu-list { list-style-type: none; padding: 0; margin: 0; }
         .fixed-menu-item a { text-decoration: none; color: #000; font-size: .9em; font-weight: bold; display: block; padding: 10px 0; border-bottom: 1px solid #ddd; }
         .fixed-menu-header { border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; }
@@ -102,26 +148,24 @@
         
         <div class="content-area">
             <h1>Advanced Learning Systems</h1>
-            <p>Architectural Framework is Live and Stable. Scrollbar integrity check is ongoing.</p>
             
-            <div class="toc-grid">
-                <p style="text-align: center;">1. Top Content Placeholder (Future Icons Go Here)</p>
-            </div>
+            <div class="video-aspect-ratio-container" style="position: relative; width: 100%; padding-top: 56.25%; background-color: #e0f2f1; margin-bottom: 20px;">
+                <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #00796b; font-size: 1.5em; text-align: center;">ZONE 12 NOON: Video Monitor Placeholder</p>
+                </div>
             
-            <div class="horizontal-feature-bar">
-                <div style="min-width: 250px; height: 60px; background-color: #e6f7ff; border: 1px solid #99d6ff; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0;">Timeline Item 1</div>
-                <div style="min-width: 250px; height: 60px; background-color: #e6f7ff; border: 1px solid #99d6ff; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0;">Timeline Item 2</div>
-                <div style="min-width: 250px; height: 60px; background-color: #e6f7ff; border: 1px solid #99d6ff; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0;">Timeline Item 3</div>
-                <div style="min-width: 250px; height: 60px; background-color: #e6f7ff; border: 1px solid #99d6ff; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0;">Timeline Item 4</div>
-                <div style="min-width: 250px; height: 60px; background-color: #e6f7ff; border: 1px solid #99d6ff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9em; flex-shrink: 0;">Timeline Item 5</div>
+            <div id="icon-bar" class="horizontal-feature-bar">
+                <a href="#" class="icon-item video-activator" data-video-key="video1"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video2"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video3"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family"></a>
+                <a href="#" class="icon-item video-activator" data-video-key="video4"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones"></a>
             </div>
             
             <div class="module-content">
-                <h2>Module Content Area</h2>
-                <p>This section is designed to scroll when the content exceeds the screen height.</p>
+                <h2>ZONE 6 PM: Interactive Practice Area</h2>
+                <p>Click on any icon in the 9 PM Zone to test the video modal launch and play.</p>
                 
                 <p style="height: 600px; background-color: #e8e8e8; padding: 10px;">
-                    3. Vertical Scrollbar Test Filler Content (Scroll Down to See This)
+                    6 PM Zone Content (Scrollable)
                 </p>
             </div>
         </div>
@@ -129,7 +173,7 @@
         <div class="fixed-menu-container">
             <div>
                 <div class="fixed-menu-header">
-                    <h3>Advanced Learning Systems</h3>
+                    <h3>ZONE 3 PM: Fixed Outline/Links</h3>
                     <p class="powered-by-gemini">Powered by Google Gemini</p>
                 </div>
                 <ul class="fixed-menu-list">
@@ -155,24 +199,45 @@
     </div>
 
     <script>
-        // JavaScript is kept minimal, structural, and clean.
-        const videoSources = {}; 
+        // --- ZONE 9 PM ICON to VIDEO MAPPING ---
+        const videoSources = {
+            "video1": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4",
+            "video2": "https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4",
+            "video3": "https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4",
+            "video4": "https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4"
+        }; 
         
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const videoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
 
         function closeVideoWindow() {
+            // Stop video playback and hide the modal
             videoElement.pause();
             videoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
-        // Event listeners are empty and will not cause errors.
+        function launchVideoWindow(url) {
+            // Set video source and show the modal
+            videoElement.src = url;
+            videoPlayerModal.style.display = 'flex';
+            videoElement.load(); // Ensure video is loaded
+            videoElement.play(); // Auto-play the video
+        }
+
+        // --- Event Listener for 9 PM Icons ---
         document.querySelectorAll('.video-activator').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.error("Content is currently disabled for architectural testing.");
+                const videoKey = iconLink.getAttribute('data-video-key');
+                const videoUrl = videoSources[videoKey];
+
+                if (videoUrl) {
+                    launchVideoWindow(videoUrl);
+                } else {
+                    console.error("Video URL not found for key:", videoKey);
+                }
             });
         });
 
