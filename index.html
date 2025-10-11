@@ -6,190 +6,118 @@
     <title>Advanced Learning Systems</title>
     
     <style>
-        /* General Body Styles */
+        /* CSS STYLING BLOCK: Defines the look and layout of the page elements. */
         body {
-            font-family: 'EB Garamond', serif;
-            line-height: 1.6;
-            padding: 0;
+            font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
-            display: flex;
-            height: 100vh;
+            display: flex; /* Makes it a flex container for the side-by-side layout */
+            min-height: 100vh; /* Ensure full viewport height */
         }
-
-        /* Main Container for the Grid */
         .main-container {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-grow: 1; /* Takes up most of the space */
+            padding: 20px;
+            margin-left: 220px; /* Space for the fixed sidebar */
+            transition: margin-left 0.3s;
         }
-
-        /* Fixed Menu Container for the Sidebar */
         .fixed-menu-container {
-            width: 250px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-left: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 0.9em;
+            width: 200px;
+            position: fixed; /* Keeps the menu locked on screen */
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
-
-        /* Fixed Menu List */
-        .fixed-menu-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        /* Fixed Menu Items */
-        .fixed-menu-item a {
-            text-decoration: none;
-            color: #000;
-            font-size: .9em;
-            font-weight: bold;
-            display: block;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Fixed Menu Header */
-        .fixed-menu-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        /* Fixed Menu Header Title */
-        .fixed-menu-header h3 {
-            font-size: 1.2em;
-        }
-
-        /* Powered by Gemini Text */
-        .powered-by-gemini {
-            font-size: 0.8em;
-            color: #6c757d;
-        }
-
-        /* Credits Box */
-        .credits-box {
-            font-size: 0.5em;
-            color: #6c757d;
-            text-align: center;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-        }
-
-        /* Table of Contents Grid for a compact icon layout */
         .toc-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(1in, 1fr));
-            gap: 10px;
-            padding: 10px;
-            justify-content: center;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
         }
-
-        /* New styling for the small icons */
+        .video-activator-icon {
+            display: block;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        .video-activator-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
         .content-icon {
-            width: 1in;
+            width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto;
-            border-radius: 4px;
         }
-
-        /* Video Modal Overlay */
+        /* Video Modal Styles */
         .video-modal-overlay {
+            display: none; /* Starts hidden */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
-
-        /* Video Container */
         .video-container {
+            position: relative;
             max-width: 90%;
             max-height: 90%;
-            position: relative;
+            background: black;
         }
-
-        /* Video Element */
-        #myVideoElement {
+        .responsive-video-player {
+            display: block;
             width: 100%;
             height: auto;
-            display: block;
+            max-height: 90vh; /* Limit video size */
         }
-
-        /* Close Video Button */
         #closeVideoBtn {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #333;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
             color: white;
-            border: 2px solid #fff;
+            border: none;
+            padding: 10px 15px;
             cursor: pointer;
             font-size: 16px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1001;
+            border-radius: 5px;
+            z-index: 1001; /* Above the video */
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="toc-grid">
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_inicio">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon" title="Finding Mr. Zero.">
-            </a>
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_zero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Sunya-Sifr Zero Icon" class="content-icon" title="Mr Suny-Sifr Zero.">
-            </a>
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_family">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family Icon" class="content-icon" title="The Numerals.">
-            </a>
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_family">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones Icon" class="content-icon" title="The Numerals.">
-            </a>            
-        </div>
+    <div class="fixed-menu-container">
+        <h2>Menu</h2>
         </div>
 
-    <div class="fixed-menu-container">
-        <div class="fixed-menu-header">
-            <h3>Advanced Learning Systems</h3>
-            <p class="powered-by-gemini">Powered by Google Gemini</p>
-        </div>
-        <div style="height: 1.0em;"></div>
-        <div>
-            <ul class="fixed-menu-list">
-                <li class="fixed-menu-item"><a href="#math">1. Finding Mr. Zero</a></li>
-                <li class="fixed-menu-item"><a href="#lang">2. Mr. Sunya-Sifir Zero et Ux</a></li>
-                <li class="fixed-menu-item"><a href="#sci">3. The Números</a></li>
-                 <li class="fixed-menu-item"><a href="#sci">3. Management</a></li>               
-                <li class="fixed-menu-item"><a href="#hist">4. Organization</a></li>
-                <li class="fixed-menu-item"><a href="#art">5. Education</a></li>
-                <li class="fixed-menu-item"><a href="#music">6. Training Trainers</a></li>
-                <li class="fixed-menu-item"><a href="#music">7. Knowledge Transfer</a></li>
-            </ul>
-        </div>
-        <div class="credits-box">
-            <p>.</p>
-        </div>
+    <div class="main-container">
+        <h1>Video Content Library</h1>
+        <div class="toc-grid">
+            
+            <a href="#" class="video-activator-icon" data-video-id="video_01">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="Video Placeholder 1" class="content-icon" title="Placeholder 1">
+            </a>
+
+            <a href="#" class="video-activator-icon" data-video-id="video_02">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Video Placeholder 2" class="content-icon" title="Placeholder 2">
+            </a>
+
+            <a href="#" class="video-activator-icon" data-video-id="video_03">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Video Placeholder 3" class="content-icon" title="Placeholder 3">
+            </a>
+            
+            </div>
     </div>
 
     <div id="videoPlayerModal" class="video-modal-overlay">
@@ -205,27 +133,28 @@
     </div>
 
     <script>
-        // Maps video IDs to their URLs.
+        // 2. JAVASCRIPT DEFINITION (THE MAP): Links Icon ID (2 of 3) to the Bucket URL (3 of 3).
         const videoSources = {
-            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
-            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
-            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4',            
+            // HOLON IDN (Stable Key) : Bucket URL (Storage Location)
+            'video_01': 'https://placeholder.googleapis.com/bucket/video_01.mp4',
+            'video_02': 'https://placeholder.googleapis.com/bucket/video_02.mp4',
+            'video_03': 'https://placeholder.googleapis.com/bucket/video_03.mp4',
+            
+            // ADD NEW IDN:URL PAIRS HERE FOR NEW VIDEOS (e.g., 'video_04': 'YOUR_URL_HERE')
         };
 
-        // Gets references to the video player elements in the HTML.
+        // --- Video Activation Logic (Stable Code - No Edits Needed Below) ---
+
         const videoPlayerModal = document.getElementById('videoPlayerModal');
         const videoElement = document.getElementById('myVideoElement');
         const closeVideoBtn = document.getElementById('closeVideoBtn');
 
-        // Closes the video modal.
         function closeVideoWindow() {
             videoElement.pause();
             videoElement.src = "";
             videoPlayerModal.style.display = 'none';
         }
 
-        // Opens the video modal and starts playing the video.
         function launchVideoWindow(url) {
             videoElement.src = url;
             videoPlayerModal.style.display = 'flex';
@@ -236,23 +165,22 @@
             };
         }
 
-        // Adds a click listener to all elements that launch a video.
         document.querySelectorAll('.video-activator-icon').forEach(iconLink => {
             iconLink.addEventListener('click', (event) => {
                 event.preventDefault();
+                // Reads the unique IDN from the clicked icon (1 of 3).
                 const videoId = iconLink.getAttribute('data-video-id');
+                // Uses the IDN to look up the correct Bucket URL (from 2 & 3 of 3).
                 const videoUrl = videoSources[videoId];
 
                 if (videoUrl) {
                     launchVideoWindow(videoUrl);
                 } else {
-                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
-                    launchVideoWindow(videoUrl);
+                    console.error(`Error: Video URL for IDN '${videoId}' is missing from the map.`);
                 }
             });
         });
 
-        // Adds a click listener to the close button.
         if (closeVideoBtn) {
             closeVideoBtn.addEventListener('click', closeVideoWindow);
         }
