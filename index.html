@@ -3,267 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning Systems</title>
-    
+    <title>Advanced Learning Systems - ONETH</title>
+    <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* CSS STYLING BLOCK: Defines the look and layout of the page elements. */
+        /* --- CRITICAL CSS FOR LAYOUT & ASPECT RATIO (Minimal In-line for ease) --- */
         :root {
-            --belt-height: 40px; 
-            --menu-width: 200px; 
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            min-height: 100vh;
+            --color-lighthouse: #f4f4f4; /* Background/Unwatched Track */
+            --color-stealth: #d3d3d3;    /* Button Base / Darker Tonic Gray */
+            --color-ghost: #e6e6e6;      /* Icon / Lighter Tonic Gray */
+            --color-blue: #007bff;       /* Vibrant Blue Progress */
+            --color-menu: #333;          /* Dark base for menu/sidebar */
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7);
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         
-        /* THE FIXED TOP HEADER "BELT" (Part of the Inverted 'L' Structure) */
-        .header-belt {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--belt-height);
-            background-color: #555;
-            color: white;
-            z-index: 999;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            padding: 0 5px; 
-            display: flex;
-            align-items: center;
-            overflow-x: auto; 
-            white-space: nowrap; 
-            gap: 5px; 
-            font-size: 14px; 
-        }
+        /* Ensures the whole app takes up the screen */
+        body { margin: 0; font-family: sans-serif; }
+        #app-container { display: flex; flex-direction: column; height: 100vh; }
         
-        /* STYLE FOR THE ICON BAR BUTTONS */
-        .belt-icon {
-            display: inline-block;
-            padding: 4px 10px; 
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            background-color: #6c757d; 
-            flex-shrink: 0; 
-            transition: background-color 0.2s;
-        }
-        .belt-icon:hover {
-            background-color: #889299;
-        }
-
-        /* THE FIXED LEFT MENU (Part of the Inverted 'L' Structure) */
-        .fixed-menu-container {
-            width: var(--menu-width); 
-            position: fixed; 
-            top: var(--belt-height); 
-            left: 0; 
-            bottom: 0;
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        /* THE MAIN CONTENT CONTAINER (Content Pushed Down and Right) */
-        .main-container {
-            flex-grow: 1;
-            padding: 20px;
-            margin-left: calc(var(--menu-width) + 20px); 
-            margin-top: var(--belt-height);
-            transition: margin-left 0.3s;
-        }
-        .toc-grid {
+        /* The main grid creating the structural frame */
+        #layout-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            padding: 20px 0;
+            grid-template-columns: 200px 1fr 100px; /* Left | Main | Right */
+            flex-grow: 1;
         }
-        .video-activator-icon {
-            display: block;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            text-align: center; 
-            padding-bottom: 10px; 
-            background-color: white; 
+
+        /* --- THE BEVEL EFFECT (Royal Spacebar/Dovetail) --- */
+        .beveled-frame, .beveled-control {
+            box-shadow: 
+                inset 1px 1px 3px var(--bevel-shadow-light), 
+                inset -1px -1px 3px var(--bevel-shadow-dark); 
+            border: 1px solid var(--color-stealth);
         }
-        .video-activator-icon h3 {
-            /* Title Re-enabled and Styled */
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #333;
-            font-weight: normal;
-            white-space: normal; 
-            padding: 0 5px;
+        
+        /* --- TOP ICON BAR (The Pusher/Horizontal Scroll) --- */
+        #top-bar {
+            display: flex; /* Horizontal flow for icons */
+            overflow-x: scroll; /* CRITICAL: Horizontal scrolling */
+            overflow-y: hidden;
+            height: 96px; /* Approx 1 inch */
+            background: var(--color-stealth); /* Base color */
+            padding: 5px;
+            /* Applies the bevel and secures the top space */
         }
-        .video-activator-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .content-icon {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        /* Video Modal Styles remain stable */
-        .video-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
+        
+        /* --- 16:9 VIDEO CONTAINER (The Life-Saver) --- */
+        #main-content {
+            background: black; 
+            display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
-        .video-container {
+        #video-wrapper {
+            width: 100%; 
+            height: 0;
+            padding-bottom: 56.25%; /* CRITICAL: Locks the 16:9 aspect ratio */
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            background: black;
+            background-color: var(--color-lighthouse); 
         }
-        .responsive-video-player {
-            display: block;
-            width: 100%;
-            height: auto;
-            max-height: 90vh;
+        #video-player-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         }
-        /* Return Button: Top-Left, Minimalist Arrow */
-        #closeVideoBtn {
-            position: absolute;
-            top: 10px;
-            left: 10px; 
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 8px; 
-            cursor: pointer;
-            font-size: 18px; 
-            border-radius: 5px;
-            z-index: 1001;
-            line-height: 1; 
+        #video-player { width: 100%; height: 100%; }
+
+        /* --- SIDEBARS --- */
+        #left-menu, #right-sidebar { background: var(--color-menu); color: white; padding: 10px; }
+        #left-menu { /* Vertical Credit/Outline Box */ }
+        #right-sidebar { /* Video Monitor Controls */ }
+        
+        /* --- ICON STYLING (Ensure 1" 9:16 Aspect) --- */
+        .module-card { cursor: pointer; } /* Make the cards clickable */
+        .icon-button { 
+            width: 96px; /* 1" wide */
+            height: 54px; /* 9:16 aspect, e.g., 96 * 9/16 = 54 */
+            /* Add bevel here if desired */
         }
     </style>
 </head>
 <body>
-    
-    <div class="header-belt">
-        <a href="#" class="belt-icon">🏠 Home</a>
-        <a href="#" class="belt-icon">ℹ️ Info</a>
-        <a href="#" class="belt-icon">⚙️ Settings</a>
-        <a href="#" class="belt-icon">📌 Pin</a>
-        <a href="#" class="belt-icon">⭐ Favorite</a>
-        <a href="#" class="belt-icon">📦 Module X</a>
-        <a href="#" class="belt-icon">🚀 Deploy</a>
-        <a href="#" class="belt-icon">💡 Concept</a>
-        <a href="#" class="belt-icon">🔄 Sync</a>
-        <a href="#" class="belt-icon">🔒 Lock</a>
-    </div>
 
-    <div class="fixed-menu-container">
-        <h2>Menu</h2>
-        </div>
+    <div id="app-container">
+        
+        <header id="top-bar" class="beveled-frame">
+            <button class="icon-button" onclick="loadVideo('video/journey-begins.mp4')">Home</button>
+            <button class="icon-button" onclick="loadVideo('video/mr-zero-oneth-lesson.mp4')">Module X</button>
+            </header>
 
-    <div class="main-container">
-        <h1></h1> 
-        <div class="toc-grid">
+        <main id="layout-grid">
             
-            <a href="#" class="video-activator-icon" data-video-id="video_01">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon">
-                <h3>The Journey Begins...</h3>
-            </a>
+            <nav id="left-menu" class="beveled-frame">
+                <div id="credits">
+                    <p><strong>Advanced Learning System</strong></p>
+                    <p>Powered by Google Gemini</p>
+                </div>
+                <div class="module-card" onclick="loadVideo('video/journey-begins.mp4')">The Journey Begins...</div>
+                <div class="module-card" onclick="loadVideo('video/mr-zero-oneth-lesson.mp4')">Mr. Zero, The First Something!</div>
+                <div class="module-card" onclick="loadVideo('video/numeral-family.mp4')">The Numeral Family</div>
+            </nav>
 
-            <a href="#" class="video-activator-icon" data-video-id="video_02">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero, The First Something Icon" class="content-icon">
-                <h3>Mr. Zero, The First Something!</h3>
-            </a>
+            <section id="main-content">
+                <div id="video-wrapper">
+                    <div id="video-player-container">
+                        <video id="video-player" poster="placeholder-image.jpg">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </section>
 
-            <a href="#" class="video-activator-icon" data-video-id="video_03">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Marriage of Numeros Icon" class="content-icon">
-                <h3>The Numeral Family</h3>
-            </a>
-            
-            </div>
-    </div>
+            <aside id="right-sidebar" class="beveled-frame">
+                <div id="video-controls">
+                    <button id="play-pause-btn" class="beveled-control" style="width:48px; height:48px;">▶</button>
+                    <input type="range" id="seek-bar" class="beveled-control" value="0">
+                    <div id="time-display">0:00 / 0:00</div>
+                    <button id="jump-back-btn" class="beveled-control" style="width:32px; height:32px;">↶10</button>
+                    <input type="range" id="volume-slider" class="beveled-control" orient="vertical" value="100">
+                    <button id="mute-btn" class="beveled-control">🔊</button>
+                </div>
 
-    <div id="videoPlayerModal" class="video-modal-overlay">
-        <div class="video-container">
-            <video
-                id="myVideoElement"
-                controls
-                preload="auto"
-                class="responsive-video-player"
-            ></video>
-            <button id="closeVideoBtn"><--|</button>
-        </div>
+                <div id="interactive-controls" class="beveled-frame" style="flex-grow: 1;">
+                    <p>ONETH Classification Exercise</p>
+                </div>
+            </aside>
+
+        </main>
     </div>
 
     <script>
-        // 2. JAVASCRIPT DEFINITION (THE MAP): The central position for Triscotti Maintenance
-        const videoSources = {
-            // HOLON IDN (Stable Key) : Bucket URL (Storage Location)
-            
-            // Holon 01 Activated with CORRECTED GCS Filename
-            'video_01': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-            
-            // Holon 02 Activated with CORRECTED GCS Filename
-            'video_02': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
-            
-            // Holon 03 Fully defined (No change required)
-            'video_03': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
-            
-            // All future videos are added here: 'video_04': 'YOUR_URL_HERE', etc.
-        };
+        // --- THE MINIMAL, SURGICAL CHANGE LOGIC ---
+        function loadVideo(videoSource) {
+            const player = document.getElementById('video-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
 
-        // --- Video Activation Logic (Stable Code - No Edits Needed Below) ---
+            // 1. Redirection: Load the source into the new 16:9 player
+            player.src = videoSource;
+            
+            // 2. Initial State: Load the video but pause it immediately (Wait for Click)
+            player.load(); 
+            player.pause(); 
 
-        const videoPlayerModal = document.getElementById('videoPlayerModal');
-        const videoElement = document.getElementById('myVideoElement');
-        const closeVideoBtn = document.getElementById('closeVideoBtn');
-
-        function closeVideoWindow() {
-            videoElement.pause();
-            videoElement.src = "";
-            videoPlayerModal.style.display = 'none';
+            // 3. Sidebar Sync: Update the Play/Pause button to show the 'Play' icon (Gray)
+            // (Conceptual sync: real sync needs more code, but this sets the button visually)
+            playPauseBtn.textContent = '▶'; 
+            playPauseBtn.style.backgroundColor = 'var(--color-stealth)'; 
         }
 
-        function launchVideoWindow(url) {
-            videoElement.src = url;
-            videoPlayerModal.style.display = 'flex';
-            videoElement.play();
-            videoElement.onended = () => {
-                console.log('Video finished. Auto-returning user to menu.');
-                closeVideoWindow();
-            };
-        }
-
-        document.querySelectorAll('.video-activator-icon').forEach(iconLink => {
-            iconLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                const videoId = iconLink.getAttribute('data-video-id');
-                const videoUrl = videoSources[videoId];
-
-                if (videoUrl) {
-                    launchVideoWindow(videoUrl);
-                } else {
-                    // Clean error: Data must be added to the central videoSources map.
-                    console.error(`Error: Video URL for IDN '${videoId}' is missing from the map. Data must be added to the central videoSources map.`);
-                }
-            });
+        // Basic Play/Pause toggle (Conceptual)
+        document.getElementById('play-pause-btn').addEventListener('click', function() {
+            const player = document.getElementById('video-player');
+            if (player.paused) {
+                player.play();
+                this.textContent = '⏸'; // Pause icon
+                this.style.backgroundColor = 'green';
+            } else {
+                player.pause();
+                this.textContent = '▶'; // Play icon
+                this.style.backgroundColor = 'var(--color-stealth)';
+            }
         });
-
-        if (closeVideoBtn) {
-            closeVideoBtn.addEventListener('click', closeVideoWindow);
-        }
     </script>
 </body>
 </html>
