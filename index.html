@@ -3,253 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning Systems</title>
+    <title>Advanced Learning System - ONETH</title>
     
     <style>
-        /* General Body Styles */
-        body {
-            font-family: 'EB Garamond', serif;
-            line-height: 1.6;
-            padding: 0;
-            margin: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            height: 100vh;
+        /* --- 1. COLOR SCHEMATA & AESTHETICS --- */
+        :root {
+            --color-lighthouse: #f4f4f4; /* Background/Unwatched Track */
+            --color-stealth: #d3d3d3;    /* Button Base / Darker Tonic Gray */
+            --color-ghost: #e6e6e6;      /* Icon / Lighter Tonic Gray */
+            --color-blue: #007bff;       /* Vibrant Blue Progress */
+            --color-menu: #333;          /* Dark base for menu/sidebar */
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7);
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
 
-        /* Main Container for the Grid */
-        .main-container {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* The beveled aesthetic for the L-Frame and controls */
+        .beveled-frame, .beveled-control {
+            box-shadow: 
+                inset 1px 1px 3px var(--bevel-shadow-light), 
+                inset -1px -1px 3px var(--bevel-shadow-dark); 
+            border: 1px solid var(--color-stealth);
         }
 
-        /* Fixed Menu Container for the Sidebar */
-        .fixed-menu-container {
-            width: 250px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-left: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 0.9em;
-        }
-
-        /* Fixed Menu List */
-        .fixed-menu-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        /* Fixed Menu Items */
-        .fixed-menu-item a {
-            text-decoration: none;
-            color: #000;
-            font-size: .9em;
-            font-weight: bold;
-            display: block;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Fixed Menu Header */
-        .fixed-menu-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        /* Fixed Menu Header Title */
-        .fixed-menu-header h3 {
-            font-size: 1.2em;
-        }
-
-        /* Powered by Gemini Text */
-        .powered-by-gemini {
-            font-size: 0.8em;
-            color: #6c757d;
-        }
-
-        /* Credits Box */
-        .credits-box {
-            font-size: 0.5em;
-            color: #6c757d;
-            text-align: center;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-        }
-
-        /* Table of Contents Grid for a compact icon layout */
-        .toc-grid {
+        /* --- 2. BASE LAYOUT & GRID --- */
+        body { margin: 0; font-family: sans-serif; background: var(--color-lighthouse); }
+        #app-container { display: flex; flex-direction: column; height: 100vh; }
+        
+        #main-wrapper {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(1in, 1fr));
-            gap: 10px;
+            /* Defines the columns: Left Menu | Content | Right Sidebar */
+            grid-template-columns: 200px 1fr 100px; 
+            flex-grow: 1;
+        }
+
+        /* --- 3. THE LEFT MENU BAR --- */
+        #left-menu {
+            background: var(--color-menu); 
+            color: white; 
             padding: 10px;
-            justify-content: center;
         }
 
-        /* New styling for the small icons */
-        .content-icon {
-            width: 1in;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border-radius: 4px;
+        /* --- 4. THE TWO SURGICALLY ADDED CONTAINERS (The Fix) --- */
+        
+        /* Container 1: Scrolling Icon Bar (The Layout Fix) */
+        #scrolling-icon-bar {
+            grid-column: 2 / span 2; /* Span across Main Content and Right Sidebar */
+            height: 96px; /* Approx 1 inch */
+            display: flex; 
+            overflow-x: scroll; /* CRITICAL: Enables horizontal scrolling */
+            overflow-y: hidden;
+            background: var(--color-stealth); 
+            padding: 5px; 
         }
 
-        /* Video Modal Overlay */
-        .video-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+        /* Container 2: Right Sidebar (The Controls Space) */
+        #right-sidebar {
+            /* Position in the last column */
+            grid-column: 3;
+            /* Ensures the controls stack vertically and fill the height */
+            display: flex;
+            flex-direction: column; 
+            background: var(--color-menu); 
+            padding: 10px;
         }
 
-        /* Video Container */
-        .video-container {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
+        /* --- 5. MAIN CONTENT AREA (Where your cards will sit) --- */
+        #main-content {
+            grid-column: 2; /* Positioned next to the left menu */
+            padding: 20px;
+        }
+        
+        /* Sub-containers to define the space split within the Right Sidebar */
+        #video-controls-area {
+            height: 200px; 
+        }
+        #interactive-controls-area {
+            flex-grow: 1; /* Takes up all remaining vertical space */
+            margin-top: 10px;
         }
 
-        /* Video Element */
-        #myVideoElement {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Close Video Button */
-        #closeVideoBtn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #333;
-            color: white;
-            border: 2px solid #fff;
+        /* Placeholder style for your existing functional cards for testing */
+        .module-card {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ccc;
             cursor: pointer;
-            font-size: 16px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1001;
         }
+        
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="toc-grid">
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_inicio">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon" title="A journey into learning begins with an understanding of core concepts.">
-            </a>
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_zero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero Icon" class="content-icon" title="Learn about Mr. Zero and the beginning of numbers.">
-            </a>
-            <a href="#" class="video-activator-icon" data-video-id="unidad1_family">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family Icon" class="content-icon" title="Meet the numeral family and their adventures.">
-            </a>
-        </div>
+
+    <div id="app-container">
+        
+        <div style="display: flex; width: 100%;">
+            <div style="width: 200px; background: var(--color-menu);"></div>
+            
+            <div id="scrolling-icon-bar" class="beveled-frame" style="flex-grow: 1;">
+                <button style="width: 96px; height: 54px;" class="icon-button">Home</button>
+                <button style="width: 96px; height: 54px;" class="icon-button">Settings</button>
+                <button style="width: 96px; height: 54px;" class="icon-button">Module X</button>
+                </div>
         </div>
 
-    <div class="fixed-menu-container">
-        <div class="fixed-menu-header">
-            <h3>Advanced Learning Systems</h3>
-            <p class="powered-by-gemini">Powered by Google Gemini</p>
-        </div>
-        <div style="height: 1.0em;"></div>
-        <div>
-            <ul class="fixed-menu-list">
-                <li class="fixed-menu-item"><a href="#math">1. Mathematics</a></li>
-                <li class="fixed-menu-item"><a href="#lang">2. Language Arts</a></li>
-                <li class="fixed-menu-item"><a href="#sci">3. Management</a></li>
-                <li class="fixed-menu-item"><a href="#hist">4. Organization</a></li>
-                <li class="fixed-menu-item"><a href="#art">5. Education</a></li>
-                <li class="fixed-menu-item"><a href="#music">6. Training Trainers</a></li>
-                <li class="fixed-menu-item"><a href="#music">7. Knowledge Transfer</a></li>
-            </ul>
-        </div>
-        <div class="credits-box">
-            <p>.</p>
-        </div>
-    </div>
 
-    <div id="videoPlayerModal" class="video-modal-overlay">
-        <div class="video-container">
-            <video
-                id="myVideoElement"
-                controls
-                preload="auto"
-                class="responsive-video-player"
-            ></video>
-            <button id="closeVideoBtn">Return (X)</button>
+        <div id="main-wrapper">
+            
+            <nav id="left-menu" class="beveled-frame">
+                <div id="credits">
+                    <p>Advanced Learning System</p>
+                    <p>Powered by Google Gemini</p>
+                </div>
+            </nav>
+
+            <section id="main-content">
+                <div class="module-card" onclick="loadVideo('video/journey-begins.mp4')">The Journey Begins...</div>
+                <div class="module-card" onclick="loadVideo('video/mr-zero-oneth-lesson.mp4')">Mr. Zero, The First Something!</div>
+                <div class="module-card" onclick="loadVideo('video/numeral-family.mp4')">The Numeral Family</div>
+                
+                <div id="video-placeholder" style="display: none;">
+                    <div id="video-wrapper" style="/* 16:9 CSS will go here */">
+                        <video id="video-player" controls></video>
+                    </div>
+                </div>
+            </section>
+
+            <aside id="right-sidebar" class="beveled-frame">
+                <div id="video-controls-area">
+                    <button id="play-pause-btn" class="beveled-control">▶</button>
+                    <input type="range" id="seek-bar" class="beveled-control">
+                </div>
+                
+                <div id="interactive-controls-area">
+                    ONETH Classification Exercise
+                </div>
+            </aside>
+
         </div>
     </div>
 
     <script>
-        // Maps video IDs to their URLs.
-        const videoSources = {
-            'unidad1_inicio': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4',
-            'unidad1_zero': 'https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4',
-            'unidad1_family': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
-        };
+        // --- THE MINIMAL, SURGICAL CHANGE LOGIC (Placeholder Function) ---
+        function loadVideo(videoSource) {
+            alert("Video Link Clicked: " + videoSource + ". Now redirecting logic.");
+            
+            // 1. Hide the cards and show the video player placeholder
+            document.getElementById('video-placeholder').style.display = 'block';
+            
+            // 2. Load and pause the video (Wait for Click)
+            const player = document.getElementById('video-player');
+            player.src = videoSource;
+            player.load(); 
+            player.pause(); 
 
-        // Gets references to the video player elements in the HTML.
-        const videoPlayerModal = document.getElementById('videoPlayerModal');
-        const videoElement = document.getElementById('myVideoElement');
-        const closeVideoBtn = document.getElementById('closeVideoBtn');
-
-        // Closes the video modal.
-        function closeVideoWindow() {
-            videoElement.pause();
-            videoElement.src = "";
-            videoPlayerModal.style.display = 'none';
-        }
-
-        // Opens the video modal and starts playing the video.
-        function launchVideoWindow(url) {
-            videoElement.src = url;
-            videoPlayerModal.style.display = 'flex';
-            videoElement.play();
-            videoElement.onended = () => {
-                console.log('Video finished. Auto-returning user to menu.');
-                closeVideoWindow();
-            };
-        }
-
-        // Adds a click listener to all elements that launch a video.
-        document.querySelectorAll('.video-activator-icon').forEach(iconLink => {
-            iconLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                const videoId = iconLink.getAttribute('data-video-id');
-                const videoUrl = videoSources[videoId];
-
-                if (videoUrl) {
-                    launchVideoWindow(videoUrl);
-                } else {
-                    console.error(`Error: Video URL for ID '${videoId}' is missing in the videoSources map. Proceeding with video launch (may fail).`);
-                    launchVideoWindow(videoUrl);
-                }
-            });
-        });
-
-        // Adds a click listener to the close button.
-        if (closeVideoBtn) {
-            closeVideoBtn.addEventListener('click', closeVideoWindow);
+            // 3. Sync sidebar control visually for the 'Wait for Click' state
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            playPauseBtn.textContent = '▶'; 
+            playPauseBtn.style.backgroundColor = 'var(--color-stealth)';
         }
     </script>
 </body>
