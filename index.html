@@ -22,12 +22,12 @@
             border: 1px solid var(--color-stealth);
         }
         
-        /* --- 2. BASE LAYOUT: FLEX CONTAINERS --- */
+        /* --- 2. BASE LAYOUT: FLEX CONTAINERS (Left Menu + Content Wrapper) --- */
         body { 
             margin: 0; 
             font-family: sans-serif; 
             height: 100vh;
-            display: flex; 
+            display: flex; /* Main Flex Container: Left Menu + Content Wrapper */
             background: var(--color-lighthouse); 
         }
 
@@ -42,7 +42,7 @@
 
         /* 4. MAIN CONTENT WRAPPER (Area next to the Left Menu) */
         #content-wrapper {
-            flex-grow: 1; 
+            flex-grow: 1; /* Takes up all remaining horizontal space */
             display: flex;
             flex-direction: column; 
         }
@@ -80,30 +80,21 @@
             flex-grow: 1;
         }
         
-        /* --- 8. STRUCTURAL FLEX LAYOUT --- */
+        /* --- 7. STRUCTURAL FLEX LAYOUT (NO RIGHT SIDEBAR) --- */
         #main-flex-container {
             display: flex;
             height: 100%; 
         }
         
         #main-content {
-            /* The flexible left column, holding content/video/ONETH */
-            flex-grow: 1;
+            /* Now occupies full width of the remaining space (ONETH two-column layout) */
+            flex-grow: 1; 
             padding: 20px;
             background: var(--color-lighthouse);
             overflow-y: auto; 
         }
         
-        #right-sidebar {
-            /* The fixed width right column (currently reserved) */
-            width: 200px; 
-            background: var(--color-stealth);
-            padding: 10px;
-            flex-shrink: 0;
-            overflow-y: auto;
-        }
-        
-        /* --- 9. SIDEBAR CONTROL STYLES --- */
+        /* --- 8. CONTROL STYLES (General) --- */
         .control-btn {
             width: 100%;
             padding: 10px 5px;
@@ -159,7 +150,7 @@
             border-radius: 3px;
         }
 
-        /* --- NEW STYLES: ONETH EXERCISE ELEMENTS --- */
+        /* --- ONETH EXERCISE ELEMENTS --- */
         #oneth-exercise-area {
             margin-top: 20px;
             padding: 20px;
@@ -178,7 +169,6 @@
                 1px 1px 3px var(--bevel-shadow-dark), 
                 -1px -1px 3px var(--bevel-shadow-light); 
         }
-
     </style>
 </head>
 <body>
@@ -239,6 +229,7 @@
                 <section id="main-content">
                     
                     <div id="module-view-container">
+                        
                         <div id="landing-status-box" class="beveled-frame" 
                              style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
                             <h2>Welcome to the Advanced Learning System</h2>
@@ -252,7 +243,9 @@
                             <h3 id="detail-code"></h3>
                             <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
                             
-                            <button id="detail-play-btn" class="control-btn beveled-frame" style="width: 50%; padding: 15px;">
+                            <button id="detail-control-btn" class="control-btn beveled-frame" 
+                                    onclick="toggleVideoPlayback()"
+                                    style="width: 50%; padding: 15px; margin-top: 10px;">
                                 ▶ Begin Module
                             </button>
 
@@ -286,25 +279,7 @@
 
                 </section>
                 
-                <aside id="right-sidebar">
-                    <div id="video-control-panel">
-                        
-                        <div id="module-context-box"> 
-                            <div id="module-code-display" style="font-weight: bold; margin-bottom: 5px;"></div>
-                            <div id="module-title-display" style="margin-bottom: 15px; border-bottom: 1px solid #666; padding-bottom: 5px;"></div>
-                        </div>
-
-                        <button id="sidebar-play-pause-btn" 
-                                class="beveled-frame control-btn"
-                                onclick="togglePlayPause()"
-                                disabled>
-                            ▶ Play / ❚❚ Pause
-                        </button>
-                    </div>
-                    <p>Reserved for future controls/interactive elements.</p>
-                </aside>
-
-            </div>
+                </div>
         </div>
     </div>
     
@@ -338,18 +313,14 @@
         const onethExerciseArea = document.getElementById('oneth-exercise-area');
         const moduleViewContainer = document.getElementById('module-view-container');
         
-        const sidebarPlayPauseBtn = document.getElementById('sidebar-play-pause-btn');
-        const moduleContextBox = document.getElementById('module-context-box'); 
-        const moduleCodeDisplay = document.getElementById('module-code-display');
-        const moduleTitleDisplay = document.getElementById('module-title-display');
-        
         const statusMessage = document.getElementById('status-message');
 
         // Detail panel elements
         const moduleDetailPanel = document.getElementById('module-detail-panel');
         const detailCode = document.getElementById('detail-code');
         const detailTitle = document.getElementById('detail-title');
-        const detailPlayBtn = document.getElementById('detail-play-btn'); 
+        // The centralized Play/Pause control button
+        const detailControlBtn = document.getElementById('detail-control-btn'); 
 
         // Get new exercise elements (Used by the loading function)
         const questionBox = document.getElementById('question-box');
@@ -359,23 +330,38 @@
         let currentModuleTitle = ''; // Tracks the title of the video that just played
         let nextVideoSource = ''; // Stores the source for deferred launch
         
-        // Helper to extract the code and title from the full module title string (e.g., A1P1U1S1: Title)
-        function updateSidebarContext(fullTitle) {
-            if (fullTitle) {
-                const parts = fullTitle.split(':');
-                const code = parts[0].trim();
-                const title = parts.length > 1 ? parts.slice(1).join(':').trim() : fullTitle;
-                
-                moduleCodeDisplay.textContent = `CODE: ${code}`;
-                moduleTitleDisplay.textContent = `TITLE: ${title}`;
-                moduleContextBox.style.display = 'block'; // Show context when title is provided
+        
+        // NEW FUNCTION: Toggles Play/Pause and handles the initial video launch.
+        function toggleVideoPlayback() {
+            if (!nextVideoSource) {
+                alert("Error: No module loaded.");
+                showModules();
+                return;
+            }
+
+            // Case 1: The video is NOT currently visible (Launch State)
+            if (videoWrapper.style.display !== 'block') {
+                playSelectedModule();
+                // After launch, start playing and set button to pause state
+                player.play(); 
+                detailControlBtn.textContent = '❚❚ Pause Module';
+                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
+                detailControlBtn.style.color = 'var(--color-menu)';
+
+            // Case 2: The video IS visible (Play/Pause Toggle State)
+            } else if (player.paused) {
+                player.play();
+                detailControlBtn.textContent = '❚❚ Pause Module';
+                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
+                detailControlBtn.style.color = 'var(--color-menu)';
             } else {
-                moduleCodeDisplay.textContent = '';
-                moduleTitleDisplay.textContent = 'No Module Active';
-                moduleContextBox.style.display = 'none'; // Hide context on main screen
+                player.pause();
+                detailControlBtn.textContent = '▶ Resume Module';
+                detailControlBtn.style.backgroundColor = 'white';
+                detailControlBtn.style.color = 'black';
             }
         }
-
+        
 
         function checkAnswer(selectedChoice, correctAnswer) {
             if (selectedChoice === correctAnswer) {
@@ -386,7 +372,6 @@
             } else {
                 // Incorrect: Remain on the current question (Error Correction)
                 alert("Incorrect Classification. Please review the material and try again.");
-                // Note: The logic requires the user to 'learn' the correct answer before proceeding.
             }
         }
 
@@ -395,7 +380,6 @@
             if (!q) {
                 // Logic for when the quiz is finished
                 questionBox.innerHTML = "<p>✅ **All questions answered.** Please return to modules.</p>";
-                // Updated button text to "Exit"
                 choicesContainer.innerHTML = '<button class="choice-button beveled-frame" onclick="showModules()">Exit</button>';
                 return;
             }
@@ -417,26 +401,8 @@
             });
         }
         
-        // Function to toggle play/pause from the sidebar
-        function togglePlayPause() {
-            if (player.paused) {
-                player.play();
-                sidebarPlayPauseBtn.textContent = '❚❚ Pause';
-            } else {
-                player.pause();
-                sidebarPlayPauseBtn.textContent = '▶ Play';
-            }
-        }
-
-        // Function to execute the launch after confirmation
+        // Function to load the video and switch views (called by toggleVideoPlayback)
         function playSelectedModule() {
-            // Check if a video source is actually loaded
-            if (!nextVideoSource) {
-                alert("Error: No video selected to play.");
-                showModules(); // Return to safe state
-                return;
-            }
-            
             // 1. Hide the module view container and detail panel
             moduleViewContainer.style.display = 'none';
             moduleDetailPanel.style.display = 'none'; 
@@ -449,14 +415,8 @@
             // 3. Redirection: Load the source into the new 16:9 player
             player.src = nextVideoSource;
             
-            // 4. Initial State: Load the video but pause it immediately
+            // 4. Load the video (State will be managed by toggleVideoPlayback)
             player.load(); 
-            player.pause(); 
-            
-            // Update sidebar button state and context 
-            moduleContextBox.style.display = 'block'; 
-            sidebarPlayPauseBtn.disabled = false;
-            sidebarPlayPauseBtn.textContent = '▶ Play'; 
         }
         
         // Function to show the default module view container
@@ -478,17 +438,17 @@
             player.removeAttribute('src'); 
             player.load();
             
-            sidebarPlayPauseBtn.disabled = true;
-            
             // Explicitly clear the module title state
             currentModuleTitle = '';
             nextVideoSource = ''; // Clear the stored video source
             
-            // Clear the sidebar context display (This hides the context box)
-            updateSidebarContext(null); 
-            
             // Update the main status message on return
             statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
+            
+            // Reset the control button text
+            detailControlBtn.textContent = '▶ Begin Module';
+            detailControlBtn.style.backgroundColor = 'white';
+            detailControlBtn.style.color = 'black';
         }
 
         function launchVideo(videoSource, moduleTitle) {
@@ -510,10 +470,11 @@
             
             // 3. Ensure the module container itself is visible 
             moduleViewContainer.style.display = 'block'; 
-
-            // 4. Update sidebar context to reflect the selection
-            sidebarPlayPauseBtn.disabled = true; // Still disabled until video is loaded
-            updateSidebarContext(moduleTitle); // This ensures the context box is visible
+            
+            // 4. Reset button text to initial state
+            detailControlBtn.textContent = '▶ Begin Module';
+            detailControlBtn.style.backgroundColor = 'white';
+            detailControlBtn.style.color = 'black';
         }
 
         function closeVideo() {
@@ -533,26 +494,21 @@
                     // Update the status message to reflect the transition
                     statusMessage.textContent = `Video Complete! Beginning ONETH Classification for: ${currentModuleTitle}`;
                     
-                    // Hide the sidebar context box on quiz transition
-                    moduleContextBox.style.display = 'none'; 
-
                     // CRITICAL: Load the first question when the area is visible
                     currentQuestionIndex = 0; // Reset question index
                     loadQuestion(0); 
-                    
-                    sidebarPlayPauseBtn.disabled = true;
                 });
             }
             
-            // Set the initial click handler for the new detail play button
-            detailPlayBtn.onclick = playSelectedModule;
+            // The detail button logic is handled via the onclick attribute in HTML
+            // detailPlayBtn.onclick = playSelectedModule; // REMOVED
 
             // --- JAVVY STABILIZATION: INITIAL LOAD STATE ---
-            sidebarPlayPauseBtn.disabled = true; 
-            updateSidebarContext(null); // Call to set up the clean landing state (hides context box)
-            
-            // Set the initial status message (Overwrites HTML default for stability)
             statusMessage.textContent = 'Select a module from the scrolling icon bar above to begin the ONETH experience.';
+            
+            // CRITICAL CLEANUP: Ensure the detail panel is hidden on initial load
+            moduleDetailPanel.style.display = 'none';
+            document.getElementById('landing-status-box').style.display = 'block';
         });
     </script>
 </body>
