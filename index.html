@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System</title>
+    <title>Advanced Learning System - ONETH INTERACTIVE</title>
     
     <style>
-        /* CSS remains the same as the previous version */
+        /* CSS Cleaned and Finalized for 1-Guarantee Presentation */
         :root {
             --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88; 
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
@@ -14,28 +14,28 @@
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
         body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
         #left-menu { width: 200px; background: var(--color-menu); color: white; padding: 15px; flex-shrink: 0; }
+        
+        /* 🚨 VOS FIX: CENTERED TEXT AND CONTAINER RULES CORRECTLY PLACED IN <STYLE> BLOCK */
+        #credits { text-align: center; } 
+        #left-menu h3 { margin: 0; padding: 0; line-height: 1.2; font-size: 1.2em; text-align: center; } 
+        #left-menu p { font-size: 0.9em; line-height: 1.4; color: #a9a9a9; margin-top: 5px; text-align: center; }
+        /* END OF CENTERED TEXT RULES */
+
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         #scrolling-icon-bar { height: 96px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button {
-            width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
-            border: none; background: none; display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; box-sizing: border-box;
-        }
+        .icon-button { width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
         .icon-button img { height: 54px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title {
-            font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
-            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
+        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #content-area { flex-grow: 1; display: flex; flex-direction: column; }
+        #main-flex-container { display: flex; height: 100%; flex-grow: 1; }
+        /* Centering main content for video wrapper (which is initially hidden) */
+        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Video Display Constraints */
+        #video-wrapper-16-9 { max-width: 100%; width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded {
-            position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
-            border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
-        }
+        #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -45,57 +45,48 @@
             <h3>Welcome to the<br>Advanced Learning System</h3>
             <p>Powered by Google Gemini</p>
         </div>
+        <div id="oneth-mandate" style="margin-top: 20px;">
+            <p>
+                This system operates under the ONETH mandate and utilizes Google's computational resources. Select a module above to begin.
+            </p>
+        </div>
     </nav>
 
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')"
-                    title="The Journey Begins...">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')" title="The Journey Begins...">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
                 <span class="icon-title">A1P1U1S1</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')"
-                    title="Mr. Zero, The First Something!">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')" title="Mr. Zero, The First Something!">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2">
                 <span class="icon-title">A1P1U1S2</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')"
-                    title="The Numeral Family">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')" title="The Numeral Family">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
                 <span class="icon-title">A1P1U1S3</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')"
-                    title="Counting Concepts">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')" title="Counting Concepts">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
                 <span class="icon-title">Decillions</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')"
-                    title="The Zero's Journey">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')" title="The Zero's Journey">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
                 <span class="icon-title">A1P1U1S4</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%2C%20Diez%20Uno.mp4', 'A1P1U2S1: Classification Gates')"
-                    title="Classification Gates">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S1: Classification Gates')" title="Classification Gates">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2S1">
                 <span class="icon-title">A1P1U2S1</span>
             </button>
             
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S2: System Recalibration')"
-                    title="System Recalibration">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S2: System Recalibration')" title="System Recalibration">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U2S2">
                 <span class="icon-title">A1P1U2S2</span>
             </button>
@@ -105,120 +96,67 @@
         <div id="content-area">
              <div id="main-flex-container">
                 <section id="main-content">
-                    <div id="module-view-container">
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
-                        //  <h2></h2>
-                        //   <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
-                        </div>
-                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
-                            <h3 id="detail-code"></h3>
-                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
-                                ▶ Begin Module
-                            </button>
-                        </div>
-                    </div>
-                    <div id="video-wrapper-16-9" style="display:none;">
+                    
+                    <div id="video-wrapper-16-9" style="display:none; justify-content: center; align-items: center; flex-grow: 1; height: 100%;">
                         <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
                         <div id="video-container-aspect-lock">
                             <video id="video-player" controls></video>
                         </div>
                     </div>
+                    
                 </section>
             </div>
         </div>
     </div>
     
     <script>
-        // JS remains the same
         const player = document.getElementById('video-player');
         const videoWrapper = document.getElementById('video-wrapper-16-9');
         const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-        const detailControlBtn = document.getElementById('detail-control-btn'); 
         let currentModuleTitle = '';
-        let nextVideoSource = '';
         
-        function toggleVideoPlayback() {
-            if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
+        // JScript 1-CORRECTION: Atomic launch function (Direct Launch). Logic adjusted.
+        function playModule(videoSource, moduleTitle) {
+            if (!videoSource) {
+                console.error("Error: No video source provided.");
                 return;
             }
-            if (videoWrapper.style.display !== 'block') {
-                playSelectedModule();
-                player.play(); 
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
-        }
-        
-        function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';
-            moduleDetailPanel.style.display = 'none'; 
-            videoWrapper.style.display = 'block';
-            embeddedReturnBtn.style.display = 'block'; 
-            player.src = nextVideoSource;
-            player.load(); 
-        }
-        
-        function showModules() {
-            moduleViewContainer.style.display = 'block'; 
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none'; 
-            player.pause();
-            player.removeAttribute('src'); 
+
+            // 1-Action: Only show the video player area
+            videoWrapper.style.display = 'flex'; // Use flex to center the video
+            embeddedReturnBtn.style.display = 'block';
+            
+            // Load and Play immediately (Atomic)
+            currentModuleTitle = moduleTitle;
+            player.src = videoSource;
             player.load();
+            player.play();
+        }
+        
+        // Safe-State Recovery Function
+        function showInitialMessage() {
+            // 1-CORRECTION: This function now just resets the video player and hides the wrapper.
+            videoWrapper.style.display = 'none';
+            embeddedReturnBtn.style.display = 'none';
+            player.pause();
+            player.removeAttribute('src');
+            player.load();
+            
+            // NOTE: The absence of a visible initial message means the main content area will be empty (clean slate).
             currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
-            detailControlBtn.textContent = '▶ Begin Module';
-            detailControlBtn.style.backgroundColor = 'white';
-            detailControlBtn.style.color = 'black';
         }
 
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle; 
-            nextVideoSource = videoSource;
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            detailCode.textContent = `Module Code: ${code}`;
-            detailTitle.textContent = title;
-            document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
-        }
-
-        function closeVideo() { showModules(); }
+        function closeVideo() { showInitialMessage(); }
 
         document.addEventListener('DOMContentLoaded', () => {
             if (player) {
                 player.addEventListener('ended', () => {
                     alert(`Module "${currentModuleTitle}" has finished.`);
-                    showModules();
+                    showInitialMessage();
                 });
             }
-            statusMessage.textContent = 'Select a module from the scrolling icon bar above to begin the ONETH experience.';
-            moduleDetailPanel.style.display = 'none';
-            document.getElementById('landing-status-box').style.display = 'block';
+            // Set initial state: Hide the video wrapper at load time.
+            showInitialMessage(); 
         });
     </script>
 </body>
