@@ -71,16 +71,16 @@
             align-items: center;
             justify-content: space-between; 
             padding: 2px;
-            font-size: 0.7em; /* Small font for abbreviation */
-            line-height: 1;
+            /* Corrected size for readability */
+            font-size: 0.85em; 
+            line-height: 0.9;
         }
         .icon-button img {
-            max-height: 80%; /* Reserve space for the title */
+            max-height: 80%; 
             width: 100%;
             object-fit: cover;
         }
         .icon-button span {
-            /* Ensures text doesn't wrap or cause overflow */
             white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis; 
@@ -89,7 +89,6 @@
         /* 6. CONTENT AREA (Full width remaining) */
         #content-area {
             flex-grow: 1;
-            /* Grid definition REMOVED as Right Sidebar is gone */
         }
         
         /* 7. MAIN CONTENT AREA */
@@ -125,6 +124,24 @@
         #video-player {
             width: 100%;
             height: 100%;
+        }
+        
+        /* --- VIDEO NAV BAR (Back Button) --- */
+        #video-nav-bar {
+            background: var(--color-stealth);
+            padding: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        #return-to-cards-btn {
+            background: var(--color-menu);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            line-height: 1;
         }
     </style>
 </head>
@@ -165,6 +182,11 @@
                 <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4')">Mr. Zero, The First Something!</div>
                 <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4')">The Numeral Family</div>
                 
+                <div id="video-nav-bar" style="display:none;" class="beveled-frame">
+                    <button id="return-to-cards-btn" onclick="closeVideo()">
+                        &larr; </button>
+                </div>
+                
                 <div id="video-wrapper-16-9" style="display:none;">
                     <div id="video-container-aspect-lock">
                         <video id="video-player" controls></video>
@@ -175,22 +197,47 @@
     </div>
     
     <script>
+        // CRITICAL: Get elements outside the functions for easy use
+        const player = document.getElementById('video-player');
+        const videoWrapper = document.getElementById('video-wrapper-16-9');
+        const videoNavBar = document.getElementById('video-nav-bar');
+        const cards = document.getElementById('main-content').querySelectorAll('.module-card');
+        
+        function showCards() {
+            // Function to make cards visible and hide video area
+            cards.forEach(card => card.style.display = 'inline-block'); 
+            videoWrapper.style.display = 'none';
+            videoNavBar.style.display = 'none'; // Hide the back button area
+            player.pause();
+            player.removeAttribute('src'); // Clean up video source
+            player.load();
+        }
+
         function launchVideo(videoSource) {
-            const player = document.getElementById('video-player');
-            const cards = document.getElementById('main-content').querySelectorAll('.module-card');
-            const videoWrapper = document.getElementById('video-wrapper-16-9');
-            
             // 1. Hide the cards and show the video player wrapper
             cards.forEach(card => card.style.display = 'none');
             videoWrapper.style.display = 'block';
+            videoNavBar.style.display = 'flex'; // Show the new nav bar
 
             // 2. Redirection: Load the source into the new 16:9 player
             player.src = videoSource;
             
-            // 3. Initial State: Load the video but pause it immediately (Wait for Click)
+            // 3. Initial State: Load the video but pause it immediately
             player.load(); 
             player.pause(); 
         }
+
+        function closeVideo() {
+            // Public function called by the return button
+            showCards();
+        }
+
+        // Listener for when the video naturally ends
+        document.addEventListener('DOMContentLoaded', () => {
+            if (player) {
+                player.addEventListener('ended', showCards);
+            }
+        });
     </script>
 </body>
 </html>
