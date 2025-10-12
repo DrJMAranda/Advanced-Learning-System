@@ -8,8 +8,8 @@
     <style>
         /* CSS STYLING BLOCK: Defines the look and layout of the page elements. */
         :root {
-            --belt-height: 50px; /* Define the height of the fixed top bar */
-            --menu-width: 200px; /* Define the width of the fixed left menu */
+            --belt-height: 40px; 
+            --menu-width: 200px; 
         }
         body {
             font-family: Arial, sans-serif;
@@ -31,23 +31,24 @@
             color: white;
             z-index: 999;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            padding: 0 20px;
+            padding: 0 5px; 
             display: flex;
             align-items: center;
-            overflow-x: auto; /* CRITICAL for Icon Bar: Horizontal Scroll */
-            white-space: nowrap; /* Forces content onto one line */
-            gap: 15px; /* Spacing between icons */
+            overflow-x: auto; 
+            white-space: nowrap; 
+            gap: 5px; 
+            font-size: 14px; 
         }
         
         /* STYLE FOR THE ICON BAR BUTTONS */
         .belt-icon {
             display: inline-block;
-            padding: 8px 15px;
+            padding: 4px 10px; 
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            background-color: #6c757d; /* Slightly different color for contrast */
-            flex-shrink: 0; /* Prevents icons from shrinking when scrolling */
+            background-color: #6c757d; 
+            flex-shrink: 0; 
             transition: background-color 0.2s;
         }
         .belt-icon:hover {
@@ -58,8 +59,8 @@
         .fixed-menu-container {
             width: var(--menu-width); 
             position: fixed; 
-            top: var(--belt-height); /* Starts BELOW the top belt */
-            left: 0; /* Locks to the left edge (DE-FAULT) */
+            top: var(--belt-height); 
+            left: 0; 
             bottom: 0;
             background-color: #333;
             color: white;
@@ -72,14 +73,11 @@
         .main-container {
             flex-grow: 1;
             padding: 20px;
-            /* Offsets content by menu width (200px) + padding (20px) */
             margin-left: calc(var(--menu-width) + 20px); 
-            /* Offsets content by belt height */
             margin-top: var(--belt-height);
             transition: margin-left 0.3s;
         }
         .toc-grid {
-            /* This is the horizontal grid for the video icons */
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
@@ -92,6 +90,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
+            text-align: center; 
+            padding-bottom: 10px; 
+            background-color: white; 
+        }
+        .video-activator-icon h3 {
+            /* Title Re-enabled and Styled */
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: #333;
+            font-weight: normal;
+            white-space: normal; 
+            padding: 0 5px;
         }
         .video-activator-icon:hover {
             transform: translateY(-3px);
@@ -127,18 +137,20 @@
             height: auto;
             max-height: 90vh;
         }
+        /* Return Button: Top-Left, Minimalist Arrow */
         #closeVideoBtn {
             position: absolute;
             top: 10px;
-            right: 10px;
+            left: 10px; 
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 5px 8px; 
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px; 
             border-radius: 5px;
             z-index: 1001;
+            line-height: 1; 
         }
     </style>
 </head>
@@ -167,14 +179,17 @@
             
             <a href="#" class="video-activator-icon" data-video-id="video_01">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins Icon" class="content-icon">
+                <h3>The Journey Begins...</h3>
             </a>
 
             <a href="#" class="video-activator-icon" data-video-id="video_02">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero, The First Something Icon" class="content-icon">
+                <h3>Mr. Zero, The First Something!</h3>
             </a>
 
             <a href="#" class="video-activator-icon" data-video-id="video_03">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="Marriage of Numeros Icon" class="content-icon">
+                <h3>The Numeral Family</h3>
             </a>
             
             </div>
@@ -188,7 +203,7 @@
                 preload="auto"
                 class="responsive-video-player"
             ></video>
-            <button id="closeVideoBtn">Return (X)</button>
+            <button id="closeVideoBtn"><--|</button>
         </div>
     </div>
 
@@ -197,7 +212,13 @@
         const videoSources = {
             // HOLON IDN (Stable Key) : Bucket URL (Storage Location)
             
-            // Only Holon 03 is defined with a live URL (Triscotti clean map)
+            // Holon 01 Activated (Student-Ready Change)
+            'video_01': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1T1%20250918%201934%20TN.mp4',
+            
+            // Holon 02 Activated (Student-Ready Change)
+            'video_02': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S2T3-4%20250928%202033%20TN.mp4',
+            
+            // Holon 03 Fully defined
             'video_03': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
             
             // All future videos are added here: 'video_04': 'YOUR_URL_HERE', etc.
