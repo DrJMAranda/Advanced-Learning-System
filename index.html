@@ -1,3 +1,10 @@
+Yes, absolutely. Here is the final, stable index.html file.
+
+This version is the result of all our architectural decisions, incorporating the stable Inverted 'L' structure and the Triscotti (clean, centralized) maintenance map. This code is ready for immediate deployment and successfully completes the requirements for GIT Flight 205.
+
+Final Deployable index.html (Triscotti System, Clean Map)
+HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +16,7 @@
         /* CSS STYLING BLOCK: Defines the look and layout of the page elements. */
         :root {
             --belt-height: 50px; /* Define the height of the fixed top bar */
+            --menu-width: 200px; /* Define the width of the fixed left menu */
         }
         body {
             font-family: Arial, sans-serif;
@@ -37,20 +45,9 @@
             white-space: nowrap;
         }
 
-        /* The Main Content Container MUST be offset to avoid the Inverted 'L' */
-        .main-container {
-            flex-grow: 1;
-            padding: 20px;
-            /* Offsets content by menu width (200px) + padding */
-            margin-left: 220px; 
-            /* Offsets content by belt height */
-            margin-top: var(--belt-height);
-            transition: margin-left 0.3s;
-        }
-        
         /* THE FIXED LEFT MENU (Part of the Inverted 'L' Structure) */
         .fixed-menu-container {
-            width: 200px; 
+            width: var(--menu-width); 
             position: fixed; 
             top: var(--belt-height); /* Starts BELOW the top belt */
             left: 0; /* Locks to the left edge (DE-FAULT) */
@@ -60,6 +57,17 @@
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
+        }
+
+        /* THE MAIN CONTENT CONTAINER (Content Pushed Down and Right) */
+        .main-container {
+            flex-grow: 1;
+            padding: 20px;
+            /* Offsets content by menu width (200px) + padding (20px) */
+            margin-left: calc(var(--menu-width) + 20px); 
+            /* Offsets content by belt height */
+            margin-top: var(--belt-height);
+            transition: margin-left 0.3s;
         }
         .toc-grid {
             display: grid;
@@ -170,9 +178,7 @@
         const videoSources = {
             // HOLON IDN (Stable Key) : Bucket URL (Storage Location)
             
-            // Holons 01 and 02 using stable placeholders for immediate deployment
-            'video_01': 'https://placeholder.googleapis.com/noenbalde/Videos/journey_begins.mp4',
-            'video_02': 'https://placeholder.googleapis.com/noenbalde/Videos/mr_zero_first.mp4',
+            // Holons 01 and 02 are omitted for Triscotti cleanliness. The error handling will log the absence.
             
             // Holon 03 fully defined
             'video_03': 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4',
@@ -211,7 +217,8 @@
                 if (videoUrl) {
                     launchVideoWindow(videoUrl);
                 } else {
-                    console.error(`Error: Video URL for IDN '${videoId}' is missing from the map.`);
+                    // This is the clean error that is now preferred (Deferring to Bugsy Twins' preference)
+                    console.error(`Error: Video URL for IDN '${videoId}' is missing from the map. Data must be added to the central videoSources map.`);
                 }
             });
         });
