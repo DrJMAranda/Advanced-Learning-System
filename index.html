@@ -6,21 +6,95 @@
     <title>Advanced Learning System</title>
     
     <style>
+        /* EB Garamond Font Integration (The ONETH Typeface) */
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
+
         /* CSS Cleaned and Finalized for 1-Guarantee Presentation */
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88; 
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+            --color-lighthouse: #f4f4f4; 
+            --color-stealth: #d3d3d3; 
+            --color-menu: #333; 
+            --color-accent-active: #ffdd88;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); 
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 200px; background: var(--color-menu); color: white; padding: 15px; flex-shrink: 0; }
-        
-        /* 🚨 VOS FIX: CENTERED TEXT AND CONTAINER RULES CORRECTLY PLACED IN <STYLE> BLOCK */
-        #credits { text-align: center; } 
-        #left-menu h3 { margin: 0; padding: 0; line-height: 1.2; font-size: 1.2em; text-align: center; } 
-        #left-menu p { font-size: 0.9em; line-height: 1.4; color: #a9a9a9; margin-top: 5px; text-align: center; }
-        /* END OF CENTERED TEXT RULES */
+        .beveled-frame { 
+            box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); 
+            border: 1px solid var(--color-stealth); 
+        }
 
+        /* Base Styles and Color FIX: Black on Lighthouse */
+        body { 
+            margin: 0; 
+            font-family: 'EB Garamond', serif; /* Apply EB Garamond universally */
+            height: 100vh; 
+            display: flex; 
+            background: var(--color-lighthouse); 
+            color: black; /* Default to Black text (eliminates all gray liabilities) */
+        }
+        #left-menu { 
+            width: 200px; 
+            background: var(--color-lighthouse); /* FIX: Lighthouse Background */
+            color: black; /* FIX: Black Text */
+            padding: 15px; 
+            flex-shrink: 0; 
+        }
+
+        /* Sizing and Hierarchy FIX: EB Garamond 12pt/10pt/8pt (Prevents Wrapping) */
+
+        /* Level 1: Primary Title (12pt) - ALS Framework: ONETH Mandate */
+        #credits h4 { 
+            font-size: 12pt; 
+            font-weight: 700; 
+            margin: 0; 
+            line-height: 1.2; 
+            text-align: center; 
+            color: black; 
+        }
+
+        /* Level 2: Body Text (10pt) - Includes ONETH mandate and outline items */
+        #oneth-mandate p, #left-menu p {
+            font-size: 10pt; 
+            line-height: 1.4;
+            font-weight: 400;
+            color: black; 
+            margin-top: 5px; 
+            text-align: center; 
+        }
+
+        /* Level 3: Subordinate Text (8pt) - "Powered by Google Gemini" line */
+        #credits h4 p { 
+            font-size: 8pt; 
+            line-height: 1.2; 
+            color: black; 
+            font-style: italic; 
+        }
+        
+        /* Outline placeholder list styles (for future Level 1 Bold / Level 2 Regular/Italic) */
+        #outline-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .level-1 {
+            font-weight: 700; /* Future Bold Anchor */
+            padding: 5px 0;
+        }
+        .level-2-items {
+            list-style: none;
+            padding: 0 0 0 10px;
+            font-weight: 400; /* Future Regular Subordinate */
+        }
+        .level-2 {
+            padding: 2px 0;
+            cursor: pointer;
+        }
+
+        /* ---------------------------------------------------- */
+        /* Existing Content/Icon Bar Styles */
+        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+        #left-menu h3 { margin: 0; padding: 0; line-height: 1.2; font-size: 1.2em; text-align: center; } 
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         #scrolling-icon-bar { height: 96px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
@@ -28,10 +102,7 @@
         .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         #content-area { flex-grow: 1; display: flex; flex-direction: column; }
         #main-flex-container { display: flex; height: 100%; flex-grow: 1; }
-        /* Centering main content for video wrapper (which is initially hidden) */
         #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        /* Video Display Constraints */
         #video-wrapper-16-9 { max-width: 100%; width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         #video-player { width: 100%; height: 100%; }
@@ -42,70 +113,78 @@
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            <h4>Welcome to the<br>Advanced Learning System<br>
-            <p>Powered by Google Gemini</p></h4>
+            <h4>ALS Framework: ONETH Mandate
+                <p>Powered by Google Gemini</p>
+            </h4>
         </div>
+        
         <div id="oneth-mandate" style="margin-top: 20px;">
             <p>
-                This system operates under the ONETH mandate and utilizes Google's computational resources. Select a module above to begin.
+                Capital efficiency and fidelity are prioritized in all system outputs. Select a module to begin.
             </p>
+        </div>
+
+        <div id="outline-container" style="margin-top: 20px;">
+            <p style="text-align: center; font-style: italic; font-weight: 700;">
+                (Outline structure to be deployed next session)
+            </p>
+            <ul id="outline-list">
+                <li class="level-1" style="color: #0070C0; cursor: pointer;">
+                    <span class="title">1. System Concepts</span>
+                    <ul class="level-2-items" style="display: none;">
+                        <li class="level-2 unit-link">1.1. Core Principles</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')" title="The Journey Begins...">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
                 <span class="icon-title">A1P1U1S1</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')" title="Mr. Zero, The First Something!">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2">
                 <span class="icon-title">A1P1U1S2</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')" title="The Numeral Family">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
                 <span class="icon-title">A1P1U1S3</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')" title="Counting Concepts">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
                 <span class="icon-title">Decillions</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')" title="The Zero's Journey">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
                 <span class="icon-title">A1P1U1S4</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S1: Classification Gates')" title="Classification Gates">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2S1">
                 <span class="icon-title">A1P1U2S1</span>
             </button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S2: System Recalibration')" title="System Recalibration">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U2S2">
                 <span class="icon-title">A1P1U2S2</span>
             </button>
-            
         </header>
 
         <div id="content-area">
              <div id="main-flex-container">
-                <section id="main-content">
-                    
-                    <div id="video-wrapper-16-9" style="display:none; justify-content: center; align-items: center; flex-grow: 1; height: 100%;">
-                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-                            <video id="video-player" controls></video>
-                        </div>
-                    </div>
-                    
-                </section>
-            </div>
+                 <section id="main-content">
+                     
+                     <div id="video-wrapper-16-9" style="display:none; justify-content: center; align-items: center; flex-grow: 1; height: 100%;">
+                         <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
+                         <div id="video-container-aspect-lock">
+                             <video id="video-player" controls></video>
+                         </div>
+                     </div>
+                     
+                 </section>
+             </div>
         </div>
     </div>
     
@@ -156,8 +235,12 @@
                 });
             }
             // Set initial state: Hide the video wrapper at load time.
-            showInitialMessage(); 
+            showInitialMessage();  
         });
+        
+        // DEFERRED FUNCTIONAL FIX LOGIC (TO BE IMPLEMENTED NEXT SESSION)
+        // The space below is reserved for the 'toggleOutline' and 'setActiveUnit' functions 
+        // to implement the Bold/Italic hierarchy and collapse functionality.
     </script>
 </body>
 </html>
