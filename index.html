@@ -3,166 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - ONETH</title>
+    <title>Advanced Learning System - Minimal Foundation</title>
     
     <style>
-        /* --- 1. COLOR SCHEMATA & AESTHETICS --- */
+        /* --- 1. AESTHETIC & COLOR SCHEMATA (The Minimum) --- */
         :root {
-            --color-lighthouse: #f4f4f4; /* Background/Unwatched Track */
-            --color-stealth: #d3d3d3;    /* Button Base / Darker Tonic Gray */
-            --color-ghost: #e6e6e6;      /* Icon / Lighter Tonic Gray */
-            --color-blue: #007bff;       /* Vibrant Blue Progress */
-            --color-menu: #333;          /* Dark base for menu/sidebar */
+            --color-lighthouse: #f4f4f4; /* Main Background */
+            --color-stealth: #d3d3d3;    /* Tonic Gray for bevels/accents */
+            --color-menu: #333;          /* Dark base for the Fixed Left Box */
             --bevel-shadow-light: rgba(255, 255, 255, 0.7);
             --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
 
-        /* The beveled aesthetic for the L-Frame and controls */
-        .beveled-frame, .beveled-control {
+        /* The Bevel Aesthetic for the L-Frame components */
+        .beveled-frame {
             box-shadow: 
                 inset 1px 1px 3px var(--bevel-shadow-light), 
                 inset -1px -1px 3px var(--bevel-shadow-dark); 
             border: 1px solid var(--color-stealth);
         }
 
-        /* --- 2. BASE LAYOUT & GRID --- */
-        body { margin: 0; font-family: sans-serif; background: var(--color-lighthouse); }
-        #app-container { display: flex; flex-direction: column; height: 100vh; }
-        
-        #main-wrapper {
-            display: grid;
-            /* Defines the columns: Left Menu | Content | Right Sidebar */
-            grid-template-columns: 200px 1fr 100px; 
-            flex-grow: 1;
+        /* --- 2. BASE LAYOUT GRID --- */
+        body { 
+            margin: 0; 
+            font-family: sans-serif; 
+            background: var(--color-lighthouse); /* Lighthouse Gray background */
+            height: 100vh; /* Ensures full viewport height */
+            display: flex;
         }
 
-        /* --- 3. THE LEFT MENU BAR --- */
+        /* The main layout wrapper for the columns */
+        #main-layout-grid {
+            display: grid;
+            /* Defines the 3 columns: Fixed Left Box | Main Content Area | Right Sidebar Area */
+            grid-template-columns: 200px 1fr 0px; /* Right column is 0px initially */
+            width: 100%;
+        }
+        
+        /* --- 3. FIXED BOX ON THE LEFT --- */
         #left-menu {
+            grid-column: 1; /* First column */
             background: var(--color-menu); 
             color: white; 
-            padding: 10px;
-        }
-
-        /* --- 4. THE TWO SURGICALLY ADDED CONTAINERS (The Fix) --- */
-        
-        /* Container 1: Scrolling Icon Bar (The Layout Fix) */
-        #scrolling-icon-bar {
-            grid-column: 2 / span 2; /* Span across Main Content and Right Sidebar */
-            height: 96px; /* Approx 1 inch */
-            display: flex; 
-            overflow-x: scroll; /* CRITICAL: Enables horizontal scrolling */
-            overflow-y: hidden;
-            background: var(--color-stealth); 
-            padding: 5px; 
-        }
-
-        /* Container 2: Right Sidebar (The Controls Space) */
-        #right-sidebar {
-            /* Position in the last column */
-            grid-column: 3;
-            /* Ensures the controls stack vertically and fill the height */
-            display: flex;
-            flex-direction: column; 
-            background: var(--color-menu); 
-            padding: 10px;
-        }
-
-        /* --- 5. MAIN CONTENT AREA (Where your cards will sit) --- */
-        #main-content {
-            grid-column: 2; /* Positioned next to the left menu */
-            padding: 20px;
-        }
-        
-        /* Sub-containers to define the space split within the Right Sidebar */
-        #video-controls-area {
-            height: 200px; 
-        }
-        #interactive-controls-area {
-            flex-grow: 1; /* Takes up all remaining vertical space */
-            margin-top: 10px;
-        }
-
-        /* Placeholder style for your existing functional cards for testing */
-        .module-card {
-            display: inline-block;
-            margin: 10px;
             padding: 15px;
-            background: white;
-            border: 1px solid #ccc;
-            cursor: pointer;
+            /* Applies the dovetail aesthetic */
+            height: 100%; /* Fills the vertical height */
         }
-        
+
+        /* --- 4. MAIN CONTENT AREA (Empty Space) --- */
+        #main-content {
+            grid-column: 2; /* Second column */
+            background: var(--color-lighthouse);
+        }
     </style>
 </head>
 <body>
 
-    <div id="app-container">
+    <div id="main-layout-grid">
         
-        <div style="display: flex; width: 100%;">
-            <div style="width: 200px; background: var(--color-menu);"></div>
-            
-            <div id="scrolling-icon-bar" class="beveled-frame" style="flex-grow: 1;">
-                <button style="width: 96px; height: 54px;" class="icon-button">Home</button>
-                <button style="width: 96px; height: 54px;" class="icon-button">Settings</button>
-                <button style="width: 96px; height: 54px;" class="icon-button">Module X</button>
-                </div>
-        </div>
-
-
-        <div id="main-wrapper">
-            
-            <nav id="left-menu" class="beveled-frame">
-                <div id="credits">
-                    <p>Advanced Learning System</p>
-                    <p>Powered by Google Gemini</p>
-                </div>
+        <nav id="left-menu" class="beveled-frame">
+            <div id="credits">
+                <h2>Advanced Learning System</h2>
+                <p>Powered by Google Gemini</p>
+            </div>
             </nav>
 
-            <section id="main-content">
-                <div class="module-card" onclick="loadVideo('video/journey-begins.mp4')">The Journey Begins...</div>
-                <div class="module-card" onclick="loadVideo('video/mr-zero-oneth-lesson.mp4')">Mr. Zero, The First Something!</div>
-                <div class="module-card" onclick="loadVideo('video/numeral-family.mp4')">The Numeral Family</div>
-                
-                <div id="video-placeholder" style="display: none;">
-                    <div id="video-wrapper" style="/* 16:9 CSS will go here */">
-                        <video id="video-player" controls></video>
-                    </div>
-                </div>
+        <section id="main-content">
             </section>
 
-            <aside id="right-sidebar" class="beveled-frame">
-                <div id="video-controls-area">
-                    <button id="play-pause-btn" class="beveled-control">▶</button>
-                    <input type="range" id="seek-bar" class="beveled-control">
-                </div>
-                
-                <div id="interactive-controls-area">
-                    ONETH Classification Exercise
-                </div>
-            </aside>
-
-        </div>
     </div>
 
-    <script>
-        // --- THE MINIMAL, SURGICAL CHANGE LOGIC (Placeholder Function) ---
-        function loadVideo(videoSource) {
-            alert("Video Link Clicked: " + videoSource + ". Now redirecting logic.");
-            
-            // 1. Hide the cards and show the video player placeholder
-            document.getElementById('video-placeholder').style.display = 'block';
-            
-            // 2. Load and pause the video (Wait for Click)
-            const player = document.getElementById('video-player');
-            player.src = videoSource;
-            player.load(); 
-            player.pause(); 
-
-            // 3. Sync sidebar control visually for the 'Wait for Click' state
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            playPauseBtn.textContent = '▶'; 
-            playPauseBtn.style.backgroundColor = 'var(--color-stealth)';
-        }
-    </script>
 </body>
 </html>
