@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - Minimal Foundation</title>
+    <title>Advanced Learning System - FINAL STRUCTURE</title>
     
     <style>
-        /* --- 1. AESTHETIC & COLOR SCHEMATA (The Minimum) --- */
+        /* --- 1. COLOR SCHEMATA & AESTHETICS --- */
         :root {
-            --color-lighthouse: #f4f4f4; /* Main Background */
-            --color-stealth: #d3d3d3;    /* Tonic Gray for bevels/accents */
-            --color-menu: #333;          /* Dark base for the Fixed Left Box */
+            /* Minimal Tonic Grays and Colors */
+            --color-lighthouse: #f4f4f4; 
+            --color-stealth: #d3d3d3;    
+            --color-menu: #333;          
             --bevel-shadow-light: rgba(255, 255, 255, 0.7);
             --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
 
-        /* The Bevel Aesthetic for the L-Frame components */
+        /* The Bevel Aesthetic */
         .beveled-frame {
             box-shadow: 
                 inset 1px 1px 3px var(--bevel-shadow-light), 
@@ -23,53 +24,114 @@
             border: 1px solid var(--color-stealth);
         }
 
-        /* --- 2. BASE LAYOUT GRID --- */
+        /* --- 2. BASE LAYOUT GRID (The L-Frame) --- */
         body { 
             margin: 0; 
             font-family: sans-serif; 
-            background: var(--color-lighthouse); /* Lighthouse Gray background */
-            height: 100vh; /* Ensures full viewport height */
-            display: flex;
+            height: 100vh;
+            background: var(--color-lighthouse); 
+            display: grid;
+            /* Defines the rows: 1" Top Bar (96px) and the Content Area (1fr) */
+            grid-template-rows: 96px 1fr; 
         }
 
-        /* The main layout wrapper for the columns */
-        #main-layout-grid {
+        /* The main content/menu area */
+        #main-wrapper {
+            grid-row: 2; /* Sits below the top bar */
             display: grid;
-            /* Defines the 3 columns: Fixed Left Box | Main Content Area | Right Sidebar Area */
-            grid-template-columns: 200px 1fr 0px; /* Right column is 0px initially */
+            /* Defines the columns: Fixed Left Box | Main Content | Right Sidebar (100px) */
+            grid-template-columns: 200px 1fr 100px; 
             width: 100%;
         }
-        
-        /* --- 3. FIXED BOX ON THE LEFT --- */
+
+        /* --- 3. CONTAINER 1: SCROLLING ICON BAR (Top Horizontal) --- */
+        #scrolling-icon-bar {
+            grid-row: 1; /* Sits in the first row */
+            grid-column: 2 / span 2; /* CRITICAL: Spans the content and right sidebar columns */
+            
+            height: 100%; /* Fills the 96px row height */
+            display: flex; 
+            overflow-x: scroll; 
+            overflow-y: hidden;
+            background: var(--color-stealth); 
+            padding: 5px; 
+        }
+
+        /* --- 4. LEFT MENU BAR (Fixed) --- */
         #left-menu {
-            grid-column: 1; /* First column */
+            grid-row: 1 / span 2; /* CRITICAL: Spans both rows (Top Bar and Content) */
+            grid-column: 1; 
             background: var(--color-menu); 
             color: white; 
             padding: 15px;
-            /* Applies the dovetail aesthetic */
-            height: 100%; /* Fills the vertical height */
+            /* Fills the height next to both the top bar and the content */
         }
 
-        /* --- 4. MAIN CONTENT AREA (Empty Space) --- */
+        /* --- 5. MAIN CONTENT AREA --- */
         #main-content {
-            grid-column: 2; /* Second column */
+            grid-column: 2; /* Positioned in the center column */
+            padding: 20px;
             background: var(--color-lighthouse);
+        }
+
+        /* --- 6. CONTAINER 2: RIGHT SIDEBAR (Vertical) --- */
+        #right-sidebar {
+            grid-column: 3; /* Positioned in the last column */
+            display: flex;
+            flex-direction: column; 
+            background: var(--color-menu); 
+            padding: 10px;
+        }
+
+        /* Sub-containers for the Sidebar split */
+        #video-controls-area {
+            height: 200px; 
+        }
+        #interactive-controls-area {
+            flex-grow: 1; 
+            margin-top: 10px;
+            color: white; /* Text color for visibility */
         }
     </style>
 </head>
 <body>
+    
+    <header id="scrolling-icon-bar" class="beveled-frame">
+        <button style="width: 96px; height: 54px; margin-right: 5px;">Home</button>
+        <button style="width: 96px; height: 54px; margin-right: 5px;">Settings</button>
+        <button style="width: 96px; height: 54px; margin-right: 5px;">Module X</button>
+        <button style="width: 96px; height: 54px; margin-right: 5px;">Pin</button>
+        <button style="width: 96px; height: 54px; margin-right: 5px;">Favorite</button>
+    </header>
 
-    <div id="main-layout-grid">
+
+    <div id="main-wrapper">
         
         <nav id="left-menu" class="beveled-frame">
             <div id="credits">
-                <h2>Advanced Learning System</h2>
+                <h3>Advanced Learning System</h3>
                 <p>Powered by Google Gemini</p>
             </div>
-            </nav>
+        </nav>
 
         <section id="main-content">
-            </section>
+            <p>Main Content Area (Ready for Module Cards)</p>
+            
+            <div id="video-placeholder" style="display: none;">
+                <div id="video-wrapper">
+                    <video id="video-player"></video>
+                </div>
+            </div>
+        </section>
+
+        <aside id="right-sidebar" class="beveled-frame">
+            <div id="video-controls-area">
+                <p>Video Controls</p>
+            </div>
+            <div id="interactive-controls-area">
+                <p>ONETH Exercise Area</p>
+            </div>
+        </aside>
 
     </div>
 
