@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - FINAL L-FRAME</title>
+    <title>Advanced Learning System - ONETH FINAL</title>
     
     <style>
         /* --- 1. AESTHETIC & COLOR SCHEMATA --- */
@@ -20,66 +20,143 @@
                 inset -1px -1px 3px var(--bevel-shadow-dark); 
             border: 1px solid var(--color-stealth);
         }
+        .beveled-control {
+            /* Applied to interactive controls */
+            box-shadow: 
+                1px 1px 3px var(--bevel-shadow-dark), 
+                -1px -1px 3px var(--bevel-shadow-light); 
+            border: 1px solid var(--color-stealth);
+            background-color: var(--color-stealth);
+        }
 
         /* --- 2. BASE LAYOUT: FLEX CONTAINERS --- */
         body { 
             margin: 0; 
             font-family: sans-serif; 
             height: 100vh;
-            display: flex; /* Uses flexbox to place the Left Menu next to the Content */
+            display: flex; 
             background: var(--color-lighthouse); 
         }
 
-        /* --- 3. LEFT MENU BAR (The Fixed, Original Container) --- */
+        /* 3. LEFT MENU BAR (Fixed Container) */
         #left-menu {
-            width: 200px; /* Fixed width, no complex grid changes */
+            width: 200px; 
             background: var(--color-menu); 
             color: white; 
             padding: 15px;
-            flex-shrink: 0; /* Ensures it never shrinks */
+            flex-shrink: 0; 
         }
 
-        /* --- 4. MAIN CONTENT WRAPPER (The Area next to the Left Menu) --- */
+        /* 4. MAIN CONTENT WRAPPER (Area next to the Left Menu) */
         #content-wrapper {
-            flex-grow: 1; /* Fills the rest of the horizontal space */
+            flex-grow: 1; 
             display: flex;
-            flex-direction: column; /* Stacks the Top Bar above the Main Content Area */
+            flex-direction: column; 
         }
 
-        /* --- 5. CONTAINER 1: SCROLLING ICON BAR (The Horizontal Outcropping) --- */
+        /* 5. CONTAINER 1: SCROLLING ICON BAR */
         #scrolling-icon-bar {
-            height: 96px; /* Approx 1 inch */
+            height: 96px; 
             display: flex; 
-            overflow-x: scroll; /* Horizontal scroll activated */
+            overflow-x: scroll; 
             overflow-y: hidden;
             background: var(--color-stealth); 
             padding: 5px; 
-            flex-shrink: 0; /* Ensures it maintains 1" height */
+            flex-shrink: 0; 
+        }
+        
+        /* ICON SIZING */
+        .icon-button {
+            width: 96px;       
+            height: 54px;      
+            flex-shrink: 0;
+            margin-right: 5px; 
+            cursor: pointer;
         }
 
-        /* --- 6. CONTENT AND RIGHT SIDEBAR AREA (Below the Top Bar) --- */
+        /* 6. CONTENT AND RIGHT SIDEBAR AREA */
         #content-area {
             flex-grow: 1;
             display: grid;
-            /* Defines the columns: Main Content | Right Sidebar (100px) */
             grid-template-columns: 1fr 100px; 
         }
 
-        /* --- 7. RIGHT SIDEBAR (The Third Container) --- */
+        /* 7. RIGHT SIDEBAR (The Third Container) */
         #right-sidebar {
-            grid-column: 2; /* Last column */
+            grid-column: 2; 
             display: flex;
             flex-direction: column; 
             background: var(--color-menu); 
             padding: 10px;
         }
+        
+        /* --- NEW STYLES: RIGHT SIDEBAR CONTROLS --- */
+        #video-controls-area {
+            height: 200px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .beveled-control {
+            border: 1px solid var(--color-stealth);
+            background-color: var(--color-stealth);
+            margin: 5px 0;
+            width: 80%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #play-pause-btn {
+            height: 30px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+        #seek-bar {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 4px;
+        }
+        /* End of NEW STYLES */
 
-        /* --- 8. MAIN CONTENT AREA --- */
+
+        /* 8. MAIN CONTENT AREA */
         #main-content {
-            grid-column: 1; /* First column of the inner grid */
+            grid-column: 1; 
             padding: 20px;
             background: var(--color-lighthouse);
         }
+        
+        /* --- FUNCTIONAL ELEMENTS STYLES --- */
+        .module-card {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        #video-wrapper-16-9 {
+            width: 100%; 
+            height: 0;
+            padding-bottom: 56.25%; 
+            position: relative;
+            background-color: black;
+            margin-top: 20px;
+        }
+        #video-container-aspect-lock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #video-player {
+            width: 100%;
+            height: 100%;
+        }
+        
     </style>
 </head>
 <body>
@@ -94,25 +171,72 @@
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button style="width: 96px; height: 54px; margin-right: 5px;">Home</button>
-            <button style="width: 96px; height: 54px; margin-right: 5px;">Settings</button>
-            <button style="width: 96px; height: 54px; margin-right: 5px;">Module X</button>
-            <button style="width: 96px; height: 54px; margin-right: 5px;">Pin</button>
+            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins" style="width: 100%; height: 100%; object-fit: cover;">
+            </button>
+            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero, The First Something" style="width: 100%; height: 100%; object-fit: cover;">
+            </button>
+            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family" style="width: 100%; height: 100%; object-fit: cover;">
+            </button>
+            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones" style="width: 100%; height: 100%; object-fit: cover;">
+            </button>
         </header>
 
         <div id="content-area">
             
             <section id="main-content">
-                <p>Main Content Area (Ready for Cards)</p>
+                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4')">The Journey Begins...</div>
+                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4')">Mr. Zero, The First Something!</div>
+                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4')">The Numeral Family</div>
+                
+                <div id="video-wrapper-16-9" style="display:none;">
+                    <div id="video-container-aspect-lock">
+                        <video id="video-player" controls></video>
+                    </div>
+                </div>
             </section>
 
             <aside id="right-sidebar" class="beveled-frame">
-                <div id="video-controls-area"><p>Video Controls</p></div>
-                <div id="interactive-controls-area"><p>ONETH Exercise Area</p></div>
+                <div id="video-controls-area">
+                    <button id="play-pause-btn" class="beveled-control">▶</button>
+                    <input type="range" id="seek-bar" value="0" min="0" max="100" class="beveled-control">
+                </div>
+                <div id="interactive-controls-area">
+                    <p>ONETH Exercise Area</p>
+                </div>
             </aside>
             
         </div>
     </div>
+    
+    <script>
+        function launchVideo(videoSource) {
+            const player = document.getElementById('video-player');
+            const cards = document.getElementById('main-content').querySelectorAll('.module-card');
+            const videoWrapper = document.getElementById('video-wrapper-16-9');
+            
+            // 1. Hide the cards and show the video player wrapper (The "Swipe" UI change)
+            cards.forEach(card => card.style.display = 'none');
+            videoWrapper.style.display = 'block';
 
+            // 2. Redirection: Load the source into the new 16:9 player
+            player.src = videoSource;
+            
+            // 3. Initial State: Load the video but pause it immediately (Wait for Click)
+            player.load(); 
+            player.pause(); 
+
+            // 4. Sidebar Sync: Update the Play/Pause button visual
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            if (playPauseBtn) {
+                playPauseBtn.textContent = '▶'; 
+                playPauseBtn.style.backgroundColor = 'var(--color-stealth, #d3d3d3)';
+            }
+        }
+        // ... (Further JS for control activation goes here) ...
+    </script>
 </body>
 </html>
