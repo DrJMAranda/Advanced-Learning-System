@@ -11,6 +11,7 @@
             --color-lighthouse: #f4f4f4; 
             --color-stealth: #d3d3d3;    
             --color-menu: #333;          
+            --color-accent-active: #ffdd88; 
             --bevel-shadow-light: rgba(255, 255, 255, 0.7);
             --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
@@ -79,21 +80,49 @@
             flex-grow: 1;
         }
         
-        /* 7. MAIN CONTENT AREA */
-        #main-content {
-            padding: 20px;
-            background: var(--color-lighthouse);
+        /* --- 8. STRUCTURAL FLEX LAYOUT --- */
+        #main-flex-container {
+            display: flex;
+            height: 100%; 
         }
         
-        /* --- FUNCTIONAL ELEMENTS STYLES --- */
-        .module-card {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px;
-            background: white;
-            border: 1px solid #ccc;
-            cursor: pointer;
+        #main-content {
+            /* The flexible left column, holding content/video/ONETH */
+            flex-grow: 1;
+            padding: 20px;
+            background: var(--color-lighthouse);
+            overflow-y: auto; 
         }
+        
+        #right-sidebar {
+            /* The fixed width right column (currently reserved) */
+            width: 200px; 
+            background: var(--color-stealth);
+            padding: 10px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+        
+        /* --- 9. SIDEBAR CONTROL STYLES --- */
+        .control-btn {
+            width: 100%;
+            padding: 10px 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: white;
+            box-shadow: 
+                1px 1px 3px var(--bevel-shadow-dark), 
+                -1px -1px 3px var(--bevel-shadow-light); 
+        }
+        .control-btn:disabled {
+            background-color: var(--color-stealth);
+            color: #666;
+            cursor: not-allowed;
+        }
+
+
+        /* --- FUNCTIONAL ELEMENTS STYLES (Video Player, etc.) --- */
         #video-wrapper-16-9 {
             width: 100%; 
             height: 0;
@@ -134,7 +163,7 @@
         #oneth-exercise-area {
             margin-top: 20px;
             padding: 20px;
-            background: var(--color-stealth);
+            background: var(--color-accent-active); 
         }
         #oneth-exercise-area h3 {
             color: var(--color-menu);
@@ -164,53 +193,118 @@
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="The Journey Begins">
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')"
+                    title="A1P1U1S1: The Journey Begins...">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
             </button>
-            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="Mr. Zero, The First Something">
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')"
+                    title="A1P1U1S2: Mr. Zero, The First Something!">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2">
             </button>
-            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="The Numeral Family">
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')"
+                    title="A1P1U1S3: The Numeral Family">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
             </button>
-            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4')">
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')"
+                    title="Decillones: Counting Concepts">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
             </button>
+            
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')"
+                    title="A1P1U1S4: The Zero's Journey">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S1: Classification Gates')"
+                    title="A1P1U2S1: Classification Gates">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2S1">
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S2: System Recalibration')"
+                    title="A1P1U2S2: System Recalibration">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U2S2">
+            </button>
+            
         </header>
 
         <div id="content-area">
             
-            <section id="main-content">
-                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4')">The Journey Begins...</div>
-                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4')">Mr. Zero, The First Something!</div>
-                <div class="module-card" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4')">The Numeral Family</div>
+            <div id="main-flex-container">
                 
-                <div id="video-wrapper-16-9" style="display:none;">
+                <section id="main-content">
                     
-                    <button id="return-to-cards-btn-embedded" onclick="closeVideo()">
-                        &larr; </button>
-                    
-                    <div id="video-container-aspect-lock">
-                        <video id="video-player" controls></video>
-                    </div>
-                </div>
+                    <div id="module-view-container">
+                        <div id="landing-status-box" class="beveled-frame" 
+                             style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
+                            <h2>Welcome to the Advanced Learning System</h2>
+                            <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
+                        </div>
 
-                <div id="oneth-exercise-area" style="display: none;">
-                    
-                    <h3>ONETH Classification Exercise</h3>
-                    
-                    <div id="question-box" class="beveled-frame" style="padding: 15px; margin-bottom: 20px;">
-                        <p>Question area is ready for content.</p>
+                        <div id="module-detail-panel" 
+                             class="beveled-frame" 
+                             style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
+                            
+                            <h3 id="detail-code"></h3>
+                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
+                            
+                            <button id="detail-play-btn" class="control-btn beveled-frame" style="width: 50%; padding: 15px;">
+                                ▶ Begin Module
+                            </button>
+
+                        </div>
                     </div>
 
-                    <div id="choice-buttons-container">
-                        <p>Choice buttons will be generated here.</p>
+                    <div id="video-wrapper-16-9" style="display:none;">
+                        
+                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">
+                            &larr; </button>
+                        
+                        <div id="video-container-aspect-lock">
+                            <video id="video-player" controls></video>
+                        </div>
                     </div>
-                    
-                    <button class="choice-button beveled-frame" onclick="showCards()">Return to Modules</button>
-                </div>
 
-            </section>
+                    <div id="oneth-exercise-area" style="display: none;">
+                        
+                        <h3>ONETH Classification Exercise</h3>
+                        
+                        <div id="question-box" class="beveled-frame" style="padding: 15px; margin-bottom: 20px;">
+                            <p>Question area is ready for content.</p>
+                        </div>
+
+                        <div id="choice-buttons-container">
+                            <p>Choice buttons will be generated here.</p>
+                        </div>
+                        
+                        <button class="choice-button beveled-frame" onclick="showModules()">Exit</button>
+                    </div>
+
+                </section>
+                
+                <aside id="right-sidebar">
+                    <div id="video-control-panel">
+                        
+                        <div id="module-context-box"> 
+                            <div id="module-code-display" style="font-weight: bold; margin-bottom: 5px;"></div>
+                            <div id="module-title-display" style="margin-bottom: 15px; border-bottom: 1px solid #666; padding-bottom: 5px;"></div>
+                        </div>
+
+                        <button id="sidebar-play-pause-btn" 
+                                class="beveled-frame control-btn"
+                                onclick="togglePlayPause()"
+                                disabled>
+                            ▶ Play / ❚❚ Pause
+                        </button>
+                    </div>
+                    <p>Reserved for future controls/interactive elements.</p>
+                </aside>
+
+            </div>
         </div>
     </div>
     
@@ -241,14 +335,47 @@
         const player = document.getElementById('video-player');
         const videoWrapper = document.getElementById('video-wrapper-16-9');
         const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const cards = document.getElementById('main-content').querySelectorAll('.module-card');
         const onethExerciseArea = document.getElementById('oneth-exercise-area');
+        const moduleViewContainer = document.getElementById('module-view-container');
         
+        const sidebarPlayPauseBtn = document.getElementById('sidebar-play-pause-btn');
+        const moduleContextBox = document.getElementById('module-context-box'); 
+        const moduleCodeDisplay = document.getElementById('module-code-display');
+        const moduleTitleDisplay = document.getElementById('module-title-display');
+        
+        const statusMessage = document.getElementById('status-message');
+
+        // Detail panel elements
+        const moduleDetailPanel = document.getElementById('module-detail-panel');
+        const detailCode = document.getElementById('detail-code');
+        const detailTitle = document.getElementById('detail-title');
+        const detailPlayBtn = document.getElementById('detail-play-btn'); 
+
         // Get new exercise elements (Used by the loading function)
         const questionBox = document.getElementById('question-box');
         const choicesContainer = document.getElementById('choice-buttons-container');
         
         let currentQuestionIndex = 0; // Tracks which question to display
+        let currentModuleTitle = ''; // Tracks the title of the video that just played
+        let nextVideoSource = ''; // Stores the source for deferred launch
+        
+        // Helper to extract the code and title from the full module title string (e.g., A1P1U1S1: Title)
+        function updateSidebarContext(fullTitle) {
+            if (fullTitle) {
+                const parts = fullTitle.split(':');
+                const code = parts[0].trim();
+                const title = parts.length > 1 ? parts.slice(1).join(':').trim() : fullTitle;
+                
+                moduleCodeDisplay.textContent = `CODE: ${code}`;
+                moduleTitleDisplay.textContent = `TITLE: ${title}`;
+                moduleContextBox.style.display = 'block'; // Show context when title is provided
+            } else {
+                moduleCodeDisplay.textContent = '';
+                moduleTitleDisplay.textContent = 'No Module Active';
+                moduleContextBox.style.display = 'none'; // Hide context on main screen
+            }
+        }
+
 
         function checkAnswer(selectedChoice, correctAnswer) {
             if (selectedChoice === correctAnswer) {
@@ -268,13 +395,13 @@
             if (!q) {
                 // Logic for when the quiz is finished
                 questionBox.innerHTML = "<p>✅ **All questions answered.** Please return to modules.</p>";
-                // Provide a button to explicitly return to modules
-                choicesContainer.innerHTML = '<button class="choice-button beveled-frame" onclick="showCards()">Return to Modules</button>';
+                // Updated button text to "Exit"
+                choicesContainer.innerHTML = '<button class="choice-button beveled-frame" onclick="showModules()">Exit</button>';
                 return;
             }
 
             // 1. Display the Question
-            questionBox.innerHTML = `<p>${q.question}</p>`;
+            questionBox.innerHTML = `<h4>Reviewing: ${currentModuleTitle}</h4><p>${q.question}</p>`;
 
             // 2. Create the Choice Buttons
             choicesContainer.innerHTML = '';
@@ -283,42 +410,115 @@
                 btn.className = 'choice-button beveled-frame';
                 btn.textContent = choice;
                 
-                // CRITICAL CHANGE: Link the button to the classification logic
+                // Link the button to the classification logic
                 btn.onclick = () => checkAnswer(choice, q.correctAnswer);
                 
                 choicesContainer.appendChild(btn);
             });
         }
         
-        function showCards() {
-            // Function to make cards visible and hide video/exercise area
-            cards.forEach(card => card.style.display = 'inline-block'); 
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none'; 
-            onethExerciseArea.style.display = 'none'; 
-            player.pause();
-            player.removeAttribute('src'); 
-            player.load();
+        // Function to toggle play/pause from the sidebar
+        function togglePlayPause() {
+            if (player.paused) {
+                player.play();
+                sidebarPlayPauseBtn.textContent = '❚❚ Pause';
+            } else {
+                player.pause();
+                sidebarPlayPauseBtn.textContent = '▶ Play';
+            }
         }
 
-        function launchVideo(videoSource) {
-            // 1. Hide the cards and show the video player wrapper
-            cards.forEach(card => card.style.display = 'none');
+        // Function to execute the launch after confirmation
+        function playSelectedModule() {
+            // Check if a video source is actually loaded
+            if (!nextVideoSource) {
+                alert("Error: No video selected to play.");
+                showModules(); // Return to safe state
+                return;
+            }
+            
+            // 1. Hide the module view container and detail panel
+            moduleViewContainer.style.display = 'none';
+            moduleDetailPanel.style.display = 'none'; 
+
+            // 2. Show the video player wrapper
             videoWrapper.style.display = 'block';
             embeddedReturnBtn.style.display = 'block'; 
             onethExerciseArea.style.display = 'none'; 
 
-            // 2. Redirection: Load the source into the new 16:9 player
-            player.src = videoSource;
+            // 3. Redirection: Load the source into the new 16:9 player
+            player.src = nextVideoSource;
             
-            // 3. Initial State: Load the video but pause it immediately
+            // 4. Initial State: Load the video but pause it immediately
             player.load(); 
             player.pause(); 
+            
+            // Update sidebar button state and context 
+            moduleContextBox.style.display = 'block'; 
+            sidebarPlayPauseBtn.disabled = false;
+            sidebarPlayPauseBtn.textContent = '▶ Play'; 
+        }
+        
+        // Function to show the default module view container
+        function showModules() {
+            // 1. Show the default module view container
+            moduleViewContainer.style.display = 'block'; 
+            
+            // Show landing status box and hide detail panel
+            document.getElementById('landing-status-box').style.display = 'block';
+            moduleDetailPanel.style.display = 'none';
+
+            // 2. Hide the video/exercise areas
+            videoWrapper.style.display = 'none';
+            embeddedReturnBtn.style.display = 'none'; 
+            onethExerciseArea.style.display = 'none'; 
+            
+            // 3. Clear video player state
+            player.pause();
+            player.removeAttribute('src'); 
+            player.load();
+            
+            sidebarPlayPauseBtn.disabled = true;
+            
+            // Explicitly clear the module title state
+            currentModuleTitle = '';
+            nextVideoSource = ''; // Clear the stored video source
+            
+            // Clear the sidebar context display (This hides the context box)
+            updateSidebarContext(null); 
+            
+            // Update the main status message on return
+            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
+        }
+
+        function launchVideo(videoSource, moduleTitle) {
+            // Store variables globally for the actual playback function
+            currentModuleTitle = moduleTitle; 
+            nextVideoSource = videoSource; // Store the source here
+
+            // 1. Parse title and populate the detail panel
+            const parts = moduleTitle.split(':');
+            const code = parts[0].trim();
+            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
+
+            detailCode.textContent = `Module Code: ${code}`;
+            detailTitle.textContent = title;
+
+            // 2. Show the detail panel and hide the main status box
+            document.getElementById('landing-status-box').style.display = 'none';
+            moduleDetailPanel.style.display = 'block';
+            
+            // 3. Ensure the module container itself is visible 
+            moduleViewContainer.style.display = 'block'; 
+
+            // 4. Update sidebar context to reflect the selection
+            sidebarPlayPauseBtn.disabled = true; // Still disabled until video is loaded
+            updateSidebarContext(moduleTitle); // This ensures the context box is visible
         }
 
         function closeVideo() {
             // Public function called by the embedded return button
-            showCards(); 
+            showModules(); 
         }
 
         // Listener for when the video naturally ends
@@ -330,11 +530,29 @@
                     embeddedReturnBtn.style.display = 'none';
                     onethExerciseArea.style.display = 'block'; 
                     
+                    // Update the status message to reflect the transition
+                    statusMessage.textContent = `Video Complete! Beginning ONETH Classification for: ${currentModuleTitle}`;
+                    
+                    // Hide the sidebar context box on quiz transition
+                    moduleContextBox.style.display = 'none'; 
+
                     // CRITICAL: Load the first question when the area is visible
                     currentQuestionIndex = 0; // Reset question index
                     loadQuestion(0); 
+                    
+                    sidebarPlayPauseBtn.disabled = true;
                 });
             }
+            
+            // Set the initial click handler for the new detail play button
+            detailPlayBtn.onclick = playSelectedModule;
+
+            // --- JAVVY STABILIZATION: INITIAL LOAD STATE ---
+            sidebarPlayPauseBtn.disabled = true; 
+            updateSidebarContext(null); // Call to set up the clean landing state (hides context box)
+            
+            // Set the initial status message (Overwrites HTML default for stability)
+            statusMessage.textContent = 'Select a module from the scrolling icon bar above to begin the ONETH experience.';
         });
     </script>
 </body>
