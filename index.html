@@ -11,66 +11,59 @@
 
         /* CSS Cleaned and Finalized for 1-Guarantee Presentation */
         :root {
-            --color-lighthouse: #f4f4f4; 
-            --color-stealth: #d3d3d3; 
-            --color-menu: #333; 
+            --color-lighthouse: #f4f4f4;  /* Fixed Background */
+            --color-stealth: #d3d3d3;  
+            --color-menu: #333;  
             --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); 
+            --color-link: #0070C0; /* Blue for clickable links (Jedi Blue) */
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7);  
             --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
-        .beveled-frame { 
-            box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); 
-            border: 1px solid var(--color-stealth); 
+        .beveled-frame {  
+            box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark);  
+            border: 1px solid var(--color-stealth);  
         }
 
-        /* Base Styles and Color FIX: Black on Lighthouse */
-        body { 
-            margin: 0; 
-            font-family: 'EB Garamond', serif; /* Apply EB Garamond universally */
-            height: 90vh; 
-            display: flex; 
-            background: var(--color-lighthouse); 
-            color: black; /* Default to Black text (eliminates all gray liabilities) */
-        }
-        #left-menu { 
-            width: 225px; 
-            background: var(--color-lighthouse); /* FIX: Lighthouse Background */
-            color: black; /* FIX: Black Text */
-            padding: 10px; 
-            flex-shrink: 0; 
+        /* Base Styles and Color FIX: Black on Lighthouse (TOC Fixation) */
+        body {  
+            margin: 0;  
+            font-family: 'EB Garamond', serif;
+            height: 100vh; /* Set to full viewport height for fixed structure */
+            display: flex;  
+            background: var(--color-lighthouse);  
+            color: black;
+            overflow: hidden; /* Prevents body scrolling */
         }
 
-        /* Sizing and Hierarchy FIX: EB Garamond 12pt/10pt/8pt (Prevents Wrapping) */
+        #left-menu {  
+            width: 225px;  
+            background: var(--color-lighthouse);
+            color: black;
+            padding: 10px;  
+            flex-shrink: 0;  
+            overflow-y: auto; /* Allows menu to scroll within fixed pane */
+        }
 
-        /* Level 1: Primary Title (12pt) - ALS Framework: ONETH Mandate */
+        /* Sizing and Hierarchy FIX */
+        #credits h3 { 
+            font-size: 11pt; font-weight: 700; margin: 0; line-height: 1.2; text-align: center; color: black;
+        }
         #credits h4 { 
-            font-size: 11pt; 
-            font-weight: 700; 
-            margin: 0; 
-            line-height: 1.2; 
-            text-align: center; 
-            color: black; 
+             font-size: 7pt; line-height: 1.1; color: black; font-style: italic; text-align: center;
+        }
+        #oneth-mandate p {
+             font-size: 9pt; line-height: 1.3; font-weight: 400; color: black; margin-top: 5px; text-align: center;
+             /* VISUAL CONFIRMATION OF NINEVO FILE */
+             border: 1px dashed #0070C0; 
         }
 
-        /* Level 2: Body Text (10pt) - Includes ONETH mandate and outline items */
-        #oneth-mandate p, #left-menu p {
-            font-size: 9pt; 
-            line-height: 1.3;
-            font-weight: 400;
-            color: black; 
-            margin-top: 5px; 
-            text-align: center; 
+        /* ---------------------------------------------------- */
+        /* DYNAMIC TOC STYLES for Holocron Integration (ONETH Structural Integrity) */
+        /* ---------------------------------------------------- */
+        #outline-container {
+            flex-grow: 1; /* Allows outline to take up available space */
+            overflow-y: auto; /* Ensures scrollbar if TOC is long */
         }
-
-        /* Level 3: Subordinate Text (8pt) - "Powered by Google Gemini" line */
-        #credits h4 p { 
-            font-size: 7pt; 
-            line-height: 1.1; 
-            color: black; 
-            font-style: italic; 
-        }
-        
-        /* Outline placeholder list styles (for future Level 1 Bold / Level 2 Regular/Italic) */
         #outline-list {
             list-style: none;
             padding: 0;
@@ -78,35 +71,73 @@
             text-align: left;
         }
         .level-1 {
-            font-weight: 700; /* Future Bold Anchor */
+            /* Main Unit Container (e.g., "1. Numerals") */
             padding: 5px 0;
-        }
-        .level-2-items {
-            list-style: none;
-            padding: 0 0 0 10px;
-            font-weight: 400; /* Future Regular Subordinate */
-        }
-        .level-2 {
-            padding: 2px 0;
+            margin: 5px 0;
             cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .level-1 .title {
+            /* The clickable title for collapse/expand */
+            font-weight: 700;
+            color: var(--color-link); 
+            display: block;
+            padding: 2px 5px;
+            transition: background-color 0.1s; 
+        }
+        .level-1:hover .title {
+            background-color: #f0f0f0; 
+            border-radius: 3px;
+        }
+        .level-1.expanded .title {
+            /* Subtle change to indicate the unit is open/active */
+            color: #cc9900; 
+            background-color: #e0e0e0; 
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); 
         }
 
+        .level-2-items {
+            /* The collapsible content (Sections) */
+            list-style: none;
+            padding: 5px 0 5px 10px;
+            margin: 0;
+            font-weight: 400;
+        }
+        .level-2-items li {
+            padding: 2px 0;
+        }
+        .level-2-items a {
+            /* Section links */
+            display: block;
+            font-size: 9pt;
+            color: black;
+            text-decoration: none;
+            padding-left: 5px;
+        }
+        .level-2-items a:hover {
+            text-decoration: underline;
+            background-color: #eee;
+        }
+
+
         /* ---------------------------------------------------- */
-        /* Existing Content/Icon Bar Styles */
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        #left-menu h3 { margin: 0; padding: 0; line-height: 1.2; font-size: 1.2em; text-align: center; } 
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        /* Existing Content/Icon Bar Styles (Preserved) */
+        /* ---------------------------------------------------- */
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
         #scrolling-icon-bar { height: 96px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
         .icon-button img { height: 54px; width: 100%; object-fit: cover; margin-bottom: 5px; }
         .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         #content-area { flex-grow: 1; display: flex; flex-direction: column; }
         #main-flex-container { display: flex; height: 100%; flex-grow: 1; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #video-wrapper-16-9 { max-width: 100%; width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; }
+        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+        /* Video Aspect Lock and other video styles preserved */
+        #video-wrapper-16-9 { max-width: 100%; width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         #video-player { width: 100%; height: 100%; }
         #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px; }
+
     </style>
 </head>
 <body>
@@ -115,115 +146,187 @@
         <div id="credits">
             <h3>Welcome to the<br>
             Advanced Learning System<br></h3>
-            </h4>Powered by Google Gemini.
-            </h>
+            <h4>Powered by Google Gemini.</h4>
         </div>
         
         <div id="oneth-mandate" style="margin-top: 20px;">
             <p>
-                The menu is under construction.
+                ONETH Mandate: Integrity and Order enforced.<br>
+                // // // NINEVO: 2025-10-13 4:00 PM CDT
             </p>
         </div>
 
+        <div id="filter-container" style="margin-top: 15px;">
+            <input type="text" id="toc-filter" onkeyup="filterTOC()" placeholder="Filter Units (e.g., 'Theory')" style="width: 100%; padding: 5px; box-sizing: border-box;">
+        </div>
+
         <div id="outline-container" style="margin-top: 20px;">
-            <p style="text-align: center; font-style: italic; font-weight: 700;">
-                (The outline is to be deployed soon)
+            <p id="loading-placeholder" style="text-align: center; font-style: italic; font-weight: 700;">
+                (Loading Holocron Data...)
             </p>
             <ul id="outline-list">
-                <li class="level-1" style="color: #0070C0; cursor: pointer;">
-                    <span class="title">1. Numerals</span>
-                    <ul class="level-2-items" style="display: none;">
-                        </li>
-                <li class="level-1" style="color: #0070C0; cursor: pointer;">
-                    <span class="title">2. From Zero to Four</span>
-                    <ul class="level-2-items" style="display: none;">
-                        </li>
-                    <li class="level-1" style="color: #0070C0; cursor: pointer;">
-                    <span class="title">3. From Five to Nine</span>
-                    <ul class="level-2-items" style="display: none;">
-                        </li>
-                    <li class="level-1" style="color: #0070C0; cursor: pointer;">
-                    <span class="title">4. Decillions</span>
-                    <ul class="level-2-items" style="display: none;">
-                        </li>                                  
-                    </ul>
-                    </ul>
-                    </ul>
-
-                    
-                </li>
-            </ul>
+                </ul>
         </div>
     </nav>
 
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')" title="The Journey Begins...">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...', 'A1P1U1S1')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
                 <span class="icon-title">A1P1U1S1</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')" title="Mr. Zero, The First Something!">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!', 'A1P1U1S2')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2">
                 <span class="icon-title">A1P1U1S2</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')" title="The Numeral Family">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family', 'A1P1U1S3')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
                 <span class="icon-title">A1P1U1S3</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')" title="Counting Concepts">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts', 'DECIL')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
                 <span class="icon-title">Decillions</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')" title="The Zero's Journey">
+             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey', 'A1P1U1S4')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
                 <span class="icon-title">A1P1U1S4</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2: Classification Gates')" title="Classification Gates">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2: Classification Gates', 'A1P1U2')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2">
                 <span class="icon-title">A1P1U2</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U3: System Recalibration')" title="System Recalibration">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U3: System Recalibration', 'A1P1U3')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U3">
-                <span class="icon-title">A1P1U2</span>
+                <span class="icon-title">A1P1U3</span>
             </button>
         </header>
 
         <div id="content-area">
              <div id="main-flex-container">
                  <section id="main-content">
-                     
-                     <div id="video-wrapper-16-9" style="display:none; justify-content: center; align-items: center; flex-grow: 1; height: 100%;">
+                    <div id="video-wrapper-16-9" style="display:none;">
                          <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
                          <div id="video-container-aspect-lock">
                              <video id="video-player" controls></video>
                          </div>
                      </div>
-                     
+                    <h2 id="current-lesson-title" style="margin-top: 50px;">Select a Unit or Section from The Star Chart.</h2>
+                    <p id="lesson-info-text" style="font-size: 10pt; color: #555; text-align: center; margin-top: 10px;">The Force will guide your learning journey.</p>
                  </section>
              </div>
         </div>
     </div>
     
     <script>
+        // --- 1. JAVASCRIPT: THE LIBRARIAN'S HOLOCRON DATA ---
+        
+        let TOC_DATA = [];
+
+        // --- 2. JAVASCRIPT: CORE FUNCTIONS ---
+
         const player = document.getElementById('video-player');
         const videoWrapper = document.getElementById('video-wrapper-16-9');
         const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
+        const lessonTitle = document.getElementById('current-lesson-title');
+        const lessonInfo = document.getElementById('lesson-info-text');
+        
         let currentModuleTitle = '';
         
-        // JScript 1-CORRECTION: Atomic launch function (Direct Launch). Logic adjusted.
-        function playModule(videoSource, moduleTitle) {
-            if (!videoSource) {
-                console.error("Error: No video source provided.");
+        // Function to handle the binary toggle for collapsibility (1/0)
+        function toggleCollapsible(event) {
+            const headerElement = event.currentTarget.closest('.level-1');
+            const content = headerElement.querySelector('.level-2-items');
+            
+            if (content) {
+                const isHidden = content.style.display === 'none' || content.style.display === '';
+                content.style.display = isHidden ? 'block' : 'none';
+                headerElement.classList.toggle('expanded', !isHidden);
+            }
+        }
+
+        // Function to filter the TOC list based on user input 
+        function filterTOC() {
+            const input = document.getElementById('toc-filter');
+            const filter = input.value.toUpperCase();
+            const list = document.getElementById('outline-list');
+            const items = list.getElementsByClassName('level-1');
+
+            for (let i = 0; i < items.length; i++) {
+                let titleSpan = items[i].querySelector('.title');
+                let textValue = titleSpan.textContent || titleSpan.innerText;
+                
+                if (textValue.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = ""; 
+                } else {
+                    items[i].style.display = "none"; 
+                }
+            }
+        }
+
+        // Function that generates the entire fixed TOC from the high-integrity data
+        function generateToC() {
+            const container = document.getElementById('outline-list');
+            const placeholder = document.getElementById('loading-placeholder');
+            
+            // Clear the list and remove the loading message (ONETH Timely execution)
+            container.innerHTML = ''; 
+            if (placeholder) { placeholder.style.display = 'none'; } 
+
+            let html = '';
+            
+            TOC_DATA.forEach(item => {
+                if (item.level === 1) {
+                    // Start a new Unit (Level 1)
+                    html += `
+                        <li class="level-1">
+                            <span class="title" onclick="toggleCollapsible(event)">${item.ffi_name}</span>
+                            <ul class="level-2-items" style="display: none;">
+                    `;
+                } else if (item.level === 2) {
+                    // Add a Section (Level 2)
+                    html += `
+                        <li class="level-2">
+                            <a href="#" onclick="event.preventDefault(); playModule(null, '${item.ffi_name}', '${item.idn_key}');">
+                                ${item.ffi_name}
+                            </a>
+                        </li>
+                    `;
+                    // Close the collapsible <ul> and the main <li> if the next item is a new Level 1 or the end
+                    const nextItem = TOC_DATA[TOC_DATA.indexOf(item) + 1];
+                    if (!nextItem || nextItem.level === 1) {
+                        html += `</ul></li>`; 
+                    }
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // The core ONETH function: plays a module or displays info based on its immutable IDN_KEY
+        function playModule(videoSource, moduleTitle, idnKey) {
+            
+            // Text-only content from the TOC/Star Chart (No videoSource, only IDN)
+            if (!videoSource && idnKey) {
+                lessonTitle.textContent = moduleTitle;
+                lessonInfo.textContent = \`Content for \${idnKey} loaded from Holocron. (Video is activated via the icon bar)\`;
+                videoWrapper.style.display = 'none';
                 return;
             }
 
-            // 1-Action: Only show the video player area
-            videoWrapper.style.display = 'flex'; // Use flex to center the video
+            // Video content from the Icon Bar 
+            if (!videoSource) {
+                 console.error("Error: No video source provided for icon.");
+                 return;
+            }
+
+            videoWrapper.style.display = 'flex';
             embeddedReturnBtn.style.display = 'block';
             
-            // Load and Play immediately (Atomic)
             currentModuleTitle = moduleTitle;
+            lessonTitle.textContent = \`Now Playing: \${currentModuleTitle}\`;
+            lessonInfo.textContent = \`Loading GCS URL: \${videoSource}\`;
+
             player.src = videoSource;
             player.load();
             player.play();
@@ -231,33 +334,52 @@
         
         // Safe-State Recovery Function
         function showInitialMessage() {
-            // 1-CORRECTION: This function now just resets the video player and hides the wrapper.
             videoWrapper.style.display = 'none';
             embeddedReturnBtn.style.display = 'none';
-            player.pause();
-            player.removeAttribute('src');
-            player.load();
-            
-            // NOTE: The absence of a visible initial message means the main content area will be empty (clean slate).
+            if (player.src) {
+                player.pause();
+                player.removeAttribute('src');
+                player.load();
+            }
+            lessonTitle.textContent = "Select a Unit or Section from The Star Chart.";
+            lessonInfo.textContent = "The Force will guide your learning journey.";
             currentModuleTitle = '';
         }
 
         function closeVideo() { showInitialMessage(); }
 
+        // --- 3. EXECUTION: ACTIVATE THE MENU ---
+        
+        // New Asynchronous Function to load the data for Excellum (Holocron Fetch)
+        async function loadHolocronData() {
+            try {
+                // Fetch data from the new, external JSON file
+                const response = await fetch('toc_holocron.json');
+                if (!response.ok) {
+                    // If the file is not found, it is the highest integrity data structure
+                    throw new Error(\`HTTP error! status: \${response.status}\`);
+                }
+                TOC_DATA = await response.json();
+                generateToC(); // Generate menu only after data is loaded
+            } catch (error) {
+                console.error("Failed to load Holocron Data (toc_holocron.json).", error);
+                document.getElementById('loading-placeholder').textContent = "ERROR: Failed to load Holocron Data. Check toc_holocron.json file or network.";
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Initiate the Holocron data load
+            loadHolocronData(); 
+            
             if (player) {
                 player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
+                    alert(\`Module "\${currentModuleTitle}" has finished.\`);
                     showInitialMessage();
                 });
             }
             // Set initial state: Hide the video wrapper at load time.
             showInitialMessage();  
         });
-        
-        // DEFERRED FUNCTIONAL FIX LOGIC (TO BE IMPLEMENTED NEXT SESSION)
-        // The space below is reserved for the 'toggleOutline' and 'setActiveUnit' functions 
-        // to implement the Bold/Italic hierarchy and collapse functionality.
     </script>
 </body>
 </html>
