@@ -37,7 +37,7 @@
             overflow: hidden;  
         }
 
-        /* Left Menu - Fixed and Controlled */
+        /* Left Menu - Fixed and Controlled (ONETH Fix Applied) */
         #left-menu {  
             width: 225px;  
             background: var(--color-lighthouse);
@@ -47,7 +47,8 @@
             height: 100vh; 
             position: relative; 
             padding-bottom: 70px; 
-            overflow-y: auto; 
+            /* CRITICAL FIX: Forces menu to scroll, preserving main layout stability */
+            overflow-y: scroll; 
         }
         
         /* Left Menu Content Styles */
@@ -100,6 +101,44 @@
             align-items: center; 
             justify-content: flex-start; 
         }
+
+        /* Icon Bar - Horizontal Scroll/Header */
+        #scrolling-icon-bar {
+            width: 100%;
+            display: flex; /* CRITICAL: Must be flex for horizontal alignment */
+            /* CRITICAL FIX: Must prevent wrapping onto new lines */
+            flex-wrap: nowrap; 
+            gap: 10px;
+            padding: 10px;
+            /* CRITICAL: Must allow horizontal scrolling when content exceeds width */
+            overflow-x: auto; 
+            flex-shrink: 0; /* Prevents it from shrinking vertically */
+            background: var(--color-stealth);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 80px; /* Ensures visibility */
+        }
+        .icon-button {
+            flex-shrink: 0; /* Prevents icons from shrinking when there are many */
+            width: 120px;
+            text-align: center;
+            border: 1px solid #999;
+            background: #fff;
+            padding: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8em;
+        }
+        .icon-button img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .icon-title {
+            display: block;
+            margin-top: 5px;
+        }
+
 
         /* The overall LPS Monitor/Control/Exercise Layout (Permanent) */
         #lps-monitor-simulacrum { 
@@ -363,7 +402,7 @@
                         </div>
 
                         <div id="knowledge-practice-system">
-                             ** *
+                             **Knowledge Practice System (KPS)** / *Pertinent Descriptors*
                              <br><br>
                              This lower area is for interactive exercises. It collapses to allow the main LPS screen to time-share its real estate for KPS content (like a full-screen PDF).
                         </div>
