@@ -102,23 +102,23 @@
             justify-content: flex-start; 
         }
 
-        /* Icon Bar - Horizontal Scroll/Header */
+        /* Icon Bar - Horizontal Scroll/Header (STABLE) */
         #scrolling-icon-bar {
             width: 100%;
-            display: flex; /* CRITICAL: Must be flex for horizontal alignment */
+            display: flex; 
             /* CRITICAL FIX: Must prevent wrapping onto new lines */
             flex-wrap: nowrap; 
             gap: 10px;
             padding: 10px;
             /* CRITICAL: Must allow horizontal scrolling when content exceeds width */
             overflow-x: auto; 
-            flex-shrink: 0; /* Prevents it from shrinking vertically */
+            flex-shrink: 0; 
             background: var(--color-stealth);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            min-height: 80px; /* Ensures visibility */
+            min-height: 80px; 
         }
         .icon-button {
-            flex-shrink: 0; /* Prevents icons from shrinking when there are many */
+            flex-shrink: 0; 
             width: 120px;
             text-align: center;
             border: 1px solid #999;
@@ -130,7 +130,9 @@
             font-size: 0.8em;
         }
         .icon-button img {
-            width: 100%;
+            width: 100%; 
+            /* ULTIMATE ONETH FIX: Prevents transient image/video sizing glitches */
+            max-width: 100%; 
             height: auto;
             display: block;
         }
@@ -361,21 +363,21 @@
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
                 <span class="icon-title">Decillions</span>
             </button>
-             <button class="icon-button beveled-frame" onclick="playModule('https://storagegoogleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey', 'A1P1U1S4')">
-                <img src="https://storagegoogleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
+             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey', 'A1P1U1S4')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
                 <span class="icon-title">A1P1U1S4</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storagegoogleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2: Classification Gates', 'A1P1U2')">
-                <img src="https://storagegoogleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2: Classification Gates', 'A1P1U2')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2">
                 <span class="icon-title">A1P1U2</span>
             </button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storagegoogleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U3: System Recalibration', 'A1P1U3')">
-                <img src="https://storagegoogleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U3">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U3: System Recalibration', 'A1P1U3')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U3">
                 <span class="icon-title">A1P1U3</span>
             </button>
         </header>
 
-        <div id="content-area">
+        <div id="content-wrapper">
              <div id="main-flex-container">
                  <section id="main-content">
                      
@@ -483,7 +485,7 @@
         }
 
 
-        // The core function: plays a module or displays info
+        // The core function: plays a module or displays info (NOW FUNCTIONAL)
         function playModule(videoSource, moduleTitle, idnKey) {
             
             if (!videoSource) {
@@ -504,12 +506,12 @@
             // 4. Update LPS Header Title
             lpsHeaderStrip.textContent = `Now Playing: ${moduleTitle} (${idnKey})`;
 
-            // 5. Load Secure Content (Mock-up)
+            // 5. Load Functional Content (Video Test) - ULTIMATE ONETH FIX
             videoPlayerSecure.innerHTML = `
-                <div style="color: white; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; text-align: center; padding: 20px;">
-                    SECURE PLAYER MOCKUP: Content for ${idnKey}<br>
-                    (Final implementation uses Iframe or Signed URL)
-                </div>
+                <video controls autoplay style="width: 100%; height: 100%; object-fit: cover;">
+                    <source src="${videoSource}" type="video/mp4">
+                    Your browser does not support the video tag. GCS Link Test: ${videoSource}
+                </video>
             `;
         }
 
