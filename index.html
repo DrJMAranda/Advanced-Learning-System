@@ -50,16 +50,27 @@
             text-align: center;
         }
         #credits h3 { 
-            font-size: 11pt; font-weight: 700; margin: 0; line-height: 1.2; color: black;
+            /* Main Title Style */
+            font-size: 11pt; 
+            font-weight: 700; 
+            margin: 0; 
+            line-height: 1.2; /* Base Leading */
+            color: black;
         }
         #credits h4 { 
-             font-size: 7pt; line-height: 1.1; color: black; font-style: italic;
+            /* FIXED: Matches H3 size, weight, and leading for unified appearance */
+            font-size: 11pt; 
+            font-weight: 700; 
+            line-height: 1.2; /* Matching Leading */
+            color: black; 
+            font-style: normal; 
+            margin-top: 0; /* Remove top margin for tight coupling */
         }
         
         /* Menu List Styles - Ensures Content is LEFT-ALIGNED */
         #menu-list-container {
             margin-top: 20px;
-            /* **THE FIX**: Forces all text inside this container to the left */
+            /* Forces all text inside this container to the left */
             text-align: left; 
             padding: 5px; 
             border: 1px dashed #0070C0; /* Retaining the original dashed border style */
