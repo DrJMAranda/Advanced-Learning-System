@@ -150,7 +150,7 @@
             background-color: black; 
             color: white;
             transition: background-color 0.3s;
-            /* CRITICAL: Background properties for Bucolic Panorama */
+            /* CRITICAL: Background properties for Bucolic Panorama (will be GCS link in final deployment) */
             background-image: url('https://storage.googleapis.com/noenbalde/Backgrounds/Bucolic-Panorama-Placeholder.jpg');
             background-size: cover;
             background-position: center;
@@ -256,7 +256,7 @@
         
         <div id="credits">
             <h3>Welcome to the<br>Advanced Learning System</h3>
-            <h4>Powered by Google Gemini.</h4>
+            <h4>Powered by ARAGEM!</h4>
         </div>
         
         <div id="menu-list-container">
@@ -363,7 +363,7 @@
                         </div>
 
                         <div id="knowledge-practice-system">
-                             **Knowledge Practice System (KPS)** / *Pertinent Descriptors*
+                             ** *
                              <br><br>
                              This lower area is for interactive exercises. It collapses to allow the main LPS screen to time-share its real estate for KPS content (like a full-screen PDF).
                         </div>
@@ -409,6 +409,7 @@
 
         // Function to control MUSAC activation/deactivation
         function toggleMusac(active) {
+            // NOTE: In the live GCS deployment, we will control the musac-audio element here (play/pause)
             if (active) {
                 console.log("MUSAC Activated: Playing alpha-wave music (Clair de Lune or Cavalleria Rusticana).");
                 musacPlayer.style.display = 'block'; 
