@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - ONETH Activated</title>
+    <title>Advanced Learning System - ONETH Activated</title> 
     
     <style>
         /* EB Garamond Font Integration */
@@ -32,7 +32,7 @@
             display: flex;  
             background: var(--color-lighthouse);  
             color: black;
-            overflow: hidden; 
+            overflow: hidden;  
         }
 
         #left-menu {  
@@ -41,22 +41,39 @@
             color: black;
             padding: 10px;  
             flex-shrink: 0;  
-            overflow-y: auto; 
+            overflow-y: auto;  
         }
 
-        /* Credits and Mandate Styles */
+        /* Credits and Title Styles */
+        #credits {
+            /* Ensures the title section is centered */
+            text-align: center;
+        }
         #credits h3 { 
-            font-size: 11pt; font-weight: 700; margin: 0; line-height: 1.2; text-align: center; color: black;
+            font-size: 11pt; font-weight: 700; margin: 0; line-height: 1.2; color: black;
         }
         #credits h4 { 
-             font-size: 7pt; line-height: 1.1; color: black; font-style: italic; text-align: center;
+             font-size: 7pt; line-height: 1.1; color: black; font-style: italic;
         }
-        #oneth-mandate p {
-             font-size: 9pt; line-height: 1.3; font-weight: 400; color: black; margin-top: 5px; text-align: center;
-             border: 1px dashed #0070C0; 
+        
+        /* Menu List Styles - Ensures Content is LEFT-ALIGNED */
+        #menu-list-container {
+            margin-top: 20px;
+            /* **THE FIX**: Forces all text inside this container to the left */
+            text-align: left; 
+            padding: 5px; 
+            border: 1px dashed #0070C0; /* Retaining the original dashed border style */
+        }
+        #menu-list-content {
+            font-size: 9pt; 
+            line-height: 1.3; 
+            font-weight: 400; 
+            color: black;
+            /* Using a pre-formatted tag to preserve line breaks and spacing */
+            white-space: pre-line; 
         }
 
-        /* Content/Icon Bar Styles */
+        /* Content/Icon Bar Styles (Unchanged) */
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
         #scrolling-icon-bar { height: 96px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
@@ -77,43 +94,37 @@
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            <h3>Welcome to the<br>
-            Advanced Learning System<br></h3>
+            <h3>Welcome to the<br>Advanced Learning System</h3>
             <h4>Powered by Google Gemini.</h4>
         </div>
         
-        <div id="oneth-mandate" style="margin-top: 20px;">
-            div {
-                text-align: left;
-            <p>
-                4th Grade for 1st Graders<br>
-                01 Numerals to |Nine|<br>
-                02 Numerals to |Ninety-Nine|<br>
-                03 Nuerals to |Decillions|<br>
-                04 Addition Principles<br>
-                05 Addition Fundamentals<br>
-                06 Addition Elements and Principles<br>
-                07 Parity, Sets, and Composites<br>
-                08 Opposite Signs and Subtraction<br>
-                09 Multiplication<br>
-                10 Division, Partition, and Quotition<br>
-                11 Fractions<br>
-                12 Chronos<br>
-                13 Shapes and Sundry Things<br>
-                8th Grade for 2nd Graders<br>
-                Albebra 1 for 34d Graders (64 units)<br>
-                Algebra 2 for 4th Graders<br>
-                Geometry for 5th Graders<br>
-                Trigonometry for 6th Graders<br>
-                Calculus for 7th Graders<br>
+        <div id="menu-list-container">
+            <div id="menu-list-content">
+                4th Grade for 1st Graders
+                01 Numerals to |Nine|
+                02 Numerals to |Ninety-Nine|
+                03 Nuerals to |Decillions|
+                04 Addition Principles
+                05 Addition Fundamentals
+                06 Addition Elements and Principles
+                07 Parity, Sets, and Composites
+                08 Opposite Signs and Subtraction
+                09 Multiplication
+                10 Division, Partition, and Quotition
+                11 Fractions
+                12 Chronos
+                13 Shapes and Sundry Things
+                8th Grade for 2nd Graders
+                Albebra 1 for 34d Graders (64 units)
+                Algebra 2 for 4th Graders
+                Geometry for 5th Graders
+                Trigonometry for 6th Graders
+                Calculus for 7th Graders
                 // // // NINEVO: 2025-10-13 4:30 PM CDT
-            </p>
-                }
+            </div>
         </div>
-
         <div id="outline-container" style="margin-top: 50px;">
             <p id="loading-placeholder" style="text-align: center; font-style: italic; font-weight: 700;">
-            
             </p>
             <ul id="outline-list">
                 </ul>
@@ -121,7 +132,6 @@
     </nav>
 
     <div id="content-wrapper">
-        
         <header id="scrolling-icon-bar" class="beveled-frame">
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...', 'A1P1U1S1')">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
@@ -139,7 +149,7 @@
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
                 <span class="icon-title">Decillions</span>
             </button>
-             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey', 'A1P1U1S4')">
+             <button class="icon-button beveled-frame" onclick="playModule('https://storagegoogleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey', 'A1P1U1S4')">
                 <img src="https://storagegoogleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
                 <span class="icon-title">A1P1U1S4</span>
             </button>
@@ -156,14 +166,14 @@
         <div id="content-area">
              <div id="main-flex-container">
                  <section id="main-content">
-                    <div id="video-wrapper-16-9" style="display:none;">
-                         <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                         <div id="video-container-aspect-lock">
-                             <video id="video-player" controls></video>
-                         </div>
+                     <div id="video-wrapper-16-9" style="display:none;">
+                          <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
+                          <div id="video-container-aspect-lock">
+                              <video id="video-player" controls></video>
+                          </div>
                      </div>
-                    <h2 id="current-lesson-title" style="margin-top: 50px;">Select a Unit or Section from The Star Chart.</h2>
-                    <p id="lesson-info-text" style="font-size: 10pt; color: #555; text-align: center; margin-top: 10px;">The Force will guide your learning journey.</p>
+                     <h2 id="current-lesson-title" style="margin-top: 50px;">Select a Unit or Section from The Star Chart.</h2>
+                     <p id="lesson-info-text" style="font-size: 10pt; color: #555; text-align: center; margin-top: 10px;">The Force will guide your learning journey.</p>
                  </section>
              </div>
         </div>
