@@ -29,34 +29,27 @@
         .carousel-controls button { font-size: 1.5rem; background: none; border: 2px solid #0070C0; color: #0070C0; border-radius: 50%; width: 40px; height: 40px; margin: 0 15px; cursor: pointer; transition: all 0.2s; }
         .carousel-controls button:hover { background: #0070C0; color: white; }
 
+        /* --- DYNAMIC ICON BAR STYLES --- */
+        #scrolling-icon-bar { width: 100%; display: flex; flex-wrap: nowrap; gap: 10px; padding: 10px; overflow-x: auto; flex-shrink: 0; background: var(--color-stealth); box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-height: 80px; box-sizing: border-box; align-items: center; }
+        .icon-button { flex-shrink: 0; width: 100px; text-align: center; border: 1px solid #999; background: #fff; padding: 5px; cursor: pointer; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); font-size: 0.8em; }
+        .icon-button img { max-width: 100%; height: 60px; object-fit: cover; display: block; margin: 0 auto; }
+        .icon-title { display: block; margin-top: 5px; }
+
         /* --- LPS MONITOR STYLES --- */
-        #lps-monitor-simulacrum { width: 100%; max-width: 1300px; display: flex; flex-direction: column; align-items: center; }
+        #lps-monitor-simulacrum { width: 100%; max-width: 1300px; display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
         #lps-header-strip { width: 100%; background: var(--color-control); color: var(--color-lighthouse); padding: 5px 10px; box-sizing: border-box; font-size: 10pt; text-align: left; border-top-left-radius: 5px; border-top-right-radius: 5px; }
         #video-display-monitor { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; border: 2px solid #555; }
         #video-player-secure { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: black; color: white; background-image: url('https://storage.googleapis.com/noenbalde/Backgrounds/Bucolic-Panorama-Placeholder.jpg'); background-size: cover; background-position: center; }
         #initial-message-overlay { background-color: rgba(0, 0, 0, 0.4); padding: 20px 40px; border-radius: 5px; }
         #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
-        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; color: white; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: flex-end; align-items: center; box-sizing: border-box; color: white; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
         #lps-control-bar button { background: #fff; border: 1px solid #333; padding: 5px 10px; cursor: pointer; }
 
         /* --- DYNAMIC OUTLINE STYLES --- */
         #dynamic-outline-container { margin-top: 15px; text-align: left; padding: 5px; border: 1px dashed #0070C0; }
-        .subject-header { font-weight: bold; margin-bottom: 5px; cursor: pointer; color: #0070C0; padding: 8px 5px; font-size: 1.1em; border-bottom: 1px solid #ccc; }
-        .lesson-content { padding-left: 15px; font-size: 10pt; line-height: 1.4; white-space: pre-line; }
-        .lesson-item { padding: 5px 8px; cursor: pointer; border-radius: 3px; }
+        .lesson-item { padding: 5px 8px; cursor: pointer; border-radius: 3px; font-size: 10pt; line-height: 1.4; }
         .lesson-item:hover { background-color: #e0e0e0; }
         .lesson-item.active { background-color: var(--color-accent-active); font-weight: bold; }
-        
-        /* --- KPS & FLASHCARD STYLES --- */
-        #knowledge-practice-system { width: 100%; max-width: 1300px; margin-top: 20px; padding: 15px; box-sizing: border-box; display: none; flex-direction: column; align-items: center; }
-        #flashcard-container { width: 300px; height: 200px; perspective: 1000px; }
-        #flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
-        #flashcard.is-flipped { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; font-size: 1.5em; padding: 10px; box-sizing: border-box; }
-        #flashcard-back { transform: rotateY(180deg); }
-        .flashcard-face img { max-width: 80%; max-height: 120px; margin-top: 10px; }
-        #flashcard-controls { margin-top: 15px; }
-        #flashcard-controls button { font-size: 1em; padding: 8px 15px; }
     </style>
 </head>
 <body>
@@ -66,7 +59,7 @@
             <h6>Powered by ARAGEM<br>Email: jmaf.phd@Gmail.com</h6>
         </div>
         <div id="dynamic-outline-container"><p style="text-align: center; font-style: italic;">Loading Outline...</p></div>
-        <div id="student-id-box">**Student ID:** [Loading...]<br>**Descriptors:** [None Active]</div>
+        <div id="student-id-box">**Student ID:** [Loading...]</div>
         <div id="date-stamp-tn-fixed"></div>
     </nav>
 
@@ -76,28 +69,18 @@
             <button id="prev-button">‹</button>
             <button id="next-button">›</button>
         </div>
+        <header id="scrolling-icon-bar" class="beveled-frame">
+            <p style="color: #888; width: 100%; text-align: center;">Select a lesson from the outline to see activities.</p>
+        </header>
         <section id="main-content">
             <div id="lps-monitor-simulacrum">
-                <div id="lps-header-strip">Select a Unit to Begin</div>
+                <div id="lps-header-strip">Select an Activity to Begin</div>
                 <div id="video-display-monitor">
                     <div id="video-player-secure"></div>
                     <button id="return-to-cards-btn-embedded" style="display: none;">&larr;</button>
                 </div>
                 <div id="lps-control-bar">
-                    <div style="display: flex; gap: 15px;"><button>≪</button><button>▶</button><button>≫</button></div>
                     <button id="close-video-btn">X Close</button>
-                </div>
-            </div>
-            <div id="knowledge-practice-system">
-                <div id="flashcard-container" class="beveled-frame">
-                    <div id="flashcard">
-                        <div class="flashcard-face" id="flashcard-front"></div>
-                        <div class="flashcard-face" id="flashcard-back"></div>
-                    </div>
-                </div>
-                <div id="flashcard-controls">
-                    <button id="prev-card-btn">‹ Prev</button>
-                    <button id="next-card-btn">Next ›</button>
                 </div>
             </div>
         </section>
@@ -107,116 +90,110 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
     // =================================================================
-    // --- 🧠 1. LIVE DATA SOURCES ---
+    // --- 🧠 SPREADSHEET CONFIGURATION ---
     // =================================================================
-    const CURRICULUM_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
-    const VOCABULARY_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9Wp_RMXnydbz86LUGsNc9KAPIUQNQCJR04/pub?output=csv'; // **PASTE YOUR VOCABULARY URL HERE**
-
+    const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
     let curriculumData = {};
-    let flashcardData = [];
     let subjects = [];
 
     // =================================================================
-    // --- 🖥️ 2. ELEMENT REFERENCES ---
+    // --- 🖥️ ELEMENT REFERENCES ---
     // =================================================================
     const dynamicOutlineContainer = document.getElementById('dynamic-outline-container');
+    const iconBar = document.getElementById('scrolling-icon-bar');
     const carousel = document.querySelector('.carousel');
-    const kpsContainer = document.getElementById('knowledge-practice-system');
-    const flashcard = document.getElementById('flashcard');
-    const flashcardFront = document.getElementById('flashcard-front');
-    const flashcardBack = document.getElementById('flashcard-back');
     const videoPlayerSecure = document.getElementById('video-player-secure');
     const lpsHeaderStrip = document.getElementById('lps-header-strip');
     const returnBtn = document.getElementById('return-to-cards-btn-embedded');
     const closeVideoBtn = document.getElementById('close-video-btn');
-    const prevCardBtn = document.getElementById('prev-card-btn');
-    const nextCardBtn = document.getElementById('next-card-btn');
     const prevButton = document.querySelector('#prev-button');
     const nextButton = document.querySelector('#next-button');
+    const dateStampEl = document.getElementById('date-stamp-tn-fixed');
 
     // =================================================================
-    // --- ⚙️ 3. DATA FETCHING & PROCESSING ---
+    // --- ⚙️ DATA FETCHING & PROCESSING ---
     // =================================================================
     async function loadData() {
         try {
-            // Fetch Curriculum
-            const curriculumRes = await fetch(CURRICULUM_URL);
-            if (!curriculumRes.ok) throw new Error('Curriculum fetch failed');
-            const curriculumCsv = await curriculumRes.text();
-            curriculumCsv.split(/\r?\n/).slice(1).forEach(row => {
-                const [subject, id, title, videoUrl] = row.split(',').map(c => c.trim());
-                if (subject && id && title && videoUrl) {
-                    if (!curriculumData[subject]) curriculumData[subject] = { outline: [] };
-                    curriculumData[subject].outline.push({ id, title, videoUrl });
+            const response = await fetch(SPREADSHEET_URL);
+            if (!response.ok) throw new Error('Network response was not ok.');
+            const csvText = await response.text();
+            const rows = csvText.split(/\r?\n/).slice(1);
+            
+            rows.forEach(row => {
+                const [subject, lessonId, lessonTitle, activityType, iconUrl, videoUrl] = row.split(',').map(c => c ? c.trim() : '');
+                if (subject && lessonId && lessonTitle) {
+                    if (!curriculumData[subject]) curriculumData[subject] = {};
+                    if (!curriculumData[subject][lessonId]) {
+                        curriculumData[subject][lessonId] = { title: lessonTitle, activities: [] };
+                    }
+                    if (activityType && iconUrl && videoUrl) {
+                        curriculumData[subject][lessonId].activities.push({ activityType, iconUrl, videoUrl });
+                    }
                 }
             });
             subjects = Object.keys(curriculumData);
-            subjects.push("FLASHCARDS");
-
-            // Fetch Vocabulary
-            const vocabRes = await fetch(VOCABULARY_URL);
-            if (!vocabRes.ok) throw new Error('Vocabulary fetch failed');
-            const vocabCsv = await vocabRes.text();
-            flashcardData = vocabCsv.split(/\r?\n/).slice(1).map(row => {
-                const [spanish, english, imageUrl] = row.split(',').map(c => c.trim());
-                return { spanish, english, imageUrl };
-            }).filter(card => card.spanish && card.english && card.imageUrl);
-            
         } catch (error) {
-            console.error("Failed to load data:", error);
-            dynamicOutlineContainer.innerHTML = `<p style="color: red; text-align: center;">Error loading curriculum.</p>`;
+            console.error("Failed to load spreadsheet data:", error);
+            dynamicOutlineContainer.innerHTML = `<p style="color: red;">Error loading curriculum.</p>`;
         }
     }
 
     // =================================================================
-    // --- 🚀 4. CORE APPLICATION LOGIC ---
+    // --- 🚀 CORE LOGIC (RENDERERS & PLAYER) ---
     // =================================================================
     let rotationIndex = 0;
-    let currentCardIndex = 0;
 
     function rotateCarousel() {
-        if (subjects.length === 0) return;
+        if (!subjects.length) return;
         const safeIndex = ((rotationIndex % subjects.length) + subjects.length) % subjects.length;
         const currentSubject = subjects[safeIndex];
-        
-        // ** THIS IS THE CORRECTED LOGIC **
-        if (currentSubject === "FLASHCARDS") {
-            kpsContainer.style.display = 'flex'; // Show flashcards
-            dynamicOutlineContainer.style.display = 'none'; // Hide outline
-        } else {
-            kpsContainer.style.display = 'none'; // Hide flashcards
-            dynamicOutlineContainer.style.display = 'block'; // Show outline
-            renderOutline(currentSubject);
-        }
+        renderOutline(currentSubject);
         
         const theta = 360 / subjects.length;
         const angle = rotationIndex * -theta;
         carousel.style.transform = `translateZ(-280px) rotateY(${angle}deg)`;
     }
-    
+
     function renderOutline(subjectKey) {
         dynamicOutlineContainer.innerHTML = '';
-        const subjectData = curriculumData[subjectKey];
-        if (!subjectData) return;
-        const header = document.createElement('div');
-        header.className = 'subject-header';
-        header.textContent = `${subjectKey} (Click to Toggle)`;
-        const content = document.createElement('div');
-        content.className = 'lesson-content';
-        content.style.display = 'block';
-        subjectData.outline.forEach(lesson => {
+        iconBar.innerHTML = `<p style="color: #888; width: 100%; text-align: center;">Select a lesson from the outline to see activities.</p>`;
+        const lessons = curriculumData[subjectKey];
+        if (!lessons) return;
+
+        for (const lessonId in lessons) {
+            const lesson = lessons[lessonId];
             const item = document.createElement('div');
             item.className = 'lesson-item';
             item.textContent = lesson.title;
-            item.dataset.videoUrl = lesson.videoUrl;
-            item.dataset.title = lesson.title;
-            item.dataset.id = lesson.id;
-            content.appendChild(item);
-        });
-        dynamicOutlineContainer.appendChild(header);
-        dynamicOutlineContainer.appendChild(content);
+            item.dataset.lessonId = lessonId;
+            item.dataset.subjectKey = subjectKey;
+            dynamicOutlineContainer.appendChild(item);
+        }
     }
-    
+
+    function renderIcons(subjectKey, lessonId) {
+        iconBar.innerHTML = '';
+        const activities = curriculumData[subjectKey]?.[lessonId]?.activities;
+
+        if (activities && activities.length > 0) {
+            activities.forEach(activity => {
+                const button = document.createElement('button');
+                button.className = 'icon-button beveled-frame';
+                button.innerHTML = `
+                    <img src="${activity.iconUrl}" alt="${activity.activityType}">
+                    <span class="icon-title">${activity.activityType}</span>
+                `;
+                button.dataset.videoUrl = activity.videoUrl;
+                button.dataset.title = `${curriculumData[subjectKey][lessonId].title} - ${activity.activityType}`;
+                button.dataset.id = lessonId;
+                iconBar.appendChild(button);
+            });
+        } else {
+            iconBar.innerHTML = `<p style="color: #888; width: 100%; text-align: center;">No activities found for this lesson.</p>`;
+        }
+    }
+
     function playVideo(videoSource, moduleTitle, idnKey) {
         returnBtn.style.display = 'block';
         lpsHeaderStrip.textContent = `Now Playing: ${moduleTitle} (${idnKey})`;
@@ -225,43 +202,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     function showInitialMessage() {
         returnBtn.style.display = 'none';
-        lpsHeaderStrip.textContent = `Select a Unit to Begin`;
-        videoPlayerSecure.innerHTML = `<div id="initial-message-overlay"><h2>Select an Item.</h2></div>`;
+        lpsHeaderStrip.textContent = `Select an Activity to Begin`;
+        videoPlayerSecure.innerHTML = `<div id="initial-message-overlay"><h2>Select an Activity from the Icon Bar Above.</h2></div>`;
     }
-    
-    function renderFlashcard() {
-        if (flashcardData.length === 0) return;
-        const card = flashcardData[currentCardIndex];
-        flashcardFront.innerHTML = `<span>${card.spanish}</span>`;
-        flashcardBack.innerHTML = `<span>${card.english}</span><img src="${card.imageUrl}" alt="${card.english}">`;
-        flashcard.classList.remove('is-flipped');
+
+    function updateDateStamp() {
+        const now = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago', hour12: false };
+        dateStampEl.textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
     }
 
     // =================================================================
-    // --- ⚡ 5. EVENT LISTENERS ---
+    // --- ⚡ EVENT LISTENERS (The "Wiring") ---
     // =================================================================
     nextButton.addEventListener('click', () => { rotationIndex++; rotateCarousel(); });
     prevButton.addEventListener('click', () => { rotationIndex--; rotateCarousel(); });
-    
-    flashcard.addEventListener('click', () => flashcard.classList.toggle('is-flipped'));
-    nextCardBtn.addEventListener('click', () => {
-        currentCardIndex = (currentCardIndex + 1) % flashcardData.length;
-        renderFlashcard();
-    });
-    prevCardBtn.addEventListener('click', () => {
-        currentCardIndex = (currentCardIndex - 1 + flashcardData.length) % flashcardData.length;
-        renderFlashcard();
-    });
 
     dynamicOutlineContainer.addEventListener('click', (event) => {
         const target = event.target;
-        if (target.classList.contains('subject-header')) {
-            const content = target.nextElementSibling;
-            content.style.display = (content.style.display === 'none') ? 'block' : 'none';
-        }
         if (target.classList.contains('lesson-item')) {
             document.querySelectorAll('.lesson-item.active').forEach(el => el.classList.remove('active'));
             target.classList.add('active');
+            renderIcons(target.dataset.subjectKey, target.dataset.lessonId);
+        }
+    });
+
+    iconBar.addEventListener('click', (event) => {
+        const target = event.target.closest('.icon-button');
+        if (target) {
             playVideo(target.dataset.videoUrl, target.dataset.title, target.dataset.id);
         }
     });
@@ -270,9 +238,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeVideoBtn.addEventListener('click', showInitialMessage);
 
     // =================================================================
-    // --- 🚀 6. INITIALIZATION ---
+    // --- 🚀 INITIALIZATION ---
     // =================================================================
     showInitialMessage();
+    updateDateStamp();
+    setInterval(updateDateStamp, 60000);
     await loadData();
 
     if (subjects.length > 0) {
