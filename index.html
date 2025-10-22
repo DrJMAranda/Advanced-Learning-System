@@ -10,45 +10,29 @@
         :root {
             --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-accent-active: #ffdd88;
             --color-control: #444; --bevel-shadow-light: rgba(255, 255, 255, 0.7);
-            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3); --color-lps-kps: #EFEFEF;
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
         body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: var(--color-lighthouse); color: black; overflow: hidden; }
-        #left-menu { width: 225px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; height: 100vh; position: relative; padding-bottom: 70px; overflow-y: auto; box-sizing: border-box; }
+        #left-menu { width: 225px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; height: 100vh; position: relative; padding-bottom: 70px; overflow-y: auto; }
         #credits { text-align: center; }
-        #student-id-box { position: absolute; bottom: 30px; left: 0; width: 100%; padding: 5px 10px; box-sizing: border-box; background: #fff; border-top: 1px solid #ccc; font-family: 'Roboto Mono', monospace; font-size: 8pt; z-index: 99; }
-        #date-stamp-tn-fixed { position: absolute; bottom: 0px; left: 0px; padding: 5px 10px; font-size: 7pt; font-family: monospace; z-index: 100; background: var(--color-lighthouse); width: 100%; box-sizing: border-box; text-align: left; }
+        #menu-list-container { margin-top: 20px; text-align: left; padding: 5px; border: 1px dashed #0070C0; }
+        #menu-list-content { font-size: 9pt; line-height: 1.3; font-weight: 400; color: black; white-space: pre-line; }
+        #student-id-box { position: absolute; bottom: 30px; left: 0; width: 100%; padding: 5px 10px; box-sizing: border-box; background: #fff; border-top: 1px solid #ccc; font-family: 'Roboto Mono', monospace; font-size: 8pt; color: #333; z-index: 99; }
+        #date-stamp-tn-fixed { position: absolute; bottom: 0px; left: 0px; padding: 5px 10px; font-size: 7pt; color: #555; font-family: monospace; z-index: 100; background: var(--color-lighthouse); width: 100%; box-sizing: border-box; text-align: left; }
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
-        
-        /* 3D CAROUSEL */
-        .scene { width: 210px; height: 100px; perspective: 1000px; margin: 10px 0; flex-shrink: 0; }
-        .carousel { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s; }
-        .carousel__cell { position: absolute; width: 190px; height: 80px; left: 10px; top: 10px; display: flex; justify-content: center; align-items: center; background: #fff; border: 2px solid #0070C0; border-radius: 10px; font-size: 22px; font-weight: bold; color: #333; backface-visibility: hidden; }
-        .carousel-controls { display: flex; justify-content: center; margin-bottom: 10px; flex-shrink: 0; }
-        .carousel-controls button { font-size: 1.5rem; background: none; border: 2px solid #0070C0; color: #0070C0; border-radius: 50%; width: 40px; height: 40px; margin: 0 15px; cursor: pointer; transition: all 0.2s; }
-        .carousel-controls button:hover { background: #0070C0; color: white; }
-
-        /* DYNAMIC ICON BAR */
-        #scrolling-icon-bar { width: 100%; display: flex; flex-wrap: nowrap; gap: 10px; padding: 10px; overflow-x: auto; flex-shrink: 0; background: var(--color-stealth); box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-height: 80px; box-sizing: border-box; align-items: center; }
+        #scrolling-icon-bar { width: 100%; display: flex; flex-wrap: nowrap; gap: 10px; padding: 10px; overflow-x: auto; flex-shrink: 0; background: var(--color-stealth); box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-height: 80px; box-sizing: border-box; }
         .icon-button { flex-shrink: 0; width: 100px; text-align: center; border: 1px solid #999; background: #fff; padding: 5px; cursor: pointer; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); font-family: 'Roboto Mono', monospace; font-size: 0.8em; }
-        .icon-button img { max-width: 100%; height: 60px; object-fit: cover; display: block; margin: 0 auto; }
+        .icon-button img { max-width: 100%; height: auto; display: block; }
         .icon-title { display: block; margin-top: 5px; }
-
-        /* LPS MONITOR */
-        #lps-monitor-simulacrum { width: 90%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+        #lps-monitor-simulacrum { width: 90%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; }
         #lps-header-strip { width: 100%; background: var(--color-control); color: var(--color-lighthouse); padding: 5px 10px; box-sizing: border-box; font-family: 'Roboto Mono', monospace; font-size: 10pt; text-align: left; border-top-left-radius: 5px; border-top-right-radius: 5px; }
         #video-display-monitor { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; border: 2px solid #555; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
         #video-player-secure { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: black; color: white; background-image: url('https://storage.googleapis.com/noenbalde/Backgrounds/Bucolic-Panorama-Placeholder.jpg'); background-size: cover; background-position: center; }
         #initial-message-overlay { background-color: rgba(0, 0, 0, 0.4); padding: 20px 40px; border-radius: 5px; }
-        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: flex-end; align-items: center; box-sizing: border-box; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
-        #lps-control-bar button { background: #fff; border: 1px solid #333; padding: 5px 10px; cursor: pointer; }
-
-        /* DYNAMIC OUTLINE */
-        #dynamic-outline-container { margin-top: 20px; text-align: left; padding: 5px; border: 1px dashed #0070C0; }
-        .lesson-item { padding: 4px 8px; cursor: pointer; border-radius: 3px; font-size: 9pt; line-height: 1.3; }
-        .lesson-item:hover { background-color: #e0e0e0; }
-        .lesson-item.active { background-color: var(--color-accent-active); font-weight: bold; }
+        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #777; box-sizing: border-box; font-family: 'Roboto Mono', monospace; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+        #lps-control-bar button { background: #fff; border: 1px solid #333; padding: 5px 10px; font-size: 1.1em; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -57,171 +41,86 @@
             <h3>Welcome to the<br>Advanced Learning System</h3>
             <h4>Powered by ARAGEM!</h4>
         </div>
-        <div id="dynamic-outline-container">
-            <p style="font-style: italic; text-align: center;">Loading curriculum...</p>
+        <div id="menu-list-container">
+            <div id="menu-list-content">
+                <div id="numeral-header" style="font-weight: bold; margin-bottom: 5px; cursor: pointer; color: #0070C0;">1. Numerals (Click to Toggle)</div>
+                <div id="numeral-content" style="padding-left: 15px; display: block;">
+                    01 Numerals to |Nine|<br>02 Numerals to |Ninety-Nine|<br>03 Nuerals to |Decillions|<br>04 Addition Principles<br>05 Addition Fundamentals
+                </div>
+            </div>
         </div>
         <div id="student-id-box"></div>
         <div id="date-stamp-tn-fixed"></div>
     </nav>
     <div id="content-wrapper">
-        <div class="scene"><div class="carousel"></div></div>
-        <div class="carousel-controls">
-            <button id="prev-button">‹</button>
-            <button id="next-button">›</button>
-        </div>
-        <header id="scrolling-icon-bar" class="beveled-frame"></header>
+        <header id="scrolling-icon-bar" class="beveled-frame">
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...', 'A1P1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1"><span class="icon-title">A1P1U1S1</span></button>
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero!', 'A1P1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2"><span class="icon-title">A1P1U1S2</span></button>
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family', 'A1P1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3"><span class="icon-title">A1P1U1S3</span></button>
+        </header>
         <section id="main-content">
             <div id="lps-monitor-simulacrum">
-                <div id="lps-header-strip"></div>
+                <div id="lps-header-strip">Select a Unit to Begin</div>
                 <div id="video-display-monitor">
                     <div id="video-player-secure"></div>
                 </div>
                 <div id="lps-control-bar">
-                    <button id="close-video-btn">X Close</button>
+                    <button onclick="closeVideo()">X Close</button>
                 </div>
             </div>
         </section>
     </div>
-    
+
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-
-    const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
-    let curriculumData = {}, subjects = [];
-
-    const dynamicOutlineContainer = document.getElementById('dynamic-outline-container');
-    const iconBar = document.getElementById('scrolling-icon-bar');
-    const carousel = document.querySelector('.carousel');
     const videoPlayerSecure = document.getElementById('video-player-secure');
     const lpsHeaderStrip = document.getElementById('lps-header-strip');
-    const closeVideoBtn = document.getElementById('close-video-btn');
-    const prevButton = document.querySelector('#prev-button');
-    const nextButton = document.querySelector('#next-button');
-    const dateStampEl = document.getElementById('date-stamp-tn-fixed');
-    const studentIdBox = document.getElementById('student-id-box');
-    
-    let rotationIndex = 0;
+    const numeralHeader = document.getElementById('numeral-header');
+    const numeralContent = document.getElementById('numeral-content');
 
-    async function loadData() {
-        try {
-            const response = await fetch(SPREADSHEET_URL);
-            if (!response.ok) throw new Error('Network fail');
-            const csvText = await response.text();
-            csvText.split(/\r?\n/).slice(1).forEach(row => {
-                const [subject, id, title, act, icon, url] = row.split(',').map(c => c ? c.trim() : '');
-                if (subject && id && title) {
-                    if (!curriculumData[subject]) curriculumData[subject] = {};
-                    if (!curriculumData[subject][id]) curriculumData[subject][id] = { title, activities: [] };
-                    if (act && icon && url) curriculumData[subject][id].activities.push({ type: act, iconUrl: icon, videoUrl: url });
-                }
-            });
-            subjects = Object.keys(curriculumData);
-        } catch (error) {
-            console.error("Data load error:", error);
-            dynamicOutlineContainer.innerHTML = `<p style="color: red;">Error loading curriculum.</p>`;
-        }
+    const initialContentHTML = `
+        <div id="initial-message-overlay">
+            <h2 style="color: white; font-size: 2em;">Select a Unit from The Star Chart.</h2>
+            <p style="color: white; font-size: 1.1em;">The Force will guide your learning journey.</p>
+        </div>
+    `;
+
+    // --- THIS IS THE CRITICAL FIX ---
+    // This function now creates a real video player instead of a mockup.
+    function playModule(videoSource, moduleTitle, idnKey) {
+        if (!videoSource) { return; }
+        lpsHeaderStrip.textContent = `Now Playing: ${moduleTitle} (${idnKey})`;
+        videoPlayerSecure.innerHTML = `
+            <video controls autoplay style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="${videoSource}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
     }
 
-    function rotateCarousel() {
-        if (!subjects.length) return;
-        const safeIndex = ((rotationIndex % subjects.length) + subjects.length) % subjects.length;
-        renderOutline(subjects[safeIndex]);
-        
-        const theta = 360 / subjects.length;
-        const radius = Math.round( ( 95 / 2 ) / Math.tan( Math.PI / subjects.length ) ); // 95 is half of cell width
-        const angle = rotationIndex * -theta;
-        carousel.style.transform = `translateZ(-${radius}px) rotateY(${angle}deg)`;
-    }
-
-    function renderOutline(subjectKey) {
-        dynamicOutlineContainer.innerHTML = '';
-        iconBar.innerHTML = `<p style="color: #888; width: 100%; text-align: center;">Select a lesson from the outline.</p>`;
-        const lessons = curriculumData[subjectKey];
-        if (!lessons) return;
-        for (const lessonId in lessons) {
-            const item = document.createElement('div');
-            item.className = 'lesson-item';
-            item.textContent = lessons[lessonId].title;
-            item.dataset.lessonId = lessonId;
-            item.dataset.subjectKey = subjectKey;
-            dynamicOutlineContainer.appendChild(item);
-        }
-    }
-
-    function renderIcons(subjectKey, lessonId) {
-        iconBar.innerHTML = '';
-        const activities = curriculumData[subjectKey]?.[lessonId]?.activities;
-        if (activities?.length > 0) {
-            activities.forEach(act => {
-                const button = document.createElement('button');
-                button.className = 'icon-button beveled-frame';
-                button.innerHTML = `<img src="${act.iconUrl}" alt="${act.type}"><span class="icon-title">${act.type}</span>`;
-                button.dataset.videoUrl = act.videoUrl;
-                button.dataset.title = `${curriculumData[subjectKey][lessonId].title} - ${act.type}`;
-                button.dataset.id = lessonId;
-                iconBar.appendChild(button);
-            });
-        } else {
-            iconBar.innerHTML = `<p style="color: #888; width: 100%; text-align: center;">No activities for this lesson.</p>`;
-        }
-    }
-
-    function playVideo(source, title, id) {
-        lpsHeaderStrip.textContent = `Now Playing: ${title} (${id})`;
-        videoPlayerSecure.innerHTML = `<video controls controlsList="nodownload" autoplay style="width:100%;height:100%;object-fit:cover;"><source src="${source}" type="video/mp4"></video>`;
-    }
-    
     function showInitialMessage() {
-        lpsHeaderStrip.textContent = `Select an Activity to Begin`;
-        videoPlayerSecure.innerHTML = `<div id="initial-message-overlay"><h2>Select an Activity from the Icon Bar.</h2></div>`;
+        lpsHeaderStrip.textContent = `Select a Unit to Begin`;
+        videoPlayerSecure.innerHTML = initialContentHTML;
     }
+
+    function closeVideo() { showInitialMessage(); }
 
     function updateDateStamp() {
         const now = new Date();
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago', hour12: false };
-        dateStampEl.textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
+        document.getElementById('date-stamp-tn-fixed').textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
     }
 
-    nextButton.addEventListener('click', () => { rotationIndex++; rotateCarousel(); });
-    prevButton.addEventListener('click', () => { rotationIndex--; rotateCarousel(); });
-
-    dynamicOutlineContainer.addEventListener('click', (event) => {
-        if (event.target.classList.contains('lesson-item')) {
-            document.querySelectorAll('.lesson-item.active').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-            renderIcons(event.target.dataset.subjectKey, event.target.dataset.lessonId);
-        }
-    });
-
-    iconBar.addEventListener('click', (event) => {
-        const target = event.target.closest('.icon-button');
-        if (target) playVideo(target.dataset.videoUrl, target.dataset.title, target.dataset.id);
-    });
-    
-    closeVideoBtn.addEventListener('click', showInitialMessage);
-
-    showInitialMessage();
-    updateDateStamp();
-    setInterval(updateDateStamp, 60000);
-    studentIdBox.innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C, NUMERACY: D]`;
-    
-    await loadData();
-
-    if (subjects.length > 0) {
-        carousel.innerHTML = subjects.map(s => `<div class="carousel__cell">${s}</div>`).join('');
-        const cells = document.querySelectorAll('.carousel__cell');
-        const theta = 360 / cells.length;
-        const radius = Math.round((cells[0].offsetWidth / 2) / Math.tan(Math.PI / cells.length));
-        cells.forEach((cell, i) => {
-            cell.style.transform = `rotateY(${i * theta}deg) translateZ(${radius}px)`;
-        });
-        const scene = document.querySelector('.scene');
-        if (scene) scene.style.height = `${cells[0].offsetHeight}px`;
-        rotateCarousel();
-    } else {
-        document.querySelector('.scene').innerHTML = "<p>No subjects found.</p>";
+    function toggleNumerals() {
+        numeralContent.style.display = (numeralContent.style.display === 'none') ? 'block' : 'none';
     }
-});
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showInitialMessage();
+        updateDateStamp();
+        setInterval(updateDateStamp, 60000);
+        numeralHeader.addEventListener('click', toggleNumerals);
+        document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
+    });
 </script>
 </body>
 </html>
