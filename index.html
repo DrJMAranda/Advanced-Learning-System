@@ -33,6 +33,21 @@
         #initial-message-overlay { background-color: rgba(0, 0, 0, 0.4); padding: 20px 40px; border-radius: 5px; }
         #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #777; box-sizing: border-box; font-family: 'Roboto Mono', border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
         #lps-control-bar button { background: #fff; border: 1px solid #333; padding: 5px 10px; font-size: 1.1em; cursor: pointer; }
+        
+        /* Styles for P1 Vocabulary */
+        #flashcard-container { width: 100%; max-width: 500px; height: 100%; background: white; border: 2px solid #ccc; border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; text-align: center; }
+        #flashcard-image { max-width: 80%; max-height: 60%; object-fit: contain; }
+        #flashcard-text { margin-top: 20px; }
+        #flashcard-text p { font-size: 1.5em; margin: 5px 0; }
+        .hidden { display: none; }
+
+        /* Styles for P2 Numerals */
+        #numeral-game-container { width: 100%; height: 100%; background: white; padding: 20px; box-sizing: border-box; text-align: center; }
+        #target-number { font-size: 3em; color: #333; }
+        #choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px; }
+        .choice-card { background: #f0f0f0; border: 5px solid transparent; border-radius: 10px; padding: 10px; cursor: pointer; transition: transform 0.2s; }
+        .choice-card:hover { transform: scale(1.05); }
+        .choice-card img { width: 100%; max-height: 100px; object-fit: contain; }
     </style>
 </head>
 <body>
@@ -59,26 +74,14 @@
     <div id="content-wrapper">
         <header id="scrolling-icon-bar" class="beveled-frame">
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'AP1U1S1: The Journey Begins...', 'AP1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="AP1U1S1"><span class="icon-title">AP1U1S1</span></button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'AP1U1S2: Mr. Zero!', 'AP1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="AP1U1S2"><span class="icon-title">AP1U1S2</span></button>
-            
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'AP1U1S3: The Numeral Family', 'AP1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S3"><span class="icon-title">AP1U1S3</span></button>
-        
-            <button class="icon-button beveled-frame" onclick="comingSoon()">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U2-Placeholder.jpg" alt="AP1U2">
-                <span class="icon-title">under construction</span>
-            </button>
-        
-            <button class="icon-button beveled-frame" onclick="comingSoon()">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="AP1U3">
-                <span class="icon-title">under construction</span>
-            </button>
-        
-            <button class="icon-button beveled-frame" onclick="comingSoon()">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Vocabulary">
-                <span class="icon-title">under construction</span>
-            </button>
-        
+            
+            <button class="icon-button beveled-frame" onclick="startVocabularyPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Practice 1"><span class="icon-title">P1</span></button>
+            <button class="icon-button beveled-frame" onclick="startNumeralPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/NUMERALS-Placeholder.jpg" alt="Practice 2"><span class="icon-title">P2</span></button>
+            
+            <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U2-Placeholder.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
+            <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="AP1U3"><span class="icon-title">U3</span></button>
         </header>
         <section id="main-content">
             <div id="lps-monitor-simulacrum">
@@ -96,6 +99,7 @@
 <script>
     const videoPlayerSecure = document.getElementById('video-player-secure');
     const lpsHeaderStrip = document.getElementById('lps-header-strip');
+    const originalControlBarHTML = `<button onclick="closeVideo()">X Close</button>`;
 
     const initialContentHTML = `
         <div id="initial-message-overlay">
@@ -103,36 +107,97 @@
             <p style="color: white; font-size: 1.1em;">The Force will guide your learning journey.</p>
         </div>
     `;
-
+    
+    // --- CORE VIDEO PLAYER FUNCTIONS ---
     function playModule(videoSource, moduleTitle, idnKey) {
         if (!videoSource) { return; }
         lpsHeaderStrip.textContent = `Now Playing: ${moduleTitle} (${idnKey})`;
         videoPlayerSecure.innerHTML = `
-            <video controls autoplay style="width: 100%; height: 100%; object-fit: cover;">
+            <video controls autoplay controlslist="nodownload" style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="${videoSource}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         `;
     }
-
     function showInitialMessage() {
         lpsHeaderStrip.textContent = `Select a Unit to Begin`;
         videoPlayerSecure.innerHTML = initialContentHTML;
     }
-
     function closeVideo() { showInitialMessage(); }
 
+    // --- DATA & FUNCTIONS FOR P1 (VOCABULARY) ---
+    const vocabularyData = [
+        { spanish: 'águila', english: 'eagle', image: 'https://storage.googleapis.com/noenbalde/Vocabulario/aguila.png' },
+        { spanish: 'autobus', english: 'bus', image: 'https://storage.googleapis.com/noenbalde/Vocabulario/autobus.png' },
+        { spanish: 'azada', english: 'hoe', image: 'https://storage.googleapis.com/noenbalde/Vocabulario/azada.png' },
+    ];
+    let currentCardIndex = 0;
+    
+    function startVocabularyPractice() {
+        lpsHeaderStrip.textContent = `Practice 1: Vocabulary`;
+        videoPlayerSecure.innerHTML = `<div id="flashcard-container"><img id="flashcard-image" src="" alt="Vocabulary Image"><div id="flashcard-text" class="hidden"><p id="flashcard-spanish"></p><p id="flashcard-english"></p></div></div>`;
+        document.querySelector('#lps-control-bar').innerHTML = `<button onclick="flipCard()">Flip Card</button><button onclick="nextCard()">Next</button><button onclick="closeExercise()">X Close</button>`;
+        currentCardIndex = 0;
+        showCard(currentCardIndex);
+    }
+    function showCard(index) {
+        const card = vocabularyData[index];
+        document.getElementById('flashcard-image').src = card.image;
+        document.getElementById('flashcard-spanish').textContent = `Español: ${card.spanish}`;
+        document.getElementById('flashcard-english').textContent = `English: ${card.english}`;
+        document.getElementById('flashcard-text').classList.add('hidden');
+    }
+    function flipCard() { document.getElementById('flashcard-text').classList.toggle('hidden'); }
+    function nextCard() {
+        currentCardIndex = (currentCardIndex + 1) % vocabularyData.length;
+        showCard(currentCardIndex);
+    }
+
+    // --- DATA & FUNCTIONS FOR P2 (NUMERALS) ---
+    function startNumeralPractice() {
+        lpsHeaderStrip.textContent = `Practice 2: Numeral Recognition`;
+        videoPlayerSecure.innerHTML = `<div id="numeral-game-container"><h2 id="target-number"></h2><div id="choice-grid"></div></div>`;
+        document.querySelector('#lps-control-bar').innerHTML = `<button onclick="generatePuzzle()">New Puzzle</button><button onclick="closeExercise()">X Close</button>`;
+        generatePuzzle();
+    }
+    function generatePuzzle() {
+        const choiceGrid = document.getElementById('choice-grid');
+        choiceGrid.innerHTML = ''; 
+        const targetNumber = 5;
+        document.getElementById('target-number').textContent = `Match This Number: ${targetNumber}`;
+        const choices = [
+            { value: 3, image: 'https://storage.googleapis.com/noenbalde/Numerals/Pip-3.png' },
+            { value: 5, image: 'https://storage.googleapis.com/noenbalde/Numerals/Tally-5.png' },
+            { value: 4, image: 'https://storage.googleapis.com/noenbalde/Numerals/Roman-4.png' },
+            { value: 1, image: 'https://storage.googleapis.com/noenbalde/Numerals/Stick-1.png' },
+        ];
+        choices.forEach(choice => {
+            const choiceElement = document.createElement('div');
+            choiceElement.classList.add('choice-card');
+            choiceElement.innerHTML = `<img src="${choice.image}" alt="Number ${choice.value}">`;
+            choiceElement.onclick = () => checkAnswer(choice.value, targetNumber, choiceElement);
+            choiceGrid.appendChild(choiceElement);
+        });
+    }
+    function checkAnswer(selectedValue, targetValue, element) {
+        document.querySelectorAll('.choice-card').forEach(card => card.onclick = null);
+        element.style.border = selectedValue === targetValue ? '5px solid green' : '5px solid red';
+        setTimeout(generatePuzzle, 1500);
+    }
+    
+    // --- UTILITY FUNCTIONS ---
+    function closeExercise() {
+        document.querySelector('#lps-control-bar').innerHTML = originalControlBarHTML;
+        showInitialMessage();
+    }
     function updateDateStamp() {
         const now = new Date();
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago', hour12: false };
         document.getElementById('date-stamp-tn-fixed').textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
     }
+    function comingSoon() { alert("This module is 'under construction' and will be available shortly!"); }
 
-s
-    function comingSoon() {
-        alert("This module is 'under construction' and will be available shortly!");
-    }
-
+    // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
         showInitialMessage();
         updateDateStamp();
