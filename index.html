@@ -31,7 +31,7 @@
         #video-display-monitor { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; border: 2px solid #555; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
         #video-player-secure { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background-color: black; color: white; background-image: url('https://storage.googleapis.com/noenbalde/Backgrounds/Bucolic-Panorama-Placeholder.jpg'); background-size: cover; background-position: center; }
         #initial-message-overlay { background-color: rgba(0, 0, 0, 0.4); padding: 20px 40px; border-radius: 5px; }
-        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #777; box-sizing: border-box; font-family: 'Roboto Mono', monospace; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+        #lps-control-bar { width: 100%; background: var(--color-control); padding: 8px 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #777; box-sizing: border-box; font-family: 'Roboto Mono', border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
         #lps-control-bar button { background: #fff; border: 1px solid #333; padding: 5px 10px; font-size: 1.1em; cursor: pointer; }
     </style>
 </head>
@@ -43,9 +43,13 @@
         </div>
         <div id="menu-list-container">
             <div id="menu-list-content">
-                <div id="numeral-header" style="font-weight: bold; margin-bottom: 5px; cursor: pointer; color: #0070C0;">1. Numerals (Click to Toggle)</div>
+                <div id="numeral-header" style="font-weight: bold; margin-bottom: 5px; color: #0070C0;">1. Numerals</div>
                 <div id="numeral-content" style="padding-left: 15px; display: block;">
-                    01 Numerals to |Nine|<br>02 Numerals to |Ninety-Nine|<br>03 Nuerals to |Decillions|<br>04 Addition Principles<br>05 Addition Fundamentals
+                    01 Numerals to |Nine|
+                    02 Numerals to |Ninety-Nine|
+                    03 Nuerals to |Decillions|
+                    04 Addition Principles
+                    05 Addition Fundamentals
                 </div>
             </div>
         </div>
@@ -56,7 +60,7 @@
         <header id="scrolling-icon-bar" class="beveled-frame">
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...', 'A1P1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1"><span class="icon-title">A1P1U1S1</span></button>
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero!', 'A1P1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2"><span class="icon-title">A1P1U1S2</span></button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family', 'A1P1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3"><span class="icon-title">A1P1U1S3</span></button>
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family', 'A1P1U1S3')"><img src="httpsD/storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3"><span class="icon-title">A1P1U1S3</span></button>
         </header>
         <section id="main-content">
             <div id="lps-monitor-simulacrum">
@@ -74,8 +78,8 @@
 <script>
     const videoPlayerSecure = document.getElementById('video-player-secure');
     const lpsHeaderStrip = document.getElementById('lps-header-strip');
-    const numeralHeader = document.getElementById('numeral-header');
-    const numeralContent = document.getElementById('numeral-content');
+    // const numeralHeader = document.getElementById('numeral-header'); // No longer needed
+    // const numeralContent = document.getElementById('numeral-content'); // No longer needed
 
     const initialContentHTML = `
         <div id="initial-message-overlay">
@@ -84,8 +88,6 @@
         </div>
     `;
 
-    // --- THIS IS THE CRITICAL FIX ---
-    // This function now creates a real video player instead of a mockup.
     function playModule(videoSource, moduleTitle, idnKey) {
         if (!videoSource) { return; }
         lpsHeaderStrip.textContent = `Now Playing: ${moduleTitle} (${idnKey})`;
@@ -110,15 +112,13 @@
         document.getElementById('date-stamp-tn-fixed').textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
     }
 
-    function toggleNumerals() {
-        numeralContent.style.display = (numeralContent.style.display === 'none') ? 'block' : 'none';
-    }
+    // REMOVED toggleNumerals function
 
     document.addEventListener('DOMContentLoaded', () => {
         showInitialMessage();
         updateDateStamp();
         setInterval(updateDateStamp, 60000);
-        numeralHeader.addEventListener('click', toggleNumerals);
+        // REMOVED event listener for numeralHeader
         document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
     });
 </script>
