@@ -131,19 +131,20 @@
     
     async function loadVocabularyData() {
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
+        // --- FIX for GooeySec (CORS Policy) ---
+        const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
         try {
-            const response = await fetch(sheetURL);
+            const response = await fetch(proxyURL);
             const csvText = await response.text();
             liveVocabularyData = csvText.trim().split('\n').slice(1).map(row => {
                 const columns = row.split(',');
                 return { spanish: columns[0], english: columns[1], image: columns[2] };
             });
-            console.log("Vocabulary data loaded successfully!");
+            console.log("Vocabulary data loaded successfully via proxy!");
         } catch (error) { console.error("Failed to load vocabulary data:", error); }
     }
     
     function startVocabularyPractice() {
-        // --- FIX: Check if data is loaded before starting ---
         if (liveVocabularyData.length === 0) { 
             alert('Vocabulary data is still loading. Please try again in a moment.'); 
             return; 
@@ -172,19 +173,20 @@
 
     async function loadNumeralData() {
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2WHG3VJ5-tlFHMnX25Z47AsFx6eU93xbewqzfDb2hYtzKm9-bdDl0jr43qeLptcR-p_fEdn0GXI9p/pub?output=csv';
+        // --- FIX for GooeySec (CORS Policy) ---
+        const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
         try {
-            const response = await fetch(sheetURL);
+            const response = await fetch(proxyURL);
             const csvText = await response.text();
             liveNumeralData = csvText.trim().split('\n').slice(1).map(row => {
                 const columns = row.split(',');
                 return { value: parseInt(columns[0]), type: columns[1], image: columns[2] };
             });
-            console.log("Numeral data loaded successfully!");
+            console.log("Numeral data loaded successfully via proxy!");
         } catch (error) { console.error("Failed to load numeral data:", error); }
     }
 
     function startNumeralPractice() {
-        // --- FIX: Check if data is loaded before starting ---
         if (liveNumeralData.length === 0) { 
             alert('Numeral data is still loading. Please try again in a moment!'); 
             return; 
@@ -197,25 +199,23 @@
     }
     
     function generatePuzzle() {
-        // --- FIX: Ensure data is loaded before trying to build ---
         if (liveNumeralData.length === 0) {
             console.log("Waiting for numeral data to load...");
-            return; // Don't try to build a puzzle with no data
+            return; 
         }
         
         const choiceGrid = document.getElementById('choice-grid');
         choiceGrid.innerHTML = ''; 
-        const targetNumber = Math.floor(Math.random() * 10); // Target 0-9
+        const targetNumber = Math.floor(Math.random() * 10); 
         
         // --- UI TWEAK: "Match: [number]" prompt text ---
         document.getElementById('target-number').textContent = `Match: ${targetNumber}`;
         
         const correctOptions = liveNumeralData.filter(item => item.value === targetNumber);
         
-        // Safety check: if no images for that number exist, try again
         if (correctOptions.length === 0) { 
             console.error(`No images found for target: ${targetNumber}. Retrying...`); 
-            setTimeout(generatePuzzle, 100); // Try again in a moment
+            setTimeout(generatePuzzle, 100); 
             return; 
         }
         
@@ -233,7 +233,7 @@
             const choiceElement = document.createElement('div');
             choiceElement.classList.add('choice-card');
             choiceElement.innerHTML = `<img src="${choice.image}" alt="Number ${choice.value}">`;
-            choiceElement.onclick = () => checkAnswer(choice.value, targetNumber, choiceElement);
+            choiceElement.onclick = () => checkAnswer(choice.value, targetValue, choiceElement);
             choiceGrid.appendChild(choiceElement);
         });
     }
