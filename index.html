@@ -45,11 +45,11 @@
             <div id="menu-list-content">
                 <div id="numeral-header" style="font-weight: bold; margin-bottom: 5px; color: #0070C0;">1. Numerals</div>
                 <div id="numeral-content" style="padding-left: 15px; display: block;">
-                    01 Numerals to |Nine|
-                    02 Numerals to |Ninety-Nine|
-                    03 Nuerals to |Decillions|
-                    04 Addition Principles
-                    05 Addition Fundamentals
+                    01 Numerals 0-4 (AP1U1S2)
+                    02 Numerals 5-9 (AP1U1S3)
+                    03 Numerals to |Ninety-Nine| (AP1U2)
+                    04 Numerals to |Decillions| (AP1U3)
+                    05 Addition Principles
                 </div>
             </div>
         </div>
@@ -58,9 +58,27 @@
     </nav>
     <div id="content-wrapper">
         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...', 'A1P1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1"><span class="icon-title">A1P1U1S1</span></button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero!', 'A1P1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2"><span class="icon-title">A1P1U1S2</span></button>
-            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family', 'A1P1U1S3')"><img src="httpsD/storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3"><span class="icon-title">A1P1U1S3</span></button>
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'AP1U1S1: The Journey Begins...', 'AP1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="AP1U1S1"><span class="icon-title">AP1U1S1</span></button>
+            
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'AP1U1S2: Mr. Zero!', 'AP1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="AP1U1S2"><span class="icon-title">AP1U1S2</span></button>
+            
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'AP1U1S3: The Numeral Family', 'AP1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S3"><span class="icon-title">AP1U1S3</span></button>
+        
+            <button class="icon-button beveled-frame" onclick="comingSoon()">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U2-Placeholder.jpg" alt="AP1U2">
+                <span class="icon-title">under construction</span>
+            </button>
+        
+            <button class="icon-button beveled-frame" onclick="comingSoon()">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="AP1U3">
+                <span class="icon-title">under construction</span>
+            </button>
+        
+            <button class="icon-button beveled-frame" onclick="comingSoon()">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Vocabulary">
+                <span class="icon-title">under construction</span>
+            </button>
+        
         </header>
         <section id="main-content">
             <div id="lps-monitor-simulacrum">
@@ -78,8 +96,6 @@
 <script>
     const videoPlayerSecure = document.getElementById('video-player-secure');
     const lpsHeaderStrip = document.getElementById('lps-header-strip');
-    // const numeralHeader = document.getElementById('numeral-header'); // No longer needed
-    // const numeralContent = document.getElementById('numeral-content'); // No longer needed
 
     const initialContentHTML = `
         <div id="initial-message-overlay">
@@ -112,13 +128,15 @@
         document.getElementById('date-stamp-tn-fixed').textContent = `TN Time: ${now.toLocaleString('en-US', options)}`;
     }
 
-    // REMOVED toggleNumerals function
+s
+    function comingSoon() {
+        alert("This module is 'under construction' and will be available shortly!");
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         showInitialMessage();
         updateDateStamp();
         setInterval(updateDateStamp, 60000);
-        // REMOVED event listener for numeralHeader
         document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
     });
 </script>
