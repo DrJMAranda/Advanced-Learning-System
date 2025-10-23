@@ -143,7 +143,11 @@
     }
     
     function startVocabularyPractice() {
-        if (liveVocabularyData.length === 0) { alert('Vocabulary data is still loading. Please try again in a moment.'); return; }
+        // --- FIX: Check if data is loaded before starting ---
+        if (liveVocabularyData.length === 0) { 
+            alert('Vocabulary data is still loading. Please try again in a moment.'); 
+            return; 
+        }
         lpsHeaderStrip.textContent = `Practice 1: Vocabulary`;
         videoPlayerSecure.innerHTML = `<div id="flashcard-container"><img id="flashcard-image" src="" alt="Vocabulary Image"><div id="flashcard-text" class="hidden"><p id="flashcard-spanish"></p><p id="flashcard-english"></p></div></div>`;
         document.querySelector('#lps-control-bar').innerHTML = `<button onclick="flipCard()">Flip Card</button><button onclick="nextCard()">Next</button><button onclick="closeExercise()">X Close</button>`;
@@ -180,26 +184,51 @@
     }
 
     function startNumeralPractice() {
-        if (liveNumeralData.length === 0) { alert('Numeral data is still loading. Please try again in a moment.'); return; }
+        // --- FIX: Check if data is loaded before starting ---
+        if (liveNumeralData.length === 0) { 
+            alert('Numeral data is still loading. Please try again in a moment!'); 
+            return; 
+        }
         lpsHeaderStrip.textContent = `Practice 2: Numeral Recognition`;
         videoPlayerSecure.innerHTML = `<div id="numeral-game-container"><h2 id="target-number"></h2><div id="choice-grid"></div></div>`;
-        document.querySelector('#lps-control-bar').innerHTML = `<button onclick="generatePuzzle()">New Puzzle</button><button onclick="closeExercise()">X Close</button>`;
+        // --- UI TWEAK: "New Match" button text ---
+        document.querySelector('#lps-control-bar').innerHTML = `<button onclick="generatePuzzle()">New Match</button><button onclick="closeExercise()">X Close</button>`;
         generatePuzzle();
     }
+    
     function generatePuzzle() {
+        // --- FIX: Ensure data is loaded before trying to build ---
+        if (liveNumeralData.length === 0) {
+            console.log("Waiting for numeral data to load...");
+            return; // Don't try to build a puzzle with no data
+        }
+        
         const choiceGrid = document.getElementById('choice-grid');
         choiceGrid.innerHTML = ''; 
-        const targetNumber = Math.floor(Math.random() * 10);
-        document.getElementById('target-number').textContent = `Match This Number: ${targetNumber}`;
+        const targetNumber = Math.floor(Math.random() * 10); // Target 0-9
+        
+        // --- UI TWEAK: "Match: [number]" prompt text ---
+        document.getElementById('target-number').textContent = `Match: ${targetNumber}`;
+        
         const correctOptions = liveNumeralData.filter(item => item.value === targetNumber);
-        if (correctOptions.length === 0) { console.error(`No images found for target: ${targetNumber}`); setTimeout(generatePuzzle, 100); return; }
+        
+        // Safety check: if no images for that number exist, try again
+        if (correctOptions.length === 0) { 
+            console.error(`No images found for target: ${targetNumber}. Retrying...`); 
+            setTimeout(generatePuzzle, 100); // Try again in a moment
+            return; 
+        }
+        
         const correctAnswer = correctOptions[Math.floor(Math.random() * correctOptions.length)];
         const incorrectOptions = liveNumeralData.filter(item => item.value !== targetNumber);
         let wrongAnswers = [];
+        
         for (let i = 0; i < 3; i++) {
             wrongAnswers.push(incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)]);
         }
+        
         const choices = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+        
         choices.forEach(choice => {
             const choiceElement = document.createElement('div');
             choiceElement.classList.add('choice-card');
@@ -208,6 +237,7 @@
             choiceGrid.appendChild(choiceElement);
         });
     }
+    
     function checkAnswer(selectedValue, targetValue, element) {
         document.querySelectorAll('.choice-card').forEach(card => card.onclick = null);
         element.style.border = selectedValue === targetValue ? '5px solid green' : '5px solid red';
@@ -232,6 +262,7 @@
         updateDateStamp();
         setInterval(updateDateStamp, 60000);
         document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
+        
         // Load the live data from spreadsheets as soon as the page is ready
         loadVocabularyData();
         loadNumeralData();
