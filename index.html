@@ -86,7 +86,7 @@
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'AP1U1S2: Mr. Zero!', 'AP1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="AP1U1S2"><span class="icon-title">AP1U1S2</span></button>
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'AP1U1S3: The Numeral Family', 'AP1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S3"><span class="icon-title">AP1U1S3</span></button>
             
-            <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U2-Placeholder.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
+            <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'AP1U2: Numbers to Ninety-Nine', 'AP1U2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
             
             <button class="icon-button beveled-frame" onclick="startVocabularyPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Practice 1"><span class="icon-title">P1</span></button>
             <button class="icon-button beveled-frame" onclick="startNumeralPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/NUMERALS-Placeholder.jpg" alt="Practice 2"><span class="icon-title">P2</span></button>
@@ -141,7 +141,6 @@
     
     async function loadVocabularyData() {
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
-        // --- FIX for GooeySec (CORS Policy) ---
         const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
         try {
             const response = await fetch(proxyURL);
@@ -183,7 +182,6 @@
 
     async function loadNumeralData() {
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2WHG3VJ5-tlFHMnX25Z47AsFx6eU93xbewqzfDb2hYtzKm9-bdDl0jr43qeLptcR-p_fEdn0GXI9p/pub?output=csv';
-        // --- FIX for GooeySec (CORS Policy) ---
         const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
         try {
             const response = await fetch(proxyURL);
@@ -198,33 +196,25 @@
 
     function startNumeralPractice() {
         if (liveNumeralData.length === 0) { 
-            alert('Numeral data is still loading. Please try again in a moment!'); 
+            alert('Numeral data is still loading. Please try again in a moment.'); 
             return; 
         }
         lpsHeaderStrip.textContent = `Practice 2: Numeral Recognition`;
         videoPlayerSecure.innerHTML = `<div id="numeral-game-container"><h2 id="target-number"></h2><div id="choice-grid"></div></div>`;
-        // --- UI TWEAK: "New Match" button text ---
         document.querySelector('#lps-control-bar').innerHTML = `<button onclick="generatePuzzle()">New Match</button><button onclick="closeExercise()">X Close</button>`;
         generatePuzzle();
     }
     
     function generatePuzzle() {
-        if (liveNumeralData.length === 0) {
-            console.log("Waiting for numeral data to load...");
-            return; 
-        }
+        if (liveNumeralData.length === 0) { return; }
         
         const choiceGrid = document.getElementById('choice-grid');
         choiceGrid.innerHTML = ''; 
         const targetNumber = Math.floor(Math.random() * 10); 
-        
-        // --- UI TWEAK: "Match: [number]" prompt text ---
         document.getElementById('target-number').textContent = `Match: ${targetNumber}`;
-        
         const correctOptions = liveNumeralData.filter(item => item.value === targetNumber);
         
         if (correctOptions.length === 0) { 
-            console.error(`No images found for target: ${targetNumber}. Retrying...`); 
             setTimeout(generatePuzzle, 100); 
             return; 
         }
@@ -232,18 +222,15 @@
         const correctAnswer = correctOptions[Math.floor(Math.random() * correctOptions.length)];
         const incorrectOptions = liveNumeralData.filter(item => item.value !== targetNumber);
         let wrongAnswers = [];
-        
         for (let i = 0; i < 3; i++) {
             wrongAnswers.push(incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)]);
         }
-        
         const choices = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
         
         choices.forEach(choice => {
             const choiceElement = document.createElement('div');
             choiceElement.classList.add('choice-card');
             choiceElement.innerHTML = `<img src="${choice.image}" alt="Number ${choice.value}">`;
-            // JAVASCRIPT BUG FIX: Was 'targetValue', which is undefined. Corrected to 'targetNumber'.
             choiceElement.onclick = () => checkAnswer(choice.value, targetNumber, choiceElement);
             choiceGrid.appendChild(choiceElement);
         });
@@ -273,8 +260,6 @@
         updateDateStamp();
         setInterval(updateDateStamp, 60000);
         document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
-        
-        // Load the live data from spreadsheets as soon as the page is ready
         loadVocabularyData();
         loadNumeralData();
     });
