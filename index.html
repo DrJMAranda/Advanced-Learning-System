@@ -167,7 +167,7 @@
     // PERMANENT FIX: Data is now stored locally. No more GooeySec problems!
     const liveNumeralData = [
         { value: 0, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%200.png" },
-        { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%201.png" },
+        { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%2Request%201.png" },
         { value: 2, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%202.png" },
         { value: 3, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%203.png" },
         { value: 4, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%204.png" },
@@ -220,6 +220,7 @@
             choiceElement.innerHTML = `<img src="${choice.image}" alt="Number ${choice.value}">`;
             choiceElement.onclick = () => checkAnswer(choice.value, targetNumber, choiceElement);
             choiceGrid.appendChild(choiceElement);
+Check Answer
         });
     }
     
