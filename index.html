@@ -55,7 +55,7 @@
         <div id="credits">
             <h2>Welcome to the<br>Advanced Learning System</h2>
             <h3>Powered by ARAGEM!</h3>
-            <h4>jmaf.phd@gmail.com</h4>
+            <h4><a href="mailto:jmaf.phd@gmail.com">jmaf.phd@gmail.com</a></h4>
         </div>
         <div id="menu-list-container">
             <div id="menu-list-content">
@@ -133,28 +133,17 @@
     function closeVideo() { showInitialMessage(); }
 
     // --- DATA & FUNCTIONS FOR P1 (VOCABULARY) ---
-    let liveVocabularyData = [];
+    // PERMANENT FIX: Data is now stored locally. No more GooeySec problems!
+    const liveVocabularyData = [
+        { spanish: "Uno", english: "One", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-1.png" },
+        { spanish: "Dos", english: "Two", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-2.png" },
+        { spanish: "Tres", english: "Three", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-3.png" },
+        { spanish: "Cuatro", english: "Four", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-4.png" },
+        { spanish: "Cinco", english: "Five", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-5.png" }
+    ];
     let currentCardIndex = 0;
     
-    async function loadVocabularyData() {
-        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXQL0l60-fHFaJl_6IVl7aqglBbzkjTKhhXwR4uFEgHcQ7sh-4ERD_a3dS7U2f_RMZqxp4LvnoUIh0/pub?output=csv';
-        const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
-        try {
-            const response = await fetch(proxyURL);
-            const csvText = await response.text();
-            liveVocabularyData = csvText.trim().split('\n').slice(1).map(row => {
-                const columns = row.split(',');
-                return { spanish: columns[0], english: columns[1], image: columns[2] };
-            });
-            console.log("Vocabulary data loaded successfully via proxy!");
-        } catch (error) { console.error("Failed to load vocabulary data:", error); }
-    }
-    
     function startVocabularyPractice() {
-        if (liveVocabularyData.length === 0) { 
-            alert('Vocabulary data is still loading. Please try again in a moment.'); 
-            return; 
-        }
         lpsHeaderStrip.textContent = `Practice 1: Vocabulary`;
         videoPlayerSecure.innerHTML = `<div id="flashcard-container"><img id="flashcard-image" src="" alt="Vocabulary Image"><div id="flashcard-text" class="hidden"><p id="flashcard-spanish"></p><p id="flashcard-english"></p></div></div>`;
         document.querySelector('#lps-control-bar').innerHTML = `<button onclick="flipCard()">Flip Card</button><button onclick="nextCard()">Next</button><button onclick="closeExercise()">X Close</button>`;
@@ -175,27 +164,27 @@
     }
 
     // --- DATA & FUNCTIONS FOR P2 (NUMERALS) ---
-    let liveNumeralData = [];
-
-    async function loadNumeralData() {
-        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS2WHG3VJ5-tlFHMnX25Z47AsFx6eU93xbewqzfDb2hYtzKm9-bdDl0jr43qeLptcR-p_fEdn0GXI9p/pub?output=csv';
-        const proxyURL = `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetURL)}`;
-        try {
-            const response = await fetch(proxyURL);
-            const csvText = await response.text();
-            liveNumeralData = csvText.trim().split('\n').slice(1).map(row => {
-                const columns = row.split(',');
-                return { value: parseInt(columns[0]), type: columns[1], image: columns[2] };
-            });
-            console.log("Numeral data loaded successfully via proxy!");
-        } catch (error) { console.error("Failed to load numeral data:", error); }
-    }
+    // PERMANENT FIX: Data is now stored locally. No more GooeySec problems!
+    const liveNumeralData = [
+        { value: 0, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%200.png" },
+        { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%201.png" },
+        { value: 2, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%202.png" },
+        { value: 3, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%203.png" },
+        { value: 4, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%204.png" },
+        { value: 5, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%205.png" },
+        { value: 6, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%206.png" },
+        { value: 7, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%207.png" },
+        { value: 8, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%208.png" },
+        { value: 9, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%209.png" },
+        { value: 0, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%200.png" },
+        { value: 1, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%201.png" },
+        { value: 2, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%202.png" },
+        { value: 3, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%203.png" },
+        { value: 4, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%204.png" },
+        { value: 5, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%205.png" }
+    ];
 
     function startNumeralPractice() {
-        if (liveNumeralData.length === 0) { 
-            alert('Numeral data is still loading. Please try again in a moment.'); 
-            return; 
-        }
         lpsHeaderStrip.textContent = `Practice 2: Numeral Recognition`;
         videoPlayerSecure.innerHTML = `<div id="numeral-game-container"><h2 id="target-number"></h2><div id="choice-grid"></div></div>`;
         document.querySelector('#lps-control-bar').innerHTML = `<button onclick="generatePuzzle()">New Match</button><button onclick="closeExercise()">X Close</button>`;
@@ -203,12 +192,11 @@
     }
     
     function generatePuzzle() {
-        if (liveNumeralData.length === 0) { return; }
-        
         const choiceGrid = document.getElementById('choice-grid');
         choiceGrid.innerHTML = ''; 
         const targetNumber = Math.floor(Math.random() * 10); 
         document.getElementById('target-number').textContent = `Match: ${targetNumber}`;
+        
         const correctOptions = liveNumeralData.filter(item => item.value === targetNumber);
         
         if (correctOptions.length === 0) { 
@@ -219,9 +207,11 @@
         const correctAnswer = correctOptions[Math.floor(Math.random() * correctOptions.length)];
         const incorrectOptions = liveNumeralData.filter(item => item.value !== targetNumber);
         let wrongAnswers = [];
+        
         for (let i = 0; i < 3; i++) {
             wrongAnswers.push(incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)]);
         }
+        
         const choices = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
         
         choices.forEach(choice => {
@@ -257,8 +247,6 @@
         updateDateStamp();
         setInterval(updateDateStamp, 60000);
         document.getElementById('student-id-box').innerHTML = `**Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]`;
-        loadVocabularyData();
-        loadNumeralData();
     });
 </script>
 </body>
