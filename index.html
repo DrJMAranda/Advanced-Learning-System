@@ -88,6 +88,7 @@
             <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'AP1U2: Numbers to Ninety-Nine', 'AP1U2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
             <button class="icon-button beveled-frame" onclick="startVocabularyPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Practice 1"><span class="icon-title">P1</span></button>
             <button class="icon-button beveled-frame" onclick="startNumeralPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/NUMERALS-Placeholder.jpg" alt="Practice 2"><span class="icon-title">P2</span></button>
+            <button class="icon-button beveled-frame" onclick="startNumeralFamiliarization()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/P3-FAMILIARIZE-Placeholder.jpg" alt="Practice 3"><span class="icon-title">P3</span></button>
             <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="AP1U3"><span class="icon-title">U3</span></button>
         </header>
         <section id="main-content">
@@ -133,7 +134,6 @@
     function closeVideo() { showInitialMessage(); }
 
     // --- DATA & FUNCTIONS FOR P1 (VOCABULARY) ---
-    // PERMANENT FIX: Data is now stored locally. No more GooeySec problems!
     const liveVocabularyData = [
         { spanish: "Uno", english: "One", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-1.png" },
         { spanish: "Dos", english: "Two", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-2.png" },
@@ -164,10 +164,9 @@
     }
 
     // --- DATA & FUNCTIONS FOR P2 (NUMERALS) ---
-    // PERMANENT FIX: Data is now stored locally. No more GooeySec problems!
     const liveNumeralData = [
         { value: 0, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%200.png" },
-        { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%2Request%201.png" },
+        { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%201.png" },
         { value: 2, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%202.png" },
         { value: 3, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%203.png" },
         { value: 4, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%204.png" },
@@ -196,31 +195,21 @@
         choiceGrid.innerHTML = ''; 
         const targetNumber = Math.floor(Math.random() * 10); 
         document.getElementById('target-number').textContent = `Match: ${targetNumber}`;
-        
         const correctOptions = liveNumeralData.filter(item => item.value === targetNumber);
-        
-        if (correctOptions.length === 0) { 
-            setTimeout(generatePuzzle, 100); 
-            return; 
-        }
-        
+        if (correctOptions.length === 0) { setTimeout(generatePuzzle, 100); return; }
         const correctAnswer = correctOptions[Math.floor(Math.random() * correctOptions.length)];
         const incorrectOptions = liveNumeralData.filter(item => item.value !== targetNumber);
         let wrongAnswers = [];
-        
         for (let i = 0; i < 3; i++) {
             wrongAnswers.push(incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)]);
         }
-        
         const choices = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
-        
         choices.forEach(choice => {
             const choiceElement = document.createElement('div');
             choiceElement.classList.add('choice-card');
             choiceElement.innerHTML = `<img src="${choice.image}" alt="Number ${choice.value}">`;
             choiceElement.onclick = () => checkAnswer(choice.value, targetNumber, choiceElement);
             choiceGrid.appendChild(choiceElement);
-Check Answer
         });
     }
     
@@ -229,9 +218,49 @@ Check Answer
         element.style.border = selectedValue === targetValue ? '5px solid green' : '5px solid red';
         setTimeout(generatePuzzle, 1500);
     }
-    
+
+    // --- DATA & FUNCTIONS FOR P3 (NUMERAL FAMILIARIZATION) ---
+    let currentFamiliarizationNumber = 0;
+    let familiarizationTimer; 
+
+    function startNumeralFamiliarization() {
+        lpsHeaderStrip.textContent = `Practice 3: Numeral Familiarization`;
+        videoPlayerSecure.innerHTML = `
+            <div id="familiarization-container" style="text-align: center; color: #333;">
+                <h1 id="familiarization-number" style="font-size: 8em; margin: 0;"></h1>
+                <img id="familiarization-image" src="" alt="Numeral Face" style="max-width: 250px; max-height: 250px; margin-top: 20px;">
+            </div>
+        `;
+        document.querySelector('#lps-control-bar').innerHTML = `<button onclick="closeExercise()">X Close</button>`;
+        currentFamiliarizationNumber = 0;
+        runFamiliarizationCycle();
+    }
+
+    function runFamiliarizationCycle() {
+        const faces = liveNumeralData.filter(item => item.value === currentFamiliarizationNumber);
+        if (faces.length > 0) {
+            document.getElementById('familiarization-number').textContent = currentFamiliarizationNumber;
+            let imageIndex = 0;
+            function showNextFace() {
+                document.getElementById('familiarization-image').src = faces[imageIndex].image;
+                imageIndex++;
+                if (imageIndex < faces.length) {
+                    familiarizationTimer = setTimeout(showNextFace, 4000);
+                } else {
+                    currentFamiliarizationNumber = (currentFamiliarizationNumber + 1) % 10;
+                    familiarizationTimer = setTimeout(runFamiliarizationCycle, 4000);
+                }
+            }
+            showNextFace();
+        } else {
+            currentFamiliarizationNumber = (currentFamiliarizationNumber + 1) % 10;
+            runFamiliarizationCycle();
+        }
+    }
+
     // --- UTILITY FUNCTIONS ---
     function closeExercise() {
+        clearTimeout(familiarizationTimer); 
         document.querySelector('#lps-control-bar').innerHTML = originalControlBarHTML;
         showInitialMessage();
     }
