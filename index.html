@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEA~ALS</title>
+    <title>Advanced Learning System (ALS) | Elementary Level</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
@@ -14,13 +14,16 @@
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 2px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
         body { margin: 0; font-family: 'EB Garamond', serif; height: 150vh; display: flex; background: var(--color-lighthouse); color: black; overflow: hidden; }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 5px; flex-shrink: 0; height: 100vh; position: relative; padding-bottom: 70px; overflow-y: auto; }
+        /* S&W: padding-bottom reducido para el Date Stamp */
+        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 5px; flex-shrink: 0; height: 100vh; position: relative; padding-bottom: 5px; overflow-y: auto; }
         #credits { text-align: center; }
-        /* S&W 3: PADDING INCREASED TO 10px */
+        /* S&W: PADDING aumentado para limpieza visual */
         #menu-list-container { margin-top: 5px; text-align: left; padding: 10px; border: 1px dashed #0070C0; }
         #menu-list-content { font-size: 13pt; line-height: 1.1; font-weight: 400; color: black; white-space: pre-line; }
-        #student-id-box { position: absolute; bottom: 10px; left: 0; width: 100%; padding: 5px 5px; box-sizing: border-box; background: #fff; border-top: 1px solid #ccc; font-family: 'Roboto Mono', monospace; font-size: 8pt; color: #333; z-index: 99; }
-        #date-stamp-tn-fixed { position: absolute; bottom: 0px; left: 0px; padding: 5px 10px; font-size: 10pt; color: #555; font-family: EB Garamond; z-index: 100; background: var(--color-lighthouse); width: 100%; box-sizing: border-box; text-align: left; }
+        /* S&W: Student ID fluye debajo de credits, sin posición absoluta */
+        #student-id-box { width: 100%; padding: 5px 5px; box-sizing: border-box; background: var(--color-lighthouse); font-family: 'Roboto Mono', monospace; font-size: 8pt; color: #333; z-index: 99; text-align: center; }
+        /* Date Stamp permanece fijo en la parte inferior */
+        #date-stamp-tn-fixed { position: absolute; bottom: 0px; left: 0px; padding: 5px 10px; font-size: 10pt; color: #555; font-family: EB Garamond; z-index: 100; background: var(--color-lighthouse); width: 100%; box-sizing: border-box; text-align: left; border-top: 1px solid #ccc; }
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
         #scrolling-icon-bar { width: 100%; display: flex; flex-wrap: nowrap; gap: 10px; padding: 10px; overflow-x: auto; flex-shrink: 0; background: var(--color-stealth); box-shadow: 0 3px 5px rgba(0,0,0,0.1); min-height: 70px; box-sizing: border-box; }
         .icon-button { flex-shrink: 0; width: 100px; text-align: center; border: 1px solid #999; background: #fff; padding: 5px; cursor: pointer; box-shadow: 2px 2px 3px rgba(0,0,0,0.2); font-family: 'EB Garamond', Serif; font-size: 0.7em; }
@@ -54,50 +57,50 @@
             <h3>Powered by ARAGEM!</h3>
             <h4><a href="mailto:jmaf.phd@gmail.com">jmaf.phd@gmail.com</a></h4>
         </div>
+        <div id="student-id-box"></div> 
         <div id="menu-list-container">
             <div id="menu-list-content">
                 <div id="numeral-content" style="padding-left: 15px; display: block;">
                     <span style="font-weight: bold; font-size: 1.2em;">1. Elementary Level</span><br>
                     
-                    <u>Arithmetic</u><br>
-                    -- <i>Enumeration thru |Nine|</i><br>
-                    ─U1S1 Discovering Sunya-Sifr Zero<br>
-                    ─U1S2 One to Four<br>
-                    ─U1S3 Five to Nine<br>
-                    -- <i>Enumeration ~ |Ninety-Nine|</i><br>
-                    -- <i>Enumeration ~ |Decillions|</i><br>
-                    -- <i>Addition Principles</i><br>
-                    -- <i>Addition Fundamentals</i><br>
-                    -- <i>Addition~Definitions, Elements, and Principles</i><br>
-                    -- <i>Parity, Comparison, Sets, and Composites</i><br>
-                    -- <i>Addition, Opposite Signs, and Subtraction</i><br>
-                    -- <i>Multiplication</i><br>
-                    -- <i>Division, Partition, and Quotition</i><br>
-                    -- <i>Learning and Using Fractions</i><br>
-                    -- <i>Chronos, The Greek Word for Time</i><br>
-                    -- <i>Shapes and Sundry Things</i><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Arithmetic</a></u><br>
+                    -- <i><a href="#" onclick="comingSoon()">Enumeration thru |Nine|</a></i><br>
+                    ─<a href="#" onclick="comingSoon()">U1S1 Discovering Sunya-Sifr Zero</a><br>
+                    ─<a href="#" onclick="comingSoon()">U1S2 One to Four</a><br>
+                    ─<a href="#" onclick="comingSoon()">U1S3 Five to Nine</a><br>
+                    -- <i><a href="#" onclick="comingSoon()">Enumeration ~ |Ninety-Nine|</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Enumeration ~ |Decillions|</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Addition Principles</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Addition Fundamentals</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Addition~Definitions, Elements, and Principles</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Parity, Comparison, Sets, and Composites</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Addition, Opposite Signs, and Subtraction</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Multiplication</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Division, Partition, and Quotition</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Learning and Using Fractions</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Chronos, The Greek Word for Time</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">Shapes and Sundry Things</a></i><br>
 
-                    <u>Algebra 1 and 2</u><br>
-                    <u>Geometry</u><br>
-                    <u>Trigonometry</u><br>
-                    <u>Calculus</u><br>
-                    <u>Statistics and Probability</u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Algebra 1 and 2</a></u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Geometry</a></u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Trigonometry</a></u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Calculus</a></u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Statistics and Probability</a></u><br>
 
-                    <u>Language</u><br>
-                    -- <i>LAV1 Vocabulary</i><br>
-                    -- <i>LAG1 Grammar</i><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Language</a></u><br>
+                    -- <i><a href="#" onclick="comingSoon()">LAV1 Vocabulary</a></i><br>
+                    -- <i><a href="#" onclick="comingSoon()">LAG1 Grammar</a></i><br>
 
-                    <u>Literature</u><br>
-                    <u>Interactive Practice</u>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Literature</a></u><br>
+                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Interactive Practice</a></u>
                 </div>
-            </div>
+                </div>
         </div>
-        <div id="student-id-box"></div>
         <div id="date-stamp-tn-fixed"></div>
     </nav>
     <div id="content-wrapper">
 <header id="scrolling-icon-bar" class="beveled-frame">
-    <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'AP1U1S1: The Journey Begins...', 'AP1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="AP1U1S1"><span class="icon-title">AP1U1S1</span></button>
+    <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'AP1U1S1: The Journey Begins...', 'AP1U1S1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S1"><span class="icon-title">AP1U1S1</span></button>
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'AP1U1S2: Mr. Zero!', 'AP1U1S2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="AP1U1S2"><span class="icon-title">AP1U1S2</span></button>
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'AP1U1S3: The Numeral Family', 'AP1U1S3')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S3"><span class="icon-title">AP1U1S3</span></button>
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'AP1U2: Numbers to Ninety-Nine', 'AP1U2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
