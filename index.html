@@ -16,7 +16,8 @@
         body { margin: 0; font-family: 'EB Garamond', serif; height: 150vh; display: flex; background: var(--color-lighthouse); color: black; overflow: hidden; }
         #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 5px; flex-shrink: 0; height: 100vh; position: relative; padding-bottom: 70px; overflow-y: auto; }
         #credits { text-align: center; }
-        #menu-list-container { margin-top: 5px; text-align: left; padding: 5px; border: 1px dashed #0070C0; }
+        /* S&W 3: PADDING INCREASED TO 10px */
+        #menu-list-container { margin-top: 5px; text-align: left; padding: 10px; border: 1px dashed #0070C0; }
         #menu-list-content { font-size: 13pt; line-height: 1.1; font-weight: 400; color: black; white-space: pre-line; }
         #student-id-box { position: absolute; bottom: 10px; left: 0; width: 100%; padding: 5px 5px; box-sizing: border-box; background: #fff; border-top: 1px solid #ccc; font-family: 'Roboto Mono', monospace; font-size: 8pt; color: #333; z-index: 99; }
         #date-stamp-tn-fixed { position: absolute; bottom: 0px; left: 0px; padding: 5px 10px; font-size: 10pt; color: #555; font-family: EB Garamond; z-index: 100; background: var(--color-lighthouse); width: 100%; box-sizing: border-box; text-align: left; }
@@ -55,9 +56,39 @@
         </div>
         <div id="menu-list-container">
             <div id="menu-list-content">
-                <div id="numeral-header" style="font-weight: bold; margin-bottom: 5px; color: #0070C0;">1. Elementary Level</div>
                 <div id="numeral-content" style="padding-left: 15px; display: block;">
-                    <big><b><u>Arithmetic</u></big></b><br><i>Enumeration thru |Nine|</i><br>─U1S1 Discovering Sunya-Sifr Zero<br> ─U1S2 One to Four<br> ─U1S3 Five to Nine<br><i>Enumeration ~ |Ninety-Nine|</i><br><i>Enumeration ~ |Decillions|</i><br><i>Addition Principles</i><br><i>Addition Fundamentals<br>Addition~Definitions, Elements, and Principles<br>Parity, Comparison, Sets, and Composites<br>Addition, Opposite Signs, and Subtraction<br>Multiplication<br>Division, Partition, and Quotition<bR>Learning and Using Fractions<br>Chronos, The Greek Word for Time<br>Shapes and Sundry Things<br><u></u></b>Algebra 1 and 2<br>Geometry<br>Trigonometry<br>Calculus<br>Statistics and Probability</i><br></u></u><b><big>Language</big><br> LAV1 Vocabulary<br> LAG1 Grammar<br>Literature<br>Interactive Practice</b>
+                    <span style="font-weight: bold; font-size: 1.2em;">1. Elementary Level</span><br>
+                    
+                    <u>Arithmetic</u><br>
+                    -- <i>Enumeration thru |Nine|</i><br>
+                    ─U1S1 Discovering Sunya-Sifr Zero<br>
+                    ─U1S2 One to Four<br>
+                    ─U1S3 Five to Nine<br>
+                    -- <i>Enumeration ~ |Ninety-Nine|</i><br>
+                    -- <i>Enumeration ~ |Decillions|</i><br>
+                    -- <i>Addition Principles</i><br>
+                    -- <i>Addition Fundamentals</i><br>
+                    -- <i>Addition~Definitions, Elements, and Principles</i><br>
+                    -- <i>Parity, Comparison, Sets, and Composites</i><br>
+                    -- <i>Addition, Opposite Signs, and Subtraction</i><br>
+                    -- <i>Multiplication</i><br>
+                    -- <i>Division, Partition, and Quotition</i><br>
+                    -- <i>Learning and Using Fractions</i><br>
+                    -- <i>Chronos, The Greek Word for Time</i><br>
+                    -- <i>Shapes and Sundry Things</i><br>
+
+                    <u>Algebra 1 and 2</u><br>
+                    <u>Geometry</u><br>
+                    <u>Trigonometry</u><br>
+                    <u>Calculus</u><br>
+                    <u>Statistics and Probability</u><br>
+
+                    <u>Language</u><br>
+                    -- <i>LAV1 Vocabulary</i><br>
+                    -- <i>LAG1 Grammar</i><br>
+
+                    <u>Literature</u><br>
+                    <u>Interactive Practice</u>
                 </div>
             </div>
         </div>
@@ -72,7 +103,10 @@
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'AP1U2: Numbers to Ninety-Nine', 'AP1U2')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="AP1U2"><span class="icon-title">U2</span></button>
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV1: Vocabulary 1-100', 'LAV1')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Dictionary.jpg" alt="LAV1"><span class="icon-title">LAV1</span></button>
     <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'Identify and Match', 'ID Match')"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="Identify and Match"><span class="icon-title">ID Match</span></button>
-    <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4" alt="AP1U3~100"><span class="icon-title">U3~100</span></button>
+    <button class="icon-button beveled-frame" onclick="playModule('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'AP1U3: Enumeration to 100', 'AP1U3~100')">
+        <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="AP1U3~100">
+        <span class="icon-title">U3~100</span>
+    </button>
     <button class="icon-button beveled-frame" onclick="comingSoon()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="AP1U3"><span class="icon-title">U3</span></button>
     <button class="icon-button beveled-frame" onclick="startVocabularyPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/VOCAB-Placeholder.jpg" alt="Practice 1"><span class="icon-title">P1</span></button>
     <button class="icon-button beveled-frame" onclick="startNumeralPractice()"><img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/NUMERALS-Placeholder.jpg" alt="Practice 2"><span class="icon-title">P2</span></button>
