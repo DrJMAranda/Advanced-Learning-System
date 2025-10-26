@@ -19,6 +19,7 @@
         #credits { text-align: center; }
         /* S&W: PADDING aumentado para limpieza visual */
         #menu-list-container { margin-top: 5px; text-align: left; padding: 10px; border: 1px dashed #0070C0; }
+        /* S&W: line-height ajustado para single-spacing */
         #menu-list-content { font-size: 13pt; line-height: 1.1; font-weight: 400; color: black; white-space: pre-line; }
         /* S&W: Student ID fluye debajo de credits, sin posición absoluta */
         #student-id-box { width: 100%; padding: 5px 5px; box-sizing: border-box; background: var(--color-lighthouse); font-family: 'Roboto Mono', monospace; font-size: 8pt; color: #333; z-index: 99; text-align: center; }
@@ -63,36 +64,36 @@
                 <div id="numeral-content" style="padding-left: 15px; display: block;">
                     <span style="font-weight: bold; font-size: 1.2em;">1. Elementary Level</span><br>
                     
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Arithmetic</a></u><br>
-                    -- <i><a href="#" onclick="comingSoon()">Enumeration thru |Nine|</a></i><br>
-                    ─<a href="#" onclick="comingSoon()">U1S1 Discovering Sunya-Sifr Zero</a><br>
-                    ─<a href="#" onclick="comingSoon()">U1S2 One to Four</a><br>
-                    ─<a href="#" onclick="comingSoon()">U1S3 Five to Nine</a><br>
-                    -- <i><a href="#" onclick="comingSoon()">Enumeration ~ |Ninety-Nine|</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Enumeration ~ |Decillions|</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Addition Principles</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Addition Fundamentals</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Addition~Definitions, Elements, and Principles</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Parity, Comparison, Sets, and Composites</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Addition, Opposite Signs, and Subtraction</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Multiplication</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Division, Partition, and Quotition</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Learning and Using Fractions</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Chronos, The Greek Word for Time</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">Shapes and Sundry Things</a></i><br>
+                    <u>Arithmetic</u><br>
+                    -- <i>Enumeration thru |Nine|</i><br>
+                    ─U1S1 Discovering Sunya-Sifr Zero<br>
+                    ─U1S2 One to Four<br>
+                    ─U1S3 Five to Nine<br>
+                    -- <i>Enumeration ~ |Ninety-Nine|</i><br>
+                    -- <i>Enumeration ~ |Decillions|</i><br>
+                    -- <i>Addition Principles</i><br>
+                    -- <i>Addition Fundamentals</i><br>
+                    -- <i>Addition~Definitions, Elements, and Principles</i><br>
+                    -- <i>Parity, Comparison, Sets, and Composites</i><br>
+                    -- <i>Addition, Opposite Signs, and Subtraction</i><br>
+                    -- <i>Multiplication</i><br>
+                    -- <i>Division, Partition, and Quotition</i><br>
+                    -- <i>Learning and Using Fractions</i><br>
+                    -- <i>Chronos, The Greek Word for Time</i><br>
+                    -- <i>Shapes and Sundry Things</i><br>
 
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Algebra 1 and 2</a></u><br>
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Geometry</a></u><br>
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Trigonometry</a></u><br>
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Calculus</a></u><br>
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Statistics and Probability</a></u><br>
+                    <u>Algebra 1 and 2</u><br>
+                    <u>Geometry</u><br>
+                    <u>Trigonometry</u><br>
+                    <u>Calculus</u><br>
+                    <u>Statistics and Probability</u><br>
 
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Language</a></u><br>
-                    -- <i><a href="#" onclick="comingSoon()">LAV1 Vocabulary</a></i><br>
-                    -- <i><a href="#" onclick="comingSoon()">LAG1 Grammar</a></i><br>
+                    <u>Language</u><br>
+                    -- <i>LAV1 Vocabulary</i><br>
+                    -- <i>LAG1 Grammar</i><br>
 
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Literature</a></u><br>
-                    <u class="collapsible-header"><a href="#" onclick="comingSoon()">Interactive Practice</a></u><br>
+                    <u>Literature</u><br>
+                    <u>Interactive Practice</u><br>
                 </div>
                 </div>
         </div>
@@ -149,9 +150,9 @@
     const liveVocabularyData = [
         { spanish: "Uno", english: "One", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-1.png" },
         { spanish: "Dos", english: "Two", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-2.png" },
-        { spanish: "Tres", english: "Three", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-3.png" },
-        { spanish: "Cuatro", english: "Four", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-4.png" },
-        { spanish: "Cinco", english: "Five", image: "https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-5.png" }
+        { spanish: "Tres", english: "Three", image="https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-3.png" },
+        { spanish: "Cuatro", english: "Four", image="https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-4.png" },
+        { spanish: "Cinco", english: "Five", image="https://storage.googleapis.com/noenbalde/Numerals/Bilingual-Flash-Cards-5.png" }
     ];
     let currentCardIndex = 0;
     
@@ -176,8 +177,8 @@
     }
 
     const liveNumeralData = [
-        { value: 0, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%200.png" }, { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%201.png" }, { value: 2, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%202.png" }, { value: 3, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%203.png" }, { value: 4, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%204.png" }, { value: 5, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%205.png" }, { value: 6, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%206.png" }, { value: 7, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%207.png" }, { value: 8, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%208.png" }, { value: 9, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%209.png" },
-        { value: 0, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%200.png" }, { value: 1, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%201.png" }, { value: 2, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%202.png" }, { value: 3, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%203.png" }, { value: 4, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%204.png" }, { value: 5, type="hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%205.png" }
+        { value: 0, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%200.png" }, { value: 1, type: "domino", image: "https://storage.googleapis.com/noenbalde/Giddyap/Domino%201.png" }, { value: 2, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%202.png" }, { value: 3, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%203.png" }, { value: 4, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%204.png" }, { value: 5, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%205.png" }, { value: 6, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%206.png" }, { value: 7, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%207.png" }, { value: 8, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%208.png" }, { value: 9, type: "domino", image="https://storage.googleapis.com/noenbalde/Giddyap/Domino%209.png" },
+        { value: 0, type: "hand", image: "https://storage.googleapis.com/noenbalde/Giddyap/Hand%200.png" }, { value: 1, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%201.png" }, { value: 2, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%202.png" }, { value: 3, type: "hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%203.png" }, { value: 4, type="hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%204.png" }, { value: 5, type="hand", image="https://storage.googleapis.com/noenbalde/Giddyap/Hand%205.png" }
     ];
 
     function startNumeralPractice() {
