@@ -6,130 +6,182 @@
     <title>SEA ~ Sistema Educacional Avanzado</title>
     
     <style>
-        /* Final Clean CSS - Only includes necessary stability and appearance rules */
+        /* La nueva base CSS limpia */
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333;
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        
-        /* General Layout */
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
+        body { margin: 0; font-family: serif; height: 120vh; display: flex; background: var(--color-lighthouse); }
         #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #credits { text-align: center; }
+
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
 
-        /* Icon Bar Stability */
-        #scrolling-icon-bar { height: 100px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button { width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
+        /* BARRA DE ÍCONOS */
+
+		#scrolling-icon-bar { height: 100px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
+		
+
+        .icon-button {
+            width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
+            border: none; background: none; display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-start; box-sizing: border-box;
+        }
         .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* Final Styling Fixes (Readability & Staggering) */
-        #left-menu, #credits { font-size: 1.4em; line-height: 1.6; } 
-        .welcome-section, .grade-level, .credit-text { text-align: center; }
-        .title-line-left { text-align: left; }
-        .title-line-center { text-align: center; }
-        .title-line-right { text-align: right; }
-        
-        /* Metadata/Separator Clean-up */
-        .separator-line { border: 0; height: 1px; background-color: #ccc; margin: 15px 10px; }
-        #student-id-box { padding: 10px 15px; text-align: left; }
+        .icon-title {
+            font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
+            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        /* ÁREA DE CONTENIDO Y VIDEO */
+        #content-area { flex-grow: 1; }
+        #main-flex-container { display: flex; height: 100%; }
+        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
+        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
+        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #video-player { width: 100%; height: 100%; }
+        #return-to-cards-btn-embedded {
+            position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
+            border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
+        }
+        /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
+        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
+        #module-view-container { text-align: center; }
     </style>
 </head>
 <body>
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            
-            <div class="static-header-content" style="padding: 0 10px;">
-                <div class="welcome-section"><h2>SEA Bienvenido al</h2></div>
-                
-                <div class="system-title-container">
-                    <h3 class="title-line-left">Sistema</h3>
-                    <p class="title-line-center">Educacional</p>
-                    <p class="title-line-right">Avanzado</p>
-                </div>
-                
-                <div class="grade-level"><h3>Kindergarten ~ 6to Grado (+400%)</h3></div>
-                <div class="credit-text"><h4>Programado por ARAGEM!</h4></div>
-            </div> 
-
-            <p class="email-link" style="text-align: center; padding: 10px 0;">
-                <a href="mailto:jmaf.phd@gmail.com">Jmaf.phd@gmail.com</a>
-            </p>
-
-            <hr class="separator-line"> 
-            
-            <div id="student-id-box" style="padding: 10px 15px; text-align: left;"> 
-                <strong>Estudiante:</strong><br>
-                <strong>Número ID:</strong>
-            </div>
-
-            <hr class="separator-line"> 
-            
-            <div class="module-listings" style="padding: 10px 15px; font-size: 1.1em; line-height: 1.5;">
-                
-                <h5 style="margin-bottom: 5px;">Matemáticas</h5>
-                <pre style="font-family: monospace; font-size: 0.9em; line-height: 1.4; white-space: pre-wrap;">
-  Grado       Tópico    
-ALS  Core  Currículo
---------------------------------------------------
-K-1   K-1  Aritmótica
-            Numeros Enteros
-             Enumeración     
-             Hasta |Nueve|
-             —U1S1 Descubriendo a Sunya-Sifr Cero
-             —U1S2 Uno al Cuatro</li>
-             —U1S3 Cinco al Nueve
-             Hasta Noventa y Nueve
-             Enumeración ~ |Decilliones|        
-             Principios de Suma
-             Fundamentos de Suma
-             Suma—Definiciones, Elementos, y Principios
-             Paridad, Comparación, Conjuntos, y Números Compuestos
-             Sumas, Signos Oppuestos, y Restas
-             Multiplicación hasta |Mil|
-             División y Partición
-             Fracciones
-             Chronos, El Tiempo
-             Formas Geométricas
-2    5-8   Números Racionales                 
-3    3-4   Geometría
-4    9     Álgebra 1               
-5    9     Álgebra 2               
-6    10    Trigonometría           
-                </pre>
-           
-                <h5 style="margin-top: 15px; margin-bottom: 5px;">Lenguaje</h5>
-                <pre style="font-family: monospace; font-size: 0.9em; line-height: 1.4; white-space: pre-wrap;">
-           Lenguaje 45,000 vocablos (Esp & Ing)
-     K-12    Vocabulario             
-     K-12    Gramática
-     K-12    Literatura
-                </pre>
-             
-                <h5 style="margin-top: 15px; margin-bottom: 5px;">Ciencias Sociales & Historia</h5>
-                <pre style="font-family: monospace; font-size: 0.9em; line-height: 1.4; white-space: pre-wrap;">
-             Historia
-               Mundial
-               Moderna
-                </pre>
-
-                <h5 style="margin-top: 20px;">Otros Temas</h5>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li>Arte y Cultura</li>
-                    <li>Ejercicios Interactivos</li>
-                </ul>
-            </div>
-            
-        </div> </nav>
+            <h3><big>Welcome to the<br>
+                  SEA Sistema Educacional Avanzado<br></big>
+			      Kindergarten ~ 6to Grado
+				  jmaf.phd@gmail.com<br></h3>
+          <h4>Powered by ARAGEM!<br>
+              </big></h4>
+        </div>
+        <div id="student-id-box" style="padding-top: 10px; font-size: 0.8em; text-align: left;">
+            **Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]<br>
+			
+        </div>
+        <div style="margin-top: 10px; font-size: 0.80em;">
+			<p style="font-weight: bold;"Curriculum K-6</p>
+            <ul style="list-style: none; padding-left: 10px; line-height: 1;">
+			<li><u><b><big><big>Matemáticas</big></big></b></u></li>
+			<li><b><big>Aritmética</big></b></li>
+			<li><b><big>G1 Números Enteros</big></b></li>
+			<li><i>Enumeración hasta |Nueve|</i></li>
+            <li>—U1S1 Descubriendo a Sunya-Sifr Cero</li>
+            <li>—U1S2 Uno al Cuatro</li>
+            <li>—U1S3 Cinco al Nueve</li>
+            <li><i>Enumeración ~ |Noventa y Nueve|</i></li>
+            <li><i>Enumeración ~ |Decilliones|</i></li>
+            <li><i>Principios de Suma</i></li>
+            <li><i>Fundamentos de Suma</i></li>
+            <li><i>Suma—Definiciones, Elementos, y Principios</i></li>
+            <li><i>Paridad, Comparación, Conjuntos, y Números Compuestos Numbers</i>&nbsp;</li>
+            <li><i>Sumas, Signos Oppuestos, y Restas</i></li>
+            <li><i>Multiplicación</i></li>
+			<li><i>División y Partición</i></li>
+			<li><i>Fracciones</i></li>
+			<li><i>Chronos, El Tiempo</i></li>
+			<li><i>Formas Geométricas</i></li>
+			<li><b><big>G2 Números Racionales</big></b></li>	
+			<li><b><big>G3 Geometría</big></b></li>
+			<li><b><big>G4 Algebra 1</big></b></li>
+			<li><b><big>G5 Algebra 2</big></b></li>
+			<li><b><big>G6 Trigonometría</big></b></li><br>
+          <li><u><b><big><big>Lenguaje (45,000 Vocablos</big></big></b></u>&nbsp;</li>
+            <li>—LSE Vocabulario</li>
+            <li>—LSE Gramática</li>
+			<li>—LSE Literatura</li>&nbsp;
+          <li><u><b><big><big>Historia</big></big></b></u>&nbsp;</li>		
+            <li>—H1 Mundial</li>
+            <li>—H2 General</li><br>
+          <li><u><b><big><big>Ejercisios Interactivos</big></big></big></big></b></u>&nbsp;</li>
+            </ul>
+        </div>
+    </nav>
 
     <div id="content-wrapper">
-        <header id="scrolling-icon-bar" class="beveled-frame">
-            </header>
         
+        <header id="scrolling-icon-bar" class="beveled-frame">
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'U1S1: Finding Zero (Meet The Digits)')"
+                    title="U1S1 Finding Zero">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
+                <span class="icon-title">U1S1</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'U1S2: Enumeration ~ 4')"
+                    title="U1S2 Enumeration ~ 4">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
+                <span class="icon-title">U1S2</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'U1S3: Enumeration ~ 9')"
+                    title="U1S3 Enumeration ~ 9">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
+                <span class="icon-title">U1S3</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'U2: Enumeration ~ 99')"
+                    title="U2 Enumeration ~ 99">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
+                <span class="icon-title">U2</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'U3: Enumeration to 100')"
+                    title="U3 Enumeration ~ 100">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
+                <span class="icon-title">U3</span>
+            </button>
+			<button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Activos/Arithmetic/ToInfinity.mp4', '999x10^33')"
+                    title="999x10^33">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ToInfinity.jpg" alt="999x10^33">
+                <span class="icon-title">999x10^33</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ID Match: Identify and Match')"
+                    title="ID Match">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID Match">
+                <span class="icon-title">ID Match</span>
+            </button>      
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
+                    title="LAV Vocabulary 1~100">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="LAV>
+                <span class="icon-title">LAV Vocab</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
+                    title="Enunciation 02 (Vowels)">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="Vowels">
+                <span class="icon-title">Vowels</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
+                    title="Enunciation 03 (Vowels)">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="Vowels">
+                <span class="icon-title">Vowels</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio\'s Fruits')"
+                    title="Sapiencio's Fruits">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="FRUITS">
+                <span class="icon-title">Fruits</span>
+            </button>
+            <button class="icon-button beveled-frame" 
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4', 'LAV: Vocabulary ~20')"
+                    title="Vocabulary ~20">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/05%20Pip.jpg" alt="VOCAB~20">
+                <span class="icon-title">Vocab ~20</span>
+            </button>
+        </header>
+
         <div id="content-area">
             <div id="main-flex-container">
                 <section id="main-content">
@@ -138,6 +190,19 @@ K-1   K-1  Aritmótica
                             <h2>Welcome to the Advanced Learning System</h2>
                             <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
                         </div>
+                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
+                            <h3 id="detail-code"></h3>
+                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
+                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
+                                ▶ Begin Module
+                            </button>
+                        </div>
+                    </div>
+                    <div id="video-wrapper-16-9" style="display:none;">
+                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
+                        <div id="video-container-aspect-lock">
+                            <video id="video-player" controls></video>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -145,17 +210,95 @@ K-1   K-1  Aritmótica
     </div>
     
     <script>
-        function launchExternalApp(moduleId) {
-            // This is the Non-Bugsy launcher for the external application
-            const launchCommand = `ara-publisher://open?id=${moduleId}`;
-            window.location.href = launchCommand;
-            document.getElementById('status-message').textContent = `Launching module ${moduleId} externally...`;
+        const player = document.getElementById('video-player');
+        const videoWrapper = document.getElementById('video-wrapper-16-9');
+        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
+        const moduleViewContainer = document.getElementById('module-view-container');
+        const statusMessage = document.getElementById('status-message');
+        const moduleDetailPanel = document.getElementById('module-detail-panel');
+        const detailCode = document.getElementById('detail-code');
+        const detailTitle = document.getElementById('detail-title');
+        const detailControlBtn = document.getElementById('detail-control-btn'); 
+        let currentModuleTitle = '';
+        let nextVideoSource = '';
+        
+        function toggleVideoPlayback() {
+            if (!nextVideoSource) {
+                alert("Error: No module loaded.");
+                showModules();
+                return;
+            }
+            if (videoWrapper.style.display !== 'block') {
+                playSelectedModule();
+                player.play(); 
+                detailControlBtn.textContent = '❚❚ Pause Module';
+                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
+                detailControlBtn.style.color = 'var(--color-menu)';
+            } else if (player.paused) {
+                player.play();
+                detailControlBtn.textContent = '❚❚ Pause Module';
+                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
+                detailControlBtn.style.color = 'var(--color-menu)';
+            } else {
+                player.pause();
+                detailControlBtn.textContent = '▶ Resume Module';
+                detailControlBtn.style.backgroundColor = 'white';
+                detailControlBtn.style.color = 'black';
+            }
+        }
+        
+        function playSelectedModule() {
+            moduleViewContainer.style.display = 'none';
+            moduleDetailPanel.style.display = 'none'; 
+            videoWrapper.style.display = 'block';
+            embeddedReturnBtn.style.display = 'block'; 
+            player.src = nextVideoSource;
+            player.load(); 
+        }
+        
+        function showModules() {
+            moduleViewContainer.style.display = 'block'; 
+            document.getElementById('landing-status-box').style.display = 'block';
+            moduleDetailPanel.style.display = 'none';
+            videoWrapper.style.display = 'none';
+            embeddedReturnBtn.style.display = 'none'; 
+            player.pause();
+            player.removeAttribute('src'); 
+            player.load();
+            currentModuleTitle = '';
+            nextVideoSource = '';
+            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
+            detailControlBtn.textContent = '▶ Begin Module';
+            detailControlBtn.style.backgroundColor = 'white';
+            detailControlBtn.style.color = 'black';
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-             // Ensures the welcome box loads cleanly.
-             document.getElementById('landing-status-box').style.display = 'block';
-        });
-    </script>
+        function launchVideo(videoSource, moduleTitle) {
+            currentModuleTitle = moduleTitle; 
+            nextVideoSource = videoSource;
+            const parts = moduleTitle.split(':');
+            const code = parts[0].trim();
+            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
+            detailCode.textContent = `Module Code: ${code}`;
+            detailTitle.textContent = title;
+            document.getElementById('landing-status-box').style.display = 'none';
+            moduleDetailPanel.style.display = 'block';
+            moduleViewContainer.style.display = 'block';
+        }
+
+        function closeVideo() { showModules(); }
+
+		document.addEventListener('DOMContentLoaded', () => {
+            if (player) {
+                player.addEventListener('ended', () => {
+                    alert(`Module "${currentModuleTitle}" has finished.`);
+                    showLandingScreen();
+                });
+            }
+            // Reset button to video handler for safety and call initial setup
+            detailControlBtn.onclick = toggleModulePlayback; 
+            showLandingScreen(); 
+        });
+    </script>
 </body>
 </html>
