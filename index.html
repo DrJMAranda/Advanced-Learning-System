@@ -28,10 +28,12 @@
         }
         .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
 <!--3-->
-		.icon-title {
-            font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
-            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .icon-title {
+           font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
+           width: 100%; white-space: normal; overflow: hidden; height: 30px;
+		}
+        /* ÁREA DE CONTENIDO Y VIDEO */`
+        #content-area { flex-grow: 1; }`
         /* ÁREA DE CONTENIDO Y VIDEO */
         #content-area { flex-grow: 1; }
         #main-flex-container { display: flex; height: 100%; }
@@ -118,16 +120,15 @@
 			<li>       —Números Enteros</li>
 			<li>       —Porcientos</li>
 <!--12-->
-			<li>       —Números Racionales</li>
+            <li>       —Números Racionales</li>
 			<li>       Ecuaciones con dos Variables</li>
-			<li>       —Polinomios</li>
+		    <li>       —Polinomios</li>
 			<li>       —Ecuaciones Cuadráticas</li>
 			<li>       —Números Racionales</li>
-			<li><b>G5 Álgebra 2</b></li>
-			<li><b>G6 Trigonometría</b></li>
-			<li><u><b>Lenguaje (G1-6)</b></u></li>
-			<li>       —LSE Vocabulario (G1-6: 45,000)</li>
-<!--11-->
+			<li><b>   G5 Álgebra 2</b></li>
+			<li><b>   G6 Trigonometría</b></li>
+			<li><u><b>Lenguaje (G1-6)</				
+<!--13-->
             <li>       —LSE Gramática</li>
 			<li>       —LSE Literatura</small></li>				
            	<li><u><b>Historia (G1-6)</b></u></li>
@@ -344,10 +345,10 @@
             }
             // Reset button to video handler for safety and call initial setup
             detailControlBtn.onclick = toggleModulePlayback; 
-<!--35-->
 			showLandingScreen(); 
         });
 	</script>
+<!--35-->
 </body>
 </html>
 
