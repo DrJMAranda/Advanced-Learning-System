@@ -5,335 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEA ~ Sistema Educacional Avanzado</title>    
     <style>
-        /* La nueva base CSS limpia */
-		@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-<!--1-->
-		@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        /* Fuentes */
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        
+        /* Variables de Color y Sombra */
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+            --color-lighthouse: #f4f4f4; 
+            --color-stealth: #d3d3d3; 
+            --color-menu: #333; 
+            --color-accent-active: #ffdd88;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); 
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 120vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 400px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-		#credits { text-align: center; }
-<!--2-->
-		#content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        /* BARRA DE ÍCONOS */
-		#scrolling-icon-bar { height: 100px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
+        
+        /* Estilos Base y Layout */
+        .beveled-frame { 
+            box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); 
+            border: 1px solid var(--color-stealth); 
+        }
+        body { 
+            margin: 0; 
+            font-family: serif; 
+            height: 120vh; 
+            display: flex; 
+            background: var(--color-lighthouse); 
+        }
+        #left-menu { 
+            width: 400px; 
+            background: var(--color-lighthouse); 
+            color: black; 
+            padding: 10px; 
+            flex-shrink: 0; 
+            overflow-y: auto; 
+        }
+        #credits { 
+            text-align: center; 
+        }
+        #content-wrapper { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* ----------------------------------------------------- */
+        /* CSS CONSOLIDADO (BARRA DE ÍCONOS Y CONTENIDO) */
+        /* ----------------------------------------------------- */
+        
+        #scrolling-icon-bar { 
+            height: 100px; 
+            display: flex; 
+            flex-wrap: nowrap; 
+            overflow-x: scroll; 
+            overflow-y: hidden; 
+            background: var(--color-stealth); 
+            padding: 5px; 
+            flex-shrink: 0; 
+        }
         .icon-button {
-            width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
-            border: none; background: none; display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; box-sizing: border-box;
+            width: 96px; 
+            height: 100%; 
+            flex-shrink: 0; 
+            margin-right: 5px; 
+            cursor: pointer; 
+            padding: 4px;
+            border: none; 
+            background: none; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: flex-start; 
+            box-sizing: border-box;
         }
-        .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-<!--3-->
-		.icon-title {
-            font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
-            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        .icon-button img { 
+            height: 75px; 
+            width: 100%; 
+            object-fit: cover; 
+            margin-bottom: 5px; 
         }
+        .icon-title {
+            font-size: 0.75em; 
+            color: var(--color-menu); 
+            font-weight: bold; 
+            text-align: center; 
+            line-height: 1.1;
+            width: 100%; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
+        
         /* ÁREA DE CONTENIDO Y VIDEO */
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
-<!--4-->
-		#video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded {
-            position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
-            border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
+        #content-area { 
+            flex-grow: 1; 
         }
-        /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
-        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
-<!--5-->
-	</style>
+        #main-flex-container { 
+            display: flex; 
+            height: 100%; 
+        }
+        #main-content { 
+            flex-grow: 1; 
+            padding: 20px; 
+            background: var(--color-lighthouse); 
+            overflow-y: auto; 
+        }
+        #video-wrapper-16-9 { 
+            width: 100%; 
+            padding-bottom: 56.25%; 
+            position: relative; 
+            background-color: black; 
+            margin-top: 20px; 
+        }
+    </style>
 </head>
-<body>   
-    <nav id="left-menu" class="beveled-frame">
-        <div id="credits">
-            <h3><big>Bienvenido SEA<br>
-                  Sistema Educacional Avanzado*<br></big>
-				  Programado por ARAGEM</big><br>
-<!--6-->          jmaf.phd@gmail.com</h3>
-				 
-        </div>
-		    <hr >
-        <div id="student-id-box" style="padding-top: 10px; font-size: 0.8em; text-align: left;">
-            <big>Nombre:<br>IDN:<br>*Evidencia gubernamental disponible</big></big>
-			<hr >
-			
-        </div>
-        <div style="margin-top: 10px; font-size: 0.80em;">
-<!--7-->
-			<p style="font-weight: bold;"Curriculum K-6</p>
-            <ul style="list-style: none; padding-left: 10px; line-height: 1;">
-            <li><u><b><big><big>Estudios Generales (G1-6)</big></b></u></li>
-			<li><u><b>Aritmética© (G1-2)</b></u></li>
-			<li><b>G1 Números Enteros</b></li>
-			<li><i>Enumeración hasta |Nueve|</i></li>
-            <li>—U1S1 Descubriendo a Sunya-Sifr Cero</li>
-            <li>—U1S2 Uno al Cuatro</li>
-            <li>—U1S3 Cinco al Nueve</li>
-			<li><i>Enumeración ~ |Noventa y Nueve|</i></li>
- <!--8-->
-            <li><i>Enumeración ~ |Decilliones|</i></li>
-            <li><i>Principios de Suma</i></li>
-            <li><i>Fundamentos de Suma</i></li>
-            <li><i>Suma—Definiciones, Elementos, y Principios</i></li>
-            <li><i>Paridad, Comparación, Conjuntos, y Números Compuestos</i>&nbsp;</li>
-            <li><i>Sumas, Signos Oppuestos, y Restas</i></li>
-            <li><i>Multiplicación</i></li>
-			<li><i>División y Partición</i></li>
-			<li><i>Fracciones</i></li>
-<!--9-->
-			<li><i>Chronos, El Tiempo</i></li>
-			<li><i>Formas Geométricas</i></li>	
-			<li><b>G2 Números Racionales</b></li>
-			<li>       —Fracciones Decimales</li>
-			<li>       —Razones y Proporciones</li>
-            <li>       —Porcientos</li>
-            <li>       —Sistemas de Mensura</li>
-			<li><b>G3 Geometría</b></li>
-            <li>       —Postulados y Teoremas
-			</li>
-<!--10-->
-            <li>       —Líneas y Secgmentos</li>				
-            <li>       —áangulos</li>				
-            <li>       —Lineas Paralelas y Planos</li>				
-			<li>       —Congruencia</li>
-            <li>       —Polígonos Similares</li>	
-            <li>       —Triangulos Rectos Similares</li>					
-            <li>       —Círculos</li>					
-            <li>       —Construcciones y Loci</li>
-<!--11-->
-			<li>       —Geometría Coordenada: Métodología</li>
-            <li>       —Geometría Coordenada: Pruebas</li>
-            <li>       —Transformaciones</li>
-            <li>       —Áreas de Polígonos y Círculos</li>
-	        <li>       —Área y Volumen de Sólidos</li>
-			<li><b>G4 Álgebra 1© (64 Unidades)</b></li>			
-			<li>       Ecuaciones con una Variable</li>
-			<li>       —Números Enteros</li>
-			<li>       —Porcientos</li>
-<!--12-->
-			<li>       —Números Racionales</li>
-			<li>       Ecuaciones con dos Variables</li>
-			<li>       —Polinomios</li>
-			<li>       —Ecuaciones Cuadráticas</li>
-			<li>       —Números Racionales</li>
-			<li><b>G5 Álgebra 2</b></li>
-			<li>       —Fundamentos y Funciones </li>
-			<li>       —Funciones Polinomiales y Racionales</li>
-			<li>       —Funciones Exponenciales y Logarítmicas </li>
-			<li>       —Sistemas Avanzados y Probabilidads</li>
-			<li>       —Ecuaciones Cuadráticas</li>
-			<li><b>G6 Trigonometría</b></li>
-			<li>       —Fundamentos de Medida Angular y Triángulos</li>
-			<li>       —Ángulos Generales y Funciones Trigonométricas</li>				
-			<li>       —Identidades y Ecuaciones Trigonométricas </li></li>
-			<li>       —Triángulos Oblicuos y Aplicaciones</li>
-			<li><u><b>Lenguaje (G1-6)</b></u></li>
-			<li>       —LSE Vocabulario (G1-6: 45,000)</li>
-<!--11-->
-            <li>       —LSE Gramática</li>
-			<li>       —LSE Literatura</small></li>				
-           	<li><u><b>Historia (G1-6)</b></u></li>
-            <li>       —H1 Mundial</li>
-            <li>       —H2 General</li>
-			<li><u><b>Ciencias Sociales G1-6)</b></u></li>
-            <li><u><b>Cultura y Artes (G1-6)</b></u></li>
-            <li><u><b>Ejercicios Interactivos(G1-6)</b></u></li>
-            </ul>
-<!--14-->
-		</div>
-    </nav>
+<body>
+    <div id="left-menu">
+        <div id="credits" class="beveled-frame">
+            <figure id="unitas-flag">
+                <img src="https://docs.cloud.google.com/cdn/docs/setting-up-cdn-with-bucket/flg_Unitas.jpg"    
+                     alt="Bandera Vita Unita"    
+                     style="width: 150px; height: auto; margin-top: 15px; margin-bottom: 5px;">
+                
+                <figcaption style="font-family: 'EB Garamond', serif; font-style: italic; font-size: 0.9em; color: #555;">
+                    Símbolo Cívico: Vita Unita (Unidad de la Vida Eterna).
+                </figcaption>
+            </figure>
+            </div> 
+        
+        <div id="scrolling-icon-bar" class="beveled-frame">
+            </div>
+        </div> 
+    
     <div id="content-wrapper">
-         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: Meet Mr. Zero')"
-                    title="Meet Mr. Zero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
-                <span class="icon-title">A1P1U1S1</span>
-            </button>
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/AP1%20Whole%20Number%20Operations/AP1U1S1251110%201900%20PortugueseMP.mp4', 'A1P1U1S1Br')"
-                    title="A1P1U1S1Br A Cero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Brazil%20AP1U1S1.jpg" alt="A1P1U1S1Br">
-                <span class="icon-title">A1P1U1S1Br</span>
-            </button>
-                                    
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Numerals to Four')"
-                    title="Numerals to Four">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2: Numerals to Nine">
-                <span class="icon-title">A1P1U1S2</span>
-            </button>
-                        
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Numerals to Four')"
-                    title="Numerals to Four">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2: Numerals to Nine">
-                <span class="icon-title">A1P1U1S2</span>
-            </button>
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3%20Counting%20~9.mp4', 'A1P1U1S3: Numerals to Nine')"
-                    title="Numerals to Nine">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
-                <span class="icon-title">A1P1U1S3</span>
-            </button>
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'A1P1U2: Ennumeration to Ninety Nine')"
-                    title="The Numeral Family">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="A1P1U2">
-                <span class="icon-title">A1P1U2</span>
-            </button>            
-            
-
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Decillones.mp4', 'Decillions')"
-                    title="Decillions">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ToInfinity.jpg" alt="Decillions">
-                <span class="icon-title">Decillions</span>
-            </button>            
-                        
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LV1-100')"
-                    title="TV 1-100">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Language%20Arts.jpg" LV1">
-                <span class="icon-title">LV1-100</span>
-            </button>            
-
-        </header>
-		<div id="content-area">		
-            <div id="main-flex-container">
-				<section id="main-content">
-                    <div id="module-view-container">
-<!--23-->
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 15px; margin-top: 25px; text-align: center; background: white;">
-                            <h2>Welcome to the Advanced Learning System</h2>
-                            <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
-                        </div>
-                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
-                            <h3 id="detail-code"></h3>
-                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-							<button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
-                                ▶ Begin Module
-<!--24-->
-                            </button>
-                        </div>
-                    </div>
-                    <div id="video-wrapper-16-9" style="display:none;">
-						<button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-
-                            <video id="video-player" controls></video>
-						</div>
-<!--25--> 
-					</div>
-                </section>
+        <div id="main-flex-container">
+            <div id="main-content">
+                <div id="video-wrapper-16-9">
+                    <h2>SEA - Sistema Educacional Avanzado</h2>
+                    <p>Contenido principal del índice.</p>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-        const player = document.getElementById('video-player');
-		const videoWrapper = document.getElementById('video-wrapper-16-9');
-        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-<!--26-->
-		const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-		const detailControlBtn = document.getElementById('detail-control-btn'); 
-        let currentModuleTitle = '';
-		let nextVideoSource = '';
-          function toggleVideoPlayback() {
-<!--27-->
-			  if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
-                return;
-            }
-				if (videoWrapper.style.display !== 'block') {
-				playSelectedModule();
-                player.play(); 
-                detailControlBtn.textContent = '❚❚ Pause Module';
- <!--28-->
-				detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-				detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-<!--29-->
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
-        }
-		function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';		
-            moduleDetailPanel.style.display = 'none'; 
-            videoWrapper.style.display = 'block';      
-<!--30-->
-            embeddedReturnBtn.style.display = 'block'; 
-            player.src = nextVideoSource;
-            player.load(); 
-        }
-		function showModules() {
-            moduleViewContainer.style.display = 'block'; 
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-<!--31-->
-            embeddedReturnBtn.style.display = 'none'; 
-            player.pause();
-            player.removeAttribute('src'); 
-            player.load();
-			currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
-            detailControlBtn.textContent = '▶ Begin Module';
-            detailControlBtn.style.backgroundColor = 'white';
-<!--32-->
-            detailControlBtn.style.color = 'black';
-        }
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle; 
-			nextVideoSource = videoSource;
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            detailCode.textContent = `Module Code: ${code}`;
-<!--33-->
-            detailTitle.textContent = title;
-            document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
-		}
-        function closeVideo() { showModules(); }
-		document.addEventListener('DOMContentLoaded', () => {
-            if (player) {			
-                player.addEventListener('ended', () => {
-<!--34-->
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showLandingScreen();
-				});
-            }
-            // Reset button to video handler for safety and call initial setup
-            detailControlBtn.onclick = toggleModulePlayback; 
-<!--35-->
-			showLandingScreen(); 
-        });
+    
+</body>
+</html>
 	</script>
 </body>
 </html>
