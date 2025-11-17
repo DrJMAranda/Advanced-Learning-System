@@ -14,23 +14,60 @@
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+        
         body { margin: 0; font-family: serif; height: 120vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 400px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        
+        /* FIX A: Left Menu now sticks to the viewport when scrolling down */
+        #left-menu { 
+            width: 400px; 
+            background: var(--color-lighthouse); 
+            color: black; 
+            padding: 10px; 
+            flex-shrink: 0; 
+            overflow-y: auto;
+            position: sticky; /* Make it stick */
+            top: 0;          /* Stick to the top of the viewport */
+            height: 100vh;   /* Ensure it fills the screen height */
+        }
         #credits { text-align: center; }
 
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
 
         /* BARRA DE ÍCONOS */
 
-		#scrolling-icon-bar { height: 100px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-		
+        /* FIX B: Scrollbar restored and styled for clarity */
+        #scrolling-icon-bar { 
+            height: 100px; 
+            display: flex; 
+            flex-wrap: nowrap; 
+            overflow-x: scroll; /* Ensures the scrollbar is visible when content exceeds width */
+            overflow-y: hidden; 
+            background: var(--color-stealth); 
+            padding: 5px; 
+            flex-shrink: 0;
+            scrollbar-color: gray lightgray; /* Style the scrollbar (for Firefox) */
+            scrollbar-width: thin; /* Style the scrollbar (for Firefox) */
+        }
+        /* Styling for WebKit browsers (Chrome, Edge, Safari) */
+        #scrolling-icon-bar::-webkit-scrollbar {
+            height: 8px;
+        }
+        #scrolling-icon-bar::-webkit-scrollbar-thumb {
+            background-color: gray;
+            border-radius: 4px;
+        }
+        #scrolling-icon-bar::-webkit-scrollbar-track {
+            background: lightgray;
+        }
+
 
         .icon-button {
             width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
             border: none; background: none; display: flex; flex-direction: column; align-items: center;
             justify-content: flex-start; box-sizing: border-box;
         }
-        .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
+        /* UX: object-fit changed to 'contain' for better icon aspect ratio consistency */
+        .icon-button img { height: 75px; width: 100%; object-fit: contain; margin-bottom: 5px; }
         .icon-title {
             font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
             width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -55,26 +92,26 @@
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            <h3> <big>  Bienvenido SEA                          </big> <br>
-                        Sistema Educacional Avanzado*                  <br>  
-                 <sm>   Kindergarten ~ 6to Grado          </sm>        <br> </h2>
+            <h3> <big>  Bienvenido SEA         </big> <br>
+                         Sistema Educacional Avanzado* <br>  
+                   <sm>      Kindergarten ~ 6to Grado          </sm>       <br> </h3>
 
-			<b>         Programado por ARAGEM             </b>         <br>			
-            <sm> <sm>   SEA01ALS@gmail.com                </sm> </sm>  <br>	
+            <b>          Programado por ARAGEM             </b>             <br>            
+            <sm> <sm>    SEA01ALS@gmail.com               </sm> </sm>  <br> 
 </div>
-		    <hr >
+            <hr >
         <div id="student-id-box" style="padding-top: 10px; font-size: 0.8em; text-align: left;">
             Nombre:<br>IDN:<br>*Evidencia gubernamental disponible
-			<hr >
-			
+            <hr >
+            
         </div>
         <div style="margin-top: 10px; font-size: 0.80em;">
-			<p style="font-weight: bold;"Curriculum K-6</p>
+            <p style="font-weight: bold;"Curriculum K-6</p>
             <ul style="list-style: none; padding-left: 10px; line-height: 1;">
             <li><u><b><big><big>Estudios Generales</big></b></u></li>
-			<li><u><b>Aritmética©</b></u></li>
-			<li><b>G1 Números Enteros</b></li>
-			<li><i>Enumeración hasta |Nueve|</i></li>
+            <li><u><b>Aritmética©</b></u></li>
+            <li><b>G1 Números Enteros</b></li>
+            <li><i>Enumeración hasta |Nueve|</i></li>
             <li>—U1S1 Descubriendo a Sunya-Sifr Cero</li>
             <li>—U1S2 Uno al Cuatro</li>
             <li>—U1S3 Cinco al Nueve</li>
@@ -86,58 +123,58 @@
             <li><i>Paridad, Comparación, Conjuntos, y Números Compuestos</i>&nbsp;</li>
             <li><i>Sumas, Signos Oppuestos, y Restas</i></li>
             <li><i>Multiplicación</i></li>
-			<li><i>División y Partición</i></li>
-			<li><i>Fracciones</i></li>
-			<li><i>Chronos, El Tiempo</i></li>
-			<li><i>Formas Geométricas</i></li>	
-			<li><b>G2 Números Racionales</b></li>
-			<li><i>Fracciones Decimales</i></li>	
-			<li><i>Operaciones Decimales</i></li>
-			<li><i>Razones y Proporcioes</i></li>
-			<li><i>Porcientos</i></li>
-			<li><i>Razones y Proporcioes</i></li>
-			<li><i>Números Positivos y Negativos</i></li>
-			<li><i>Sumas y Restas Vertiginosas</i></li>
+            <li><i>División y Partición</i></li>
+            <li><i>Fracciones</i></li>
+            <li><i>Chronos, El Tiempo</i></li>
+            <li><i>Formas Geométricas</i></li>    
+            <li><b>G2 Números Racionales</b></li>
+            <li><i>Fracciones Decimales</i></li>    
+            <li><i>Operaciones Decimales</i></li>
+            <li><i>Razones y Proporcioes</i></li>
+            <li><i>Porcientos</i></li>
+            <li><i>Razones y Proporcioes</i></li>
+            <li><i>Números Positivos y Negativos</i></li>
+            <li><i>Sumas y Restas Vertiginosas</i></li>
             <li><i>Modulos y Suma</i></li>
-            <li><i>Modulos y Resta</i></li>	
-            <li><i>Modulos y Multiplicacion</i></li>	
-            <li><i>Modulos y Division</i></li>	
-			<li><b>G3 Geometría</b></li>
-			<li><i>El Punto, La Linea y Más, Una Introducción</i></li>
-			<li><i>Postulados y Teoremas</i></li>			
-			<li><i>Inducción y Deduccion</i></li>
-			<li><i>Lógica Deductiva y Geometría</i></li>
-			li><i>Angulos y Líneas Perpendiculares</i></li>
-			li><i>Lineas Paralelas y Planos</i></li>
-			li><i>Congruencia y Triángulos</i></li>
-			li><i>Usando Triángulos Congruentes</i></li>
-			li><i>Polígonos Similares</i></li>
-			li><i>Triángulos Rectos Similares</i></li>
-			li><i>Círculos</i></li>
-			li><i>Loci y Construcciones</i></li>
-			li><i>Metodos de la Geometría Coordenada</i></li>
-			li><i>Pruebas Coordenadas</i></li>
-			li><i>Transformaciones</i></li>
-			li><i>Áreas de Polígonos y Círculos</i></li>
-			li><i>Áreas de Volúmenes y Sólidos</i></li>	
-			<li><b>G4 Álgebra 1</b></li>
-			<li><b>G5 Álgebra 2</b></li>
-			<li><b>G6 Trigonometría</b></li>
-			<li><u><b>Lenguaje</b></u></li>
-            <li>       —LSE Vocabulario (45,000 K-6)</li>
-            <li>       —LSE Gramática</li>
-			<li>       —LSE Literatura</small></li>				
-           	<li><u><b>Historia</b></u></li>
-            <li>       —H1 Mundial</li>
-            <li>       —H2 General</li>
-			<li><u><b>Ciencias Sociales</b></u></li>
+            <li><i>Modulos y Resta</i></li>    
+            <li><i>Modulos y Multiplicacion</i></li>    
+            <li><i>Modulos y Division</i></li>    
+            <li><b>G3 Geometría</b></li>
+            <li><i>El Punto, La Linea y Más, Una Introducción</i></li>
+            <li><i>Postulados y Teoremas</i></li>            
+            <li><i>Inducción y Deduccion</i></li>
+            <li><i>Lógica Deductiva y Geometría</i></li>
+            li><i>Angulos y Líneas Perpendiculares</i></li>
+            li><i>Lineas Paralelas y Planos</i></li>
+            li><i>Congruencia y Triángulos</i></li>
+            li><i>Usando Triángulos Congruentes</i></li>
+            li><i>Polígonos Similares</i></li>
+            li><i>Triángulos Rectos Similares</i></li>
+            li><i>Círculos</i></li>
+            li><i>Loci y Construcciones</i></li>
+            li><i>Metodos de la Geometría Coordenada</i></li>
+            li><i>Pruebas Coordenadas</i></li>
+            li><i>Transformaciones</i></li>
+            li><i>Áreas de Polígonos y Círculos</i></li>
+            li><i>Áreas de Volúmenes y Sólidos</i></li>    
+            <li><b>G4 Álgebra 1</b></li>
+            <li><b>G5 Álgebra 2</b></li>
+            <li><b>G6 Trigonometría</b></li>
+            <li><u><b>Lenguaje</b></u></li>
+            <li>         —LSE Vocabulario (45,000 K-6)</li>
+            <li>         —LSE Gramática</li>
+            <li>         —LSE Literatura</small></li>                
+            <li><u><b>Historia</b></u></li>
+            <li>         —H1 Mundial</li>
+            <li>         —H2 General</li>
+            <li><u><b>Ciencias Sociales</b></u></li>
             <li><u><b>Cultura y Artes</b></u></li>
-            <li><u><b>Ejercicios Interactivos</b></u></li>
-		
+            <li><u><b>Ejercicios Interactivos</b></a></li>
+        
 
-	
+    
 
-				
+                
 
             </ul>
         </div>
@@ -146,38 +183,38 @@
     <div id="content-wrapper">
         
         <header id="scrolling-icon-bar" class="beveled-frame">
-			
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4', 'U1S1-Esp')"
-                    title="U1S1-Esp">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4', 'U1S1-Esp')"
+                        title="U1S1-Esp">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Colombian%20AP1U1S1.jpg" alt="U1S1-Esp">
                 <span class="icon-title">U1S1-Esp</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/AP1%20Whole%20Number%20Operations/AP1U1S1251110%201900%20PortugueseMP.mp4', 'U1S1-Por)')"
-                    title="U1S1-Por">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/AP1%20Whole%20Number%20Operations/AP1U1S1251110%201900%20PortugueseMP.mp4', 'U1S1-Por)')"
+                        title="U1S1-Por">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Brazil%20AP1U1S1.jpg" alt="U1S1-Por">
                 <span class="icon-title">U1S1-Por</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1251110%201900TagalogMP.mp4', 'U1S1-Tag')"
-                    title="U1S1-Tag">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1251110%201900TagalogMP.mp4', 'U1S1-Tag')"
+                        title="U1S1-Tag">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="U1S1-Tag">
                 <span class="icon-title">U1S1-Tag</span>
             </button>
 
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%20Fran%C3%A7ais%20Video.mp4', 'U1S1-FR')"
-                    title="U1S1-FR">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%20Fran%C3%A7ais%20Video.mp4', 'U1S1-FR')"
+                        title="U1S1-FR">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="U1S1-FR">
                 <span class="icon-title">U1S1-FR</span>
             </button>
-			
-			
-			
-			<button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'U1S1: Finding Zero (Meet The Digits)')"
-                    title="U1S1 Finding Zero">
+            
+            
+            
+            <button class="icon-button beveled-frame" 
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'U1S1: Finding Zero (Meet The Digits)')"
+                        title="U1S1 Finding Zero">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
                 <span class="icon-title">U1S1</span>
             </button>
@@ -187,65 +224,65 @@
 
 
 
-			
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'U1S2: Enumeration ~ 4')"
-                    title="U1S2 Enumeration ~ 4">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'U1S2: Enumeration ~ 4')"
+                        title="U1S2 Enumeration ~ 4">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
                 <span class="icon-title">U1S2</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'U1S3: Enumeration ~ 9')"
-                    title="U1S3 Enumeration ~ 9">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'U1S3: Enumeration ~ 9')"
+                        title="U1S3 Enumeration ~ 9">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
                 <span class="icon-title">U1S3</span>
             </button>
-			
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'U2: Enumeration ~ 99')"
-                    title="U2 Enumeration ~ 99">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'U2: Enumeration ~ 99')"
+                        title="U2 Enumeration ~ 99">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
                 <span class="icon-title">U2</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'U3: Enumeration to 100')"
-                    title="U3 Enumeration ~ 100">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'U3: Enumeration to 100')"
+                        title="U3 Enumeration ~ 100">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
                 <span class="icon-title">U3</span>
             </button>
-			<button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Activos/Arithmetic/ToInfinity.mp4', '999x10^33')"
-                    title="999x10^33">
+            <button class="icon-button beveled-frame" 
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Activos/Arithmetic/ToInfinity.mp4', '999x10^33')"
+                        title="999x10^33">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ToInfinity.jpg" alt="999x10^33">
                 <span class="icon-title">999x10^33</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ID Match: Identify and Match')"
-                    title="ID Match">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ID Match: Identify and Match')"
+                        title="ID Match">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID Match">
                 <span class="icon-title">ID Match</span>
-            </button>      
+            </button>       
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
-                    title="LAV Vocabulary 1~100">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
+                        title="LAV Vocabulary 1~100">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="LAV>
                 <span class="icon-title">LAV Vocab</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
-                    title="Enunciation 02 (Vowels)">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
+                        title="Enunciation 02 (Vowels)">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="Vowels">
                 <span class="icon-title">Vowels</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
-                    title="Enunciation 03 (Vowels)">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
+                        title="Enunciation 03 (Vowels)">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="Vowels">
                 <span class="icon-title">Vowels</span>
             </button>
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio\'s Fruits')"
-                    title="Sapiencio's Fruits">
+                        onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio\'s Fruits')"
+                        title="Sapiencio's Fruits">
                 <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="FRUITS">
                 <span class="icon-title">Fruits</span>
             </button>
@@ -258,9 +295,9 @@
                     <div id="module-view-container">
                         <div id="landing-status-box" class="beveled-frame" style="padding: 15px; margin-top: 25px; text-align: center; background: white;">
                             <h2>Welcome to the Advanced Learning System</h2>
-							<h3>We offer a proven improvement in learning and teaching that is +400% of <br>
-							    what the US National Assessment of Education Program documented average<br>
-							    for all K-4 students since 1972.</h3>
+                            <h3>We offer a proven improvement in learning and teaching that is +400% of <br>
+                                what the US National Assessment of Education Program documented average<br>
+                                for all K-4 students since 1972.</h3>
                             <p id="status-message">Select a module from the sample icons shown above.</p>
                         </div>
                         <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
@@ -274,7 +311,7 @@
                     <div id="video-wrapper-16-9" style="display:none;">
                         <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
                         <div id="video-container-aspect-lock">
-                            <video id="video-player" controls></video>
+                            <video id="video-player" controls controlsList="nodownload"></video>
                         </div>
                     </div>
                 </section>
@@ -314,7 +351,7 @@
                 detailControlBtn.style.color = 'var(--color-menu)';
             } else {
                 player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
+                detailControlBtn.textContent = `▶ Resume: ${detailTitle.textContent}`; // Improved pause text
                 detailControlBtn.style.backgroundColor = 'white';
                 detailControlBtn.style.color = 'black';
             }
@@ -357,21 +394,24 @@
             document.getElementById('landing-status-box').style.display = 'none';
             moduleDetailPanel.style.display = 'block';
             moduleViewContainer.style.display = 'block';
+            
+            // UX: Update control button text to include the module title
+            detailControlBtn.textContent = `▶ Begin: ${title}`;
         }
 
         function closeVideo() { showModules(); }
 
-		document.addEventListener('DOMContentLoaded', () => {
-            if (player) {
-                player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showLandingScreen();
-                });
-            }
-            // Reset button to video handler for safety and call initial setup
-            detailControlBtn.onclick = toggleModulePlayback; 
-            showLandingScreen(); 
-        });
-    </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (player) {
+                player.addEventListener('ended', () => {
+                    alert(`Module "${currentModuleTitle}" has finished.`);
+                    showModules();
+                });
+            }
+            // Set initial click handler for the detail panel button
+            detailControlBtn.onclick = toggleVideoPlayback; 
+            showModules(); // Initial screen setup
+        });
+    </script>
 </body>
 </html>
