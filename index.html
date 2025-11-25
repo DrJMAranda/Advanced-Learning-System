@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #e0e0e0; /* Slightly darker for contrast */
+            background-color: #e0e0e0; /* Light grey background */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
         }
@@ -223,7 +223,7 @@
         <h2 id="current-video-title">Bienvenido SEA</h2>
         
         <div class="video-stage">
-            <video id="cinema-screen" controls autoplay playsinline>
+            <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
                 <source src="https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -252,7 +252,7 @@
             // Start playing immediately
             player.play();
             
-            // Optional: Scroll down to video on mobile when clicked
+            // Scroll to video for mobile users
             if (window.innerWidth < 600) {
                 player.scrollIntoView({behavior: "smooth"});
             }
