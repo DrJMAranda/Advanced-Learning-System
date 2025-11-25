@@ -6,153 +6,258 @@
     <title>SEA - Sistema Educacional Avanzado</title>
 
     <style>
-        /* --- 1. THE FOUNDATION (Clean & Modern) --- */
+        /* --- 1. GLOBAL SETTINGS --- */
         body {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Light grey background */
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #e0e0e0; /* Slightly darker for contrast */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
         }
 
-        /* --- 2. THE PERT NETWORK (Navigation Bar) --- */
-        header {
-            background-color: #ffffff;
-            padding: 15px 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-            position: sticky; /* Optional: Keeps nav at top while scrolling */
+        /* --- 2. THE NAV BAR (Top Section) --- */
+        header#scrolling-icon-bar {
+            background-color: #f4f4f4;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
             top: 0;
-            z-index: 100;
-        }
-
-        /* This container makes the icons wrap like Facebook buttons */
-        .pert-container {
+            z-index: 1000;
+            
+            /* FLEXBOX MAGIC: Makes icons wrap on phones */
             display: flex;
-            flex-wrap: wrap;        /* CRITICAL: Icons drop to next line on mobile */
+            flex-wrap: wrap; 
             justify-content: center;
             align-items: center;
-            gap: 12px;              /* Space between icons */
-            max-width: 1000px;
-            margin: 0 auto;
+            gap: 10px;
         }
 
-        /* The individual Icon Link */
-        .node-link {
+        /* --- 3. THE BUTTONS (Your Beveled Frame) --- */
+        .icon-button {
+            background: #fff;
+            border: none;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 80px; /* Consistent width */
+            padding: 5px;
             text-decoration: none;
-            color: #333;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transition: transform 0.2s; /* Smooth animation */
+            transition: transform 0.1s;
         }
 
-        /* The Icon Image styling */
-        .node-link img {
-            width: 55px;            /* Good touch-target size */
-            height: 55px;
-            object-fit: contain;
-            border: 2px solid #ddd;
-            border-radius: 50%;     /* Circular Nodes */
-            background: #fff;
-            padding: 4px;
-        }
-
-        .node-link:hover {
-            transform: scale(1.1);  /* Pop effect on hover */
-        }
-
-        /* --- 3. THE CINEMA STAGE (Video Monitor) --- */
-        main {
-            padding: 20px 10px;
-            max-width: 800px;       /* Limits width on Desktop */
-            margin: 0 auto;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;   /* LOCKS CINEMATIC RATIO AUTOMATICALLY */
-            background: #000;
+        /* The "Beveled" 3D Look */
+        .beveled-frame {
+            border: 2px solid #ccc;
+            border-bottom: 4px solid #999; /* The bevel shadow */
+            border-right: 4px solid #999;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            overflow: hidden;
-            margin-bottom: 20px;
         }
 
-        .video-container iframe,
-        .video-container video {
+        .icon-button:active {
+            transform: translateY(2px); /* Click effect */
+            border-bottom: 2px solid #999;
+        }
+
+        .icon-button img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 4px;
+        }
+
+        .icon-title {
+            font-size: 0.7rem;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.1;
+        }
+
+        /* --- 4. THE CINEMA MONITOR (Video Section) --- */
+        #content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        .video-stage {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Locks 16:9 cinematic ratio */
+            background: #000;
+            border: 5px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        video {
             width: 100%;
             height: 100%;
-            border: none;
+            display: block;
         }
 
-        /* --- 4. THE CONTEXT (Text Area) --- */
-        .content-text {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            text-align: left;
+        /* Title text below video */
+        #current-video-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
-        
-        h1 { margin-top: 0; color: #2c3e50; font-size: 1.5rem; }
-        p { line-height: 1.6; color: #555; margin-bottom: 15px; }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <nav class="pert-container">
-            <a href="#" class="node-link">
-                <img src="flag_colombia.png" alt="Colombia">
-                <span>CO</span>
-            </a>
+    <header id="scrolling-icon-bar" class="beveled-frame">
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4', 'SEA-Esp')"
+                title="SEA-Esp">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Cien%20Diez%20Uno.jpg" alt="SEA-Esp">
+            <span class="icon-title">SEA</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4', 'U1S1-Esp')"
+                title="U1S1-Esp">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Colombian%20AP1U1S1.jpg" alt="U1S1-Esp">
+            <span class="icon-title">U1S1-Esp</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/AP1%20Whole%20Number%20Operations/AP1U1S1251110%201900%20PortugueseMP.mp4', 'U1S1-Por')"
+                title="U1S1-Por">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Brazil%20AP1U1S1.jpg" alt="U1S1-Por">
+            <span class="icon-title">U1S1-Por</span>
+        </button>
 
-            <a href="#" class="node-link">
-                <img src="flag_brazil.png" alt="Brazil">
-                <span>BR</span>
-            </a>
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1251110%201900TagalogMP.mp4', 'U1S1-Tag')"
+                title="U1S1-Tag">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="U1S1-Tag">
+            <span class="icon-title">U1S1-Tag</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%20Fran%C3%A7ais%20Video.mp4', 'U1S1-FR')"
+                title="U1S1-FR">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="U1S1-FR">
+            <span class="icon-title">U1S1-FR</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'U1S1: Finding Zero')"
+                title="U1S1 Finding Zero">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
+            <span class="icon-title">U1S1</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'U1S2: Enumeration ~ 4')"
+                title="U1S2 Enumeration ~ 4">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
+            <span class="icon-title">U1S2</span>
+        </button>
 
-            <a href="#" class="node-link">
-                <img src="flag_usa.png" alt="USA">
-                <span>US</span>
-            </a>
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'U1S3: Enumeration ~ 9')"
+                title="U1S3 Enumeration ~ 9">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
+            <span class="icon-title">U1S3</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'U2: Enumeration ~ 99')"
+                title="U2 Enumeration ~ 99">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
+            <span class="icon-title">U2</span>
+        </button>
 
-            <a href="#" class="node-link">
-                <img src="kids_icon.png" alt="Students">
-                <span>K-6</span>
-            </a>
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'U3: Enumeration to 100')"
+                title="U3 Enumeration ~ 100">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
+            <span class="icon-title">U3</span>
+        </button>
+         
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Li01%20Aesop%20The%20Boy%20Who%20Cried%20Wolf.mp4', 'LI Aesop-01')"
+                title="LI Aesop-01">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Wolf.jpg" alt="LI Aesop-01">
+            <span class="icon-title">LI Aesop</span>
+        </button>       
+    
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
+                title="LAV Vocabulary 1~100">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="LAV">
+            <span class="icon-title">LAV Vocab</span>
+        </button>
 
-            <a href="#" class="node-link">
-                <img src="map_icon.png" alt="System">
-                <span>ALS</span>
-            </a>
-            
-        </nav>
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
+                title="Enunciation 02 (Vowels)">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="Vowels">
+            <span class="icon-title">Vowels 2</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
+                title="Enunciation 03 (Vowels)">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="Vowels">
+            <span class="icon-title">Vowels 3</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio Fruits')"
+                title="Sapiencio's Fruits">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="FRUITS">
+            <span class="icon-title">Fruits</span>
+        </button>
+
     </header>
 
-    <main>
+    <div id="content-wrapper">
         
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/PLACEHOLDER" allowfullscreen></iframe>
-            
-            </div>
-
-        <div class="content-text">
-            <h1>Welcome to the Advanced Learning System</h1>
-            <p>
-                <strong>Bienvenido SEA.</strong> We offer a proven improvement in learning and teaching. 
-                This system is designed for the modern era, accessible to everyone, everywhere.
-            </p>
-            <p>
-                <em>Select an icon above to navigate the learning path.</em>
-            </p>
+        <h2 id="current-video-title">Bienvenido SEA</h2>
+        
+        <div class="video-stage">
+            <video id="cinema-screen" controls autoplay playsinline>
+                <source src="https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
-    </main>
+        <div style="background: white; padding: 15px; border-radius: 8px; text-align: left;">
+            <p><strong>SEA - Sistema Educacional Avanzado.</strong><br>
+            Seleccione un icono arriba para comenzar la lección.<br>
+            <em>Select an icon above to start the lesson.</em></p>
+        </div>
+
+    </div>
+
+    <script>
+        // This function receives the URL from your buttons and plays it
+        function launchVideo(videoUrl, videoTitle) {
+            var player = document.getElementById('cinema-screen');
+            var titleDisplay = document.getElementById('current-video-title');
+            
+            // Change the video source
+            player.src = videoUrl;
+            
+            // Change the title text
+            titleDisplay.innerText = videoTitle;
+            
+            // Start playing immediately
+            player.play();
+            
+            // Optional: Scroll down to video on mobile when clicked
+            if (window.innerWidth < 600) {
+                player.scrollIntoView({behavior: "smooth"});
+            }
+        }
+    </script>
 
 </body>
 </html>
