@@ -1,300 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-6 Subitizing Dot Challenge | ONETH MVP</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SEA - Sistema Educacional Avanzado</title>
+
+    <style>
+        /* --- 1. GLOBAL SETTINGS --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0; /* Light grey background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+
+        /* --- 2. THE NAV BAR (Top Section) --- */
+        header#scrolling-icon-bar {
+            background-color: #f4f4f4;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            
+            /* FLEXBOX MAGIC: Makes icons wrap on phones */
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- 3. THE BUTTONS (Your Beveled Frame) --- */
+        .icon-button {
+            background: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px; /* Consistent width */
+            padding: 5px;
+            text-decoration: none;
+            transition: transform 0.1s;
+        }
+
+        /* The "Beveled" 3D Look */
+        .beveled-frame {
+            border: 2px solid #ccc;
+            border-bottom: 4px solid #999; /* The bevel shadow */
+            border-right: 4px solid #999;
+            border-radius: 8px;
+        }
+
+        .icon-button:active {
+            transform: translateY(2px); /* Click effect */
+            border-bottom: 2px solid #999;
+        }
+
+        .icon-button img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 4px;
+        }
+
+        .icon-title {
+            font-size: 0.7rem;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.1;
+        }
+
+        /* --- 4. THE CINEMA MONITOR (Video Section) --- */
+        #content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        .video-stage {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Locks 16:9 cinematic ratio */
+            background: #000;
+            border: 5px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Title text below video */
+        #current-video-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>Dot Challenge: Total Count (Round <span id="round-num">0</span>)</h1>
-        <p>Focus! The dots will flash quickly. (Honor System)</p>
+    <header id="scrolling-icon-bar" class="beveled-frame">
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4', 'SEA-Esp')"
+                title="SEA-Esp">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Cien%20Diez%20Uno.jpg" alt="SEA-Esp">
+            <span class="icon-title">SEA</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4', 'U1S1-Esp')"
+                title="U1S1-Esp">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Colombian%20AP1U1S1.jpg" alt="U1S1-Esp">
+            <span class="icon-title">U1S1-Esp</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/AP1%20Whole%20Number%20Operations/AP1U1S1251110%201900%20PortugueseMP.mp4', 'U1S1-Por')"
+                title="U1S1-Por">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Brazil%20AP1U1S1.jpg" alt="U1S1-Por">
+            <span class="icon-title">U1S1-Por</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1251110%201900TagalogMP.mp4', 'U1S1-Tag')"
+                title="U1S1-Tag">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="U1S1-Tag">
+            <span class="icon-title">U1S1-Tag</span>
+        </button>
+ 
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%20Fran%C3%A7ais%20Video.mp4', 'U1S1-FR')"
+                title="U1S1-FR">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="U1S1-FR">
+            <span class="icon-title">U1S1-FR</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'U1S1: Finding Zero')"
+                title="U1S1 Finding Zero">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
+            <span class="icon-title">U1S1</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'U1S2: Enumeration ~ 4')"
+                title="U1S2 Enumeration ~ 4">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
+            <span class="icon-title">U1S2</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202023.mp4', 'U1S3: Enumeration ~ 9')"
+                title="U1S3 Enumeration ~ 9">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
+            <span class="icon-title">U1S3</span>
+        </button>
+           
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'U2: Enumeration ~ 99')"
+                title="U2 Enumeration ~ 99">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
+            <span class="icon-title">U2</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'U3: Enumeration to 100')"
+                title="U3 Enumeration ~ 100">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
+            <span class="icon-title">U3</span>
+        </button>
+         
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Li01%20Aesop%20The%20Boy%20Who%20Cried%20Wolf.mp4', 'LI Aesop-01')"
+                title="LI Aesop-01">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Wolf.jpg" alt="LI Aesop-01">
+            <span class="icon-title">LI Aesop</span>
+        </button>       
+    
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
+                title="LAV Vocabulary 1~100">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="LAV">
+            <span class="icon-title">LAV Vocab</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
+                title="Enunciation 02 (Vowels)">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="Vowels">
+            <span class="icon-title">Vowels 2</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
+                title="Enunciation 03 (Vowels)">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="Vowels">
+            <span class="icon-title">Vowels 3</span>
+        </button>
+
+        <button class="icon-button beveled-frame" 
+                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio Fruits')"
+                title="Sapiencio's Fruits">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="FRUITS">
+            <span class="icon-title">Fruits</span>
+        </button>
+
     </header>
 
-    <div id="presentation-area">
-        <div id="grid-container">
-            <div id="board-A" class="grid"></div>
-            <div id="board-B" class="grid"></div>
-        </div>
+    <div id="content-wrapper">
         
-        <div id="mask" class="overlay">
-            <p>LOOK! (T1 Flash)</p>
-        </div>
+        <h2 id="current-video-title">Bienvenido SEA</h2>
         
-        <div id="feedback" class="overlay">
-            <p id="wait-prompt">Time to Guess! (5.0s)</p>
+        <div class="video-stage">
+            <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
+                <source src="https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
-        <div id="reveal" class="overlay">
-            <p>✅ **CORRECT TOTAL:** <span id="correct-answer"></span></p>
+        <div style="background: white; padding: 15px; border-radius: 8px; text-align: left;">
+            <p><strong>SEA - Sistema Educacional Avanzado.</strong><br>
+            Seleccione un icono arriba para comenzar la lección.<br>
+            <em>Select an icon above to start the lesson.</em></p>
         </div>
+
     </div>
 
-    <footer>
-        <button id="start-button">Start Challenge</button>
-        <p>Built with ONETH Precision for Google Integration</p>
-    </footer>
+    <script>
+        // This function receives the URL from your buttons and plays it
+        function launchVideo(videoUrl, videoTitle) {
+            var player = document.getElementById('cinema-screen');
+            var titleDisplay = document.getElementById('current-video-title');
+            
+            // Change the video source
+            player.src = videoUrl;
+            
+            // Change the title text
+            titleDisplay.innerText = videoTitle;
+            
+            // Start playing immediately
+            player.play();
+            
+            // Scroll to video for mobile users
+            if (window.innerWidth < 600) {
+                player.scrollIntoView({behavior: "smooth"});
+            }
+        }
+    </script>
 
-    <script src="app.js"></script>
 </body>
 </html>
-🎨 2. CSS File (style.css)
-No functional changes, just ensuring the visual cues are high-contrast.
-
-CSS
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding-top: 20px;
-}
-
-#presentation-area {
-    position: relative;
-    width: 650px; /* Space for two 5x5 grids and padding */
-    height: 350px;
-    margin: 40px auto;
-    border: 3px solid #ccc;
-    background-color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-#grid-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    width: 300px;
-    height: 300px;
-    border: 1px solid #eee; /* Subtle grid lines */
-}
-
-.cell {
-    border: 1px dotted #eee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden; /* All cells start hidden */
-}
-
-.dot {
-    width: 60%;
-    height: 60%;
-    background-color: #000000; /* High-contrast black dot */
-    border-radius: 50%;
-}
-
-/* --- Overlay/Timing Styles --- */
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-    font-weight: bold;
-    color: white;
-    z-index: 10;
-}
-
-#mask {
-    background-color: #A00000; /* Deep Red Mask (T1 prompt) */
-    visibility: hidden;
-}
-
-#feedback {
-    background-color: rgba(0, 0, 0, 0.8); /* Dark mask for thinking time (T2) */
-    visibility: hidden;
-}
-
-#reveal {
-    background-color: #006400; /* Dark Green for correct answer (T3) */
-    visibility: hidden;
-}
-
-#reveal p {
-    padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Class added during the 250ms flash */
-.flash-visible .cell {
-    visibility: visible !important;
-}
-🚀 3. JavaScript Logic (app.js)
-This file contains the consolidated, testable logic for randomization, placement, and the critical ONETH timing sequence.
-
-JavaScript
-
-// ====================================================================
-// ONETH TIMING & CONSTANTS (Structure ready for Jest testing)
-// ====================================================================
-const PRESENTATION_TIME = 250; // T1: 250ms flash (CRITICAL for subitizing science)
-const HONOR_WAIT_TIME = 5000;  // T2: 5.0 seconds thinking (Close enough tolerance)
-const REVEAL_TIME = 2000;      // T3: 2.0 seconds answer display (Close enough tolerance)
-const MAX_DOTS = 5;
-const GRID_SIZE = 5;
-const TOTAL_ROUNDS = 5;
-
-let currentRound = 0;
-const boardAElement = document.getElementById('board-A');
-const boardBElement = document.getElementById('board-B');
-const startButton = document.getElementById('start-button');
-const roundNumSpan = document.getElementById('round-num');
-const maskOverlay = document.getElementById('mask');
-const feedbackOverlay = document.getElementById('feedback');
-const revealOverlay = document.getElementById('reveal');
-const waitPrompt = document.getElementById('wait-prompt');
-const correctAnswerSpan = document.getElementById('correct-answer');
-
-// --- Helper 1: Setup Cells ---
-function createGridCells(boardElement) {
-    for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        // cell.dataset.index = i; // Retained for future use/debugging
-        
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        cell.appendChild(dot);
-
-        boardElement.appendChild(cell);
-    }
-}
-
-// --- Helper 2: ONETH Dot Placement Logic (Testable Unit) ---
-function placeDots(dotCount, boardElement) {
-    const allCells = Array.from(boardElement.querySelectorAll('.cell'));
-    
-    // 1. Reset: Hide all dots before selecting new ones
-    allCells.forEach(cell => cell.style.visibility = 'hidden');
-
-    if (dotCount === 0) return []; // Return empty array for no dots
-    
-    // 2. Random Selection: Get unique indices
-    const indices = Array.from(Array(GRID_SIZE * GRID_SIZE).keys());
-    
-    // Shuffle the indices and slice to get exactly 'dotCount' unique positions
-    const dotPositionsIndices = indices
-        .sort(() => 0.5 - Math.random()) 
-        .slice(0, dotCount);            
-
-    // 3. Display: Mark selected cells visible
-    dotPositionsIndices.forEach(index => {
-        allCells[index].style.visibility = 'visible';
-    });
-    
-    return dotPositionsIndices; // Return indices for testing integrity
-}
-
-// --- CORE GAME LOGIC ---
-function setupRound() {
-    // Exercise 3 Logic: randbetween 0-5 for both
-    const countA = Math.floor(Math.random() * (MAX_DOTS + 1));
-    const countB = Math.floor(Math.random() * (MAX_DOTS + 1));
-    const correctTotal = countA + countB;
-    
-    // Generate dot positions
-    placeDots(countA, boardAElement);
-    placeDots(countB, boardBElement);
-    
-    return { countA, countB, correctTotal };
-}
-
-// --- CORE TIMING SEQUENCE (Testable Unit) ---
-function runTimingSequence(correctTotal, countA, countB) {
-    // T0: Hide everything, show the prompt (pre-flash)
-    maskOverlay.style.visibility = 'visible';
-    feedbackOverlay.style.visibility = 'hidden';
-    revealOverlay.style.visibility = 'hidden';
-    
-    // 1. T1: Presentation (THE CRITICAL FLASH)
-    let timingHandle = setTimeout(() => {
-        // --- START FLASH (Show Dots) ---
-        // Dots were placed in setupRound(), now we remove the mask to reveal them
-        maskOverlay.style.visibility = 'hidden';
-
-        // --- END FLASH (Hide Dots, Start T2) ---
-        timingHandle = setTimeout(() => {
-            // Hide the dots instantly after T1 duration
-            boardAElement.querySelectorAll('.cell').forEach(c => c.style.visibility = 'hidden');
-            boardBElement.querySelectorAll('.cell').forEach(c => c.style.visibility = 'hidden');
-            
-            // Start T2: Honor Wait Time (Masking screen for thinking)
-            feedbackOverlay.style.visibility = 'visible';
-            waitPrompt.textContent = `Time to Guess! (${HONOR_WAIT_TIME / 1000}.0s)`;
-            
-            // T2: Wait complete, move to T3 Reveal
-            timingHandle = setTimeout(() => {
-                feedbackOverlay.style.visibility = 'hidden';
-                
-                // T3: Reveal Answer (The logging phase)
-                correctAnswerSpan.textContent = `${correctTotal} (Board A: ${countA} + Board B: ${countB})`;
-                revealOverlay.style.visibility = 'visible';
-                
-                // --- ONETH DATA LOGGING POINT ---
-                // Replace console.log with a fetch() call to your server-side logger
-                console.log(`LOG | Round ${currentRound}: CountA=${countA}, CountB=${countB}, Total=${correctTotal}`);
-                
-                // T3: Reveal complete, start next round
-                timingHandle = setTimeout(runRound, REVEAL_TIME);
-
-            }, HONOR_WAIT_TIME); // End of T2 Wait
-
-        }, PRESENTATION_TIME); // End of T1 Flash
-
-    }, 10); // Small initial delay to ensure the browser paints the mask first
-}
-
-
-// --- MAIN LOOP ---
-function runRound() {
-    if (currentRound >= TOTAL_ROUNDS) {
-        alert("Challenge Complete! Check your log for results.");
-        startButton.disabled = false;
-        return;
-    }
-    
-    currentRound++;
-    roundNumSpan.textContent = currentRound;
-    
-    // Get counts and place dots for the round
-    const { countA, countB, correctTotal } = setupRound();
-    
-    // Execute the timed sequence
-    runTimingSequence(correctTotal, countA, countB);
-}
-
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    createGridCells(boardAElement);
-    createGridCells(boardBElement);
-    
-    startButton.addEventListener('click', () => {
-        startButton.disabled = true;
-        currentRound = 0;
-        runRound();
-    });
-});
-
-// Expose functions for Jest testing (Optional, but highly recommended for the "Swipe")
-// if (typeof module !== 'undefined' && module.exports) {
-//     module.exports = { setupRound, placeDots }; 
-// }
