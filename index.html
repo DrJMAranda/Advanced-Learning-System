@@ -8,8 +8,14 @@
     <style>
         /* --- 1. GLOBAL SETTINGS & BUTTONS --- */
         body { margin: 0; padding: 0; background-color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; }
-        header#scrolling-icon-bar { background-color: #f4f4f4; padding: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
-        .icon-button { background: #fff; border: 2px solid #ccc; border-bottom: 4px solid #999; border-right: 4px solid #999; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; padding: 5px; text-decoration: none; transition: transform 0.1s; }
+        header#scrolling-icon-bar { 
+            background-color: #f4f4f4; padding: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+            position: sticky; top: 0; z-index: 1000; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; 
+        }
+
+        .icon-button { /* Reusable button styling */
+            background: #fff; border: 2px solid #ccc; border-bottom: 4px solid #999; border-right: 4px solid #999; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; padding: 5px; text-decoration: none; transition: transform 0.1s; 
+        }
         .icon-button:active { transform: translateY(2px); border-bottom: 2px solid #999; }
         .icon-button img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
         .icon-title { font-size: 0.7rem; color: #333; font-weight: bold; }
@@ -22,21 +28,37 @@
         #current-content-title { font-size: 1.2rem; color: #2c3e50; margin-bottom: 15px; font-weight: bold; }
         #interaction-controls { padding: 10px; background-color: #f0f0f0; border-radius: 5px; min-height: 50px; text-align: center; font-size: 0.8em; }
 
-        /* --- 3. ORGCHART/LOCUS STYLING --- */
+        /* --- 3. LANGUAGE OVERLAY STYLING (The De Rigueur Filter) --- */
+        #language-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        #language-selector { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); text-align: center; }
+        #language-selector button { margin: 10px; padding: 10px 20px; font-size: 1.1em; cursor: pointer; border: 2px solid #3498db; background-color: #ecf0f1; border-radius: 5px; transition: background-color 0.2s; }
+        #language-selector button:hover { background-color: #d0e8ff; }
+
+        /* --- 4. ORGCHART/LOCUS STYLING --- */
         .locus-content-display { text-align: left; max-width: 800px; margin: 0 auto; }
         .locus-block { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f7f7f7; }
         .locus-block h3 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0; }
         .orgbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; justify-content: center; }
-        .org-box-icon { height: 60px; background-color: #2980b9; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s; }
+        .org-box-icon { height: 60px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s; }
         .org-box-icon:hover:not(.disabled) { opacity: 0.9; transform: scale(1.02); }
         .org-box-icon.disabled { background-color: #95a5a6; cursor: default; opacity: 0.7; }
         .org-box-icon.math-color { background-color: #e74c3c; }
         .org-box-icon.lang-color { background-color: #27ae60; }
     </style>
 </head>
-<body onload="launchModule('WELCOME', 'passive')"> <header id="scrolling-icon-bar">
+<body>
 
-                <button class="icon-button" onclick="launchModule('Locus_K_4', 'orgchart')" title="Curriculum Start">
+    <div id="language-overlay">
+        <div id="language-selector">
+            <h2>Seleccione su Idioma de Inicio</h2>
+            <p>This choice sets the global encoding (Lead Plane).</p>
+            <button onclick="selectLanguage('C')">Castellano (C)</button>
+            <button onclick="selectLanguage('E')">English (E)</button>
+        </div>
+    </div>
+
+    <header id="scrolling-icon-bar">
+                <button class="icon-button" onclick="launchModule('Locus_K_4', 'orgchart')" title="Curriculum Start">
             <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/World%20Map.jpg" alt="Curriculum">
             <span class="icon-title">CURRICULUM</span>
         </button>
@@ -50,25 +72,16 @@
             <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="TAP1U1S1">
             <span class="icon-title">TAP1U1S1</span>
         </button>
-
-        <button class="icon-button" onclick="launchModule('AP1U1S1', 'passive')" title="FAP1U1S1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="FAP1U1S1">
-            <span class="icon-title">FAP1U1S1</span>
-        </button>
-        
-        </header>
+    </header>
 
     <div id="content-wrapper">
         <div id="content-stage">
             <h2 id="current-content-title">Bienvenido SEA</h2>
-
             <div id="media-display">
                 </div>
-
             <div id="interaction-controls">
-                <p>Controles Ichi Ban: (Up/Dn = Return/FFWD | lft/rgt = Play/Rewind | Center = Stop)</p>
-                <p>Use el botón CURRICULUM para iniciar el Locus.</p>
-            </div>
+                <p>Controles Ichi Ban: (Táctil/Swipe Ichi Ban Activo)</p>
+                </div>
         </div>
     </div>
 
@@ -78,57 +91,48 @@
         // ======================================================================
 
         // 1. GLOBAL STATE VARIABLES (THE LEAD PLANE AND COGNOMEN)
-        let GLOBAL_LANG_CODE = 'C'; // C for Castellano, E for English (MUST be set by the initial dialogue)
+        let GLOBAL_LANG_CODE = null; 
         let GLOBAL_CAPACITY_LEVEL = 'SAN_BAN';
-        let CURRENT_ACTIVE_MODULE = 'WELCOME'; 
+        let CURRENT_ACTIVE_MODULE = 'BLOCKED_LANG_CHOICE'; 
 
         const contentStage = document.getElementById('content-stage');
         const mediaDisplay = document.getElementById('media-display');
         const titleDisplay = document.getElementById('current-content-title');
         const interactionControls = document.getElementById('interaction-controls');
+        const iconBar = document.getElementById('scrolling-icon-bar');
 
         
-        // 2. THE MODULE LOADER: launchModule(ID, TYPE)
-        // This function manages the Dual State (Passive vs. Interactive/Orgchart)
+        // --- 2. THE START TRIGGER: setLanguageAndStart (De Rigueur) ---
+        function selectLanguage(code) {
+            document.getElementById('language-overlay').style.display = 'none'; // Hide menu
+            GLOBAL_LANG_CODE = code;
+            iconBar.style.display = 'flex'; // Show navigation bar
+            launchModule('Locus_K_4', 'orgchart'); // First Start Trigger
+        }
+
+        // 3. THE MODULE LOADER: launchModule(ID, TYPE)
         function launchModule(moduleId, moduleType) {
             
-            // Safety check: Prevents bugsies by cleaning the display stage before loading new content
             mediaDisplay.innerHTML = ''; 
             CURRENT_ACTIVE_MODULE = moduleId;
+            let htmlContent = ''; 
 
             if (moduleType === 'passive' || moduleType === 'welcome') {
                 // STATE 1: PASSIVE PRESENTATION (Video, Teoría del Porqué)
-                
-                // Note: Placeholder logic for video URLs needs adjustment based on your file structure.
                 const videoURL = (moduleId === 'WELCOME') ? 
                                  'https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4' : 
                                  `https://storage.googleapis.com/noenbalde/Giddyap/${GLOBAL_LANG_CODE}${moduleId}.mp4`;
                 
-                mediaDisplay.innerHTML = `
+                htmlContent = `
                     <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
                         <source src="${videoURL}" type="video/mp4">
                     </video>
                 `;
-                const player = document.getElementById('cinema-screen');
-                player.load(); 
-                player.play();
-                interactionControls.style.display = 'block'; 
-                
-            } else if (moduleType === 'interactive') {
-                // STATE 2: INTERACTIVE RESPONSE (Exercise, Adiestramiento del Cómo)
-                
-                mediaDisplay.innerHTML = `
-                    <div id="interactive-workspace" style="padding: 50px; background: #e0f7fa;">
-                        <h3>Módulo: ${moduleId} / Adiestramiento del Cómo</h3>
-                        <p>La precisión Ichi Ban requiere el desarrollo de la lógica F9.</p>
-                    </div>
-                `;
-                interactionControls.style.display = 'flex'; 
                 
             } else if (moduleType === 'orgchart') {
-                // STATE 3: LOCUS/ORGCHART (Navigation/Decision Making)
+                // STATE 2: LOCUS/ORGCHART (Navigation/Decision Making)
                 
-                mediaDisplay.innerHTML = `
+                htmlContent = `
                     <div class="locus-content-display">
                         <h2>Curriculum Locus: 6 Caminos de Maestría</h2>
                         
@@ -136,7 +140,7 @@
                             <h3>Locus K-4: Fundamentos (Prioridad)</h3>
                             <div class="orgbox-grid">
                                 <div class="org-box-icon math-color" onclick="launchModule('MATH_U1', 'passive')">Aritmética</div>
-                                <div class="org-box-icon lang-color" onclick="launchModule('LANG_U1', 'passive')">Lenguaje</div>
+                                <div class="org-box-icon lang-color" onclick="launchModule('LANG_MENU', 'language_menu')">Lenguaje</div>
                                 <div class="org-box-icon sci-color disabled">Ciencia</div>
                                 <div class="org-box-icon soc-color disabled">Historia</div>
                                 <div class="org-box-icon disabled">Arte</div>
@@ -153,32 +157,117 @@
                         </div>
                     </div>
                 `;
-                interactionControls.style.display = 'block';
+                
+            } else if (moduleType === 'language_menu') {
+                // STATE 3: Language Drill-Down Menu (Example of Sub-Level)
+                // NOTE: This is the code for the Language menu structure created earlier.
+                htmlContent = `
+                    <div class="locus-content-display">
+                        <h2>Lenguaje: Subdivisión de Módulos</h2>
+                        <div class="orgbox-grid">
+                            <div class="org-box-icon lang-color" onclick="launchModule('VOC_U1', 'passive')">Vocabulario</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('GRAMMAR_U1', 'passive')">Gramática</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('LIT_FABLES', 'passive')">Literatura</div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="icon-button" style="width: 150px; background-color: #f39c12; color: white;" 
+                                    onclick="launchModule('Locus_K_4', 'orgchart')">&#9664; Volver al Locus K-4</button>
+                        </div>
+                    </div>
+                `;
+            } else if (moduleType === 'interactive') {
+                 htmlContent = `<div id="interactive-workspace" style="padding: 50px; background: #e0f7fa;">
+                    <h3>Módulo Interactivo: ${moduleId}</h3>
+                    <p>La precisión Ichi Ban requiere el desarrollo de la lógica F9.</p>
+                    <button onclick="runRecalculation()">Trigger F9</button>
+                    </div>`;
             }
+
+            // --- Final Rendering and Activation ---
+            mediaDisplay.innerHTML = htmlContent;
             
-            titleDisplay.innerText = `${moduleId.replace('_', ' ')} (${GLOBAL_LANG_CODE})`;
+            // Title logic
+            let displayTitle = (moduleId === 'WELCOME') ? 'Bienvenido SEA' : `${moduleId.replace('_', ' ')}`;
+            titleDisplay.innerText = `${displayTitle} (${GLOBAL_LANG_CODE})`;
+            
+            // Activate video if present
+            if (document.getElementById('cinema-screen')) {
+                const player = document.getElementById('cinema-screen');
+                player.load(); player.play();
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
 
-        // 3. THE F9 TRIGGER: runRecalculation()
-        // This function handles the deterministic logic for interactive modules.
+        // 4. THE F9 TRIGGER: runRecalculation()
         function runRecalculation() {
-            if (CURRENT_ACTIVE_MODULE === 'WELCOME') return;
-
-            console.log(`F9 Triggered: Recalculating state for ${CURRENT_ACTIVE_MODULE}.`);
-            
-            // This is the core Ichi Ban logic: Surgical implementation needed here.
-            alert(`F9 Recalculate Triggered! System is ready to run the core logic for ${CURRENT_ACTIVE_MODULE}.`);
+            alert(`F9 Recalculate Triggered for: ${CURRENT_ACTIVE_MODULE}!`);
+            // Core Ichi Ban logic: Surgical implementation needed here.
         }
+        
+        // 5. ICHI BAN SWIPE DETECTION AND INPUT HANDLER
+        const swipeElement = mediaDisplay; 
+        let touchstartX = 0; let touchendX = 0; let touchstartY = 0; let touchendY = 0;
+        const threshold = 50; 
+        
+        // The core directional input handler (Simulates physical buttons)
+        function handleDirectionalInput(direction) {
+            // Logic for UP/DN/LFT/RGT based on CURRENT_ACTIVE_MODULE state goes here
+            console.log(`Input Ichi Ban: ${direction} received.`);
 
-        // --- Execute Welcome Screen on load ---
+            if (direction === 'UP') {
+                // UP: <return> (Final Constraint: Return to Locus/Menu)
+                if (CURRENT_ACTIVE_MODULE !== 'Locus_K_4') {
+                     launchModule('Locus_K_4', 'orgchart');
+                }
+            } else if (direction === 'DN' || direction === 'RGT') {
+                // DN/RGT: <fast fwrd> / Select Next Item
+                runRecalculation(); // Example: Triggers the next step/calculation
+            }
+        }
+        
+        // Touch event listeners
+        swipeElement.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+            touchstartY = e.changedTouches[0].screenY;
+        }, false);
+
+        swipeElement.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            touchendY = e.changedTouches[0].screenY;
+            handleGesture();
+        }, false);
+
+        function handleGesture() {
+            const xDiff = touchendX - touchstartX;
+            const yDiff = touchendY - touchstartY;
+
+            if (Math.abs(xDiff) > threshold || Math.abs(yDiff) > threshold) {
+                if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                    // Horizontal
+                    handleDirectionalInput(xDiff > 0 ? 'RGT' : 'LFT');
+                } else {
+                    // Vertical
+                    handleDirectionalInput(yDiff > 0 ? 'DN' : 'UP');
+                }
+            }
+        }
+        
+        // 5. EXECUTION STARTUP LOGIC
         window.onload = function() {
-            launchModule('WELCOME', 'welcome');
+            const langOverlay = document.getElementById('language-overlay');
+            iconBar.style.display = 'none'; // Hide icons until language is set
+
+            if (langOverlay) {
+                langOverlay.style.display = 'flex'; // Show language selector
+            } else {
+                // Safety net: if overlay fails, default to C and load welcome
+                GLOBAL_LANG_CODE = 'C'; 
+                launchModule('WELCOME', 'welcome');
+            }
         };
 
     </script>
 
 </body>
 </html>
-Este archivo es el Blueprint Ichi Ban c
