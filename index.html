@@ -112,7 +112,8 @@
             'Option_A': { 'C': '3', 'E': '3' },
             'Option_B': { 'C': '5', 'E': '5' },
             'Option_C': { 'C': '1', 'E': '1' },
-            'Option_D': { 'C': '4', 'E': '4' }
+            'Option_D': { 'C': '4', 'E': '4' },
+            'Return_Lang': { 'C': 'Volver al Menú de Lenguaje', 'E': 'Return to Language Menu' }
         };
 
 
@@ -193,6 +194,7 @@
                         <div class="orgbox-grid" style="grid-template-columns: repeat(3, 1fr);">
 
                             <div class="org-box-icon lang-color" onclick="launchModule('VOCAB_LIST', 'vocabulary_list')">${TEXT_STRINGS.Vocabulary[L]}</div>
+                            
                             <div class="org-box-icon lang-color" onclick="launchModule('GRAMMAR_U1', 'passive')">${TEXT_STRINGS.Grammar[L]}</div>
                             <div class="org-box-icon lang-color" onclick="launchModule('LIT_FABLES', 'passive')">${TEXT_STRINGS.Literature[L]}</div>
 
@@ -207,7 +209,8 @@
                 `;
 
             } else if (moduleType === 'vocabulary_list') {
-                // STATE 4: Vocabulary List (V1, V2, V3...) - Next Level of Drill-Down
+                // STATE 4: Vocabulary List (V1, V2, V3...) - Critical SYNTAX FIX
+                
                 htmlContent = `
                     <div class="locus-content-display">
                         <h2>${TEXT_STRINGS.Vocabulary[L]} (${TEXT_STRINGS.Locus_K4_Title[L]})</h2>
@@ -217,6 +220,7 @@
                             <div class="org-box-icon lang-color" onclick="launchModule('V3', 'passive')">V3</div>
                             <div class="org-box-icon lang-color" onclick="launchModule('V4', 'passive')">V4</div>
                             <div class="org-box-icon lang-color" onclick="launchModule('V5', 'passive')">V5</div>
+                            
                             <div class="org-box-icon math-color" onclick="launchModule('TEST_2P2', 'quiz_binary')">INICIAR QUIZ</div>
                         </div>
                         <div style="margin-top: 20px;">
@@ -227,9 +231,10 @@
                         </div>
                     </div>
                 `;
-
+                
             } else if (moduleType === 'quiz_binary') {
-                // STATE 5: LIVE Q&A TEST (The ultimate Ichi Ban test)
+                // STATE 5: LIVE Q&A TEST
+                
                 htmlContent = `
                     <div id="interactive-workspace" style="padding: 30px; text-align: center;">
                         <h3 class="quiz-question" style="font-size: 1.4em;">${TEXT_STRINGS.Quiz_Question[L]}</h3>
