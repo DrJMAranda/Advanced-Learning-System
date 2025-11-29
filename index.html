@@ -22,7 +22,7 @@
         #current-content-title { font-size: 1.2rem; color: #2c3e50; margin-bottom: 15px; font-weight: bold; }
         #interaction-controls { padding: 10px; background-color: #f0f0f0; border-radius: 5px; min-height: 50px; text-align: center; font-size: 0.8em; }
 
-        /* --- 3. LANGUAGE OVERLAY STYLING (The De Rigueur Filter) --- */
+        /* --- 3. LANGUAGE OVERLAY STYLING (De Rigueur Filter) --- */
         #language-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
         #language-selector { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); text-align: center; }
         #language-selector button { margin: 10px; padding: 10px 20px; font-size: 1.1em; cursor: pointer; border: 2px solid #3498db; background-color: #ecf0f1; border-radius: 5px; transition: background-color 0.2s; }
@@ -101,19 +101,24 @@
             'Physics': { 'C': 'Física', 'E': 'Physics' },
             'Analytic_Geom': { 'C': 'Geometría Analítica', 'E': 'Analytic Geometry' },
             'Civic_Lit': { 'C': 'Literatura Cívica', 'E': 'Civic Literature' },
+            'Algebra_1': { 'C': 'Álgebra 1', 'E': 'Algebra 1' },
             'Return_Locus': { 'C': 'Volver al Locus K-4', 'E': 'Return to Locus K-4' },
             'Subdivision_Title': { 'C': 'Subdivisión de Módulos', 'E': 'Module Subdivision' },
             'Vocabulary': { 'C': 'Vocabulario', 'E': 'Vocabulary' },
             'Grammar': { 'C': 'Gramática', 'E': 'Grammar' },
             'Literature': { 'C': 'Literatura', 'E': 'Literature' },
-            'Lang_Prompt': { 'C': 'Elige un área de enfoque para el adiestramiento.', 'E': 'Choose an area of focus for training.' }
+            'Lang_Prompt': { 'C': 'Elige un área de enfoque para el adiestramiento.', 'E': 'Choose an area of focus for training.' },
+            'Quiz_Question': { 'C': '¿Cuánto es 2 + 2?', 'E': 'How much is 2 + 2?' },
+            'Option_A': { 'C': '3', 'E': '3' },
+            'Option_B': { 'C': '5', 'E': '5' },
+            'Option_C': { 'C': '1', 'E': '1' },
+            'Option_D': { 'C': '4', 'E': '4' }
         };
 
 
         // 2. THE START TRIGGER: selectLanguage (De Rigueur)
         function startSystem(languageCode) {
             if (!languageCode) {
-                // Safety net defaults to C for Colombia preference
                 GLOBAL_LANG_CODE = 'C'; 
             } else {
                 GLOBAL_LANG_CODE = languageCode;
@@ -134,11 +139,11 @@
             mediaDisplay.innerHTML = ''; 
             CURRENT_ACTIVE_MODULE = moduleId;
             let htmlContent = ''; 
-            const L = GLOBAL_LANG_CODE; // The language filter
+            const L = GLOBAL_LANG_CODE; 
 
             // --- STATE SWAPPING LOGIC ---
             if (moduleType === 'passive' || moduleType === 'welcome') {
-                // STATE 1: PASSIVE PRESENTATION (Teoría del Porqué)
+                // STATE 1: PASSIVE PRESENTATION (Video, Teoría del Porqué)
                 
                 const videoURL = (moduleId === 'WELCOME') ? 
                                  'https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4' : 
@@ -161,8 +166,8 @@
                             <div class="orgbox-grid">
                                 <div class="org-box-icon math-color" onclick="launchModule('MATH_U1', 'passive')">${TEXT_STRINGS.Math[L]}</div>
                                 <div class="org-box-icon lang-color" onclick="launchModule('LANG_MENU', 'language_menu')">${TEXT_STRINGS.Lang[L]}</div>
-                                <div class="org-box-icon sci-color disabled">${TEXT_STRINGS.Science[L]}</div>
-                                <div class="org-box-icon soc-color disabled">${TEXT_STRINGS.History[L]}</div>
+                                <div class="org-box-icon disabled">${TEXT_STRINGS.Science[L]}</div>
+                                <div class="org-box-icon disabled">${TEXT_STRINGS.History[L]}</div>
                                 <div class="org-box-icon disabled">${TEXT_STRINGS.Art[L]}</div>
                                 <div class="org-box-icon disabled">${TEXT_STRINGS.Physics[L]}</div>
                             </div>
@@ -171,7 +176,7 @@
                         <div class="locus-block">
                             <h3>${TEXT_STRINGS.Locus_58_Title[L]}</h3>
                             <div class="orgbox-grid">
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.Analytic_Geom[L]}</div>
+                                <div class="org-box-icon math-color" onclick="launchModule('ALGEBRA_1', 'passive')">${TEXT_STRINGS.Algebra_1[L]}</div>
                                 <div class="org-box-icon disabled">${TEXT_STRINGS.Civic_Lit[L]}</div>
                             </div>
                         </div>
@@ -187,7 +192,7 @@
                         <p>${TEXT_STRINGS.Lang_Prompt[L]}</p>
                         <div class="orgbox-grid" style="grid-template-columns: repeat(3, 1fr);">
 
-                            <div class="org-box-icon lang-color" onclick="launchModule('VOC_U1', 'passive')">${TEXT_STRINGS.Vocabulary[L]}</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('VOCAB_LIST', 'vocabulary_list')">${TEXT_STRINGS.Vocabulary[L]}</div>
                             <div class="org-box-icon lang-color" onclick="launchModule('GRAMMAR_U1', 'passive')">${TEXT_STRINGS.Grammar[L]}</div>
                             <div class="org-box-icon lang-color" onclick="launchModule('LIT_FABLES', 'passive')">${TEXT_STRINGS.Literature[L]}</div>
 
@@ -201,13 +206,46 @@
                     </div>
                 `;
 
-            } else if (moduleType === 'interactive') {
-                 htmlContent = `<div id="interactive-workspace" style="padding: 50px; background: #e0f7fa;">
-                    <h3>Módulo Interactivo: ${moduleId}</h3>
-                    <p>La precisión Ichi Ban requiere el desarrollo de la lógica F9.</p>
-                    <button onclick="runRecalculation()">Trigger F9</button>
-                    </div>`;
+            } else if (moduleType === 'vocabulary_list') {
+                // STATE 4: Vocabulary List (V1, V2, V3...) - Next Level of Drill-Down
+                htmlContent = `
+                    <div class="locus-content-display">
+                        <h2>${TEXT_STRINGS.Vocabulary[L]} (${TEXT_STRINGS.Locus_K4_Title[L]})</h2>
+                        <div class="orgbox-grid">
+                            <div class="org-box-icon lang-color" onclick="launchModule('V1', 'passive')">V1</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('V2', 'passive')">V2</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('V3', 'passive')">V3</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('V4', 'passive')">V4</div>
+                            <div class="org-box-icon lang-color" onclick="launchModule('V5', 'passive')">V5</div>
+                            <div class="org-box-icon math-color" onclick="launchModule('TEST_2P2', 'quiz_binary')">INICIAR QUIZ</div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="icon-button" style="width: 150px; background-color: #f39c12; color: white;" 
+                                    onclick="launchModule('LANG_MENU', 'language_menu')">
+                                &#9664; ${TEXT_STRINGS.Return_Lang[L]}
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+            } else if (moduleType === 'quiz_binary') {
+                // STATE 5: LIVE Q&A TEST (The ultimate Ichi Ban test)
+                htmlContent = `
+                    <div id="interactive-workspace" style="padding: 30px; text-align: center;">
+                        <h3 class="quiz-question" style="font-size: 1.4em;">${TEXT_STRINGS.Quiz_Question[L]}</h3>
+                        <p style="font-size: 1.5em; font-weight: bold;">
+                            [A] ${TEXT_STRINGS.Option_A[L]} &nbsp; [B] ${TEXT_STRINGS.Option_B[L]} &nbsp; [C] ${TEXT_STRINGS.Option_C[L]} &nbsp; [D] ${TEXT_STRINGS.Option_D[L]}
+                        </p>
+                        <p style="color: #c0392b; margin-top: 20px;">
+                            Use Swipe Left (True) / Swipe Right (False) or the physical controls.
+                        </p>
+                        <button onclick="runRecalculation('LFT')" style="margin: 10px; padding: 10px;">LEFT=TRUE (C)</button>
+                        <button onclick="runRecalculation('RGT')" style="margin: 10px; padding: 10px;">RIGHT=FALSE (E)</button>
+                        <button onclick="launchModule('Locus_K_4', 'orgchart')" style="margin: 10px; padding: 10px; background: #95a5a6;">EXIT</button>
+                    </div>
+                `;
             }
+
 
             // --- Final Rendering and Activation ---
             document.getElementById('content-stage').innerHTML = htmlContent;
@@ -219,20 +257,20 @@
             // Activate video if present
             if (document.getElementById('cinema-screen')) {
                 const player = document.getElementById('cinema-screen');
-                player.load(); 
-                player.play();
+                player.load(); player.play();
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
 
         // 4. THE F9 TRIGGER: runRecalculation()
-        function runRecalculation() {
-            alert(`F9 Recalculate Triggered for: ${CURRENT_ACTIVE_MODULE}!`);
+        function runRecalculation(inputDirection) {
+            alert(`F9 Recalculate Triggered for: ${CURRENT_ACTIVE_MODULE}. Input: ${inputDirection}`);
+            // The logic to verify LFT=TRUE/RGT=FALSE or A/B/C/D is handled here in the final surgical code.
         }
         
         // 5. ICHI BAN SWIPE DETECTION AND INPUT HANDLER (Simplified)
-        // ... (Swipe logic remains in the final implementation, omitted for brevity here) ...
+        // ... (Code for swipe and handleDirectionalInput is assumed to be present and linked to runRecalculation) ...
 
         // 6. EXECUTION STARTUP LOGIC
         window.onload = function() {
