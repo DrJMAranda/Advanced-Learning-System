@@ -1,260 +1,184 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEA - Sistema Educacional Avanzado</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEA - Sistema Educacional Avanzado</title>
 
-    <style>
-        /* --- 1. GLOBAL SETTINGS --- */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #e0e0e0; /* Light grey background */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-        }
+    <style>
+        /* --- 1. GLOBAL SETTINGS & BUTTONS --- */
+        body { margin: 0; padding: 0; background-color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; }
+        header#scrolling-icon-bar { background-color: #f4f4f4; padding: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
+        .icon-button { background: #fff; border: 2px solid #ccc; border-bottom: 4px solid #999; border-right: 4px solid #999; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; padding: 5px; text-decoration: none; transition: transform 0.1s; }
+        .icon-button:active { transform: translateY(2px); border-bottom: 2px solid #999; }
+        .icon-button img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
+        .icon-title { font-size: 0.7rem; color: #333; font-weight: bold; }
 
-        /* --- 2. THE NAV BAR (Top Section) --- */
-        header#scrolling-icon-bar {
-            background-color: #f4f4f4;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            
-            /* FLEXBOX MAGIC: Makes icons wrap on phones */
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
+        /* --- 2. MAIN CONTENT STAGE (ICHI BAN FOUNDATION) --- */
+        #content-wrapper { max-width: 900px; margin: 20px auto; padding: 0 10px; }
+        #content-stage { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        #media-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 5px solid #333; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+        #media-display video { width: 100%; height: 100%; display: block; }
+        #current-content-title { font-size: 1.2rem; color: #2c3e50; margin-bottom: 15px; font-weight: bold; }
+        #interaction-controls { padding: 10px; background-color: #f0f0f0; border-radius: 5px; min-height: 50px; text-align: center; font-size: 0.8em; }
 
-        /* --- 3. THE BUTTONS (Your Beveled Frame) --- */
-        .icon-button {
-            background: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 80px; /* Consistent width */
-            padding: 5px;
-            text-decoration: none;
-            transition: transform 0.1s;
-        }
-
-        /* The "Beveled" 3D Look */
-        .beveled-frame {
-            border: 2px solid #ccc;
-            border-bottom: 4px solid #999; /* The bevel shadow */
-            border-right: 4px solid #999;
-            border-radius: 8px;
-        }
-
-        .icon-button:active {
-            transform: translateY(2px); /* Click effect */
-            border-bottom: 2px solid #999;
-        }
-
-        .icon-button img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            margin-bottom: 4px;
-        }
-
-        .icon-title {
-            font-size: 0.7rem;
-            color: #333;
-            font-weight: bold;
-            line-height: 1.1;
-        }
-
-        /* --- 4. THE CINEMA MONITOR (Video Section) --- */
-        #content-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px 10px;
-        }
-
-        .video-stage {
-            width: 100%;
-            aspect-ratio: 16 / 9; /* Locks 16:9 cinematic ratio */
-            background: #000;
-            border: 5px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        video {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        /* Title text below video */
-        #current-video-title {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-    </style>
+        /* --- 3. ORGCHART/LOCUS STYLING --- */
+        .locus-content-display { text-align: left; max-width: 800px; margin: 0 auto; }
+        .locus-block { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f7f7f7; }
+        .locus-block h3 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0; }
+        .orgbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; justify-content: center; }
+        .org-box-icon { height: 60px; background-color: #2980b9; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s; }
+        .org-box-icon:hover:not(.disabled) { opacity: 0.9; transform: scale(1.02); }
+        .org-box-icon.disabled { background-color: #95a5a6; cursor: default; opacity: 0.7; }
+        .org-box-icon.math-color { background-color: #e74c3c; }
+        .org-box-icon.lang-color { background-color: #27ae60; }
+    </style>
 </head>
-<body>
+<body onload="launchModule('WELCOME', 'passive')"> <header id="scrolling-icon-bar">
 
-    <header id="scrolling-icon-bar" class="beveled-frame">
-           
-                <a href="curriculum.html" class="icon-button beveled-frame" title="Curriculum Start">
+                <button class="icon-button" onclick="launchModule('Locus_K_4', 'orgchart')" title="Curriculum Start">
             <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/World%20Map.jpg" alt="Curriculum">
             <span class="icon-title">CURRICULUM</span>
-        </a>
-                <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4', 'SEA')"
-                title="SEA">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Cien%20Diez%20Uno.jpg" alt="SEA">
-            <span class="icon-title">SEA</span>
         </button>
- 
-                <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4', 'CAP1U1S1')"
-                title="CAP1U1S1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Colombian%20AP1U1S1.jpg" alt="CAP1U1S1">
-            <span class="icon-title">CAP1U1S1</span>
-        </button>
- 
-                <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1251110%201900TagalogMP.mp4', 'TAP1U1S1')"
-                title="TAP1U1S1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="TAP1U1S1">
-            <span class="icon-title">TAP1U1S1</span>
-        </button>
- 
-                <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%20Fran%C3%A7ais%20Video.mp4', 'FAP1U1S1')"
-                title="FAP1U1S1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="FAP1U1S1">
-            <span class="icon-title">FAP1U1S1</span>
-        </button>
-           
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'AP1U1S1')"
-                title="AP1U1S1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="AP1U1S1">
-            <span class="icon-title">AP1U1S1</span>
-        </button>
-           
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'AP1U1S2')"
-                title="AP1U1S2">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="AP1U1S2">
-            <span class="icon-title">AP1U1S2</span>
-        </button>
+        
+        <button class="icon-button" onclick="launchModule('AP1U1S1', 'passive')" title="CAP1U1S1">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Colombian%20AP1U1S1.jpg" alt="CAP1U1S1">
+            <span class="icon-title">CAP1U1S1</span>
+        </button>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3%20Counting%20~9.mp4', 'AP1U1S3')"
-                title="AP1U1S3">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="AP1U1S3">
-            <span class="icon-title">AP1U1S3</span>
-        </button>
-           
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U2%20Numbers%20to%20Ninety-Nine.mp4', 'AP1U2')"
-                title="AP1U2">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="AP1U2">
-            <span class="icon-title">AP1U2</span>
-        </button>
+        <button class="icon-button" onclick="launchModule('AP1U1S1', 'passive')" title="TAP1U1S1">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Filipino%20AP1US1.jpg" alt="TAP1U1S1">
+            <span class="icon-title">TAP1U1S1</span>
+        </button>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U3%20Enumeration%20to%20100%20OK.mp4', 'AP1U3')"
-                title="AP1U3">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="AP1U3">
-            <span class="icon-title">AP1U3</span>
-        </button>
-         
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'V1')"
-                title="V1">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="V1">
-            <span class="icon-title">V1</span>
-        </button>
+        <button class="icon-button" onclick="launchModule('AP1U1S1', 'passive')" title="FAP1U1S1">
+            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Flag%20France.jpg" alt="FAP1U1S1">
+            <span class="icon-title">FAP1U1S1</span>
+        </button>
+        
+        </header>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'V2')"
-                title="V2)">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="V2">
-            <span class="icon-title">V2</span>
-        </button>
+    <div id="content-wrapper">
+        <div id="content-stage">
+            <h2 id="current-content-title">Bienvenido SEA</h2>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'V3')"
-                title="V3">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="V3">
-            <span class="icon-title">V3</span>
-        </button>
+            <div id="media-display">
+                </div>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'V4')"
-                title="V4">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="V4">
-            <span class="icon-title">V4</span>
-        </button>
+            <div id="interaction-controls">
+                <p>Controles Ichi Ban: (Up/Dn = Return/FFWD | lft/rgt = Play/Rewind | Center = Stop)</p>
+                <p>Use el botón CURRICULUM para iniciar el Locus.</p>
+            </div>
+        </div>
+    </div>
 
-        <button class="icon-button beveled-frame" 
-                onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Linguistics/Vocabulary/ALS%20Voc%20200.mp4', 'V5')"
-                title="V5">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/05%20Pip.jpg" alt="V5">
-            <span class="icon-title">V5</span>
-        </button> 
+    <script>
+        // ======================================================================
+        // === CORE ARCHITECTURE ICHI BAN: STATE MANAGEMENT AND DUAL FUNCTION ===
+        // ======================================================================
 
-    </header>
+        // 1. GLOBAL STATE VARIABLES (THE LEAD PLANE AND COGNOMEN)
+        let GLOBAL_LANG_CODE = 'C'; // C for Castellano, E for English (MUST be set by the initial dialogue)
+        let GLOBAL_CAPACITY_LEVEL = 'SAN_BAN';
+        let CURRENT_ACTIVE_MODULE = 'WELCOME'; 
 
-    <div id="content-wrapper">
-        
-        <h2 id="current-video-title">Bienvenido SEA</h2>
-        
-        <div class="video-stage">
-            <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
-                <source src="https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+        const contentStage = document.getElementById('content-stage');
+        const mediaDisplay = document.getElementById('media-display');
+        const titleDisplay = document.getElementById('current-content-title');
+        const interactionControls = document.getElementById('interaction-controls');
 
-        <div style="background: white; padding: 15px; border-radius: 8px; text-align: left;">
-            <p><strong>SEA - Sistema Educacional Avanzado.</strong><br>
-            Seleccione un icono arriba para comenzar la lección.<br>
-            <em>Select an icon above to start the lesson.</em></p>
-        </div>
+        
+        // 2. THE MODULE LOADER: launchModule(ID, TYPE)
+        // This function manages the Dual State (Passive vs. Interactive/Orgchart)
+        function launchModule(moduleId, moduleType) {
+            
+            // Safety check: Prevents bugsies by cleaning the display stage before loading new content
+            mediaDisplay.innerHTML = ''; 
+            CURRENT_ACTIVE_MODULE = moduleId;
 
-    </div>
+            if (moduleType === 'passive' || moduleType === 'welcome') {
+                // STATE 1: PASSIVE PRESENTATION (Video, Teoría del Porqué)
+                
+                // Note: Placeholder logic for video URLs needs adjustment based on your file structure.
+                const videoURL = (moduleId === 'WELCOME') ? 
+                                 'https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4' : 
+                                 `https://storage.googleapis.com/noenbalde/Giddyap/${GLOBAL_LANG_CODE}${moduleId}.mp4`;
+                
+                mediaDisplay.innerHTML = `
+                    <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
+                        <source src="${videoURL}" type="video/mp4">
+                    </video>
+                `;
+                const player = document.getElementById('cinema-screen');
+                player.load(); 
+                player.play();
+                interactionControls.style.display = 'block'; 
+                
+            } else if (moduleType === 'interactive') {
+                // STATE 2: INTERACTIVE RESPONSE (Exercise, Adiestramiento del Cómo)
+                
+                mediaDisplay.innerHTML = `
+                    <div id="interactive-workspace" style="padding: 50px; background: #e0f7fa;">
+                        <h3>Módulo: ${moduleId} / Adiestramiento del Cómo</h3>
+                        <p>La precisión Ichi Ban requiere el desarrollo de la lógica F9.</p>
+                    </div>
+                `;
+                interactionControls.style.display = 'flex'; 
+                
+            } else if (moduleType === 'orgchart') {
+                // STATE 3: LOCUS/ORGCHART (Navigation/Decision Making)
+                
+                mediaDisplay.innerHTML = `
+                    <div class="locus-content-display">
+                        <h2>Curriculum Locus: 6 Caminos de Maestría</h2>
+                        
+                        <div class="locus-block">
+                            <h3>Locus K-4: Fundamentos (Prioridad)</h3>
+                            <div class="orgbox-grid">
+                                <div class="org-box-icon math-color" onclick="launchModule('MATH_U1', 'passive')">Aritmética</div>
+                                <div class="org-box-icon lang-color" onclick="launchModule('LANG_U1', 'passive')">Lenguaje</div>
+                                <div class="org-box-icon sci-color disabled">Ciencia</div>
+                                <div class="org-box-icon soc-color disabled">Historia</div>
+                                <div class="org-box-icon disabled">Arte</div>
+                                <div class="org-box-icon disabled">Física</div>
+                            </div>
+                        </div>
 
-    <script>
-        // This function receives the URL from your buttons and plays it
-        function launchVideo(videoUrl, videoTitle) {
-            var player = document.getElementById('cinema-screen');
-            var titleDisplay = document.getElementById('current-video-title');
-            
-            // Change the video source
-            player.src = videoUrl;
-            
-            // Change the title text
-            titleDisplay.innerText = videoTitle;
-            
-            // Start playing immediately
-            player.play();
-            
-            // Scroll to video for mobile users
-            if (window.innerWidth < 600) {
-                player.scrollIntoView({behavior: "smooth"});
-            }
-        }
-    </script>
+                        <div class="locus-block">
+                            <h3>Locus 5-8: Intermedio</h3>
+                            <div class="orgbox-grid">
+                                <div class="org-box-icon disabled">Geometría Analítica</div>
+                                <div class="org-box-icon disabled">Literatura Cívica</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                interactionControls.style.display = 'block';
+            }
+            
+            titleDisplay.innerText = `${moduleId.replace('_', ' ')} (${GLOBAL_LANG_CODE})`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        // 3. THE F9 TRIGGER: runRecalculation()
+        // This function handles the deterministic logic for interactive modules.
+        function runRecalculation() {
+            if (CURRENT_ACTIVE_MODULE === 'WELCOME') return;
+
+            console.log(`F9 Triggered: Recalculating state for ${CURRENT_ACTIVE_MODULE}.`);
+            
+            // This is the core Ichi Ban logic: Surgical implementation needed here.
+            alert(`F9 Recalculate Triggered! System is ready to run the core logic for ${CURRENT_ACTIVE_MODULE}.`);
+        }
+
+        // --- Execute Welcome Screen on load ---
+        window.onload = function() {
+            launchModule('WELCOME', 'welcome');
+        };
+
+    </script>
 
 </body>
 </html>
+Este archivo es el Blueprint Ichi Ban c
