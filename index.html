@@ -1,301 +1,205 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEA - Sistema Educacional Avanzado</title>
-
+    <title>OrgNet Advanced Learning System - Vocabulary</title>
+    <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* --- 1. GLOBAL SETTINGS & BUTTONS --- */
-        body { margin: 0; padding: 0; background-color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; }
-        header#scrolling-icon-bar { background-color: #f4f4f4; padding: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: none; /* Zero-Icon Startup: Hidden on load */ flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
-        .icon-button { background: #fff; border: 2px solid #ccc; border-bottom: 4px solid #999; border-right: 4px solid #999; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; padding: 5px; text-decoration: none; transition: transform 0.1s; }
-        .icon-button:active { transform: translateY(2px); border-bottom: 2px solid #999; }
-        .icon-button img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
-        .icon-title { font-size: 0.7rem; color: #333; font-weight: bold; }
-
-        /* --- 2. MAIN CONTENT STAGE (ICHI BAN FOUNDATION) --- */
-        #content-wrapper { max-width: 900px; margin: 20px auto; padding: 0 10px; }
-        #content-stage { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        #media-display { width: 100%; aspect-ratio: 16 / 9; background: #000; border: 5px solid #333; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
-        #media-display video { width: 100%; height: 100%; display: block; }
-        #current-content-title { font-size: 1.2rem; color: #2c3e50; margin-bottom: 15px; font-weight: bold; }
-        #interaction-controls { padding: 10px; background-color: #f0f0f0; border-radius: 5px; min-height: 50px; text-align: center; font-size: 0.8em; }
-
-        /* --- 3. LANGUAGE OVERLAY STYLING (De Rigueur Filter) --- */
-        #language-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        #language-selector { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); text-align: center; }
-        #language-selector button { margin: 10px; padding: 10px 20px; font-size: 1.1em; cursor: pointer; border: 2px solid #3498db; background-color: #ecf0f1; border-radius: 5px; transition: background-color 0.2s; }
-        #language-selector button:hover { background-color: #d0e8ff; }
-
-        /* --- 4. ORGCHART/LOCUS STYLING --- */
-        .locus-content-display { text-align: left; max-width: 800px; margin: 0 auto; }
-        .locus-block { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f7f7f7; }
-        .locus-block h3 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-top: 0; }
-        .orgbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; justify-content: center; }
-        .org-box-icon { height: 60px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: background-color 0.2s; }
-        .org-box-icon:hover:not(.disabled) { opacity: 0.9; transform: scale(1.02); }
-        .org-box-icon.disabled { background-color: #95a5a6; cursor: default; opacity: 0.7; }
-        .org-box-icon.math-color { background-color: #e74c3c; }
-        .org-box-icon.lang-color { background-color: #27ae60; }
+        /* Estilos Mínimos de Contenedor para Centrar y Hacer los Botones Clicables */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .center-content {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .level-button, .action-button {
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /* Aplicando la heurística de tamaño para el clic */
+            min-width: 100px; 
+        }
+        .level-button {
+            background-color: #1ABC9C; /* Verde Esmeralda (Dr. Sapiente) */
+            color: white;
+        }
+        .action-button {
+            background-color: #FF8C00; /* Naranja (Retorno) */
+            color: white;
+            margin: 5px;
+        }
+        /* Estilos para el área de feedback del swipe/teclado */
+        #feedback-area {
+            height: 30px;
+            line-height: 30px;
+            font-size: 0.9em;
+            margin-top: 15px;
+            border-radius: 5px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-
-    <div id="language-overlay" translate="no">
-        <div id="language-selector">
-            <h2>Select your Home Language</h2>
-            <p>This choice sets the global encoding (Lead Plane).</p>
-            <button onclick="selectLanguage('C')">Castellano (C)</button>
-            <button onclick="selectLanguage('E')">English (E)</button>
+    <div id="app-container" class="center-content">
+        <div style="position: absolute; top: 10px; right: 10px;">
+            <button class="action-button">RESUME</button>
         </div>
-    </div>
 
-    <header id="scrolling-icon-bar">
-        <button class="icon-button" onclick="launchModule('Locus_K_4', 'orgchart')" title="Curriculum Start">
-            <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/World%20Map.jpg" alt="Curriculum">
-            <span class="icon-title">CURRICULUM</span>
-        </button>
-    </header>
-
-    <div id="content-wrapper">
-        <div id="content-stage">
-            <h2 id="current-content-title">Bienvenido SEA</h2>
-            <div id="media-display">
+        <div id="module-content">
+            <h2>Vocabulary (Locus K-4: Foundations)</h2>
+            
+            <div id="vocabulary-level-buttons" class="button-group">
                 </div>
-            <div id="interaction-controls">
-                <p>Controles Ichi Ban: Táctil/Swipe Ichi Ban Activo.</p>
-            </div>
 
-            <div id="project-footer" style="padding: 10px 0; font-size: 0.8em; color: #555; border-top: 1px solid #ddd; margin-top: 20px;">
-                <p>
-                    <span style="font-weight: bold;">© 2025 SEA-ALS</span>. 
-                    <br>
-                    <span style="font-style: italic;">Developed in collaboration by the Visionary Architect and Gemini.</span>
-                </p>
-                <p>
-                    <span style="font-size: 0.7em;">All Rights Reserved. <span title="Trademark">&#8482;</span></span>
-                </p>
+            <div id="resource-display">
+                <img id="resource-image" style="display: none; max-width: 100%; height: auto; margin: 10px auto;">
+                <video id="resource-video" controls style="display: none; max-width: 100%; height: auto; margin-top: 10px;"></video>
             </div>
+            
+            <div id="feedback-area"></div>
+
+            <button id="return-menu-button" class="action-button"><-- Return to Language Menu</button>
         </div>
     </div>
-
+    
     <script>
-        // ======================================================================
-        // === CORE ARCHITECTURE ICHI BAN: STATE MANAGEMENT AND DUAL FUNCTION ===
-        // ======================================================================
+        // --- CÓDIGO JS DE PARCHE DE EMERGENCIA (Capa 1) ---
 
-        let GLOBAL_LANG_CODE = null; 
-        let GLOBAL_CAPACITY_LEVEL = 'SAN_BAN';
-        let CURRENT_ACTIVE_MODULE = 'BLOCKED_LANG_CHOICE'; 
+        // =================================================================
+        // LÓGICA DE CARGA DE RECURSOS (Activación de V1, V2, etc.)
+        // =================================================================
+        const RESOURCE_BASE_URL = "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/";
+        const TOTAL_VOCABULARY_SECTIONS = 9; // V1 a V9 (según el último screenshot)
 
-        const mediaDisplay = document.getElementById('media-display');
-        const titleDisplay = document.getElementById('current-content-title');
-        const iconBar = document.getElementById('scrolling-icon-bar');
+        // -------------------------------------------------------------
+        // FUNCIÓN CENTRAL: CONSTRUCCIÓN DE LA RUTA Y ACTIVACIÓN
+        // -------------------------------------------------------------
+        function loadVocabularyResource(levelNumber) {
+            // 1. Construir el ID Atómico (LV1, LV2, etc.)
+            const resourceCode = `LV${levelNumber}`;
 
-        // --- Localization Dictionary (Hard Written for Ichi Ban Stability) ---
-        const TEXT_STRINGS = {
-            'Curriculum_Title': { 'C': 'Curriculum Locus: 6 Caminos de Maestría', 'E': 'Curriculum Locus: 6 Paths to Mastery' },
-            'Locus_K4_Title': { 'C': 'Locus K-4: Fundamentos (Prioridad)', 'E': 'Locus K-4: Foundations (Priority)' },
-            'Locus_58_Title': { 'C': 'Locus 5-8: Intermedio', 'E': 'Locus 5-8: Intermediate' },
-            'Math': { 'C': 'Aritmética', 'E': 'Arithmetic' },
-            'Lang': { 'C': 'Lenguaje', 'E': 'Language' },
-            'Science': { 'C': 'Ciencia', 'E': 'Science' },
-            'History': { 'C': 'Historia', 'E': 'History' },
-            'Art': { 'C': 'Arte', 'E': 'Art' },
-            'Physics': { 'C': 'Física', 'E': 'Physics' },
-            'Analytic_Geom': { 'C': 'Geometría Analítica', 'E': 'Analytic Geometry' },
-            'Civic_Lit': { 'C': 'Literatura Cívica', 'E': 'Civic Literature' },
-            'Algebra_1': { 'C': 'Álgebra 1', 'E': 'Algebra 1' },
-            'Return_Locus': { 'C': 'Volver al Locus K-4', 'E': 'Return to Locus K-4' },
-            'Subdivision_Title': { 'C': 'Subdivisión de Módulos', 'E': 'Module Subdivision' },
-            'Vocabulary': { 'C': 'Vocabulario', 'E': 'Vocabulary' },
-            'Grammar': { 'C': 'Gramática', 'E': 'Grammar' },
-            'Literature': { 'C': 'Literatura', 'E': 'Literature' },
-            'Lang_Prompt': { 'C': 'Elige un área de enfoque para el adiestramiento.', 'E': 'Choose an area of focus for training.' },
-            'Quiz_Question': { 'C': '¿Cuánto es 2 + 2?', 'E': 'How much is 2 + 2?' },
-            'Option_A': { 'C': '3', 'E': '3' },
-            'Option_B': { 'C': '5', 'E': '5' },
-            'Option_C': { 'C': '1', 'E': '1' },
-            'Option_D': { 'C': '4', 'E': '4' },
-            'Return_Lang': { 'C': 'Volver al Menú de Lenguaje', 'E': 'Return to Language Menu' }
-        };
+            // 2. Construir URLs de Recursos (siguiendo la nomenclatura infalible)
+            const videoURL = RESOURCE_BASE_URL + `${resourceCode}.mp4`;
+            const imageURL = RESOURCE_BASE_URL + `${resourceCode}C1.jpg`; // C1 es la carátula primaria
 
+            console.log(`[OrgNet] Cargando Recurso: ${resourceCode}`);
+            console.log(`[OrgNet] Video URL: ${videoURL}`);
+            
+            // 3. Obtener elementos DOM
+            const videoElement = document.getElementById('resource-video');
+            const imageElement = document.getElementById('resource-image');
 
-        // 2. THE START TRIGGER: selectLanguage (De Rigueur)
-        function startSystem(languageCode) {
-            if (!languageCode) {
-                GLOBAL_LANG_CODE = 'C'; 
+            if (videoElement && imageElement) {
+                // Carga del Contenido (Función)
+                videoElement.src = videoURL;
+                videoElement.style.display = 'block';
+                videoElement.load(); 
+                
+                // Carga de la Carátula (Cara)
+                imageElement.src = imageURL;
+                imageElement.style.display = 'block';
+                
+                alert(`¡ÉXITO! Botón LV${levelNumber} funciona. Cargando video y carátula.`);
             } else {
-                GLOBAL_LANG_CODE = languageCode;
+                alert(`[ERROR] Contenedor de video/imagen no encontrado. Revisar HTML.`);
             }
-            
-            iconBar.style.display = 'flex'; // Show the navigation bar
-            launchModule('Locus_K_4', 'orgchart'); // First Start Trigger: Load the Locus Map
         }
+        
+        // -------------------------------------------------------------
+        // FUNCIÓN DE RENDERIZADO DE BOTONES (Inyecta V1-V9 en la Capa Facial)
+        // -------------------------------------------------------------
+        function renderVocabularyLevels() {
+            const container = document.getElementById('vocabulary-level-buttons');
+            if (!container) return;
 
-        function selectLanguage(code) {
-            document.getElementById('language-overlay').style.display = 'none'; // Hide menu
-            startSystem(code); 
-        }
+            for (let i = 1; i <= 10; i++) { // Renderizamos hasta 10 (V1-V10) para el diseño 5x2
+                const button = document.createElement('button');
+                button.textContent = `V${i}`;
+                button.className = 'level-button';
 
-        // 3. THE MODULE LOADER: launchModule(ID, TYPE)
-        function launchModule(moduleId, moduleType) {
-            
-            mediaDisplay.innerHTML = ''; 
-            CURRENT_ACTIVE_MODULE = moduleId;
-            let htmlContent = ''; 
-            const L = GLOBAL_LANG_CODE; 
-
-            // --- STATE SWAPPING LOGIC ---
-            if (moduleType === 'passive' || moduleType === 'welcome') {
-                // STATE 1: PASSIVE PRESENTATION (Video, Teoría del Porqué)
-                
-                // FINAL FIX: Using a stable, known video URL for demonstration purposes.
-                let videoURL = 'https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20251111%201243%20ESpa%C3%B1ol.mp4';
-                
-                if (moduleId === 'WELCOME') {
-                    videoURL = 'https://storage.googleapis.com/noenbalde/Giddyap/SEA-ALS.mp4';
+                if (i <= TOTAL_VOCABULARY_SECTIONS) {
+                    // Botones activos (V1-V9)
+                    button.onclick = function() {
+                        loadVocabularyResource(i);
+                    };
+                } else {
+                    // Botones inactivos (V10) - estrategia de atenuación
+                    button.style.backgroundColor = '#dcdcdc';
+                    button.style.color = '#333';
+                    button.disabled = true;
                 }
-                
-                htmlContent = `
-                    <video id="cinema-screen" controls controlsList="nodownload" oncontextmenu="return false;" autoplay playsinline>
-                        <source src="${videoURL}" type="video/mp4">
-                    </video>
-                `;
-                
-            } else if (moduleType === 'orgchart') {
-                // STATE 2: LOCUS/ORGCHART (MAIN NAVIGATION)
-                
-                htmlContent = `
-                    <div class="locus-content-display">
-                        <h2>${TEXT_STRINGS.Curriculum_Title[L]}</h2>
-                        <div class="locus-block">
-                            <h3>${TEXT_STRINGS.Locus_K4_Title[L]}</h3>
-                            <div class="orgbox-grid">
-                                <div class="org-box-icon math-color" onclick="launchModule('MATH_U1', 'passive')">${TEXT_STRINGS.Math[L]}</div>
-                                <div class="org-box-icon lang-color" onclick="launchModule('LANG_MENU', 'language_menu')">${TEXT_STRINGS.Lang[L]}</div>
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.Science[L]}</div>
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.History[L]}</div>
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.Art[L]}</div>
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.Physics[L]}</div>
-                            </div>
-                        </div>
-
-                        <div class="locus-block">
-                            <h3>${TEXT_STRINGS.Locus_58_Title[L]}</h3>
-                            <div class="orgbox-grid">
-                                <div class="org-box-icon math-color" onclick="launchModule('ALGEBRA_1', 'passive')">${TEXT_STRINGS.Algebra_1[L]}</div>
-                                <div class="org-box-icon disabled">${TEXT_STRINGS.Civic_Lit[L]}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-            } else if (moduleType === 'language_menu') {
-                // STATE 3: Language Drill-Down Menu (Level 3 Orgchart)
-                
-                htmlContent = `
-                    <div class="locus-content-display">
-                        <h2>${TEXT_STRINGS.Lang[L]}: ${TEXT_STRINGS.Subdivision_Title[L]}</h2>
-                        <p>${TEXT_STRINGS.Lang_Prompt[L]}</p>
-                        <div class="orgbox-grid" style="grid-template-columns: repeat(3, 1fr);">
-
-                            <div class="org-box-icon lang-color" onclick="launchModule('VOCAB_LIST', 'vocabulary_list')">${TEXT_STRINGS.Vocabulary[L]}</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('GRAMMAR_U1', 'passive')">${TEXT_STRINGS.Grammar[L]}</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('LIT_FABLES', 'passive')">${TEXT_STRINGS.Literature[L]}</div>
-
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <button class="icon-button" style="width: 150px; background-color: #f39c12; color: white;" 
-                                    onclick="launchModule('Locus_K_4', 'orgchart')">
-                                &#9664; ${TEXT_STRINGS.Return_Locus[L]}
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-            } else if (moduleType === 'vocabulary_list') {
-                // STATE 4: Vocabulary List (V1, V2, V3...)
-                
-                htmlContent = `
-                    <div class="locus-content-display">
-                        <h2>${TEXT_STRINGS.Vocabulary[L]} (${TEXT_STRINGS.Locus_K4_Title[L]})</h2>
-                        <div class="orgbox-grid">
-                            <div class="org-box-icon lang-color" onclick="launchModule('V1', 'passive')">V1</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('V2', 'passive')">V2</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('V3', 'passive')">V3</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('V4', 'passive')">V4</div>
-                            <div class="org-box-icon lang-color" onclick="launchModule('V5', 'passive')">V5</div>
-                            
-                            <div class="org-box-icon math-color" onclick="launchModule('TEST_2P2', 'quiz_binary')">INICIAR QUIZ</div>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <button class="icon-button" style="width: 150px; background-color: #f39c12; color: white;" 
-                                    onclick="launchModule('LANG_MENU', 'language_menu')">
-                                &#9664; ${TEXT_STRINGS.Return_Lang[L]}
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-            } else if (moduleType === 'quiz_binary') {
-                // STATE 5: LIVE Q&A TEST
-                
-                htmlContent = `
-                    <div id="interactive-workspace" style="padding: 30px; text-align: center;">
-                        <h3 class="quiz-question" style="font-size: 1.4em;">${TEXT_STRINGS.Quiz_Question[L]}</h3>
-                        <p style="font-size: 1.5em; font-weight: bold;">
-                            [A] ${TEXT_STRINGS.Option_A[L]} &nbsp; [B] ${TEXT_STRINGS.Option_B[L]} &nbsp; [C] ${TEXT_STRINGS.Option_C[L]} &nbsp; [D] ${TEXT_STRINGS.Option_D[L]}
-                        </p>
-                        <p style="color: #c0392b; margin-top: 20px;">
-                            Use Swipe Left (True) / Swipe Right (False) or the physical controls.
-                        </p>
-                        <button onclick="runRecalculation('LFT')" style="margin: 10px; padding: 10px;">LEFT=TRUE (C)</button>
-                        <button onclick="runRecalculation('RGT')" style="margin: 10px; padding: 10px;">RIGHT=FALSE (E)</button>
-                        <button onclick="launchModule('Locus_K_4', 'orgchart')" style="margin: 10px; padding: 10px; background: #95a5a6;">EXIT</button>
-                    </div>
-                `;
+                container.appendChild(button);
             }
-
-
-            // --- Final Rendering and Activation ---
-            document.getElementById('content-stage').innerHTML = htmlContent;
-            
-            // Title logic
-            let displayTitle = (moduleId === 'WELCOME') ? 'Bienvenido SEA' : `${moduleId.replace('_', ' ')}`;
-            titleDisplay.innerText = `${displayTitle} (${GLOBAL_LANG_CODE})`;
-            
-            // Activate video if present
-            if (document.getElementById('cinema-screen')) {
-                const player = document.getElementById('cinema-screen');
-                player.load(); player.play();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // =================================================================
+        // PARCHE DE INTERACTIVIDAD SWIPE/TECLADO (Funcionalidad VRoogly)
+        // =================================================================
+        let touchstartX = 0;
+        let touchendX = 0;
+        const SWIPE_THRESHOLD = 50; 
 
-        // 4. THE F9 TRIGGER: runRecalculation()
-        function runRecalculation(inputDirection) {
-            alert(`F9 Recalculate Triggered for: ${CURRENT_ACTIVE_MODULE}. Input: ${inputDirection}`);
-            // The logic to verify LFT=TRUE/RGT=FALSE or A/B/C/D is handled here in the final surgical code.
-        }
-        
-        // 5. ICHI BAN SWIPE DETECTION AND INPUT HANDLER (Simplified)
-        // NOTE: The full swipe logic would be added here, calling handleDirectionalInput(direction)
-        
-        // 6. EXECUTION STARTUP LOGIC
-        window.onload = function() {
-            const langOverlay = document.getElementById('language-overlay');
-            iconBar.style.display = 'none'; // Hide icons until language is set
-
-            if (langOverlay) {
-                langOverlay.style.display = 'flex'; // Show language selector
-            } else {
-                startSystem('C'); 
+        function handleSwipeWipeInput(action) {
+            const feedbackArea = document.getElementById('feedback-area');
+            if (feedbackArea) {
+                feedbackArea.textContent = `Input Capturado: ${action}`;
+                feedbackArea.style.backgroundColor = action === 'TRUE' ? '#1ABC9C' : '#E74C3C';
             }
-        };
+            // Aquí iría la lógica avanzada del quiz o avance de diapositivas.
+        }
 
+        function checkSwipeDirection() {
+            if (Math.abs(touchstartX - touchendX) > SWIPE_THRESHOLD) {
+                const action = touchendX < touchstartX ? 'TRUE (Izquierda)' : 'FALSE (Derecha)';
+                handleSwipeWipeInput(action);
+            }
+        }
+
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            checkSwipeDirection();
+        });
+
+        document.addEventListener('keydown', e => {
+            const key = e.key;
+            if (key === 'ArrowLeft' || key === 'a' || key === 'A') {
+                handleSwipeWipeInput('TRUE (Teclado)');
+                e.preventDefault();
+            } else if (key === 'ArrowRight' || key === 'd' || key === 'D') {
+                handleSwipeWipeInput('FALSE (Teclado)');
+                e.preventDefault();
+            }
+        });
+        
+        // =================================================================
+        // INICIALIZACIÓN
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', renderVocabularyLevels);
     </script>
 
 </body>
