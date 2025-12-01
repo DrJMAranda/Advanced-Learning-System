@@ -10,7 +10,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f0fof0;
+            background-color: #f0f0f0;
         }
         .center-content {
             width: 90%;
@@ -178,7 +178,7 @@
             const container = document.getElementById('vocabulary-level-buttons');
             if (!container) return; 
 
-            // ⚠️ CORRECCIÓN DE IE TIME: Limpiar el contenedor (Fix para duplicación).
+            // CORRECCIÓN DE IE TIME: Limpiar el contenedor (Fix para duplicación).
             container.innerHTML = ''; 
 
             for (let i = 1; i <= 10; i++) { 
@@ -213,8 +213,8 @@
                 if (discipline.active) {
                     button.onclick = function() {
                         if (discipline.name === 'Arithmetic') {
-                            // Redirección real si no es S&W, o simulación
-                            alert('Navegación simulada: Ir a la página de Unidades de Aritmética.');
+                            // Redirección simulada a la siguiente capa jerárquica
+                            window.location.href = 'arithmetic.html'; // Enlace real a la página de Unidades
                         } else {
                             loadResource('math', discipline.folder, 'Base');
                         }
@@ -232,10 +232,6 @@
 
         // 4. FUNCIONALIDAD VROOGLY (Intérprete Binario Lógica Cero)
         
-        // (Omito la definición completa de VRoogly aquí para evitar el corte, 
-        // pero asumo que setupVRooglyInput y handleSwipeWipeInput están definidos 
-        // y llamadas correctamente.)
-
         let touchstartX = 0;
         let touchendX = 0;
         const SWIPE_THRESHOLD = 50; 
@@ -272,7 +268,7 @@
             hideAllSections();
             document.getElementById(sectionId).style.display = 'block';
             
-            // Renderizar solo si no ha sido renderizado antes (Protección de IE Time)
+            // LÓGICA DE ACTIVACIÓN CORREGIDA (IE Time Protection)
             if (sectionId === 'vocabulary-section' && !vocabularyRendered) {
                 renderVocabularyLevels();
                 vocabularyRendered = true; 
