@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OrgNet Advanced Learning System - Main Menu (Integrated S&W)</title>
+    <title>OrgNet Advanced Learning System - Arithmetic Units</title>
     
     <style>
-        /* Estilos Base */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -22,34 +21,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        /* Estilos de Botones de Módulo Principal */
-        .menu-group {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
-        .menu-button {
-            padding: 20px 30px;
-            font-size: 1.5em;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none; 
-            color: white;
-            display: block; 
-        }
-        #language-button {
-            background-color: #1ABC9C; /* Verde Esmeralda */
-        }
-        #math-button {
-            background-color: #3498DB; /* Azul Peter River */
-        }
-
-        /* Estilos de Botones de Nivel (V1-V10, Disciplinas) */
         .button-group {
             display: flex;
             flex-wrap: wrap;
@@ -69,13 +40,12 @@
             color: white;
         }
         .level-button {
-            background-color: #1ABC9C; /* Color base: Verde para Vocabulario, JS lo cambia para Math */
+            background-color: #3498DB; 
         }
         .action-button {
-            background-color: #FF8C00; /* Naranja (Retorno/Resume) */
+            background-color: #FF8C00; 
             margin: 5px;
         }
-        /* Estilos para el área de feedback del swipe/teclado */
         #feedback-area {
             height: 30px;
             line-height: 30px;
@@ -84,136 +54,109 @@
             border-radius: 5px;
             opacity: 0.9;
         }
-        /* Estilo para botón Desactivado/Atenuado */
         .disabled-button {
             background-color: #dcdcdc !important;
             color: #666 !important;
             cursor: not-allowed;
             opacity: 0.7;
         }
+        #language-select-dropdown {
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div id="app-container" class="center-content">
+        <div id="language-selector" style="text-align: right; margin-bottom: 10px;"></div>
+        
         <div style="position: absolute; top: 10px; right: 10px;">
             <button class="action-button">RESUME</button>
         </div>
 
-        <div id="main-menu-content">
-            <h2>OrgNet Learning Modules</h2>
+        <div id="module-content">
+            <h2>Arithmetic (Units: AP1)</h2>
             
-            <div class="menu-group">
-                <a href="#vocabulary-section" id="language-button" class="menu-button">
-                    Lenguaje (K-4: Vocabulario)
-                </a>
-                <a href="#math-section" id="math-button" class="menu-button">
-                    Matemáticas (Core)
-                </a>
+            <div id="arithmetic-unit-buttons" class="button-group">
+                </div>
+
+            <div id="resource-display">
+                <img id="resource-image" style="display: none; max-width: 100%; height: auto; margin: 10px auto;">
+                <video id="resource-video" controls style="display: none; max-width: 100%; height: auto; margin-top: 10px;"></video>
             </div>
-        </div>
+            
+            <div id="feedback-area"></div>
 
-        <div id="vocabulary-section" style="display: none;">
-            <h2>Vocabulary (Locus K-4: Foundations)</h2>
-            <div id="vocabulary-level-buttons" class="button-group">
-                </div>
-            <button class="action-button" onclick="showSection('main-menu-content');"><-- Return to Main Menu</button>
+            <button id="return-menu-button" class="action-button" onclick="window.location.href='math.html';"><-- Return to Math Menu</button>
         </div>
-        
-        <div id="math-section" style="display: none;">
-            <h2>Mathematics (Advanced Core)</h2>
-            <div id="math-discipline-buttons" class="button-group">
-                </div>
-            <button class="action-button" onclick="showSection('main-menu-content');"><-- Return to Main Menu</button>
-        </div>
-
-        <div id="resource-display">
-            <img id="resource-image" style="display: none; max-width: 100%; height: auto; margin: 10px auto;">
-            <video id="resource-video" controls style="display: none; max-width: 100%; height: auto; margin-top: 10px;"></video>
-        </div>
-        
-        <div id="feedback-area"></div>
     </div>
     
     <script>
         // --- Layer Zero / Lógica Cero ---
+        let CURRENT_LANGUAGE_TAG = "ENG"; 
+        const AVAILABLE_LANGUAGES = [
+            { code: 'ENG', name: 'English' },
+            { code: 'ESP', name: 'Español' },
+            { code: 'FRA', name: 'Français' }
+        ];
 
-        // 1. CONFIGURACIÓN GLOBAL Y ESTRUCTURAS DE DATOS
-        const TOTAL_VOCABULARY_SECTIONS = 6; 
-        const CURRENT_LANGUAGE_TAG = "ENG"; // Fijo para esta versión
-        
         const RESOURCE_BASE_URLS = {
-            vocabulary: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/",
             math: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/"
         };
         
-        const MATH_DISCIPLINES = [
-            { name: 'Algebra', folder: 'Algebra', active: true },
-            { name: 'Arithmetic', folder: 'Arithmetic', active: true }, // Activo, pero la navegación en la versión S&W es directa
-            { name: 'Calculus', folder: 'Calculus', active: false }, 
-            { name: 'Geometry', folder: 'Geometry', active: true },
-            { name: 'Probability', folder: 'Probability', active: false }, 
-            { name: 'Statistics', folder: 'Statistics', active: false }, 
-            { name: 'Trigonometry', folder: 'Trigonometry', active: true }
+        // [LAYER ZERO] Configuración de Unidades de Aritmética
+        const ARITHMETIC_UNITS = [
+            { unit: 1, active: true, resourceCode: 'AP1U1S1' }, 
+            { unit: 2, active: true, resourceCode: 'AP1U2' },
+            { unit: 3, active: true, resourceCode: 'AP1U3' },
+            { unit: 4, active: false, resourceCode: 'AP1U4' } // Atenuado
         ];
-
-        // 2. LÓGICA DE CARGA DE RECURSOS (Simplificada para la demo S&W)
+        
+        // LÓGICA DE CARGA DE RECURSOS
         function loadResource(moduleType, folder, resourceCodeBase) {
             const baseURL = RESOURCE_BASE_URLS[moduleType];
-            
-            // Lógica Cero: No se considera el idioma aquí, ya que Aritmética no está en esta página
-            const resourceCode = resourceCodeBase; 
-
-            const fullResourcePath = folder ? `${folder}/${resourceCode}` : resourceCode; 
+            const langTag = (folder === 'Arithmetic') ? CURRENT_LANGUAGE_TAG : ""; 
+            const resourceCodeWithLang = `${resourceCodeBase}${langTag}`; 
+            const fullResourcePath = folder ? `${folder}/${resourceCodeWithLang}` : resourceCodeWithLang; 
             
             const videoURL = baseURL + `${fullResourcePath}.mp4`;
             const imageURL = baseURL + `${fullResourcePath}C1.jpg`; 
 
-            // Simulación de carga (feedback)
-            alert(`[SIMULACIÓN] Cargando Recurso: ${fullResourcePath}. Video: ${videoURL}`);
-        }
+            const videoElement = document.getElementById('resource-video');
+            const imageElement = document.getElementById('resource-image');
 
-        // 3. RENDERIZADO DE BOTONES
-        function renderVocabularyLevels() {
-            const container = document.getElementById('vocabulary-level-buttons');
-            if (!container) return; 
-
-            for (let i = 1; i <= 10; i++) { 
-                const button = document.createElement('button');
-                button.textContent = `V${i}`;
-                button.className = 'level-button';
-
-                if (i <= TOTAL_VOCABULARY_SECTIONS) {
-                    button.onclick = function() {
-                        loadResource('vocabulary', null, `LV${i}`); 
-                    };
-                } else {
-                    button.classList.add('disabled-button');
-                    button.disabled = true;
-                }
-                container.appendChild(button);
+            if (videoElement && imageElement) {
+                videoElement.src = videoURL;
+                videoElement.style.display = 'block';
+                videoElement.load(); 
+                imageElement.src = imageURL;
+                imageElement.style.display = 'block';
+                
+                alert(`¡ÉXITO! Módulo ${resourceCodeBase} funciona. Cargando video y carátula en ${CURRENT_LANGUAGE_TAG}.`);
             }
         }
 
-        function renderMathDisciplines() {
-            const container = document.getElementById('math-discipline-buttons');
+        // RENDERIZADO DE BOTONES (Aritmética)
+        function renderArithmeticUnits() {
+            const container = document.getElementById('arithmetic-unit-buttons');
             if (!container) return; 
 
-            MATH_DISCIPLINES.forEach(discipline => {
-                const button = document.createElement('button');
-                button.textContent = discipline.name;
-                button.className = 'level-button';
-                button.style.backgroundColor = '#3498DB'; // Color Math
+            // **NEGATIVE ELIMINATION:** Limpiar contenedor antes de renderizar
+            container.innerHTML = ''; 
 
-                if (discipline.active) {
+            ARITHMETIC_UNITS.forEach(unitData => {
+                const button = document.createElement('button');
+                button.textContent = `U${unitData.unit}`;
+                button.className = 'level-button';
+                button.style.backgroundColor = '#3498DB'; 
+
+                if (unitData.active) {
+                    // POSITIVE ACCENTUATION: Botón activo
                     button.onclick = function() {
-                        // Simulación de navegación a la subsección (Aritmética) o carga de Base
-                        if (discipline.name === 'Arithmetic') {
-                            alert('Navegación simulada: Ir a la página de Unidades de Aritmética.');
-                        } else {
-                            loadResource('math', discipline.folder, 'Base');
-                        }
+                        loadResource('math', 'Arithmetic', unitData.resourceCode);
                     };
                 } else {
+                    // NEGATIVE ELIMINATION: Botón atenuado (desactivado)
                     button.classList.add('disabled-button');
                     button.style.backgroundColor = '#dcdcdc';
                     button.style.color = '#666';
@@ -224,11 +167,37 @@
             });
         }
 
-        // 4. FUNCIONALIDAD VROOGLY (Intérprete Binario Lógica Cero)
+        // LÓGICA DE IDIOMA (Layer 1+)
+        function setLanguage(newTag) {
+            if (newTag === CURRENT_LANGUAGE_TAG) return; 
+            CURRENT_LANGUAGE_TAG = newTag;
+            renderArithmeticUnits(); 
+        }
+
+        function renderLanguageSelector() {
+            const selectorContainer = document.getElementById('language-selector');
+            if (!selectorContainer) return;
+            const select = document.createElement('select');
+            select.id = 'language-select-dropdown';
+            AVAILABLE_LANGUAGES.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang.code;
+                option.textContent = lang.name;
+                if (lang.code === CURRENT_LANGUAGE_TAG) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+            select.onchange = function() {
+                setLanguage(this.value);
+            };
+            selectorContainer.appendChild(select);
+        }
+
+        // FUNCIONALIDAD VROOGLY (Lógica Cero)
         let touchstartX = 0;
         let touchendX = 0;
         const SWIPE_THRESHOLD = 50; 
-
         function handleSwipeWipeInput(action) {
             const feedbackArea = document.getElementById('feedback-area');
             if (feedbackArea) {
@@ -237,16 +206,7 @@
                 setTimeout(() => feedbackArea.textContent = '', 2000); 
             }
         }
-
-        function checkSwipeDirection() {
-            if (Math.abs(touchstartX - touchendX) > SWIPE_THRESHOLD) {
-                const action = touchendX < touchstartX ? 'TRUE (Izquierda)' : 'FALSE (Derecha)';
-                handleSwipeWipeInput(action);
-            }
-        }
-
         function setupVRooglyInput() {
-            // (omitiendo touchstart/touchend listeners por brevedad, manteniendo keydown)
             document.addEventListener('keydown', e => {
                 const key = e.key;
                 if (key === 'ArrowLeft' || key === 'a' || key === 'A') {
@@ -258,39 +218,12 @@
                 }
             });
         }
-        
-        // 5. MANEJO DE VISTAS (Simulación de navegación)
-        function hideAllSections() {
-            document.getElementById('main-menu-content').style.display = 'none';
-            document.getElementById('vocabulary-section').style.display = 'none';
-            document.getElementById('math-section').style.display = 'none';
-        }
 
-        function showSection(sectionId) {
-            hideAllSections();
-            document.getElementById(sectionId).style.display = 'block';
-            
-            if (sectionId === 'vocabulary-section') {
-                renderVocabularyLevels();
-            } else if (sectionId === 'math-section') {
-                renderMathDisciplines();
-            }
-        }
-
-        // 6. INICIALIZACIÓN
+        // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', () => {
-            hideAllSections();
-            showSection('main-menu-content');
+            renderArithmeticUnits(); 
+            renderLanguageSelector();
             setupVRooglyInput(); 
-
-            // Configurar los enlaces del menú principal
-            document.querySelectorAll('#main-menu-content a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    showSection(targetId);
-                });
-            });
         });
     </script>
 </body>
