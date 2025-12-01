@@ -146,13 +146,13 @@
         };
         
         const MATH_DISCIPLINES = [
-            { name: 'Algebra', folder: 'Algebra', active: true },
-            { name: 'Arithmetic', folder: 'Arithmetic', active: true }, 
-            { name: 'Calculus', folder: 'Calculus', active: false }, 
-            { name: 'Geometry', folder: 'Geometry', active: true },
-            { name: 'Probability', folder: 'Probability', active: false }, 
-            { name: 'Statistics', folder: 'Statistics', active: false }, 
-            { name: 'Trigonometry', folder: 'Trigonometry', active: true }
+            { name: 'Algebra', active: true },
+            { name: 'Arithmetic', active: true }, // Redirige a arithmetic.html
+            { name: 'Calculus', active: false }, 
+            { name: 'Geometry', active: true },
+            { name: 'Probability', active: false }, 
+            { name: 'Statistics', active: false }, 
+            { name: 'Trigonometry', active: true }
         ];
         
         // Variables de control de renderizado (Protección de IE Time)
@@ -162,15 +162,8 @@
 
         // 2. LÓGICA DE CARGA DE RECURSOS (Simulada para S&W)
         function loadResource(moduleType, folder, resourceCodeBase) {
-            const baseURL = RESOURCE_BASE_URLS[moduleType];
-            
-            const fullResourcePath = folder ? `${folder}/${resourceCodeBase}` : resourceCodeBase; 
-            
-            const videoURL = baseURL + `${fullResourcePath}.mp4`;
-            
-            // Simulación de Carga (Alerta eliminada)
-            console.log(`[SIMULACIÓN] Cargando Recurso: ${fullResourcePath}`);
-            alert(`[SIMULACIÓN] Cargando Recurso: ${fullResourcePath}.`);
+            // Esta función solo simula la carga en el index.html S&W
+            alert(`[SIMULACIÓN] Cargando Recurso: ${folder}/${resourceCodeBase}.`);
         }
 
         // 3. RENDERIZADO DE BOTONES
@@ -178,7 +171,7 @@
             const container = document.getElementById('vocabulary-level-buttons');
             if (!container) return; 
 
-            // CORRECCIÓN DE IE TIME: Limpiar el contenedor (Fix para duplicación).
+            // CORRECCIÓN DE IE TIME: Limpiar el contenedor antes de renderizar
             container.innerHTML = ''; 
 
             for (let i = 1; i <= 10; i++) { 
@@ -188,7 +181,7 @@
 
                 if (i <= TOTAL_VOCABULARY_SECTIONS) {
                     button.onclick = function() {
-                        loadResource('vocabulary', null, `LV${i}`); 
+                        loadResource('vocabulary', 'Vocabulary', `LV${i}`); 
                     };
                 } else {
                     button.classList.add('disabled-button');
@@ -213,16 +206,17 @@
                 if (discipline.active) {
                     button.onclick = function() {
                         if (discipline.name === 'Arithmetic') {
-                            // Redirección simulada a la siguiente capa jerárquica
-                            window.location.href = 'arithmetic.html'; // Enlace real a la página de Unidades
+                            // Enlace REAL: Navegar al archivo externo arithmetic.html
+                            window.location.href = 'arithmetic.html'; 
                         } else {
-                            loadResource('math', discipline.folder, 'Base');
+                            // Simulación para otras disciplinas
+                            loadResource('math', discipline.name, 'Base');
                         }
                     };
                 } else {
                     button.classList.add('disabled-button');
                     button.style.backgroundColor = '#dcdcdc';
-                    button.style.color = '#666';
+                    button.color = '#666';
                     button.disabled = true;
                     button.title = 'Próximamente'; 
                 }
