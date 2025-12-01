@@ -6,8 +6,10 @@
     <title>SEA-ALS™</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 1300px; margin: 20px auto; }
-        h1 { text-align: center; color: #1e40af; }
+        .container { max-width: 1100px; margin: 20px auto; } /* Ancho ajustado para la eliminación de columnas */
+        h1 { text-align: center; color: #1e40af; font-size: 2.2em; margin-bottom: 5px; }
+        h2 { text-align: center; font-size: 1.2em; color: #3b82f6; margin-top: 5px; margin-bottom: 20px; }
+        .credits { text-align: center; font-size: 0.8em; color: #6b7280; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: white; }
         th, td { border: 1px solid #ddd; padding: 8px 6px; text-align: center; }
         th { background-color: #3b82f6; color: white; font-weight: bold; }
@@ -28,16 +30,19 @@
 <body>
     <div class="container">
         <h1>SEA-ALS™</h1>
-        <h2>José M. Arranda, PhD©</h2>
-        <h2><p>Developed and Programmed by ARAGEM</p></h2>
+        <h2>José M. Aranda, PhD© | Email: SEA01ALS@gmail.com</h2>
+        <div class="credits">Developed and Programmed by ARAGEM</div>
+        
         <table id="performanceTable">
             <thead>
                 <tr>
-                    <th rowspan="2">Arithmetic</th>
+                    <th rowspan="2">Sequence</th>
+                    <th rowspan="2">Aritmétic</th>
                     <th colspan="6">Language</th>
-                    <th rowspan="2">Voc</th>
-                    <th rowspan="2">Lit</th>
-                    <th colspan="6">Numbs</th>
+                    <th rowspan="2">Vocabulary</th>
+                    <th rowspan="2">Literature</th>
+                    <th rowspan="2">Exercises</th>
+                    <th rowspan="2">Songs</th>
                 </tr>
                 <tr>
                     <th>Eng</th>
@@ -45,30 +50,28 @@
                     <th>Por</th>
                     <th>Tag</th>
                     <th>Fre</th>
-                    <th>Dut</th>
+                    <th>Gua</th>
                 </tr>
             </thead>
             <tbody>
-                <tr data-row-id="1"><td>A1S1</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="1">1</td><td class="module-cell state-1" data-subj="Lit">Justicia</td><td class="context-cell">N</td><td class="context-cell">Z</td><td class="context-cell">Q</td><td class="context-cell">R\Q</td><td class="context-cell">R</td><td class="context-cell">C</td></tr>
-                <tr data-row-id="2"><td>A1S2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="2">1</td><td class="module-cell state-1" data-subj="Lit">Constancia</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="3"><td>A1S3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="3">1</td><td class="module-cell state-1" data-subj="Lit">Responsabilidad</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="4"><td>A2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="4">1</td><td class="module-cell state-1" data-subj="Lit">Libertad</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell">R</td><td class="context-cell"></td></tr>
-                <tr data-row-id="5"><td>A3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="5">1</td><td class="module-cell state-1" data-subj="Lit">Verdad</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell">C</td></tr>
-                <tr data-row-id="6"><td>A4</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="6">1</td><td class="module-cell state-1" data-subj="Lit">Honestidad</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell">A+b$\sqrt{-1}$</td></tr>
+                <tr data-row-id="1"><td>A1S1</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="1">1</td><td class="module-cell state-1" data-subj="Lit">Justicia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="2"><td>A1S2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="2">1</td><td class="module-cell state-1" data-subj="Lit">Constancia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="3"><td>A1S3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="3">1</td><td class="module-cell state-1" data-subj="Lit">Responsabilidad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="4"><td>A2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="4">1</td><td class="module-cell state-1" data-subj="Lit">Libertad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="5"><td>A3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="5">1</td><td class="module-cell state-1" data-subj="Lit">Verdad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="6"><td>A4</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="6">1</td><td class="module-cell state-1" data-subj="Lit">Honestidad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
                 
-                <tr data-row-id="7"><td>A5</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="7">0</td><td class="module-cell" data-subj="Lit">Resp. Personal</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="8"><td>A6</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="8">0</td><td class="module-cell" data-subj="Lit">Servicio Com.</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="9"><td>A7</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="9">0</td><td class="module-cell" data-subj="Lit">Empatía</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="10"><td>A8</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="10">0</td><td class="module-cell" data-subj="Lit">Cooperación</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="11"><td>A9</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="11">0</td><td class="module-cell" data-subj="Lit">Persistencia</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="12"><td>A10</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="12">0</td><td class="module-cell" data-subj="Lit">Autodisciplina</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="13"><td>A11</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="13">0</td><td class="module-cell" data-subj="Lit">Humildad</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="14"><td>A12</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="14">0</td><td class="module-cell" data-subj="Lit">Paciencia</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
-                <tr data-row-id="15"><td>A13</td><td class="module-cell" data-subj="Arit_Ref" data-is-final="true">0</td><td class="module-cell" data-subj="Eng" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Spa" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Por" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Tag" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Fre" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Gua" data-is-final="true">0</td><td class="module-cell" data-subj="Vocb" data-seq="15">0</td><td class="module-cell" data-subj="Lit" data-is-final="true">Conciencia</td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td><td class="context-cell"></td></tr>
+                <tr data-row-id="7"><td>A5</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="7">0</td><td class="module-cell" data-subj="Lit">Resp. Personal</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="8"><td>A6</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="8">0</td><td class="module-cell" data-subj="Lit">Servicio Com.</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="9"><td>A7</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="9">0</td><td class="module-cell" data-subj="Lit">Empatía</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="10"><td>A8</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="10">0</td><td class="module-cell" data-subj="Lit">Cooperación</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="11"><td>A9</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="11">0</td><td class="module-cell" data-subj="Lit">Persistencia</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="12"><td>A10</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="12">0</td><td class="module-cell" data-subj="Lit">Autodisciplina</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="13"><td>A11</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="13">0</td><td class="module-cell" data-subj="Lit">Humildad</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="14"><td>A12</td><td class="module-cell" data-subj="Arit_Ref">0</td><td class="module-cell" data-subj="Eng">0</td><td class="module-cell state-0" data-subj="Spa">0</td><td class="module-cell state-0" data-subj="Por">0</td><td class="module-cell state-0" data-subj="Tag">0</td><td class="module-cell state-0" data-subj="Fre">0</td><td class="module-cell state-0" data-subj="Gua">0</td><td class="module-cell" data-subj="Vocb" data-seq="14">0</td><td class="module-cell" data-subj="Lit">Paciencia</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
+                <tr data-row-id="15"><td>A13</td><td class="module-cell" data-subj="Arit_Ref" data-is-final="true">0</td><td class="module-cell" data-subj="Eng" data-is-final="true">0</td><td class="module-cell" data-subj="Spa" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Por" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Tag" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Fre" data-is-final="true">0</td><td class="module-cell state-0" data-subj="Gua" data-is-final="true">0</td><td class="module-cell" data-subj="Vocb" data-seq="15">0</td><td class="module-cell" data-subj="Lit" data-is-final="true">Conciencia</td><td class="module-cell misc-cell" data-subj="Ejer">0</td><td class="module-cell misc-cell" data-subj="Mus">0</td></tr>
             </tbody>
         </table>
-
-        <div id="statusMessage" style="margin-top: 20px; padding: 10px; background-color: #eee; border-radius: 5px; text-align: center;">El índice se ha poblado y está gobernando.</div>
 
         <div id="iconContainer" style="text-align: center; margin-top: 15px; font-size: 2em; color: #1e40af; min-height: 40px;"></div>
         </div>
@@ -79,7 +82,7 @@
             const statusDiv = document.getElementById('statusMessage');
             const iconContainer = document.getElementById('iconContainer'); 
             
-            // Función de ayuda: obtiene el estado binario (1 o 0) de un Holón exclusivo por su ID
+            // Función de ayuda: obtiene el estado binario (1 o "") de un Holón
             function getEstado(id) {
                 const cell = document.getElementById(id);
                 if (!cell) return false;
@@ -88,37 +91,37 @@
 
             // --- 🚩 FLAG: INICIO DE LA FUNCIÓN DE LANZAMIENTO (LAUNCH_MODULE_START) 🚩 ---
             function launchModule(rowId, subjId, cellId) {
-                // Modificar esta sección para tu base de almacenamiento
                 const BASE_URL_STORAGE = "https://storage.googleapis.com/noenbalde/"; 
                 const BASE_FOLDERS = {
                     'Lit': 'Curriculum/Language/Literature/',
                     'Vocb': 'Curriculum/Language/Vocabulary/',
+                    'Ejer': 'Curriculum/Wellness/Exercises/', 
+                    'Mus': 'Curriculum/Wellness/Music/', 
                     'Eng': 'Curriculum/Mathematics/Arithmetic/', 
                     'Spa': 'Curriculum/Mathematics/Arithmetic/',
                     'Por': 'Curriculum/Mathematics/Arithmetic/',
                     'Tag': 'Curriculum/Mathematics/Arithmetic/',
                     'Fre': 'Curriculum/Mathematics/Arithmetic/',
                     'Gua': 'Curriculum/Mathematics/Arithmetic/',
-                    'Arit_Ref': 'Curriculum/Mathematics/Arithmetic/', // Para referencia
+                    'Arit_Ref': 'Curriculum/Mathematics/Arithmetic/',
                 };
 
                 const moduleName = cellId.split('_')[0]; 
                 const folderPath = BASE_FOLDERS[subjId] || 'Curriculum/';
                 
-                // Determinamos el código de idioma/valor para el archivo (Z)
                 let fileCode = '';
                 if (['Eng', 'Spa', 'Por', 'Tag', 'Fre', 'Gua'].includes(subjId)) {
                     fileCode = subjId.toUpperCase().substring(0, 3);
                 } else if (subjId === 'Lit') {
-                    const litCell = document.getElementById(cellId);
-                    // Usar el primer token del texto (Ej: 'Justicia')
+                    const litCell = document.getElementById(`A${rowId}_Lit`);
                     fileCode = litCell.textContent.split(' ')[0]; 
                 } else if (subjId === 'Vocb') {
-                    // Usar el nivel de vocabulario (Ej: 'LV1')
-                    fileCode = document.getElementById(cellId).textContent;
+                    const vocbCell = document.getElementById(`A${rowId}_Vocb`);
+                    fileCode = vocbCell.textContent;
                 } else if (subjId === 'Arit_Ref') {
-                    // Usar el nombre del módulo (Ej: A1S1)
                     fileCode = moduleName;
+                } else if (['Ejer', 'Mus'].includes(subjId)) {
+                    fileCode = subjId.toUpperCase().substring(0, 4); 
                 }
 
                 // 🚀 LÍNEA DE CÓDIGO CLAVE PARA LA EVOCACIÓN (El Empuje del Fotón) 🚀
@@ -136,14 +139,14 @@
                 const subjId = cell.dataset.subj;
                 const cellId = cell.id;
 
-                // 🛑 RESTRICCIÓN RÍGIDA: No interactuar con celdas de contexto o de Referencia
-                if (cell.classList.contains('context-cell') || subjId === 'Arit_Ref' || subjId === 'Vocb') {
+                // Restricciones: No interactuar con celdas de contexto o de Referencia
+                if (cell.classList.contains('context-cell') || subjId === 'Arit_Ref' || subjId === 'Vocb' || subjId === 'Lit') {
                     return; 
                 }
 
                 // Si la celda está en estado 0 (Gris), significa Vacío de Contenido y no es Lanzable.
                 if (cell.classList.contains('state-0')) {
-                    statusDiv.textContent = `🚫 Holón ${cellId}: Vacío de Contenido (Gris). No es lanzable.`;
+                    statusDiv.textContent = `🚫 Holón ${cellId}: Contenido Ausente (Gris). No es lanzable.`;
                     return;
                 }
 
@@ -164,26 +167,24 @@
                     
                     if (!getEstado(previousCellId)) {
                         cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Violación de la Linealidad. Módulo anterior ${previousCellId} debe ser 1.`;
+                        statusDiv.textContent = `❌ ERROR: Violación de la Linealidad. Módulo anterior ${previousCellId} debe tener Luz Conservada (1).`;
                         setTimeout(() => cell.classList.remove('locked'), 1500);
                         return;
                     }
                     
-                    // B. Control de Secuencia (Requisito Principal: Columna Lit/Valores)
-                    const requiredLitId = `A${previousRowId}_Lit`;
-                    const requiredAritRefId = `A${previousRowId}_Arit_Ref`;
+                    // B. Control de Secuencia (Requisito Principal: Columna Lit/Valores en el mismo nivel)
+                    const requiredLitId = `A${rowId}_Lit`;
+                    const requiredAritRefId = `A${rowId}_Arit_Ref`;
                     
-                    // Si la celda actual NO es Literatura, necesitamos la Lit del nivel anterior
-                    if (subjId !== 'Lit' && !getEstado(requiredLitId)) {
+                    if (!getEstado(requiredLitId)) {
                         cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Valores/Lit (${requiredLitId}) para avanzar.`;
+                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Valores/Lit (${requiredLitId}) en el mismo nivel para avanzar.`;
                         setTimeout(() => cell.classList.remove('locked'), 1500);
                         return;
                     }
-                    // Si la celda actual NO es Aritmética/Idioma, necesitamos la Aritmética del nivel anterior
-                    if (subjId !== 'Arit_Ref' && !['Eng', 'Spa', 'Por', 'Tag', 'Fre', 'Gua'].includes(subjId) && !getEstado(requiredAritRefId)) {
+                    if (!getEstado(requiredAritRefId)) {
                         cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Aritmética (${requiredAritRefId}) para avanzar.`;
+                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Aritmética (${requiredAritRefId}) en el mismo nivel para avanzar.`;
                         setTimeout(() => cell.classList.remove('locked'), 1500);
                         return;
                     }
@@ -218,12 +219,12 @@
                         cell.addEventListener('click', () => toggleModuleState(cell));
                     }
                     
-                    // Sincronizar el estado de la Matriz con el estado conservado
+                    // Sincronizar el estado de la Matriz: 1 si activado, vacío si no.
                     if (cell.classList.contains('state-1')) {
                         cell.textContent = '1';
                     } else if (!cell.classList.contains('context-cell')) {
-                        // Asumir blanco (lanzable) a menos que se indique 'state-0' (gris)
-                        cell.textContent = '0'; 
+                        // Mantener vacío para el estado 0 (Blanco o Gris)
+                        cell.textContent = ''; 
                     }
                     
                     // Asegurar que las celdas de referencia no se vean afectadas por el clic
