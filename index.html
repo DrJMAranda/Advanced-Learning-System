@@ -128,8 +128,15 @@
                 let rowTitle = rowTitleCell ? rowTitleCell.textContent : '';
 
                 if (['Eng', 'Spa', 'Por', 'Tag', 'Fre', 'Gua'].includes(subjId)) {
-                    const langCode = subjId.toUpperCase().substring(0, 3);
-                    fileCode = `AP1${rowTitle}${langCode}`;
+                    // FIX: Ensure 'ESP' is used for Spanish, not the generic substring
+                    let langCode = subjId.toUpperCase().substring(0, 3);
+                    if (subjId === 'Spa') {
+                        langCode = 'ESP'; // Corrected mapping for the actual file name
+                    } else if (subjId === 'Eng') {
+                        langCode = 'ENG';
+                    }
+                    fileCode = `AP1${rowTitle}${langCode}`; 
+
                 } else if (subjId === 'Vocb') {
                     const seq = cell.dataset.seq;
                     fileCode = `LV${seq}`;
