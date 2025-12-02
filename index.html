@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEA-ALS™</title>
+    <title>SEA-ALS™ Curriculum Matrix</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; color: #333; }
+        /* CORRECTION UX 1: Glare Reduction and Low Visual Burden */
+        body { font-family: 'Arial', sans-serif; background-color: #F0F4F8; color: #333; }
         .container { max-width: 1100px; margin: 20px auto; }
-        h1 { text-align: center; color: #1e40af; font-size: 2.2em; margin-bottom: 5px; }
-        h2 { text-align: center; font-size: 1.2em; color: #3b82f6; margin-top: 5px; margin-bottom: 20px; }
-        .credits { text-align: center; font-size: 0.8em; color: #6b7280; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: white; }
-        th, td { border: 1px solid #ddd; padding: 8px 6px; text-align: center; }
+        h1 { text-align: center; color: #1e40af; font-size: 2em; margin-bottom: 0px !important; }
+        h2 { text-align: center; font-size: 1.1em; color: #3b82f6; margin-top: 5px !important; margin-bottom: 5px !important; }
+        .credits { text-align: center; font-size: 0.75em; color: #6b7280; margin-bottom: 2px !important; }
+        /* CORRECTION UX 2: Container for Scroll/Overflow Fix */
+        .table-container { 
+            overflow-x: auto; 
+            width: 100%; 
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: white; }
+        th, td { border: 1px solid #ddd; padding: 6px 4px; text-align: center; }
         th { background-color: #3b82f6; color: white; font-weight: bold; }
         
-        /* Estilos para el estado binario */
-        .module-cell { cursor: pointer; background-color: #fff; transition: background-color 0.3s; }
-        .module-cell.state-0 { background-color: #d1d5db; color: #6b7280; cursor: default; }
+        /* Final Differentiated State Definitions */
+        .module-cell { cursor: pointer; background-color: #F0F4F8; transition: background-color 0.3s; } /* Matte White: Presence of Clickable Content */
+        .module-cell.state-0 { background-color: #d1d5db; color: #6b7280; cursor: default; } /* Gray: Content Absent (Inert Module) */
         .module-cell:hover:not(.state-0):not(.state-1) { background-color: #e0f2f1; }
-        .state-1 { background-color: #10b981; color: white; font-weight: bold; } /* Verde: Luz Conservada */
+        .state-1 { background-color: #C1D5E0; color: #333; font-weight: bold; } /* Matte Bluish Gray: Confirmed Mastery (Luz Conservada) */
         .locked { cursor: not-allowed; background-color: #ef4444 !important; color: white; animation: shake 0.5s; }
         @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
         .context-cell { background-color: #e0f2f1; font-style: italic; font-size: 0.9em; cursor: default; }
@@ -30,6 +36,7 @@
         <h2>José M. Aranda, PhD© | Email: SEA01ALS@gmail.com</h2>
         <div class="credits">Developed and Programmed by ARAGEM</div>
         
+        <div class="table-container">
         <table id="performanceTable">
             <thead>
                 <tr>
@@ -50,27 +57,27 @@
                 </tr>
             </thead>
             <tbody>
-                                <tr data-row-id="1"><td>U1S1</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="1">1</td><td class="module-cell state-1" data-subj="Lit">Justicia</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
-                                <tr data-row-id="2"><td>U1S2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="2">1</td><td class="module-cell state-1" data-subj="Lit">Constancia</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
-                                <tr data-row-id="3"><td>U1S3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="3">1</td><td class="module-cell state-1" data-subj="Lit">Responsabilidad</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
-                                <tr data-row-id="4"><td>U2</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="4">1</td><td class="module-cell state-1" data-subj="Lit">Libertad</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
-                                <tr data-row-id="5"><td>U3</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="5">1</td><td class="module-cell state-1" data-subj="Lit">Verdad</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
-                                <tr data-row-id="6"><td>U4</td><td class="module-cell state-1" data-subj="Arit_Ref">1</td><td class="module-cell state-1" data-subj="Eng">1</td><td class="module-cell state-1" data-subj="Spa">1</td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-1" data-subj="Vocb" data-seq="6">1</td><td class="module-cell state-1" data-subj="Lit">Honestidad</td><td class="module-cell misc-cell state-1" data-subj="Ejer">1</td><td class="module-cell misc-cell state-1" data-subj="Mus">1</td></tr>
+                                <tr data-row-id="1"><td>U1S1</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="1"></td><td class="module-cell state-1" data-subj="Lit">Justicia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="2"><td>U1S2</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="2"></td><td class="module-cell state-1" data-subj="Lit">Constancia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="3"><td>U1S3</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="3"></td><td class="module-cell state-1" data-subj="Lit">Responsabilidad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="4"><td>U2</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="4"></td><td class="module-cell state-1" data-subj="Lit">Libertad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="5"><td>U3</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="5"></td><td class="module-cell state-1" data-subj="Lit">Verdad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                <tr data-row-id="6"><td>U4</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="6"></td><td class="module-cell state-1" data-subj="Lit">Honestidad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
                 
-                <tr data-row-id="7"><td>U5</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="7"></td><td class="module-cell" data-subj="Lit">Resp. Personal</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="8"><td>U6</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="8"></td><td class="module-cell" data-subj="Lit">Servicio Com.</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="9"><td>U7</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="9"></td><td class="module-cell" data-subj="Lit">Empatía</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="10"><td>U8</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="10"></td><td class="module-cell" data-subj="Lit">Cooperación</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="11"><td>U9</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="11"></td><td class="module-cell" data-subj="Lit">Persistencia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="12"><td>U10</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="12"></td><td class="module-cell" data-subj="Lit">Autodisciplina</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="13"><td>U11</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="13"></td><td class="module-cell" data-subj="Lit">Humildad</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="14"><td>U12</td><td class="module-cell" data-subj="Arit_Ref"></td><td class="module-cell" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell" data-subj="Vocb" data-seq="14"></td><td class="module-cell" data-subj="Lit">Paciencia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
-                <tr data-row-id="15"><td>U13</td><td class="module-cell" data-subj="Arit_Ref" data-is-final="true"></td><td class="module-cell" data-subj="Eng" data-is-final="true"></td><td class="module-cell" data-subj="Spa" data-is-final="true"></td><td class="module-cell state-0" data-subj="Por" data-is-final="true"></td><td class="module-cell state-0" data-subj="Tag" data-is-final="true"></td><td class="module-cell state-0" data-subj="Fre" data-is-final="true"></td><td class="module-cell state-0" data-subj="Gua" data-is-final="true"></td><td class="module-cell" data-subj="Vocb" data-seq="15"></td><td class="module-cell" data-subj="Lit" data-is-final="true">Conciencia</td><td class="module-cell misc-cell" data-subj="Ejer"></td><td class="module-cell misc-cell" data-subj="Mus"></td></tr>
+                                <tr data-row-id="7"><td>U5</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="7"></td><td class="module-cell state-1" data-subj="Lit">Resp. Personal</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="8"><td>U6</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="8"></td><td class="module-cell state-1" data-subj="Lit">Servicio Com.</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="9"><td>U7</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="9"></td><td class="module-cell state-1" data-subj="Lit">Empatía</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="10"><td>U8</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="10"></td><td class="module-cell state-1" data-subj="Lit">Cooperación</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="11"><td>U9</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="11"></td><td class="module-cell state-1" data-subj="Lit">Persistencia</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="12"><td>U10</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="12"></td><td class="module-cell state-1" data-subj="Lit">Autodisciplina</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="13"><td>U11</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="13"></td><td class="module-cell state-0" data-subj="Lit">Humildad</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="14"><td>U12</td><td class="module-cell state-0" data-subj="Arit_Ref"></td><td class="module-cell state-0" data-subj="Eng"></td><td class="module-cell state-0" data-subj="Spa"></td><td class="module-cell state-0" data-subj="Por"></td><td class="module-cell state-0" data-subj="Tag"></td><td class="module-cell state-0" data-subj="Fre"></td><td class="module-cell state-0" data-subj="Gua"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="14"></td><td class="module-cell state-0" data-subj="Lit">Paciencia</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
+                <tr data-row-id="15"><td>U13</td><td class="module-cell state-0" data-subj="Arit_Ref" data-is-final="true"></td><td class="module-cell state-0" data-subj="Eng" data-is-final="true"></td><td class="module-cell state-0" data-subj="Spa" data-is-final="true"></td><td class="module-cell state-0" data-subj="Por" data-is-final="true"></td><td class="module-cell state-0" data-subj="Tag" data-is-final="true"></td><td class="module-cell state-0" data-subj="Fre" data-is-final="true"></td><td class="module-cell state-0" data-subj="Gua" data-is-final="true"></td><td class="module-cell state-0" data-subj="Vocb" data-seq="15"></td><td class="module-cell state-0" data-subj="Lit" data-is-final="true">Conciencia</td><td class="module-cell misc-cell state-0" data-subj="Ejer"></td><td class="module-cell misc-cell state-0" data-subj="Mus"></td></tr>
             </tbody>
         </table>
-
+        </div>
         <div id="iconContainer" style="text-align: center; margin-top: 15px; font-size: 2em; color: #1e40af; min-height: 40px;"></div>
-        <div id="statusMessage" style="text-align: center; margin-top: 10px; color: #3b82f6;"></div>
+        <div id="statusMessage" style="text-align: center; margin-top: 10px; color: #3b82f6;">El índice se ha poblado y está gobernando.</div>
     </div>
 
     <script>
@@ -79,15 +86,14 @@
             const statusDiv = document.getElementById('statusMessage');
             const iconContainer = document.getElementById('iconContainer'); 
             
-            // Función de ayuda: obtiene el estado binario (1 o "") de un Holón
             function getEstado(id) {
                 const cell = document.getElementById(id);
                 if (!cell) return false;
                 return cell.classList.contains('state-1');
             }
 
-            // --- 🚩 FUNCIÓN DE LANZAMIENTO (LAUNCH_MODULE) - CORREGIDA Y FUNCIONAL 🚩 ---
-            function launchModule(rowId, subjId, cellId) {
+            // --- 1. FUNCIÓN DE LANZAMIENTO (EXECUTES LAUNCH AND SETS PENDING FLAG) ---
+            function launchModule(rowId, subjId, cell) {
                 const BASE_URL_STORAGE = "https://storage.googleapis.com/noenbalde/";
                 const BASE_FOLDERS = {
                     'Lit': 'Curriculum/Language/Literature/',
@@ -103,152 +109,125 @@
                     'Arit_Ref': 'Curriculum/Mathematics/Arithmetic/',
                 };
 
-                const cellElement = document.getElementById(cellId);
                 const folderPath = BASE_FOLDERS[subjId] || 'Curriculum/';
-
                 let fileCode = '';
                 let rowTitleCell = document.querySelector(`tr[data-row-id="${rowId}"] > td:first-child`);
-                let rowTitle = rowTitleCell ? rowTitleCell.textContent : ''; // U1S1, U2, U3, etc.
+                let rowTitle = rowTitleCell ? rowTitleCell.textContent : '';
 
                 if (['Eng', 'Spa', 'Por', 'Tag', 'Fre', 'Gua'].includes(subjId)) {
-                    // Lógica para Language: AP1 + rowTitle (U1S1, U2) + subjId (ENG) -> AP1U1S1ENG
                     const langCode = subjId.toUpperCase().substring(0, 3);
                     fileCode = `AP1${rowTitle}${langCode}`;
-
                 } else if (subjId === 'Vocb') {
-                    // Lógica para Vocabulary: LV + data-seq (1, 2, 3...) -> LV1
-                    const seq = cellElement.dataset.seq;
+                    const seq = cell.dataset.seq;
                     fileCode = `LV${seq}`;
-
                 } else if (subjId === 'Lit') {
-                    // Lógica para Literature (Valores): Usa el nombre del valor directamente -> Justicia
-                    fileCode = cellElement.textContent.split(' ')[0];
-
+                    fileCode = cell.textContent.split(' ')[0];
                 } else if (subjId === 'Arit_Ref') {
-                    // Lógica para Arithmetic Reference: Usa el nombre de la fila directamente -> U1S1
                     fileCode = rowTitle;
-                    
                 } else if (['Ejer', 'Mus'].includes(subjId)) {
-                    // Lógica para Exercises y Music (usando la secuencia de Vocb como índice)
-                    // NOTA: Asume nombres de archivo EJER1.mp4, MUSI1.mp4, etc.
                     const seq = document.querySelector(`tr[data-row-id="${rowId}"] [data-subj="Vocb"]`).dataset.seq;
                     fileCode = `${subjId.toUpperCase().substring(0, 4)}${seq}`; 
                 }
 
-                // 🚀 LÍNEA DE CÓDIGO CLAVE PARA LA EVOCACIÓN (El Empuje del Fotón) 🚀
                 const filePath = `${BASE_URL_STORAGE}${folderPath}${fileCode}.mp4`;
 
-                window.open(filePath, '_blank');
-                statusDiv.textContent = `🚀 Lanzamiento Exitoso: Holón ${cellId} evocado. Archivo: ${fileCode}.mp4. URL: ${filePath}`;
+                window.open(filePath, '_blank'); 
+
+                // ASYNCHRONOUS STATE STEP 1: Set PENDING flag on the cell after launch.
+                cell.setAttribute('data-pending-rectification', 'true');
+                statusDiv.textContent = `🚀 Lanzamiento Iniciado: Holón ${cell.id} evocado. Haga clic otra vez para confirmar la Rectificación (Absorción).`;
             }
-            // --- 🚩 FIN DE LA FUNCIÓN DE LANZAMIENTO 🚩 ---
 
-
-            // --- 🚩 LÓGICA DEL GUARDIÁN DEL ORDEN (SIN CAMBIOS) 🚩 ---
+            // --- 2. LÓGICA DEL GUARDIÁN DEL ORDEN (MANAGES ASYNCHRONOUS CONFIRMATION) ---
             function toggleModuleState(cell) {
                 const rowId = parseInt(cell.parentElement.dataset.rowId);
                 const subjId = cell.dataset.subj;
                 const cellId = cell.id;
 
-                // Restricciones: No interactuar con celdas de contexto o de Referencia (solo lanzar si están en state-1)
-                if (cell.classList.contains('context-cell') || subjId === 'Arit_Ref' || subjId === 'Vocb' || subjId === 'Lit') {
-                    if (getEstado(cellId)) { // Permite relanzar las celdas de contexto/referencia
-                        launchModule(rowId, subjId, cellId);
-                    }
-                    return; 
-                }
-
-                // Si la celda está en estado 0 (Gris), significa Vacío de Contenido y no es Lanzable/Activatable.
+                // 0. GRAY GUARDRAIL: LOCKED / CONTENT ABSENT (INOP)
                 if (cell.classList.contains('state-0')) {
-                    statusDiv.textContent = `🚫 Holón ${cellId}: Contenido Ausente (Gris). No es lanzable.`;
+                    statusDiv.textContent = `🚫 Holón ${cellId}: Contenido Ausente (Gris). No hay reacción al clic.`;
                     return;
                 }
 
-                // 1. Ya Rectificado (Luz Conservada) - Si ya está activo, lanzar de nuevo.
-                if (getEstado(cellId)) {
-                    iconContainer.innerHTML = '✨'; 
-                    setTimeout(() => iconContainer.innerHTML = '', 500); 
-                    launchModule(rowId, subjId, cellId);
-                    return;
-                }
+                // 1. MATTE BLUISH GRAY STATE: EoL CONFIRMATION (SECOND CLICK) OR RELAUNCH
+                if (cell.getAttribute('data-pending-rectification') === 'true' || getEstado(cellId)) {
+                    
+                    if (cell.getAttribute('data-pending-rectification') === 'true') {
+                        // EoL CONFIRMATION LOGIC (Second Click)
+                        
+                        // Prerequisite Check for EoL (Ensure dependencies weren't just flipped via console)
+                        const previousRowId = rowId - 1;
+                        const previousCellId = `A${previousRowId}_${subjId}`;
+                        const requiredLitId = `A${rowId}_Lit`;
+                        const requiredAritRefId = `A${rowId}_Arit_Ref`;
+                        
+                        // Enforce the Axiom of Structural Precedence even upon EoL confirmation for data cells (excluding Lit/Vocb)
+                        if (rowId > 1 && !['Lit', 'Vocb', 'Arit_Ref'].includes(subjId) && (!getEstado(previousCellId) || !getEstado(requiredLitId) || !getEstado(requiredAritRefId))) {
+                            cell.classList.add('locked');
+                            statusDiv.textContent = `❌ ERROR: Violación de la Secuencia. Rectificación de requisitos esencial aún pendiente.`;
+                            setTimeout(() => cell.classList.remove('locked'), 1500);
+                            cell.removeAttribute('data-pending-rectification'); // Clear flag to re-initiate launch attempt
+                            return;
+                        }
 
-                // --- V E R I F I C A C I Ó N ---
+                        // Execute End-of-Loop (EoL) Confirmation
+                        cell.removeAttribute('data-pending-rectification');
+                        cell.classList.add('state-1'); // <--- FLIP TO MATTE BLUISH GRAY
+                        statusDiv.textContent = `✅ Éxito Final: Holón ${cellId} Rectificado (Confirmed Mastery).`;
+                        iconContainer.innerHTML = '✨';
+                        setTimeout(() => iconContainer.innerHTML = '', 500);
+                        return;
+                    }
+                    
+                    // RELAUNCH LOGIC (Cell is already state-1 OR pending has been cleared)
+                    iconContainer.innerHTML = '✨'; 
+                    setTimeout(() => iconContainer.innerHTML = '', 500); 
+                    launchModule(rowId, subjId, cell);
+                    return;
+                }
 
-                // A. Control de Linealidad (Axioma de la Linealidad - Eje X)
-                if (rowId > 1) {
-                    const previousRowId = rowId - 1;
-                    const previousCellId = `A${previousRowId}_${subjId}`;
-                    
-                    if (!getEstado(previousCellId)) {
-                        cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Violación de la Linealidad. Módulo anterior ${previousCellId} debe tener Luz Conservada (1).`;
-                        setTimeout(() => cell.classList.remove('locked'), 1500);
-                        return;
-                    }
-                    
-                    // B. Control de Secuencia (Requisito Principal: Columna Lit/Valores y Arit_Ref en el mismo nivel)
-                    const requiredLitId = `A${rowId}_Lit`;
-                    const requiredAritRefId = `A${rowId}_Arit_Ref`;
-                    
-                    if (!getEstado(requiredLitId)) {
-                        cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Valores/Lit (${requiredLitId}) en el mismo nivel para avanzar.`;
-                        setTimeout(() => cell.classList.remove('locked'), 1500);
-                        return;
-                    }
-                    if (!getEstado(requiredAritRefId)) {
-                        cell.classList.add('locked');
-                        statusDiv.textContent = `❌ ERROR: Requiere Rectificación de Aritmética (${requiredAritRefId}) en el mismo nivel para avanzar.`;
-                        setTimeout(() => cell.classList.remove('locked'), 1500);
-                        return;
-                    }
 
-                }
+                // 2. MATTE WHITE STATE: INITIAL LAUNCH (First Click)
+                
+                // --- V E R I F I C A C I Ó N DE LINEALIDAD Y REQUISITOS ---
+                const previousRowId = rowId - 1;
+                const previousCellId = `A${previousRowId}_${subjId}`;
+                const requiredLitId = `A${rowId}_Lit`;
+                const requiredAritRefId = `A${rowId}_Arit_Ref`;
+                
+                // Enforce prerequisites for the first launch attempt on data cells
+                if (rowId > 1 && !['Lit', 'Vocb', 'Arit_Ref'].includes(subjId) && (!getEstado(previousCellId) || !getEstado(requiredLitId) || !getEstado(requiredAritRefId))) {
+                    cell.classList.add('locked');
+                    statusDiv.textContent = `❌ ERROR: Violación de la Secuencia. Rectificación de requisitos esencial aún pendiente.`;
+                    setTimeout(() => cell.classList.remove('locked'), 1500);
+                    return;
+                }
                 
-                // C. Activación Final (Rectificación Lograda)
-                cell.classList.remove('state-0');
-                cell.classList.add('state-1');
-                cell.textContent = '1';
-                statusDiv.textContent = `✅ Éxito Binario: Holón ${cellId} activado (Luz Conservada). Rectificación Lograda.`;
-
-                iconContainer.innerHTML = '✨'; 
-                setTimeout(() => iconContainer.innerHTML = '', 500);
-                
-                // Lanzar el contenido inmediatamente después de la activación
-                launchModule(rowId, subjId, cellId);
+                // 3. Pass Verification: Initiate Launch (Start-of-Loop)
+                launchModule(rowId, subjId, cell);
             }
-            // --- 🚩 FIN DE LA LÓGICA DEL GUARDIÁN DEL ORDEN 🚩 ---
+            // --- FIN DE LA LÓGICA DEL GUARDIÁN DEL ORDEN ---
 
 
-            // Inicialización y poblamiento de la matriz 
+            // Inicialización (Ensures no '1's are visible and IDs are set)
             table.querySelectorAll('tbody tr').forEach(row => {
                 const rowId = row.dataset.rowId;
-                
                 row.querySelectorAll('.module-cell, .context-cell').forEach(cell => {
                     const subjId = cell.dataset.subj;
                     const cellId = `A${rowId}_${subjId}`;
                     cell.id = cellId; 
-
-                    if (cell.classList.contains('module-cell')) {
+                    
+                    if (cell.classList.contains('module-cell') || cell.classList.contains('context-cell')) {
                         cell.addEventListener('click', () => toggleModuleState(cell));
                     }
-                    
-                    // Sincronizar el estado de la Matriz: 1 si activado, vacío si no.
-                    if (cell.classList.contains('state-1')) {
-                        cell.textContent = '1';
-                    } else if (!cell.classList.contains('context-cell')) {
-                        // Mantener vacío para el estado 0 (Blanco o Gris)
+                    // CORRECCIÓN UX: Remove all numerical content
+                    if (!cell.classList.contains('context-cell')) {
                         cell.textContent = ''; 
-                    }
-                    
-                    // Asegurar que las celdas de referencia no se vean afectadas por el clic
-                    if (subjId === 'Arit_Ref' || subjId === 'Vocb' || subjId === 'Lit') {
-                        cell.classList.remove('module-cell');
                     }
                 });
             });
-
-            statusDiv.textContent = "El índice se ha poblado y está gobernando.";
+            statusDiv.textContent = "El índice se ha poblado y está gobernando. Haga clic en una celda blanca para iniciar la rectificación.";
         });
     </script>
 </body> 
