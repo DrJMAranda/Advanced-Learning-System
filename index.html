@@ -6,7 +6,7 @@
     <title>SEA-ALS™ Curriculum Matrix</title>
     <style>
         /* Finalized CSS for Low Visual Burden and Structural Clarity */
-        body { font-family: 'Arial', sans-serif; background-color: #F0F4F8; color: #333; margin-top: 0; }
+        body { font-family: 'Arial', sans-serif; background-color: #F8F0E3; color: #333; margin-top: 0; }
         .container { max-width: 1100px; margin: 5px auto 20px auto; }
         h1 { text-align: center; color: #1e40af; font-size: 2em; margin-bottom: 0px !important; }
         h2 { text-align: center; font-size: 1.1em; color: #3b82f6; margin-top: 5px !important; margin-bottom: 5px !important; }
@@ -18,7 +18,7 @@
         th { background-color: #3b82f6; color: white; font-weight: bold; }
         
         /* Final Differentiated State Definitions */
-        .module-cell { cursor: pointer; background-color: #F0F4F8; transition: background-color 0.3s; } /* Matte White: Presence of Clickable Content */
+        .module-cell { cursor: pointer; background-color: #FFFFFF; transition: background-color 0.3s; } /* Matte White: Presence of Clickable Content */
         .module-cell.state-0 { background-color: #d1d5db; color: #6b7280; cursor: default; } /* Gray: Content Absent (Inert Module) */
         .module-cell:hover:not(.state-0):not(.state-1) { background-color: #e0f2f1; }
         .state-1 { background-color: #C1D5E0; color: #333; font-weight: bold; } /* Matte Bluish Gray: Confirmed Mastery (Luz Conservada) */
@@ -83,6 +83,23 @@
             const statusDiv = document.getElementById('statusMessage');
             const iconContainer = document.getElementById('iconContainer'); 
             
+            // FINAL INSTRUMENTAL CODE INSERTION (ACHIEVE TABULA RASA)
+            // This loop strips the Gray state from the first 6 rows, making them Matte White (Clickable)
+            for (let rowId = 1; rowId <= 6; rowId++) {
+                const row = document.querySelector(`tr[data-row-id="${rowId}"]`);
+                if (row) {
+                    row.querySelectorAll('.module-cell.state-0').forEach(cell => {
+                        const subjId = cell.dataset.subj;
+                        // Exclude modules without immediate content (Por, Tag, Fre, Dut, Gua)
+                        if (!['Por', 'Tag', 'Fre', 'Dut', 'Gua'].includes(subjId)) {
+                            // This action flips the cell from Lighthouse Gray to Matte White
+                            cell.classList.remove('state-0');
+                        }
+                    });
+                }
+            }
+            // END FINAL INSTRUMENTAL CODE
+            
             function getEstado(id) {
                 const cell = document.getElementById(id);
                 if (!cell) return false;
@@ -220,12 +237,6 @@
                         cell.addEventListener('click', () => toggleModuleState(cell));
                     }
                     
-                    // Axiom of Initial Availability: Remove state-0 (Gray) for the first 6 rows (U1S1 to U4) 
-                    // to make them Matte White (Clickable Content)
-                    if (rowId <= 6 && cell.classList.contains('state-0') && !['Por', 'Tag', 'Fre', 'Dut', 'Gua'].includes(subjId)) {
-                        cell.classList.remove('state-0');
-                    }
-
                     // CORRECCIÓN UX: Remove all numerical content
                     if (!cell.classList.contains('context-cell')) {
                         cell.textContent = ''; 
