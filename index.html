@@ -70,7 +70,7 @@
             border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
         }
         /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
-        #module-detail-panel { padding: 10px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
+        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
         #module-view-container { text-align: center; }
     </style>
     </head>
@@ -303,7 +303,7 @@
             detailControlBtn.textContent = 'Authenticating...';
             detailControlBtn.disabled = true;
 
-            // --- 3. FETCH SECURE SIGNED URL (The Ignition Key Slot) ---
+            // --- 3. FETCH SECURE SIGNED URL (The Ignition Key SLOT) ---
             fetch(SIGNED_URL_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
