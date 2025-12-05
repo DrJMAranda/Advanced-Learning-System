@@ -1,3 +1,5 @@
+HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
     <title>S.E.A. TickerMon Demo (C/TM)</title>
     
     <style>
-        /* Estilos esenciales para el TickerMon (Alineación y Monospacing) */
+        /* Estilos esenciales: Dominio de Pantalla y Consola C64 */
         body {
             display: flex;
             flex-direction: column;
@@ -17,17 +19,17 @@
             margin: 0;
         }
         #ticker-mon {
-            /* Fuente monoespaciada estricta para la precisión de 20 caracteres */
+            /* Fuente monoespaciada para la precisión de 20 caracteres */
             font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 1.1em;
-            color: #4CAF50; /* Texto claro (similar al estilo C64/consola) */
+            font-size: 3em; /* Tamaño dominante para el "centro del tablero" */
+            color: #4CAF50; 
             background-color: #1a1a1a;
             border: 4px solid #4CAF50; 
-            width: 250px; /* Ancho para 20 caracteres */
+            width: 650px; /* Ancho ajustado para 20 caracteres grandes */
             padding: 10px;
             box-shadow: 0 0 15px rgba(76, 175, 80, 0.7); 
-            white-space: pre; /* Preserva los espacios para la alineación */
-            height: 70px; /* Suficiente espacio para 3 líneas */
+            white-space: pre; /* Preserva los espacios (padding) para la alineación GUT */
+            height: 120px; /* Altura ajustada para 3 líneas grandes */
             overflow: hidden; 
         }
         .controls {
@@ -35,28 +37,32 @@
         }
         .controls button {
             padding: 10px 15px;
-            font-size: 1em;
+            font-size: 1.5em; /* Botones más grandes para la navegación */
             cursor: pointer;
             background-color: #4CAF50;
             color: #1a1a1a;
             border: none;
-            margin: 0 5px;
+            margin: 0 15px;
             border-radius: 4px;
         }
     </style>
 
     <script>
         // --- 1. Matriz de Sincronización (Audition Data) ---
-        // Ritmo Base: ~2.4 segundos por línea (100 WPM)
+        // Ritmo Base: ~4.8 segundos por línea (50 WPM)
         // [ID, Tiempo de Inicio (s), Línea 1, Línea 2, Línea 3]
         const TICKER_DATA = [
-            ["01.0", 0.000, "--------------------", "    INICIANDO S.E.A.  ", "--------------------"],
-            ["02.0", 4.800, "     TEN : ONE", "      14", "      17"], // Inicio del Problema
-            ["03.0", 9.600, "4 MAS 7 IGUAL 11", "", ""], // Cálculo de Unidades
-            ["04.0", 14.400, "      14", "      17", "------      1"], // Residuo y Raya de Suma
-            ["05.0", 19.200, "  1 ", "      14", "      17"], // Acarreo '1' aparece arriba
-            ["06.0", 24.000, "      1 4", "      1 7", "------  3 1"], // Resultado Final (31)
-            ["07.0", 28.800, "PAGO LA PRECISION", "OPERACION EXITOSA", ""] // Cierre
+            // Linea Inicial en blanco (Tabula Rasa Visual)
+            ["00.0", 0.000, "                    ", "                    ", "                    "],
+            // Inicio de la Propuesta
+            ["01.0", 0.500, "--------------------", "    INICIANDO S.E.A.  ", "--------------------"],
+            // Acarreo Ejemplo
+            ["02.0", 5.300, "     TEN : ONE", "      14", "      17"], 
+            ["03.0", 10.100, "4 MAS 7 IGUAL 11", "", ""], 
+            ["04.0", 14.900, "      14", "      17", "------      1"], 
+            ["05.0", 19.700, "  1 ", "      14", "      17"], 
+            ["06.0", 24.500, "      1 4", "      1 7", "------  3 1"], 
+            ["07.0", 29.300, "PAGO LA PRECISION", "OPERACION EXITOSA", ""] 
         ];
 
         // --- 2. TickerMon Core Logic (GUT) ---
@@ -64,50 +70,44 @@
         let presentationRunning = false;
         let startTime = 0;
         let markerIndex = 0;
-        let animationFrameId = null; 
-
-        const playButton = document.getElementById('play-button');
-
+        let animationFrameId = null;
+        
+        // Elementos y variables globales (obtenidos por ID en DOMContentLoaded)
+        let tickerElement;
+        let playButton;
+        
         function formatAndRender(data) {
-            const tickerElement = document.getElementById('ticker-mon');
-            if (!tickerElement) return;
-
             const lines = [data[2], data[3], data[4]];
             
-            // C/TM Feature: Aplicar alineación monoespaciada a la derecha
+            // C/TM Feature: Aplicar alineación monoespaciada a la derecha (el padding)
             const formattedLines = lines.map(line => {
                 return line.padStart(MAX_WIDTH, ' '); 
             });
 
             tickerElement.textContent = formattedLines.join('\n');
-            // Nota: Aquí irían las llamadas a CharAni y Pagoda (triggerAnimation)
+            // Aquí iría el disparador de animación (CharAni, Pagoda)
         }
 
         function tick(timestamp) {
             if (!presentationRunning) return;
 
-            // Calcular tiempo transcurrido desde el inicio de la reproducción
             const currentTime = (timestamp - startTime) / 1000; 
 
             if (markerIndex < TICKER_DATA.length) {
                 const currentMarker = TICKER_DATA[markerIndex];
                 
-                // Si el tiempo actual ha superado el tiempo de inicio del marcador
                 if (currentTime >= currentMarker[1]) {
                     formatAndRender(currentMarker); 
                     console.log(`[T: ${currentTime.toFixed(3)}s] ID: ${currentMarker[0]} CARGADO.`);
                     markerIndex++;
                 }
             } else if (markerIndex === TICKER_DATA.length) {
-                // Finalizar la presentación
                 console.log("--- Demostración Finalizada (Éxito G.U.T.) ---");
                 presentationRunning = false;
                 playButton.textContent = "Play / Pause (B4)";
-                markerIndex++;
                 return; 
             }
 
-            // Llamar al siguiente fotograma para un timing preciso
             animationFrameId = requestAnimationFrame(tick);
         }
 
@@ -116,7 +116,6 @@
         function runPresentation() {
             if (!presentationRunning) {
                 presentationRunning = true;
-                // Ajustar tiempo para reanudar desde el punto de pausa
                 startTime = performance.now() - (markerIndex > 0 ? TICKER_DATA[markerIndex - 1][1] * 1000 : 0); 
                 playButton.textContent = "Pause (B3)";
                 animationFrameId = requestAnimationFrame(tick);
@@ -133,15 +132,23 @@
             markerIndex = 0;
             startTime = 0;
             playButton.textContent = "Play / Pause (B4)";
-            // Carga la primera línea para la vista inicial
+            // Mostrar la primera línea completamente en blanco (Tabula Rasa)
             formatAndRender(TICKER_DATA[0]); 
         }
 
-        // Inicializar la vista cuando el DOM esté listo
+        // Inicializador del Sistema
         document.addEventListener('DOMContentLoaded', () => {
+            tickerElement = document.getElementById('ticker-mon');
+            playButton = document.getElementById('play-button');
+            
             // Asigna las funciones a los botones (simulando Mapeo de Botones)
             document.getElementById('reset-button').onclick = resetPresentation;
-            resetPresentation();
+            
+            // 1. Inicializa la vista (TickerMon en blanco)
+            resetPresentation(); 
+            
+            // 2. Lanza automáticamente la propuesta (ON START UP)
+            runPresentation(); 
         });
     </script>
 </head>
