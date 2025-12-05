@@ -3,324 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System (ALS) | Elementary Level</title>
+    <title>S.E.A. TickerMon Demo (C/TM)</title>
     
     <style>
-        /* La nueva base CSS limpia */
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700;900&display=swap');
-        :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+        /* Estilos esenciales para el TickerMon (Alineación y Monospacing) */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #0d0d0d;
+            margin: 0;
         }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-        #credits { text-align: center; }
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        
-        /* BARRA DE ÍCONOS (THE BOUTONNIÈRE) */
-        #scrolling-icon-bar { height: 85px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        
-        /* Functional Styling for Text Icons (Short Names) */
-        .icon-button {
-            width: 80px; height: 100%; flex-shrink: 0; margin-right: 2px; cursor: pointer; padding: 2px;
-            border: none; background: none; display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; box-sizing: border-box;
-        }
-        .icon-label-text {
-            display: inline-block;
-            width: 50px; height: 50px;
-            line-height: 50px; 
-            text-align: center;
-            border: 2px solid var(--color-menu); 
-            background-color: var(--color-lighthouse);
-            font-weight: bold;
-            font-family: 'Roboto Mono', monospace; 
-            font-size: 0.8em;
-            cursor: pointer;
-            border-radius: 5px; 
-            box-sizing: border-box;
-        }
-        .icon-label-text:hover {
-            background-color: var(--color-menu);
-            color: white;
-        }
-        .icon-title {
-            font-size: 0.7em; 
-            color: var(--color-menu); 
-            font-weight: bold; 
-            text-align: center; 
-            line-height: 1.1;
-            width: 100%; 
-            white-space: nowrap; 
+        #ticker-mon {
+            /* Fuente monoespaciada estricta para la precisión de 20 caracteres */
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #4CAF50; /* Texto claro (similar al estilo C64/consola) */
+            background-color: #1a1a1a;
+            border: 4px solid #4CAF50; 
+            width: 250px; /* Ancho para 20 caracteres */
+            padding: 10px;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7); 
+            white-space: pre; /* Preserva los espacios para la alineación */
+            height: 70px; /* Suficiente espacio para 3 líneas */
             overflow: hidden; 
-            text-overflow: ellipsis;
         }
-
-        /* ÁREA DE CONTENIDO Y VIDEO (The Monitor UX) */
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
-        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded {
-            position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
-            border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
+        .controls {
+            margin-top: 20px;
         }
-        /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
-        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
+        .controls button {
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #1a1a1a;
+            border: none;
+            margin: 0 5px;
+            border-radius: 4px;
+        }
     </style>
-    </head>
-<body>
-    
-    <nav id="left-menu" class="beveled-frame">
-        <div id="credits">
-            <h3>Welcome to the <br>Advanced Learning System
-            <p>Powered by ARAGEM!</p></h3>
-        </div>
-        <div id="student-id-box" style="padding-top: 15px; font-size: 0.9em; text-align: center;">
-            **Student ID:** 900213<br>**Descriptors:** [ALGEBRAIC: C]
-        </div>
-        <div style="margin-top: 20px; font-size: 0.95em;">
-            <p style="font-weight: bold;">1. Elementary Level</p>
-        </div>
-    </nav>
 
-    <div id="content-wrapper">
-        
-        <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/AP1U1S1ENG.mp4', 'U1S1: Finding Zero (Meet The Digits)')"
-                    title="U1S1">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
-                <span class="icon-title">U1S1</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/AP1U1S2ENG.mp4', 'U1S2')"
-                    title="U1S2">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
-                <span class="icon-title">U1S2</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/AP1U1S3ENG.mp4', 'U1S3')"
-                    title="U1S3">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
-                <span class="icon-title">U1S3</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/AP1U2ENG.mp4', 'U2')"
-                    title="U2">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
-                <span class="icon-title">U2</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/AP1U3ENG.mp4', 'U3')"
-                    title="U3">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
-                <span class="icon-title">U3</span>
-            </button>
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV1: Vocabulary 1~100')"
-                    title="LAV1 Vocabulary 1~100">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Dictionary.jpg" alt="LAV1">
-                <span class="icon-title">LAV1 Vocab</span>
-            </button>
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ID Match: Identify and Match')"
-                    title="ID Match">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID Match">
-                <span class="icon-title">ID Match</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillions: Song Concept')"
-                    title="Decillions Song Concept">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U3-Placeholder.jpg" alt="Decillions">
-                <span class="icon-title">Deca Song</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV1: Enunciation 02 (Consonants)')"
-                    title="Enunciation 02 (Consonants)">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Alphabet.jpg" alt="ENUN-C">
-                <span class="icon-title">ENUN C</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV1: Enunciation 03 (Vowels)')"
-                    title="Enunciation 03 (Vowels)">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Alphabet.jpg" alt="ENUN-V">
-                <span class="icon-title">ENUN V</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV1: Sapiencio\'s Fruits')"
-                    title="Sapiencio's Fruits">
-                <img src="https://storage.googleapis.com/noenbalas/Car%C3%A1tulas/Fruit.jpg" alt="FRUITS">
-                <span class="icon-title">Fruits</span>
-            </button>
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4', 'LAV1: Vocabulary 01-20')"
-                    title="Vocabulary 01-20">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/SmallDict.jpg" alt="VOCAB-20">
-                <span class="icon-title">Vocab 01-20</span>
-            </button>
-        </header>
-
-        <div id="content-area">
-            <div id="main-flex-container">
-                <section id="main-content">
-                    <div id="module-view-container">
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
-                            <h2>Welcome to the Advanced Learning System</h2>
-                            <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
-                        </div>
-                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
-                            <h3 id="detail-code"></h3>
-                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
-                                ▶ Begin Module
-                            </button>
-                        </div>
-                    </div>
-                    <div id="video-wrapper-16-9" style="display:none;">
-                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-                            <video id="video-player" controls></video>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-    
     <script>
-        const player = document.getElementById('video-player');
-        const videoWrapper = document.getElementById('video-wrapper-16-9');
-        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-        const detailControlBtn = document.getElementById('detail-control-btn'); 
-        let currentModuleTitle = '';
-        let nextVideoSource = '';
-        
-        // 🔑 IGNITION KEY SLOT: INSERT CLOUD FUNCTION ENDPOINT HERE (NEED-TO-HAVE)
-        // NOTE: This must be the actual URL you obtain after deploying the Python function.
-        const SIGNED_URL_ENDPOINT = "YOUR_CLOUD_FUNCTION_HTTP_TRIGGER_URL"; 
+        // --- 1. Matriz de Sincronización (Audition Data) ---
+        // Ritmo Base: ~2.4 segundos por línea (100 WPM)
+        // [ID, Tiempo de Inicio (s), Línea 1, Línea 2, Línea 3]
+        const TICKER_DATA = [
+            ["01.0", 0.000, "--------------------", "    INICIANDO S.E.A.  ", "--------------------"],
+            ["02.0", 4.800, "     TEN : ONE", "      14", "      17"], // Inicio del Problema
+            ["03.0", 9.600, "4 MAS 7 IGUAL 11", "", ""], // Cálculo de Unidades
+            ["04.0", 14.400, "      14", "      17", "------      1"], // Residuo y Raya de Suma
+            ["05.0", 19.200, "  1 ", "      14", "      17"], // Acarreo '1' aparece arriba
+            ["06.0", 24.000, "      1 4", "      1 7", "------  3 1"], // Resultado Final (31)
+            ["07.0", 28.800, "PAGO LA PRECISION", "OPERACION EXITOSA", ""] // Cierre
+        ];
 
-        function toggleVideoPlayback() {
-            if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
-                return;
-            }
-            if (videoWrapper.style.display !== 'block') {
-                playSelectedModule();
-                player.play(); 
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
-        }
-        
-        function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';
-            moduleDetailPanel.style.display = 'none'; 
-            videoWrapper.style.display = 'block';
-            embeddedReturnBtn.style.display = 'block'; 
-            player.src = nextVideoSource;
-            player.load(); 
-        }
-        
-        function showModules() {
-            moduleViewContainer.style.display = 'block'; 
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none'; 
-            player.pause();
-            player.removeAttribute('src'); 
-            player.load();
-            currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
-            detailControlBtn.textContent = '▶ Begin Module';
-            detailControlBtn.style.backgroundColor = 'white';
-            detailControlBtn.style.color = 'black';
-        }
+        // --- 2. TickerMon Core Logic (GUT) ---
+        const MAX_WIDTH = 20;
+        let presentationRunning = false;
+        let startTime = 0;
+        let markerIndex = 0;
+        let animationFrameId = null; 
 
-        // X MARKS THE SPOT: SECURE LAUNCH FUNCTION (The Atomic Action)
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle; 
+        const playButton = document.getElementById('play-button');
+
+        function formatAndRender(data) {
+            const tickerElement = document.getElementById('ticker-mon');
+            if (!tickerElement) return;
+
+            const lines = [data[2], data[3], data[4]];
             
-            // --- 1. DISPLAY MODULE DETAILS ---
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            
-            detailCode.textContent = `Module Code: ${code}`;
-            detailTitle.textContent = title;
-            document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
-
-            // --- 2. PREPARE FOR SECURE FETCH (The Pippi Longstocking Move) ---
-            // This converts the public URL back to the internal path the Python GCF needs.
-            const pathPrefix = "https://storage.googleapis.com/noenbalde/";
-            const internalFilePath = videoSource.substring(pathPrefix.length);
-
-            detailControlBtn.textContent = 'Authenticating...';
-            detailControlBtn.disabled = true;
-
-            // --- 3. FETCH SECURE SIGNED URL (The Ignition Key SLOT) ---
-            fetch(SIGNED_URL_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file_path: internalFilePath })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Authentication Failed: 403 or GCF Error.');
-                return response.json();
-            })
-            .then(data => {
-                nextVideoSource = data.signed_url;
-                detailControlBtn.textContent = '▶ Begin Module';
-                detailControlBtn.disabled = false;
-            })
-            .catch(error => {
-                console.error('Secure Launch Error:', error);
-                statusMessage.textContent = `❌ SECURITY ERROR: Launch failed. Check GCF/Bucket Status.`;
-                showModules();
+            // C/TM Feature: Aplicar alineación monoespaciada a la derecha
+            const formattedLines = lines.map(line => {
+                return line.padStart(MAX_WIDTH, ' '); 
             });
+
+            tickerElement.textContent = formattedLines.join('\n');
+            // Nota: Aquí irían las llamadas a CharAni y Pagoda (triggerAnimation)
         }
 
-        function closeVideo() { showModules(); }
+        function tick(timestamp) {
+            if (!presentationRunning) return;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (player) {
-                player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showModules();
-                });
+            // Calcular tiempo transcurrido desde el inicio de la reproducción
+            const currentTime = (timestamp - startTime) / 1000; 
+
+            if (markerIndex < TICKER_DATA.length) {
+                const currentMarker = TICKER_DATA[markerIndex];
+                
+                // Si el tiempo actual ha superado el tiempo de inicio del marcador
+                if (currentTime >= currentMarker[1]) {
+                    formatAndRender(currentMarker); 
+                    console.log(`[T: ${currentTime.toFixed(3)}s] ID: ${currentMarker[0]} CARGADO.`);
+                    markerIndex++;
+                }
+            } else if (markerIndex === TICKER_DATA.length) {
+                // Finalizar la presentación
+                console.log("--- Demostración Finalizada (Éxito G.U.T.) ---");
+                presentationRunning = false;
+                playButton.textContent = "Play / Pause (B4)";
+                markerIndex++;
+                return; 
             }
-            statusMessage.textContent = 'Select a module from the scrolling icon bar above to begin the ONETH experience.';
-            moduleDetailPanel.style.display = 'none';
-            document.getElementById('landing-status-box').style.display = 'block';
+
+            // Llamar al siguiente fotograma para un timing preciso
+            animationFrameId = requestAnimationFrame(tick);
+        }
+
+        // --- 3. Funciones Mapeables de Control (5 Botones) ---
+
+        function runPresentation() {
+            if (!presentationRunning) {
+                presentationRunning = true;
+                // Ajustar tiempo para reanudar desde el punto de pausa
+                startTime = performance.now() - (markerIndex > 0 ? TICKER_DATA[markerIndex - 1][1] * 1000 : 0); 
+                playButton.textContent = "Pause (B3)";
+                animationFrameId = requestAnimationFrame(tick);
+            } else {
+                presentationRunning = false;
+                playButton.textContent = "Play / Pause (B4)";
+                cancelAnimationFrame(animationFrameId);
+            }
+        }
+
+        function resetPresentation() {
+            presentationRunning = false;
+            cancelAnimationFrame(animationFrameId);
+            markerIndex = 0;
+            startTime = 0;
+            playButton.textContent = "Play / Pause (B4)";
+            // Carga la primera línea para la vista inicial
+            formatAndRender(TICKER_DATA[0]); 
+        }
+
+        // Inicializar la vista cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            // Asigna las funciones a los botones (simulando Mapeo de Botones)
+            document.getElementById('reset-button').onclick = resetPresentation;
+            resetPresentation();
         });
     </script>
-    </body> 
+</head>
+<body>
+    <div id="ticker-mon"></div>
+    <div class="controls">
+        <button onclick="runPresentation()" id="play-button">Play / Pause (B4)</button>
+        <button onclick="resetPresentation()" id="reset-button">Stop / Reset (B2)</button>
+        </div>
+</body>
 </html>
