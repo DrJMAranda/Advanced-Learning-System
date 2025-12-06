@@ -3,205 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.E.A. TickerMon Demo (C/TM)</title>
-    
+    <title>GIT Learning Module</title>
     <style>
-        /* Estilos esenciales: Dominio de Pantalla y Consola C64 */
+        /* --- GLOBAL & FLEXBOX (CONTAINER TO CONTAIN THEM ALL) --- */
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #0d0d0d;
             margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Light background for contrast */
         }
         
-        /* Contenedor principal que centra el TickerMon y el Video */
-        #main-container {
-            position: relative;
+        .outer-flexbox {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top (prevents stack overflow) */
+            min-height: 100vh; /* Ensures full screen height */
+            width: 100vw;
+            overflow: hidden; /* Prevents unwanted body scrollbars */
+        }
+        
+        /* --- INNER GRID CONTAINER (5x5 Structure) --- */
+        .inner-grid-container {
+            display: grid;
+            /* 5 Columns (No Lateral Competition) */
+            grid-template-columns: repeat(5, 1fr); 
+            
+            /* 5 Rows: Dominance (3.6fr) + Support (1.4fr) */
+            grid-template-rows: 0.2fr 1.8fr 1.8fr 0.6fr 0.6fr; /* Total 5.0fr */
+            
+            width: 100%;
+            max-width: 1200px; /* Max width for large screens */
+            height: 100vh; /* Takes up the available viewport height */
+            /* Border for visibility during testing - REMOVE LATER */
+            /* border: 1px solid #000; */ 
         }
 
-        #ticker-mon {
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 4em; /* Tamaño dominante */
-            color: #4CAF50;
-            background-color: #1a1a1a;
-            border: 6px solid #4CAF50;
-            width: 850px; /* Ancho ajustado para 20 caracteres grandes */
-            padding: 20px;
-            box-shadow: 0 0 25px rgba(76, 175, 80, 0.9);
-            white-space: pre; 
-            height: 160px; /* Altura ajustada para 3 líneas grandes */
-            overflow: hidden; 
-            z-index: 10; /* Asegura que los botones y el TM estén encima del video si es necesario */
+        /* --- ROW 1: METADATA (100% Occupancy) --- */
+        .metadata-row {
+            grid-column: 1 / span 5;
+            grid-row: 1;
+            display: grid;
+            /* 1/5 | 1/5 | 1/5 | 2/5 (fills 100%) */
+            grid-template-columns: 1fr 1fr 1fr 2fr; 
+            padding: 5px;
+            font-size: 0.8em;
+            align-items: center;
+            background-color: #e0e0e0;
+        }
+
+        /* --- ROWS 2 & 3: VIEWMON (The Dominant Element) --- */
+        .viewmon-container {
+            grid-column: 1 / span 5;
+            grid-row: 2 / span 2; /* Spans Row 2 and Row 3 (Dominance) */
+            
+            /* Center the 9x16 box inside its grid cells */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000; /* Video background */
         }
         
-        /* Estilo para el Video (Vidmon): Centrado y oculto inicialmente */
-        #vidmon-video {
-            position: absolute; /* Posición absoluta para no romper el layout */
+        /* ViewMon Simulacra: Enforces 9x16 Ratio and iPhone Min Size */
+        .viewmon-simulacra {
+            aspect-ratio: 16 / 9; 
+            width: 90%; 
+            /* Enforce iPhone Minimum Size Constraint */
+            min-width: 375px;
+            min-height: 210.9375px; 
+            
+            /* Style for the TeacherMon Cameo */
+            position: relative; 
+        }
+        
+        /* TeacherMon Cameo (Fixed internal to ViewMon) */
+        .teachermon-cameo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 10%; 
+            height: 10%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            z-index: 5; /* Above video content */
+        }
+
+        /* --- ROWS 4 & 5: SUPPORT & ACTION ZONES --- */
+        .bottom-zone {
+            grid-column: 1 / span 5; /* Full width for the wrap strategy */
+            grid-row: 4 / span 2; /* Occupies rows 4 and 5 */
+            background-color: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            
+            /* Flex-Wrap Strategy for Row 5/Bottom Zone */
+            display: flex;
+            flex-wrap: wrap; /* Allows components to wrap vertically on narrow screens */
+            justify-content: space-between; /* Space out the three main columns */
+            align-items: flex-start;
+            align-content: flex-start; /* Aligns wrapped lines to the top */
+            border-top: 1px solid #ccc;
+        }
+        
+        /* --- CCD (Center Data Stack - TTM, Images, Music) --- */
+        .ccd-container {
+            /* Restrict width to maximize space for other elements on large screens */
+            max-width: 35%; 
+            min-width: 250px; /* Min width to fit TTM's 20 mono-spaced chars */
+            /* Fill space left-to-center */
+            margin-right: auto; 
+            margin-left: auto;
+            order: 2; /* Second in wrapping order (Center Stack) */
+            text-align: left; /* TTM fills space left to center */
+        }
+        
+        /* TTM and Image Flow (Contiguous Stack) */
+        .ttm-display {
+            /* TTM: 2 lines max, mono-spaced font */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10pt;
+            line-height: 1.2;
+            height: 2.4em; /* Approx height for 2 lines */
+            overflow: hidden;
+            background-color: #222;
+            color: lime;
+            padding: 4px;
+            white-space: nowrap;
+        }
+
+        /* --- DASHBOARD (Student Panel) & STATUS (Q&A Button Zone) --- */
+        .student-dashboard {
+            order: 1; /* First in wrapping order (Low Priority) */
+            flex: 1 1 30%; /* Growable, takes up space */
+            min-width: 150px;
+        }
+        
+        .action-status-zone {
+            order: 3; /* Last in wrapping order (High Stability) */
+            flex: 0 0 auto; /* Do not grow */
+            min-width: 150px;
+            text-align: right; /* Button aligned to the right */
+        }
+
+        /* --- Q&A Overlay (Layer 3 - Hidden by Default) --- */
+        .qa-overlay {
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Centrado perfecto */
-            width: 900px; /* Un poco más grande para dominar la vista */
-            height: 500px; 
-            z-index: 5;
-            display: none; /* Oculto inicialmente (Tabula Rasa Visual) */
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            border: 2px solid #333;
+            padding: 20px;
+            text-align: center;
+            /* Hide by default */
+            display: none; 
         }
-        
-        /* Controles */
-        .controls {
-            margin-top: 20px;
-        }
-        .controls button {
-            padding: 10px 15px;
-            font-size: 1.5em;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: #1a1a1a;
-            border: none;
-            margin: 0 15px;
-            border-radius: 4px;
-        }
+
     </style>
-
-    <script>
-        // --- 1. Matriz de Sincronización (Audition Data) ---
-        const TICKER_DATA = [
-            // Línea Inicial en blanco (Tabula Rasa Visual)
-            ["00.0", 0.000, "                    ", "                    ", "                    ", "hide"],
-            ["01.0", 0.500, "--------------------", "    INICIANDO S.E.A.  ", "--------------------", "hide"],
-            ["02.0", 5.300, "     TEN : ONE", "      14", "      17", "hide"], 
-            ["03.0", 10.100, "4 MAS 7 IGUAL 11", "", "", "hide"], 
-            // Disparador del Video: Justo antes del residuo
-            ["04.0", 14.900, "4 MAS 7 IGUAL 11", "--- OVERFLOW ---", "------      1", "show"], // Muestra la raya y el residuo 1
-            ["05.0", 19.700, "  1 ", "      14", "      17", "show"], // Acarreo '1' aparece arriba
-            ["06.0", 24.500, "      1 4", "      1 7", "------  3 1", "hide"], // Resultado Final (31)
-            ["07.0", 29.300, "PAGO LA PRECISION", "OPERACION EXITOSA", "", "hide"] // Cierre
-        ];
-
-        // --- 2. TickerMon Core Logic (GUT) ---
-        const MAX_WIDTH = 20;
-        const VIDEO_URL = 'https://storage.googleapis.com/noenbalde/Videos/Decillones.mp4'; // URL del video
-        
-        let presentationRunning = false;
-        let startTime = 0;
-        let markerIndex = 0;
-        let animationFrameId = null;
-        
-        // Elementos globales
-        let tickerElement;
-        let playButton;
-        let vidmonVideo; // Referencia al elemento de video
-
-        function formatAndRender(data) {
-            // Visualización del TickerMon
-            const lines = [data[2], data[3], data[4]];
-            const formattedLines = lines.map(line => line.padStart(MAX_WIDTH, ' '));
-            tickerElement.textContent = formattedLines.join('\n');
-
-            // --- Lógica de Disparo del Video (Vidmon) ---
-            const videoAction = data[5];
-
-            if (videoAction === "show") {
-                vidmonVideo.style.display = 'block';
-                vidmonVideo.play();
-            } else {
-                vidmonVideo.pause();
-                vidmonVideo.style.display = 'none';
-                vidmonVideo.currentTime = 0; // Reiniciar el video
-            }
-        }
-
-        function tick(timestamp) {
-            if (!presentationRunning) return;
-            const currentTime = (timestamp - startTime) / 1000; 
-
-            if (markerIndex < TICKER_DATA.length) {
-                const currentMarker = TICKER_DATA[markerIndex];
-                
-                if (currentTime >= currentMarker[1]) {
-                    formatAndRender(currentMarker); 
-                    console.log(`[T: ${currentTime.toFixed(3)}s] ID: ${currentMarker[0]} CARGADO.`);
-                    markerIndex++;
-                }
-            } else if (markerIndex === TICKER_DATA.length) {
-                console.log("--- Demostración Finalizada (Éxito G.U.T.) ---");
-                presentationRunning = false;
-                playButton.textContent = "Play / Pause (B4)";
-                return; 
-            }
-
-            animationFrameId = requestAnimationFrame(tick);
-        }
-
-        // --- 3. Funciones Mapeables de Control (5 Botones) ---
-
-        function runPresentation() {
-            if (!presentationRunning) {
-                presentationRunning = true;
-                startTime = performance.now() - (markerIndex > 0 ? TICKER_DATA[markerIndex - 1][1] * 1000 : 0); 
-                playButton.textContent = "Pause (B3)";
-                animationFrameId = requestAnimationFrame(tick);
-            } else {
-                presentationRunning = false;
-                playButton.textContent = "Play / Pause (B4)";
-                cancelAnimationFrame(animationFrameId);
-                // Si se pausa, ocultamos el video para no competir con el TickerMon
-                vidmonVideo.pause(); 
-                vidmonVideo.style.display = 'none';
-            }
-        }
-
-        function resetPresentation() {
-            presentationRunning = false;
-            cancelAnimationFrame(animationFrameId);
-            markerIndex = 0;
-            startTime = 0;
-            playButton.textContent = "Play / Pause (B4)";
-            
-            // Ocultar video y reiniciar
-            vidmonVideo.pause(); 
-            vidmonVideo.currentTime = 0;
-            vidmonVideo.style.display = 'none'; 
-
-            // Mostrar la primera línea completamente en blanco (Tabula Rasa Visual)
-            formatAndRender(TICKER_DATA[0]); 
-        }
-
-        // Inicializador del Sistema
-        document.addEventListener('DOMContentLoaded', () => {
-            tickerElement = document.getElementById('ticker-mon');
-            playButton = document.getElementById('play-button');
-            vidmonVideo = document.getElementById('vidmon-video');
-
-            // Asigna la URL al elemento de video
-            vidmonVideo.src = VIDEO_URL;
-            
-            // Asigna las funciones a los botones
-            document.getElementById('reset-button').onclick = resetPresentation;
-            
-            // 1. Inicializa la vista (TickerMon en blanco)
-            resetPresentation(); 
-            
-            // 2. Lanza automáticamente la propuesta (ON START UP)
-            runPresentation(); 
-        });
-    </script>
 </head>
 <body>
-    <div id="main-container">
-        <video id="vidmon-video" loop muted playsinline></video>
-        
-        <div id="ticker-mon"></div>
+    <div class="qa-overlay">
+        <h2>Acknowledgement Required (Q&A)</h2>
+        <p>Question: [Arithmetic Sentence Display] + [Correct Answer]</p>
+        <button onclick="confirmAcknowledgment()">Acknowledge / Confirm</button>
     </div>
 
-    <div class="controls">
-        <button onclick="runPresentation()" id="play-button">Pause (B3)</button>
-        <button onclick="resetPresentation()" id="reset-button">Stop / Reset (B2)</button>
+    <div class="outer-flexbox">
+        <div class="inner-grid-container">
+            <div class="metadata-row">
+                <div class="metadata-item id-registro">ID: G-1001</div>
+                <div class="metadata-item id-relacional">REL: M-45</div>
+                <div class="metadata-item fecha-validacion">Validated: PENDING</div>
+                <div class="metadata-item titulo">Module Title: Controlled Glide</div>
+            </div>
+
+            <div class="viewmon-container">
+                <div class="viewmon-simulacra">
+                    <p>VIEW MON (9x16)</p>
+                    <div class="teachermon-cameo"></div>
+                </div>
+            </div>
+
+            <div class="bottom-zone">
+                
+                <div class="student-dashboard">
+                    <h3>Student Panel</h3>
+                    <p>Status: Active</p>
+                    <p>Tasks: 4/5 Complete</p>
+                </div>
+
+                <div class="ccd-container">
+                    <div style="text-align: left; font-size: 0.7em;">- - ' - - '</div>
+                    <div class="ttm-display">
+                        L1: VID 00:00/05:00 PENDING | L2: ARIT INTENTOS 0 PUNT 0.00
+                    </div>
+                    <div style="height: 50px; border: 1px dashed #ccc; margin-top: 5px;">
+                        Image Flow / Music Staff Slot
+                    </div>
+                </div>
+
+                <div class="action-status-zone">
+                    <button onclick="triggerAcknowledgment()">Acknowledge</button>
+                    <p style="margin-top: 5px;">Status: ⚠️ Pending Ack</p>
+                </div>
+            </div>
         </div>
+    </div>
+    <script>
+        // Placeholder functions for the logic defined
+        function triggerAcknowledgment() {
+            document.querySelector('.qa-overlay').style.display = 'block';
+        }
+        function confirmAcknowledgment() {
+            // This is where the scoring, TTM update, and NEXT check would go.
+            document.querySelector('.qa-overlay').style.display = 'none';
+            alert("Acknowledgment Confirmed. Check TTM for update.");
+        }
+    </script>
 </body>
 </html>
