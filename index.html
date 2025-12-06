@@ -34,8 +34,8 @@
             /* Define 6 internal stack rows: Controls (smallest) down to Music Staff (flexible) */
             grid-template-columns:  1    fr; 
             grid-template-rows:     0.10 fr   /* 1. Controls Bar (Top) */
-                                    2.5  fr   /* 2. VidMon Display (Largest) */
-                                     .1       /* 3. Accent Bar */
+                                    3    fr   /* 2. VidMon Display (Largest) */
+                                     .1  fr   /* 3. Accent Bar */
                                     0.2  fr   /* 4. Text Bar / Text Scrollbar Min Height */
                                     0.3  fr   /* 5. Image Bar */
                                     0.3 fr;   /* 6. Music Staff */
@@ -116,10 +116,10 @@
             <div class="viewmon-container">
                 
                 <div class="controls-row">
-                    <button data-control="5" data-qa-role="3" class="control-btn" title="Fast Forward/End">⏭</button>
-                    <button data-control="2" data-qa-role="0" class="control-btn" title="Restart/A">|◀</button>
-                    <button data-control="3" data-qa-role="1" class="control-btn" title="Rewind/B">⏪</button>
-                    <button data-control="4" data-qa-role="2" class="control-btn" title="Play/Acknowledge">▶</button>
+                    <button data-control="5" data-qa-role="3"   class="control-btn" title="Fast Forward/End">⏭</button>
+                    <button data-control="2" data-qa-role="0"   class="control-btn" title="Restart/A">|◀</button>
+                    <button data-control="3" data-qa-role="1"   class="control-btn" title="Rewind/B">⏪</button>
+                    <button data-control="4" data-qa-role="2"   class="control-btn" title="Play/Acknowledge">▶</button>
                     <button data-control="1" data-qa-role="esc" class="control-btn" title="Exit/Eject">↩</button>
                 </div>
 
@@ -130,9 +130,14 @@
 
                 <div class="text-scrollbar-accent">
                     <div class="accent-line" id="ccd-emphasis">- - ' - - ' (Accent Line)</div> 
-                    <p id="text-scroll-content">This is the text scrollbar area, restricted to 20 mono-spaced chars wide by 3 lines max.</p>
+                    <p id="accent-content">This is the accent area, restricted to 20 mono-spaced chars wide by 1 lines max.</p>
                 </div>
-                
+ 
+                <div class="text-scrollbar">
+                    <div class="text-line" id="ccd-emphasis"' (Text Line)</div> 
+                    <p id="text-scroll-content">This is the text area, restricted to 20 mono-spaced chars wide by 3 lines max.</p>
+                </div>
+               
                 <div class="image-bar" id="image-flow-slot">Image Flow (Visual Dictionary)</div>
                 
                 <div class="music-staff-bar">Music Staff Notation Zone</div>
