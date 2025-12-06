@@ -3,48 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIT Learning Module - Final Production Stack</title>
+    <title>GIT Advanced Learning System - FINAL</title>
     <style>
         /* --- GLOBAL & ACCESSIBILITY --- */
         body { margin: 0; padding: 0; background-color: #f4f4f9; font-size: 16px; }
+        
+        /* --- FLEXBOX (CONTAINER TO CONTAIN THEM ALL) --- */
         .outer-flexbox { 
             display: flex; justify-content: center; align-items: flex-start; 
             min-height: 100vh; width: 100vw; overflow: hidden; 
         }
 
-        /* --- INNER GRID CONTAINER (Main 5x5 Structure) --- */
+        /* --- INNER GRID CONTAINER (Main Layout) --- */
         .inner-grid-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr); 
-            grid-template-rows: 0.2fr 1.8fr 1.8fr 0.6fr 0.6fr; /* Rows are weighted for dominance */
+            grid-template-rows: 0.2fr 1.8fr 1.8fr 0.6fr 0.6fr; /* Weighted rows */
             width: 100%;
             max-width: 1200px;
             height: 100vh; 
         }
 
-        /* --- VIEWMON BLOCK (Rows 2 & 3: THE FINAL HOLISTIC STACK) --- */
+        /* --- VIEWMON BLOCK (Rows 2 & 3: THE HOLISTIC STACK) --- */
         .viewmon-container {
             grid-column: 1 / span 5;
             grid-row: 2 / span 2; 
             background-color: #000;
-            display: grid; /* NEW: ViewMon Block is its own internal Grid */
+            display: grid; 
             
-            /* Define 6 internal stack rows (approximate weights) */
+            /* Define 6 internal stack rows: Controls (smallest) down to Music Staff (flexible) */
             grid-template-columns: 1fr; 
-            /* Weights based on: Controls (minimal) -> Video (largest) -> Text (minimal) -> Support (minimal) */
             grid-template-rows: 0.15fr /* 1. Controls Bar (Top) */
                                 2.5fr  /* 2. VidMon Display (Largest) */
                                 0.3fr  /* 3. Accent Bar / Text Scrollbar Min Height */
                                 0.3fr  /* 4. Image Bar */
-                                0.25fr; /* 5. Music Staff Bar */
+                                0.25fr; /* 5. Music Staff */
             
-            /* Enforce primary constraints */
-            aspect-ratio: 16 / 9; 
+            aspect-ratio: 16 / 9; /* Enforces 9:16 ratio */
             width: 90%;
-            margin: 0 auto; 
+            margin: 0 auto;
             position: relative;
         }
-
+        
         /* --- 1. CONTROLS BAR (Top of Stack) --- */
         .controls-row {
             grid-row: 1;
@@ -58,10 +58,10 @@
         .control-btn {
             background: #fff; color: #111; border: none; border-radius: 5px; 
             padding: 10px 15px; font-size: 1.5em; min-width: 50px; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
+            margin: 0 5px; display: flex; justify-content: center; align-items: center;
         }
-
-        /* --- 2. VIDMON DISPLAY (The Main 9x16 Content) --- */
+        
+        /* --- 2. VIDMON DISPLAY (Main Content) --- */
         .vidmon-display {
             grid-row: 2;
             background-color: black;
@@ -69,79 +69,236 @@
         }
         .vidmon-display video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* --- 3. ACCENT/TEXT SCROLLBAR (Contiguous below video) --- */
+        /* --- 3. ACCENT/TEXT SCROLLBAR (Max 3 lines, 14pt Mono) --- */
         .text-scrollbar-accent {
             grid-row: 3;
             background-color: #333;
             color: white;
             padding: 4px 6px;
-            overflow-y: auto; /* Activates scrollbar when exceeding max height */
-            
-            /* Typographical Contract: Max 3 lines, Min 1 line, 14pt Mono */
+            overflow-y: auto; 
             font-size: 14pt; 
             font-family: 'Courier New', monospace;
             max-height: calc(14pt * 1.5 * 3); /* 3 lines tall */
             min-height: calc(14pt * 1.5); /* 1 line tall */
         }
-        .accent-line { font-size: 0.8em; margin-bottom: 2px; } /* Accent line is part of this stack item */
+        .accent-line { font-size: 0.8em; margin-bottom: 2px; } 
 
-        /* --- 4. IMAGE BAR / 5. MUSIC STAFF BAR (Support Layers) --- */
-        .image-bar { grid-row: 4; background-color: #555; padding: 5px; }
-        .music-staff-bar { grid-row: 5; background-color: #999; padding: 5px; text-align: center; }
-
-        /* --- REMAINING GRID ROWS (Metadata/Dashboard/TTM) --- */
-        .metadata-row { grid-column: 1 / span 5; grid-row: 1; /* ... */ }
-        .bottom-zone { grid-column: 1 / span 5; grid-row: 4 / span 2; display: flex; /* ... */ }
-        .ttm-display { font-family: 'Courier New', monospace; /* ... */ }
-        .student-dashboard { order: 1; /* ... */ }
-
+        /* --- Q&A Overlay (Layer 3) --- */
+        .qa-overlay {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 1000; display: none; 
+            width: 80%; max-width: 600px; background: white; padding: 20px; border: 2px solid #333;
+        }
+        
+        /* --- FINAL CONTROL ICONOGRAPHY --- */
+        /* Note: Using common unicode symbols for final clarity */
+        .symbol-x { font-weight: bold; } /* Used for the STOP symbol */
     </style>
 </head>
 <body>
+    
+    <div class="qa-overlay">
+        <h2>Acknowledgment Required</h2>
+        <p id="qa-question-display">Question: [Loading...]</p>
+        <p id="qa-solution-display" style="font-weight: bold;">Solution: [Loading...]</p>
+        <button onclick="handleOverlayConfirm()">Acknowledge / Confirm</button>
+    </div>
+
     <div class="outer-flexbox">
         <div class="inner-grid-container">
             
-            <div class="metadata-row">... Metadata Content ...</div>
+            <div class="metadata-row">
+                <div class="metadata-item id-registro">ID: G-1001</div>
+                <div class="metadata-item id-relacional">REL: M-45</div>
+            </div>
 
             <div class="viewmon-container">
                 
                 <div class="controls-row">
-                    <button data-control="1" title="Eject/Return">↩</button> 
-                    <button data-control="2" title="Restart">|<</button> 
-                    <button data-control="3" title="Rewind">⏪</button>
-                    <button data-control="4" title="Stop/Acknowledge">❌</button> <button data-control="5" title="Play/Next">▶</button>
+                    <button data-control="5" data-qa-role="3" class="control-btn" title="Fast Forward/End">⏭</button>
+                    <button data-control="2" data-qa-role="0" class="control-btn" title="Restart/A">|◀</button>
+                    <button data-control="3" data-qa-role="1" class="control-btn" title="Rewind/B">⏪</button>
+                    <button data-control="4" data-qa-role="2" class="control-btn" title="Play/Acknowledge">▶</button>
+                    <button data-control="1" data-qa-role="esc" class="control-btn" title="Exit/Eject">↩</button>
                 </div>
 
                 <div class="vidmon-display">
-                    <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture 
-                           src="http://your.video.source/default.mp4" 
-                           autoplay muted>
-                    </video>
+                    <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture src="http://your.video.source/default.mp4" autoplay muted></video>
                     <div class="teachermon-cameo"></div>
                 </div>
 
                 <div class="text-scrollbar-accent">
-                    <div class="accent-line">- - ' - - ' (Accent Line)</div> 
-                    <p>This is the text scrollbar area, restricted to 20 mono-spaced chars wide by 3 lines max. 
-                       The rhythmic content ensures knowledge transfer.</p>
+                    <div class="accent-line" id="ccd-emphasis">- - ' - - ' (Accent Line)</div> 
+                    <p id="text-scroll-content">This is the text scrollbar area, restricted to 20 mono-spaced chars wide by 3 lines max.</p>
                 </div>
                 
-                <div class="image-bar">Image Flow (Visual Dictionary)</div>
+                <div class="image-bar" id="image-flow-slot">Image Flow (Visual Dictionary)</div>
                 
                 <div class="music-staff-bar">Music Staff Notation Zone</div>
 
             </div>
 
-            <div class="bottom-zone">
-                ... TTM and Dashboard Content ...
+            <div class="bottom-zone" style="display:flex; justify-content:space-between; padding: 10px;">
+                <div class="student-dashboard">... Dashboard Content ...</div>
+                <div class="ttm-output" id="ttm-output">L1: VID 00:00/05:00 PENDING | L2: ARIT INTENTOS 0 PUNT 0.00</div>
+                <div class="action-status-zone"><p id="feedback-message">Ready.</p></div>
             </div>
         </div>
     </div>
     
     <script>
-        // --- FINAL LOGIC SCRIPTS GO HERE ---
-        // (Placeholder for the Acknowledge/Progression Logic)
-        console.log("Holistic Code Ready. Final Stack Structure Confirmed.");
+        // --- HOLISTIC DATA SCHEMA (SINGLE SOURCE OF TRUTH) ---
+        const GIT_Module_Data = {
+            video_url: "http://your.video.source/default.mp4",
+            video_duration_sec: 300, 
+            ttm_initial_status: "PENDING", 
+            tasks: [
+                { id: 1, question: "Is 2x + 5 = 15 solved by x=5?", solution: "True", input_map: '4' },
+                { id: 2, question: "What is the perfect dx/dy angle?", solution: "B", input_map: '2' },
+                { id: 3, question: "Does dx/dy represent a controlled slide?", solution: "False", input_map: '3' }
+            ],
+            image_flow_items: [
+                { text: "Controlled Glide", trigger_time_sec: 10 },
+                { text: "Blue Bird", trigger_time_sec: 25 }
+            ]
+        };
+
+        // --- GLOBAL STATE ---
+        let state = {
+            isQuizActive: false,
+            currentTaskIndex: 0,
+            attemptsCount: 0,
+            score: 0.0,
+            videoTimeFrozen: 0 
+        };
+        
+        // --- PHASE 2: TIME SYNC LOGIC (The Core Functional Contract) ---
+        
+        const formatTime = (seconds) => new Date(seconds * 1000).toISOString().substr(14, 5);
+
+        const syncSupportLayers = () => {
+            const video = document.getElementById('viewmon-video');
+            if (!video || state.isQuizActive) return; 
+
+            const currentTime = video.currentTime;
+            const duration = GIT_Module_Data.video_duration_sec;
+            
+            // 1. TTM Update
+            const timeStatus = `VID ${formatTime(currentTime)}/${formatTime(duration)}`;
+            const status = state.score === 1.0 ? "COMPLETE" : GIT_Module_Data.ttm_initial_status;
+            document.getElementById('ttm-output').textContent = 
+                `L1: ${timeStatus} ${status} | L2: ARIT INTENTOS ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
+
+            // 2. Image Flow Trigger
+            const nextItem = GIT_Module_Data.image_flow_items.find(item => 
+                item.trigger_time_sec >= currentTime && item.trigger_time_sec < currentTime + 1 
+            );
+
+            if (nextItem) {
+                document.getElementById('image-flow-slot').textContent = `IMAGE FLOW: ${nextItem.text}`;
+            }
+
+            // 3. Q&A Auto-Trigger (Check if current time matches next task time)
+            // (Placeholder for the logic that would trigger the quiz automatically)
+        };
+        
+        // --- PHASE 1: ACKNOWLEDGEMENT LOGIC ---
+
+        const handleOverlayConfirm = () => {
+            // Acknowledge logic: Score is instantly 1.0 upon user confirmation
+            state.attemptsCount++;
+            state.score = 1.0; 
+            
+            // Re-enable Progression Control (Control #4)
+            document.querySelector('[data-control="4"]').disabled = false;
+            
+            // Update UI/State and close
+            updateTTM();
+            showFeedback("Acknowledgment Confirmed.", '#4CAF50');
+            document.querySelector('.qa-overlay').style.display = 'none';
+            state.isQuizActive = false;
+        };
+
+        const handleControlClick = (event) => {
+            const buttonElement = event.currentTarget;
+            const controlNumber = buttonElement.dataset.control;
+            const video = document.getElementById('viewmon-video');
+
+            if (state.isQuizActive) {
+                // All controls ignored except the overlay's confirm button
+                return; 
+            }
+            
+            if (controlNumber === '4') { // PRIMARY ACTION: PLAY/PAUSE/ACKNOWLEDGE
+                if (state.score === 1.0) {
+                    // ACKNOWLEDGED: EXECUTE PROGRESSION (The Controlled Glide)
+                    handleNextProgression();
+                } else if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            } else if (controlNumber === '3') { // REWIND (Simulation for Acknowledge Trigger)
+                 if (state.score !== 1.0) {
+                    triggerAcknowledgment(); // Use Rewind as manual quiz trigger for testing
+                 } else {
+                    video.currentTime -= 10; // Standard Rewind -10s
+                 }
+            } else if (controlNumber === '1') { // EJECT/RESET (ESC)
+                console.log("MACRO-NAVIGATION: System Reset/Eject Initiated.");
+                // In reality: router.navigate('/start');
+            } else {
+                // Placeholder for other controls (Restart, FF/End)
+                console.log(`Video Playback: Control ${controlNumber} activated.`);
+            }
+        };
+
+        const handleNextProgression = () => {
+            const total = GIT_Module_Data.tasks.length;
+            
+            if (state.currentTaskIndex < total - 1) {
+                // [Micro-Progression: Next Sentence]
+                state.currentTaskIndex++;
+                state.score = 0.0; // Reset score for the new task
+                console.log(`Micro-Progression: Loading task ${state.currentTaskIndex + 1}`);
+                document.querySelector('[data-control="4"]').disabled = true; 
+                
+            } else if (state.currentTaskIndex === total - 1) {
+                // [Macro-Progression: Next Module]
+                console.log("Macro-Progression: Module sequence complete. Triggering global router.");
+                // In reality: navigateToNextModule();
+            }
+            updateTTM();
+        };
+
+        const triggerAcknowledgment = () => {
+            const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+            
+            state.isQuizActive = true;
+            document.getElementById('viewmon-video').pause(); 
+            
+            document.getElementById('qa-question-display').textContent = currentTask.question;
+            document.getElementById('qa-solution-display').textContent = `Solution: ${currentTask.solution}`;
+            document.querySelector('.qa-overlay').style.display = 'block';
+        };
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTTM(); 
+
+            document.querySelectorAll('.control-btn').forEach(button => {
+                button.addEventListener('click', handleControlClick);
+            });
+
+            // Set initial state (Progression disabled until acknowledged)
+            document.querySelector('[data-control="4"]').disabled = true;
+            
+            // Time Sync Binding
+            const video = document.getElementById('viewmon-video');
+            if (video) {
+                video.addEventListener('timeupdate', syncSupportLayers);
+            }
+        });
     </script>
 </body>
 </html>
