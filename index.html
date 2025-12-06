@@ -3,38 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIT Learning Module</title>
+    <title>GIT Learning Module - Final Blueprint</title>
     <style>
-        /* --- GLOBAL & FLEXBOX (CONTAINER TO CONTAIN THEM ALL) --- */
+        /* --- VISUAL ERGONOMICS & ACCESSIBILITY --- */
+        /* Color: Rely on contrast, not hue. Text must be at least 16px. */
         body {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9; /* Light background for contrast */
+            background-color: #f4f4f9; /* Lighthouse Gray Background */
+            font-size: 16px; /* Base accessibility size */
         }
         
+        /* --- GLOBAL & FLEXBOX (CONTAINER TO CONTAIN THEM ALL) --- */
         .outer-flexbox {
             display: flex;
-            justify-content: center; /* Center content horizontally */
-            align-items: flex-start; /* Align content to the top (prevents stack overflow) */
-            min-height: 100vh; /* Ensures full screen height */
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
             width: 100vw;
-            overflow: hidden; /* Prevents unwanted body scrollbars */
+            overflow: hidden;
         }
         
         /* --- INNER GRID CONTAINER (5x5 Structure) --- */
         .inner-grid-container {
             display: grid;
-            /* 5 Columns (No Lateral Competition) */
             grid-template-columns: repeat(5, 1fr); 
-            
-            /* 5 Rows: Dominance (3.6fr) + Support (1.4fr) */
-            grid-template-rows: 0.2fr 1.8fr 1.8fr 0.6fr 0.6fr; /* Total 5.0fr */
-            
+            /* Rows: Dominance + Support, adjusted for compactness */
+            grid-template-rows: 0.2fr 1.8fr 1.8fr 0.6fr 0.6fr; 
             width: 100%;
-            max-width: 1200px; /* Max width for large screens */
-            height: 100vh; /* Takes up the available viewport height */
-            /* Border for visibility during testing - REMOVE LATER */
-            /* border: 1px solid #000; */ 
+            max-width: 1200px;
+            height: 100vh; 
         }
 
         /* --- ROW 1: METADATA (100% Occupancy) --- */
@@ -42,7 +40,6 @@
             grid-column: 1 / span 5;
             grid-row: 1;
             display: grid;
-            /* 1/5 | 1/5 | 1/5 | 2/5 (fills 100%) */
             grid-template-columns: 1fr 1fr 1fr 2fr; 
             padding: 5px;
             font-size: 0.8em;
@@ -53,28 +50,28 @@
         /* --- ROWS 2 & 3: VIEWMON (The Dominant Element) --- */
         .viewmon-container {
             grid-column: 1 / span 5;
-            grid-row: 2 / span 2; /* Spans Row 2 and Row 3 (Dominance) */
-            
-            /* Center the 9x16 box inside its grid cells */
+            grid-row: 2 / span 2;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000; /* Video background */
+            background-color: #000; /* High Contrast Background */
         }
         
-        /* ViewMon Simulacra: Enforces 9x16 Ratio and iPhone Min Size */
         .viewmon-simulacra {
-            aspect-ratio: 16 / 9; 
+            aspect-ratio: 16 / 9; /* Enforces 9:16 ratio */
             width: 90%; 
-            /* Enforce iPhone Minimum Size Constraint */
-            min-width: 375px;
+            min-width: 375px; /* iPhone Minimum Size */
             min-height: 210.9375px; 
-            
-            /* Style for the TeacherMon Cameo */
-            position: relative; 
+            position: relative;
         }
         
-        /* TeacherMon Cameo (Fixed internal to ViewMon) */
+        .viewmon-simulacra video {
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+        }
+
+        /* TeacherMon Cameo */
         .teachermon-cameo {
             position: absolute;
             bottom: 10px;
@@ -83,67 +80,70 @@
             height: 10%;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
-            z-index: 5; /* Above video content */
+            z-index: 5;
+        }
+
+        /* --- 4 DUAL-FUNCTION CONTROLS HUB --- */
+        .video-controls-bar {
+            position: absolute;
+            bottom: 0; 
+            width: 100%;
+            padding: 0 10%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8); /* Dark background for button contrast */
+            z-index: 10;
+        }
+        
+        .control-btn {
+            /* High Contrast Button Face (Black on Light Background for Symbol) */
+            background: #fff; 
+            color: #111; /* Black icon */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1.5em; /* Large size for all ages (44x44 target) */
+            min-width: 50px; 
+            margin: 0 5px;
+            /* Using Flex to center the icon */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-btn:disabled {
+            background-color: #ccc;
+            color: #777;
+            cursor: not-allowed;
         }
 
         /* --- ROWS 4 & 5: SUPPORT & ACTION ZONES --- */
         .bottom-zone {
-            grid-column: 1 / span 5; /* Full width for the wrap strategy */
-            grid-row: 4 / span 2; /* Occupies rows 4 and 5 */
+            grid-column: 1 / span 5;
+            grid-row: 4 / span 2;
             background-color: #fff;
             padding: 10px;
             box-sizing: border-box;
-            
-            /* Flex-Wrap Strategy for Row 5/Bottom Zone */
             display: flex;
-            flex-wrap: wrap; /* Allows components to wrap vertically on narrow screens */
-            justify-content: space-between; /* Space out the three main columns */
+            flex-wrap: wrap; 
+            justify-content: space-between; 
             align-items: flex-start;
-            align-content: flex-start; /* Aligns wrapped lines to the top */
-            border-top: 1px solid #ccc;
         }
         
-        /* --- CCD (Center Data Stack - TTM, Images, Music) --- */
-        .ccd-container {
-            /* Restrict width to maximize space for other elements on large screens */
-            max-width: 35%; 
-            min-width: 250px; /* Min width to fit TTM's 20 mono-spaced chars */
-            /* Fill space left-to-center */
-            margin-right: auto; 
-            margin-left: auto;
-            order: 2; /* Second in wrapping order (Center Stack) */
-            text-align: left; /* TTM fills space left to center */
-        }
-        
-        /* TTM and Image Flow (Contiguous Stack) */
         .ttm-display {
-            /* TTM: 2 lines max, mono-spaced font */
             font-family: 'Courier New', Courier, monospace;
             font-size: 10pt;
             line-height: 1.2;
-            height: 2.4em; /* Approx height for 2 lines */
-            overflow: hidden;
+            height: 2.4em;
             background-color: #222;
-            color: lime;
+            color: lime; /* High Contrast for Fatigue Reduction */
             padding: 4px;
             white-space: nowrap;
         }
 
-        /* --- DASHBOARD (Student Panel) & STATUS (Q&A Button Zone) --- */
-        .student-dashboard {
-            order: 1; /* First in wrapping order (Low Priority) */
-            flex: 1 1 30%; /* Growable, takes up space */
-            min-width: 150px;
-        }
-        
-        .action-status-zone {
-            order: 3; /* Last in wrapping order (High Stability) */
-            flex: 0 0 auto; /* Do not grow */
-            min-width: 150px;
-            text-align: right; /* Button aligned to the right */
-        }
-
-        /* --- Q&A Overlay (Layer 3 - Hidden by Default) --- */
+        /* --- Q&A Overlay (Layer 3) --- */
         .qa-overlay {
             position: fixed;
             top: 50%;
@@ -156,21 +156,23 @@
             border: 2px solid #333;
             padding: 20px;
             text-align: center;
-            /* Hide by default */
             display: none; 
         }
 
     </style>
 </head>
 <body>
+    
     <div class="qa-overlay">
-        <h2>Acknowledgement Required (Q&A)</h2>
-        <p>Question: [Arithmetic Sentence Display] + [Correct Answer]</p>
-        <button onclick="confirmAcknowledgment()">Acknowledge / Confirm</button>
+        <h2>Acknowledgment Required</h2>
+        <p id="qa-question-display">Question: [Loading...]</p>
+        <p id="qa-solution-display" style="font-weight: bold;">Solution: [Loading...]</p>
+        <button onclick="handleOverlayConfirm()">Acknowledge / Confirm</button>
     </div>
 
     <div class="outer-flexbox">
         <div class="inner-grid-container">
+            
             <div class="metadata-row">
                 <div class="metadata-item id-registro">ID: G-1001</div>
                 <div class="metadata-item id-relacional">REL: M-45</div>
@@ -180,46 +182,181 @@
 
             <div class="viewmon-container">
                 <div class="viewmon-simulacra">
-                    <p>VIEW MON (9x16)</p>
+                    <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture 
+                           src="http://your.video.source/default.mp4" 
+                           autoplay muted>
+                    </video>
                     <div class="teachermon-cameo"></div>
+                </div>
+
+                <div class="video-controls-bar">
+                    <button data-control="1" data-qa-role="return" class="control-btn" title="Exit/Return">↩</button>
+                    <button data-control="2" data-qa-role="false" class="control-btn" title="Rewind/False">⏪</button>
+                    <button data-control="3" data-qa-role="confirm" class="control-btn" title="Stop/Acknowledge">❌</button> 
+                    <button data-control="4" data-qa-role="true" class="control-btn" title="Play/Next">▶</button>
                 </div>
             </div>
 
             <div class="bottom-zone">
-                
                 <div class="student-dashboard">
                     <h3>Student Panel</h3>
-                    <p>Status: Active</p>
-                    <p>Tasks: 4/5 Complete</p>
+                    <p id="dash-status">Status: Active</p>
+                    <p>Tasks: <span id="dash-tasks">0</span>/<span id="dash-total">0</span> Complete</p>
                 </div>
 
                 <div class="ccd-container">
-                    <div style="text-align: left; font-size: 0.7em;">- - ' - - '</div>
-                    <div class="ttm-display">
-                        L1: VID 00:00/05:00 PENDING | L2: ARIT INTENTOS 0 PUNT 0.00
+                    <div style="text-align: left; font-size: 0.7em;" id="ccd-emphasis"></div>
+                    <div class="ttm-display" id="ttm-output">
+                        L1: VID 00:00/00:00 PENDING | L2: ARIT INTENTOS 0 PUNT 0.00
                     </div>
-                    <div style="height: 50px; border: 1px dashed #ccc; margin-top: 5px;">
+                    <div style="height: 50px; border: 1px dashed #ccc; margin-top: 5px;" id="image-flow-slot">
                         Image Flow / Music Staff Slot
                     </div>
                 </div>
 
                 <div class="action-status-zone">
-                    <button onclick="triggerAcknowledgment()">Acknowledge</button>
-                    <p style="margin-top: 5px;">Status: ⚠️ Pending Ack</p>
+                    <p id="feedback-message" style="margin-top: 5px; color: green; font-weight: bold;">Ready.</p>
                 </div>
             </div>
         </div>
     </div>
+    
     <script>
-        // Placeholder functions for the logic defined
-        function triggerAcknowledgment() {
+        // --- HOLISTIC DATA SCHEMA (SINGLE SOURCE OF TRUTH) ---
+        const GIT_Module_Data = {
+            module_id: "G-1001-CGL",
+            video_url: "http://your.video.source/default.mp4",
+            video_duration_sec: 300, 
+            ttm_initial_status: "PENDING", 
+            
+            tasks: [
+                { id: 1, type: "T/F", question: "Is 2x + 5 = 15 solved by x=5?", solution: "True", is_acknowledged: false },
+                { id: 2, type: "A-D", question: "What is the perfect dx/dy angle?", solution: "B", is_acknowledged: false },
+                { id: 3, type: "T/F", question: "Does dx/dy represent a controlled slide?", solution: "False", is_acknowledged: false }
+            ]
+        };
+
+        // --- GLOBAL STATE ---
+        let state = {
+            isQuizActive: false,
+            currentTaskIndex: 0,
+            attemptsCount: 0,
+            score: 0.0
+        };
+        
+        // --- UTILITY FUNCTIONS ---
+        const updateTTM = () => {
+            // Logic for updating the TTM display based on video time and state
+            const status = state.score === 1.0 ? "COMPLETE" : GIT_Module_Data.ttm_initial_status;
+            // Time calculation omitted for simplicity, assumes videoTime is 00:00
+            document.getElementById('ttm-output').innerHTML = 
+                `L1: VID 00:00/05:00 ${status} | L2: ARIT INTENTOS ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
+        };
+        
+        const showFeedback = (message, color) => {
+            const msgEl = document.getElementById('feedback-message');
+            msgEl.textContent = message;
+            msgEl.style.color = color;
+            // Feedback is transient (displays, then resets)
+            setTimeout(() => { msgEl.textContent = "Ready."; msgEl.style.color = 'green'; }, 3000);
+        };
+
+        // --- Q&A ACTIVATION / ACKNOWLEDGEMENT ---
+
+        const triggerAcknowledgment = () => {
+            if (state.currentTaskIndex >= GIT_Module_Data.tasks.length) {
+                 showFeedback("All tasks acknowledged.", 'blue');
+                 return;
+            }
+
+            const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+            
+            state.isQuizActive = true;
+            document.getElementById('viewmon-video').pause(); 
+            
+            document.getElementById('qa-question-display').textContent = currentTask.question;
+            document.getElementById('qa-solution-display').textContent = `Solution: ${currentTask.solution}`;
             document.querySelector('.qa-overlay').style.display = 'block';
-        }
-        function confirmAcknowledgment() {
-            // This is where the scoring, TTM update, and NEXT check would go.
+        };
+
+        const handleOverlayConfirm = () => {
+            // Acknowledge logic: Score is instantly 1.0 upon user confirmation
+            state.attemptsCount++;
+            state.score = 1.0; 
+            
+            // Update UI/State
+            GIT_Module_Data.tasks[state.currentTaskIndex].is_acknowledged = true;
+            document.getElementById('dash-tasks').textContent = state.currentTaskIndex + 1;
             document.querySelector('.qa-overlay').style.display = 'none';
-            alert("Acknowledgment Confirmed. Check TTM for update.");
-        }
+
+            // Enable Progression Control (#4) and show feedback
+            document.querySelector('[data-control="4"]').disabled = false;
+            showFeedback("✅ Acknowledgment Confirmed.", '#4CAF50');
+            updateTTM();
+            
+            state.isQuizActive = false;
+        };
+        
+        // --- CONTROL DISPATCH & NEXT PROGRESSION LOGIC ---
+
+        const handleNextProgression = () => {
+            const total = GIT_Module_Data.tasks.length;
+            
+            if (state.currentTaskIndex < total - 1) {
+                // [Micro-Progression: Next Sentence]
+                state.currentTaskIndex++;
+                console.log(`Micro-Progression: Loading task ${state.currentTaskIndex + 1}`);
+                document.querySelector('[data-control="4"]').disabled = true; // Disable until new task acknowledged
+                
+            } else if (state.currentTaskIndex === total - 1) {
+                // [Macro-Progression: Next Module]
+                console.log("Macro-Progression: Module sequence complete. Triggering global navigation.");
+                // In a real app: navigateToNextModule();
+            }
+            // Update UI
+            updateTTM();
+        };
+
+        const handleControlClick = (event) => {
+            const controlNumber = event.currentTarget.dataset.control;
+
+            if (state.isQuizActive) {
+                // When Overlay is active, all controls are ignored except the confirm button
+                console.log("Controls ignored: Overlay is active.");
+            } else {
+                // Primary Control Logic
+                if (controlNumber === '4') { // PROGRESSION / PLAY / TRUE
+                    // Only allow progression if the task has been acknowledged
+                    if (state.score === 1.0) {
+                        handleNextProgression();
+                    } else {
+                        // If not acknowledged, default to Play/Pause logic
+                        console.log("Video Playback: Play/Pause toggled.");
+                    }
+                } else if (controlNumber === '3') { // STOP / ACKNOWLEDGE
+                    triggerAcknowledgment(); // Use this as the manual trigger
+                } else if (controlNumber === '1') { // EXIT/RETURN
+                    console.log("Macro-Navigation: Returning to <start> state.");
+                    // In a real app: router.navigate('/start');
+                } else {
+                    console.log(`Video Playback: Control ${controlNumber} activated.`);
+                }
+            }
+        };
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTTM(); 
+            // Set initial task count
+            document.getElementById('dash-total').textContent = GIT_Module_Data.tasks.length;
+
+            document.querySelectorAll('.control-btn').forEach(button => {
+                button.addEventListener('click', handleControlClick);
+            });
+
+            // Initially disable Progression button (#4)
+            document.querySelector('[data-control="4"]').disabled = true;
+        });
     </script>
 </body>
 </html>
