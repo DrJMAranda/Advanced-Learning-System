@@ -99,15 +99,24 @@
             
             // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT)
             const GIT_Module_Data = {
-                video_url: "http://your.video.source/default.mp4",
-                video_duration_sec: 300, 
+                // VROOGLY: Aesop's The Boy Who Cried Wolf Module (Structural Glossary)
+                video_url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4",
+                video_duration_sec: 192, // 3 minutes and 12 seconds
                 ttm_initial_status: "PENDING", 
                 tasks: [
-                    { id: 1, question: "Is 2x + 5 = 15 solved by x=5?", solution: "True", input_map: '4', validation_type: 'boolean', trigger_time_sec: 25, progression_jump: 15 },
-                    { id: 2, question: "What is the perfect dx/dy angle?", solution: "B", input_map: '2', validation_type: 'multiple_choice', trigger_time_sec: 40, progression_jump: 20 },
-                    { id: 3, question: "Does dx/dy represent a controlled slide?", solution: "False", input_map: '3', validation_type: 'boolean', trigger_time_sec: 60, progression_jump: 10 }
+                    // VROOGLY 1: The Initial Lie (Structural Challenge 1/4)
+                    { id: 1, question: "What civic value did the boy first violate?", solution: "Truthfulness", input_map: '4', validation_type: 'boolean', trigger_time_sec: 35, progression_jump: 20 },
+                    
+                    // VROOGLY 2: The Shepherd's Confusion (Structural Challenge 2/4)
+                    { id: 2, question: "Why did the villagers stop trusting the boy's cries?", solution: "Repetition", input_map: '2', validation_type: 'multiple_choice', trigger_time_sec: 75, progression_jump: 30 },
+                    
+                    // VROOGLY 3: The Wolf's Arrival (Structural Challenge 3/4)
+                    { id: 3, question: "When the wolf truly arrived, did the structural damage (the lie) matter?", solution: "Yes", input_map: '1', validation_type: 'boolean', trigger_time_sec: 130, progression_jump: 40 },
+
+                    // VROOGLY 4: The Moral (Structural Challenge 4/4)
+                    { id: 4, question: "The final moral is that habitual lying leads to a loss of:", solution: "Trust", input_map: '4', validation_type: 'boolean', trigger_time_sec: 170, progression_jump: 22 }
                 ],
-                image_flow_items: [] // Removed placeholders
+                image_flow_items: []
             };
 
             // 25. VROOGLY: GLOBAL STATE
@@ -137,7 +146,7 @@
                 console.log(`CHALICE ACTIVE. Task ID: ${currentTask.id}`);
                 console.log(`Question: ${currentTask.question}`);
                 
-                document.getElementById('feedback-message').textContent = "CHALICE ACTIVE: Acknowledge Required (Key 1 or 2)";
+                document.getElementById('feedback-message').textContent = `CHALICE: ${currentTask.question} (Key 1 or 2)`;
             };
 
             // VROOGLY: RESOLVE THE CHALICE (Simulated answer handler)
@@ -233,6 +242,7 @@
                 const key = event.code;
 
                 if (state.isQuizActive) {
+                    // VROOGLY: Simulated answer inputs
                     if (key === 'Digit1') { 
                         simulateOverlayConfirm(true); 
                         event.preventDefault();
@@ -263,6 +273,14 @@
                 
                 const video = document.getElementById('viewmon-video');
                 if (video) {
+                    // VROOGLY: BIND VIDEO SOURCE AND DURATION (External Fetch)
+                    video.src = GIT_Module_Data.video_url;
+                    
+                    video.addEventListener('loadedmetadata', () => {
+                        GIT_Module_Data.video_duration_sec = video.duration;
+                        syncSupportLayers();
+                    });
+
                     video.addEventListener('timeupdate', syncSupportLayers);
                 }
                 syncSupportLayers();
