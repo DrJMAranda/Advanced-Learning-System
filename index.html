@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SEA~ALS - Core System</title>
         <style>
-            /* VROOGLY: GLOBAL ORDER */
+            /* VROOGLY: GLOBAL ORDER AND STRUCTURAL MAP */
             body { margin: 0; padding: 0; background-color: #000; font-size: 16px; color: #00ff00; }
             .outer-flexbox { display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow: hidden; }
 
@@ -13,39 +13,26 @@
             .inner-grid-container {
                 display: grid;
                 grid-template-columns: repeat(5, 1fr); 
-                /* Reduced rows: Header/Status (0.2fr) + VidMon (3.6fr) + Footer/Controls (0.2fr) */
                 grid-template-rows: 0.2fr 3.6fr 0.2fr; 
-                width: 100%;
-                max-width: 1200px; 
-                height: 100vh; 
+                width: 100%; max-width: 1200px; height: 100vh; 
             }
 
-            /* VROOGLY: THE CENTRAL HOLON (VidMon now spans 2nd row) */
+            /* VROOGLY: THE CENTRAL HOLON (VidMon container) */
             .viewmon-container {
-                grid-column: 1 / span 5;
-                grid-row: 2; /* Now occupies the main central row */
+                grid-column: 1 / span 5; grid-row: 2; 
                 background-color: #000;
-                /* VROOGLY: Eliminated Internal Grid—Now uses Flex for simple vertical stack */
-                display: flex;
-                flex-direction: column;
-                
+                display: flex; flex-direction: column;
                 aspect-ratio: 16 / 9;
-                width: 90%;
-                margin: 0 auto;
-                position: relative;
+                width: 90%; margin: 0 auto; position: relative;
                 
                 /* VROOGLY: AESTHETIC INTEGRITY */
                 border: 5px solid #333; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); 
             }
             .vidmon-display {
                 /* VROOGLY: TRUTH STREAM - Must consume remaining space */
-                flex-grow: 1; 
-                background-color: black;
-                position: relative;
+                flex-grow: 1; background-color: black; position: relative;
             }
-            .vidmon-display video { 
-                width: 100%; height: 100%; object-fit: contain; 
-            }
+            .vidmon-display video { width: 100%; height: 100%; object-fit: contain; }
             .vidmon-display::after {
                 /* VROOGLY: SCANLINE EFFECT */
                 content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -55,24 +42,22 @@
             
             /* VROOGLY: TTM & STATUS BAR (Consolidated into the top row) */
             .status-header {
-                grid-column: 1 / span 5;
-                grid-row: 1; 
+                grid-column: 1 / span 5; grid-row: 1; 
                 display: flex; justify-content: space-between; align-items: center;
-                padding: 5px 10px;
-                font-family: 'Courier New', monospace;
+                padding: 5px 10px; font-family: 'Courier New', monospace;
             }
             .ttm-output { white-space: nowrap; flex-shrink: 0; color: #00ff00; }
             
             /* VROOGLY: THE ACTION HOLON (CONTROLS ROW) */
             .controls-row {
-                /* VROOGLY: CONTROLS MUST BE AT THE TOP OF THE VIEWMON CONTAINER */
                 order: -1; 
                 display: flex; justify-content: space-between; align-items: center;
                 padding: 5px 5px; width: 100%;
                 gap: 10px; 
-                background-color: #333; /* Dark background to visually separate from video */
+                background-color: #333; 
             }
             .control-btn {
+                /* VROOGLY: STRUCTURAL BUDGET (67px fixed size) */
                 width: 67px; height: 67px; display: flex; justify-content: center; align-items: center;
                 background-color: #555; color: #fff; border: 2px solid #888; border-radius: 4px;
                 font-weight: bold; cursor: pointer; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
@@ -106,12 +91,182 @@
                         <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture src="http://your.video.source/default.mp4" autoplay muted></video>
                     </div>
                 </div>
-
-                </div>
+            </div>
         </div>
         
         <script>
-            // ... (All JavaScript logic remains intact and fully functional) ...
+            // --- JAVASCRIPT: THE INTELLIGENT ENTITY (IE) ---
+            
+            // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT)
+            const GIT_Module_Data = {
+                video_url: "http://your.video.source/default.mp4",
+                video_duration_sec: 300, 
+                ttm_initial_status: "PENDING", 
+                tasks: [
+                    { id: 1, question: "Is 2x + 5 = 15 solved by x=5?", solution: "True", input_map: '4', validation_type: 'boolean', trigger_time_sec: 25, progression_jump: 15 },
+                    { id: 2, question: "What is the perfect dx/dy angle?", solution: "B", input_map: '2', validation_type: 'multiple_choice', trigger_time_sec: 40, progression_jump: 20 },
+                    { id: 3, question: "Does dx/dy represent a controlled slide?", solution: "False", input_map: '3', validation_type: 'boolean', trigger_time_sec: 60, progression_jump: 10 }
+                ],
+                image_flow_items: [] // Removed placeholders
+            };
+
+            // 25. VROOGLY: GLOBAL STATE
+            let state = {
+                isQuizActive: false, 
+                currentTaskIndex: 0,
+                attemptsCount: 0,
+                score: 0.0, 
+                videoTimeFrozen: 0 
+            };
+            
+            // VROOGLY: TIME FORMATTER
+            const formatTime = (seconds) => {
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            // VROOGLY: CHALICE ACTIVATION LOGIC
+            const triggerAcknowledgment = () => {
+                const video = document.getElementById('viewmon-video');
+                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+
+                state.isQuizActive = true;
+                video.pause(); 
+                
+                console.log(`CHALICE ACTIVE. Task ID: ${currentTask.id}`);
+                console.log(`Question: ${currentTask.question}`);
+                
+                document.getElementById('feedback-message').textContent = "CHALICE ACTIVE: Acknowledge Required (Key 1 or 2)";
+            };
+
+            // VROOGLY: RESOLVE THE CHALICE (Simulated answer handler)
+            const simulateOverlayConfirm = (isCorrect) => {
+                if (!state.isQuizActive) return;
+
+                if (isCorrect) {
+                    state.attemptsCount++;
+                    state.score = 1.0; 
+                    state.isQuizActive = false;
+                    
+                    document.querySelector('[data-control="4"]').disabled = false;
+                    document.getElementById('feedback-message').textContent = "ACKNOWLEDGED. Ready to Advance (Key 4)";
+                } else {
+                    state.attemptsCount++;
+                    document.getElementById('feedback-message').textContent = "ERROR: Try Again. Score 0.0";
+                }
+                syncSupportLayers();
+            };
+
+            // VROOGLY: TIME SYNCHRONIZATION LOGIC (The "Place and Time" Enforcer)
+            const syncSupportLayers = () => {
+                const video = document.getElementById('viewmon-video');
+                const ttmOutput = document.getElementById('ttm-output');
+                
+                if (!video || state.isQuizActive) return; 
+
+                const currentTime = video.currentTime;
+                const duration = GIT_Module_Data.video_duration_sec;
+                
+                const newTtmText = `ID: G-1001 / REL: M-45 | L1: VID ${formatTime(currentTime)}/${formatTime(duration)} PENDING | L2: ARIT INTENTOS ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
+                ttmOutput.textContent = newTtmText;
+                
+                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+
+                if (currentTask && currentTime >= currentTask.trigger_time_sec && !state.isQuizActive) {
+                    triggerAcknowledgment();
+                }
+            };
+            
+            // VROOGLY: THE DIGITAL ACTIVATION MAP
+            const KEY_MAPPING = {
+                'Digit1': '1', 'Digit2': '2', 'Digit3': '3', 'Digit4': '4', 
+                'Escape': '5'
+            };
+            
+            // VROOGLY: PROGRESSION LOGIC (Time-Efficient)
+            const handleNextProgression = () => {
+                const total = GIT_Module_Data.tasks.length;
+                const video = document.getElementById('viewmon-video');
+
+                if (state.currentTaskIndex < total) {
+                    const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+                    const jumpTime = currentTask.progression_jump || 0; 
+
+                    video.currentTime = Math.min(video.currentTime + jumpTime, video.duration); 
+
+                    state.currentTaskIndex++;
+                    state.score = 0.0; 
+                    
+                    document.querySelector('[data-control="4"]').disabled = true; 
+                    document.getElementById('feedback-message').textContent = `Task ${state.currentTaskIndex + 1} initiated.`;
+
+                } else if (state.currentTaskIndex === total) {
+                    document.getElementById('feedback-message').textContent = "MODULE COMPLETE. Structural Order Achieved.";
+                    document.querySelector('[data-control="4"]').disabled = true; 
+                    video.pause();
+                }
+            };
+            
+            // VROOGLY: CONTROL CLICK HANDLER (Action Holon Logic)
+            const handleControlClick = (event) => {
+                const controlNumber = event.currentTarget.dataset.control;
+                const video = document.getElementById('viewmon-video');
+
+                if (state.isQuizActive) { return; } 
+                
+                if (controlNumber === '4') { 
+                    if (state.score === 1.0) {
+                        handleNextProgression(); 
+                    } else if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                } else if (controlNumber === '3') { 
+                    video.currentTime = Math.max(0, video.currentTime - 10); 
+                } 
+            };
+
+            // VROOGLY: THE KEYBOARD BINDING (Eliminate the Negative)
+            const handleGlobalKeyPress = (event) => {
+                const key = event.code;
+
+                if (state.isQuizActive) {
+                    if (key === 'Digit1') { 
+                        simulateOverlayConfirm(true); 
+                        event.preventDefault();
+                    } else if (key === 'Digit2') { 
+                        simulateOverlayConfirm(false); 
+                        event.preventDefault();
+                    }
+                    return; 
+                }
+                
+                const mappedControl = KEY_MAPPING[event.code];
+                if (mappedControl) {
+                    const targetButton = document.querySelector(`[data-control="${mappedControl}"]`);
+                    if (targetButton && !targetButton.disabled) {
+                        targetButton.click(); 
+                        event.preventDefault(); 
+                    }
+                }
+            };
+            
+            // VROOGLY: INITIALIZATION
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.control-btn').forEach(button => {
+                    button.addEventListener('click', handleControlClick);
+                });
+                document.querySelector('[data-control="4"]').disabled = true;
+                document.addEventListener('keydown', handleGlobalKeyPress);
+                
+                const video = document.getElementById('viewmon-video');
+                if (video) {
+                    video.addEventListener('timeupdate', syncSupportLayers);
+                }
+                syncSupportLayers();
+            });
         </script>
     </body>
 </html>
