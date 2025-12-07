@@ -17,29 +17,6 @@
                 width: 100%; max-width: 1200px; height: 100vh; 
             }
 
-            /* VROOGLY: THE CENTRAL HOLON (VidMon container) */
-            .viewmon-container {
-                grid-column: 1 / span 5; grid-row: 2; 
-                background-color: #000;
-                display: flex; flex-direction: column;
-                aspect-ratio: 16 / 9;
-                width: 90%; margin: 0 auto; position: relative;
-                
-                /* VROOGLY: AESTHETIC INTEGRITY */
-                border: 5px solid #333; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); 
-            }
-            .vidmon-display {
-                /* VROOGLY: TRUTH STREAM - Must consume remaining space */
-                flex-grow: 1; background-color: black; position: relative;
-            }
-            .vidmon-display video { width: 100%; height: 100%; object-fit: contain; }
-            .vidmon-display::after {
-                /* VROOGLY: SCANLINE EFFECT */
-                content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                background: repeating-linear-gradient(#00000000, #00000000 1px, #0a0a0a33 1px, #0a0a0a33 2px);
-                opacity: 0.1; pointer-events: none; 
-            }
-            
             /* VROOGLY: TTM & STATUS BAR (Consolidated into the top row) */
             .status-header {
                 grid-column: 1 / span 5; grid-row: 1; 
@@ -48,7 +25,7 @@
             }
             .ttm-output { white-space: nowrap; flex-shrink: 0; color: #00ff00; }
 
-            /* VROOGLY: STRUCTURAL INTEGRITY FIX - 20ch WIDTH COMPLIANCE */
+            /* VROOGLY: STRUCTURAL INTEGRITY FIX - 20ch WIDTH COMPLIANCE (APPLIED TO ALL MONOSPACE OUTPUTS) */
             .monospaced-compliance {
                 font-family: 'EB Garamond Mono', 'Courier New', monospace;
                 font-size: 14pt; /* Enforce 14pt standard */
@@ -57,7 +34,46 @@
                 min-width: 20ch;
                 overflow: hidden;
                 white-space: nowrap;
-                text-align: center; /* Center for aesthetic balance */
+                text-align: center;
+            }
+
+            /* VROOGLY: Large Text/Image Holon Definitions (The content shown in the screenshot) */
+            .story-content-area {
+                display: flex;
+                flex-direction: row;
+                padding: 20px;
+                /* Note: This is a placeholder class, assuming your large text/image content is wrapped by it */
+            }
+
+            /* VROOGLY: High-Density Text Bar Definition (Hidden by default) */
+            .minimal-text-bar {
+                position: absolute;
+                bottom: 0; 
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 4px 0;
+                background-color: #000;
+                z-index: 100;
+                /* Default state: only visible when triggered by media query */
+            }
+            
+            /* VROOGLY: THE CENTRAL HOLON (VidMon container) */
+            .viewmon-container {
+                grid-column: 1 / span 5; grid-row: 2; 
+                background-color: #000;
+                display: flex; flex-direction: column;
+                aspect-ratio: 16 / 9;
+                width: 90%; margin: 0 auto; position: relative;
+                border: 5px solid #333; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); 
+            }
+            .vidmon-display {
+                flex-grow: 1; background-color: black; position: relative;
+            }
+            .vidmon-display video { width: 100%; height: 100%; object-fit: contain; }
+            .vidmon-display::after {
+                content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                background: repeating-linear-gradient(#00000000, #00000000 1px, #0a0a0a33 1px, #0a0a0a33 2px);
+                opacity: 0.1; pointer-events: none; 
             }
             
             /* VROOGLY: THE ACTION HOLON (CONTROLS ROW) */
@@ -69,11 +85,32 @@
                 background-color: #333; 
             }
             .control-btn {
-                /* VROOGLY: STRUCTURAL BUDGET (67px fixed size) */
                 width: 67px; height: 67px; display: flex; justify-content: center; align-items: center;
                 background-color: #555; color: #fff; border: 2px solid #888; border-radius: 4px;
                 font-weight: bold; cursor: pointer; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
                 font-size: 28px; 
+            }
+
+            /* ----------------------------------------------------------------- */
+            /* VROOGLY: STRUCTURAL TRANSFORMATION - MOBILE BREAKPOINT ENFORCEMENT */
+            /* Enforce small-screen structural economy (achieve 80% administrative economy) */
+            /* ----------------------------------------------------------------- */
+            @media (max-width: 600px) {
+                /* 1. STRUCTURAL ELIMINATION: Hide the large, chaotic elements */
+                .story-content-area, .metadata-item.id-registro {
+                    display: none !important;
+                }
+                
+                /* 2. STRUCTURAL ACTIVATION: Activate the high-density text bar */
+                #high-density-text-bar {
+                    display: block !important;
+                }
+
+                /* 3. CONSOLIDATE STATUS: Ensure TTM output uses maximum width available */
+                .ttm-output {
+                    width: auto;
+                    flex-grow: 1; /* Allow it to consume space next to action-status-zone */
+                }
             }
 
         </style>
@@ -86,7 +123,7 @@
                 <div class="status-header">
                     <div class="metadata-item id-registro">ID: G-1001 / REL: M-45</div>
                     <div class="ttm-output monospaced-compliance" id="ttm-output">L1: 00:00/05:00 PENDING | L2: ARIT 0 PUNT 0.00</div>
-                    <div class="action-status-zone monospaced-compliance"><p id="feedback-message">Ready.</p></div>
+                    <div class="action-status-zone monospaced-compliance"><p id="feedback-message">AWAITING MEDIA METADATA</p></div>
                 </div>
 
                 <div class="viewmon-container">
@@ -101,7 +138,13 @@
 
                     <div class="vidmon-display">
                         <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture src="http://your.video.source/default.mp4" autoplay muted></video>
+                        <div id="high-density-text-bar" class="monospaced-compliance minimal-text-bar" style="display: none;"></div> 
                     </div>
+                </div>
+                
+                <div class="story-content-area">
+                    <p>The Boy Who Cried Wolf...</p>
+                    <img src="placeholder.jpg" alt="Boy and Sheep" />
                 </div>
             </div>
         </div>
@@ -111,21 +154,13 @@
             
             // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT)
             const GIT_Module_Data = {
-                // VROOGLY: Aesop's The Boy Who Cried Wolf Module (Structural Glossary)
                 video_url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4",
-                video_duration_sec: 192, // 3 minutes and 12 seconds
+                video_duration_sec: 192, 
                 ttm_initial_status: "PENDING", 
                 tasks: [
-                    // VROOGLY 1: The Initial Lie (Structural Challenge 1/4)
                     { id: 1, question: "What civic value did the boy first violate?", solution: "Truthfulness", input_map: '4', validation_type: 'boolean', trigger_time_sec: 35, progression_jump: 20 },
-                    
-                    // VROOGLY 2: The Shepherd's Confusion (Structural Challenge 2/4)
                     { id: 2, question: "Why did the villagers stop trusting the boy's cries?", solution: "Repetition", input_map: '2', validation_type: 'multiple_choice', trigger_time_sec: 75, progression_jump: 30 },
-                    
-                    // VROOGLY 3: The Wolf's Arrival (Structural Challenge 3/4)
                     { id: 3, question: "When the wolf truly arrived, did the structural damage (the lie) matter?", solution: "Yes", input_map: '1', validation_type: 'boolean', trigger_time_sec: 130, progression_jump: 40 },
-
-                    // VROOGLY 4: The Moral (Structural Challenge 4/4)
                     { id: 4, question: "The final moral is that habitual lying leads to a loss of:", solution: "Trust", input_map: '4', validation_type: 'boolean', trigger_time_sec: 170, progression_jump: 22 }
                 ],
                 image_flow_items: []
@@ -155,10 +190,7 @@
                 state.isQuizActive = true;
                 video.pause(); 
                 
-                console.log(`CHALICE ACTIVE. Task ID: ${currentTask.id}`);
-                console.log(`Question: ${currentTask.question}`);
-                
-                document.getElementById('feedback-message').textContent = `CHALICE: ${currentTask.question} (Key 1 or 2)`;
+                document.getElementById('feedback-message').textContent = `CHALICE: ${currentTask.question}`;
             };
 
             // VROOGLY: RESOLVE THE CHALICE (Simulated answer handler)
@@ -179,13 +211,12 @@
                 syncSupportLayers();
             };
             
-            // VROOGLY: STRUCTURAL INTEGRITY FIX - TIME BASE HARDENING (Microseconds for N_R -> 0 certainty)
+            // VROOGLY: STRUCTURAL INTEGRITY FIX - TIME BASE HARDENING 
             const calculateTimeMetrics = (video) => {
-                // High-precision time in microseconds (long integer equivalent)
+                // High-precision time in microseconds for N_R -> 0 certainty
                 const current_time_us = Math.round(video.currentTime * 1000000);
                 const duration_us = Math.round(video.duration * 1000000);
                 
-                // Fallback to seconds for display formatting
                 const current_time_sec = video.currentTime;
                 const duration_sec = video.duration;
 
@@ -202,17 +233,24 @@
                 const video = document.getElementById('viewmon-video');
                 const ttmOutput = document.getElementById('ttm-output');
                 
-                if (!video || state.isQuizActive) return; 
+                if (!video) return; 
 
-                // VROOGLY: Use hardened time metrics
                 const metrics = calculateTimeMetrics(video);
+                
+                // VROOGLY: STRUCTURAL INTEGRATION - POPULATE HIGH-DENSITY TEXT BAR
+                const textBar = document.getElementById('high-density-text-bar');
+                const feedbackMessage = document.getElementById('feedback-message').textContent;
+                
+                if (textBar) {
+                    // Display current status/message (max 20 characters)
+                    textBar.textContent = feedbackMessage.substring(0, 20); 
+                }
 
                 const newTtmText = `L1: ${formatTime(metrics.currentTime)}/${formatTime(metrics.duration)} PENDING | L2: ARIT ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
                 ttmOutput.textContent = newTtmText;
                 
                 const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
 
-                // VROOGLY: Use hardened time comparison for trigger certainty
                 if (currentTask && metrics.currentTime >= currentTask.trigger_time_sec && !state.isQuizActive) {
                     triggerAcknowledgment();
                 }
@@ -294,28 +332,34 @@
                 }
             };
             
-            // VROOGLY: INITIALIZATION
+            // VROOGLY: INITIALIZATION (Hardened Structural Wait)
             document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.control-btn').forEach(button => {
                     button.addEventListener('click', handleControlClick);
                 });
-                document.querySelector('[data-control="4"]').disabled = true;
+                
+                const playButton = document.querySelector('[data-control="4"]');
+                playButton.disabled = true;
+                
                 document.addEventListener('keydown', handleGlobalKeyPress);
                 
                 const video = document.getElementById('viewmon-video');
                 if (video) {
-                    // VROOGLY: BIND VIDEO SOURCE AND DURATION (External Fetch)
                     video.src = GIT_Module_Data.video_url;
+                    document.getElementById('feedback-message').textContent = "AWAITING MEDIA METADATA";
                     
                     video.addEventListener('loadedmetadata', () => {
-                        // VROOGLY: Use video.duration here, but rely on calculateTimeMetrics for runtime precision
                         GIT_Module_Data.video_duration_sec = video.duration; 
+                        
                         syncSupportLayers();
+                        playButton.disabled = false; 
+                        document.getElementById('feedback-message').textContent = "Ready. Press ▶ to start.";
                     });
 
                     video.addEventListener('timeupdate', syncSupportLayers);
                 }
-                syncSupportLayers();
+                
+                syncSupportLayers(); 
             });
             // VROOGLY: END OF IE REGULATOR CORE LOGIC
         </script>
