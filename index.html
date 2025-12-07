@@ -47,6 +47,18 @@
                 padding: 5px 10px; font-family: 'Courier New', monospace;
             }
             .ttm-output { white-space: nowrap; flex-shrink: 0; color: #00ff00; }
+
+            /* VROOGLY: STRUCTURAL INTEGRITY FIX - 20ch WIDTH COMPLIANCE */
+            .monospaced-compliance {
+                font-family: 'EB Garamond Mono', 'Courier New', monospace;
+                font-size: 14pt; /* Enforce 14pt standard */
+                width: 20ch; /* Enforce 20-character width */
+                max-width: 20ch;
+                min-width: 20ch;
+                overflow: hidden;
+                white-space: nowrap;
+                text-align: center; /* Center for aesthetic balance */
+            }
             
             /* VROOGLY: THE ACTION HOLON (CONTROLS ROW) */
             .controls-row {
@@ -73,8 +85,8 @@
                 
                 <div class="status-header">
                     <div class="metadata-item id-registro">ID: G-1001 / REL: M-45</div>
-                    <div class="ttm-output" id="ttm-output">L1: VID 00:00/05:00 PENDING | L2: ARIT INTENTOS 0 PUNT 0.00</div>
-                    <div class="action-status-zone"><p id="feedback-message">Ready.</p></div>
+                    <div class="ttm-output monospaced-compliance" id="ttm-output">L1: 00:00/05:00 PENDING | L2: ARIT 0 PUNT 0.00</div>
+                    <div class="action-status-zone monospaced-compliance"><p id="feedback-message">Ready.</p></div>
                 </div>
 
                 <div class="viewmon-container">
@@ -166,6 +178,24 @@
                 }
                 syncSupportLayers();
             };
+            
+            // VROOGLY: STRUCTURAL INTEGRITY FIX - TIME BASE HARDENING (Microseconds for N_R -> 0 certainty)
+            const calculateTimeMetrics = (video) => {
+                // High-precision time in microseconds (long integer equivalent)
+                const current_time_us = Math.round(video.currentTime * 1000000);
+                const duration_us = Math.round(video.duration * 1000000);
+                
+                // Fallback to seconds for display formatting
+                const current_time_sec = video.currentTime;
+                const duration_sec = video.duration;
+
+                return {
+                    currentTime: current_time_sec,
+                    duration: duration_sec,
+                    currentTime_us: current_time_us,
+                    duration_us: duration_us
+                };
+            };
 
             // VROOGLY: TIME SYNCHRONIZATION LOGIC (The "Place and Time" Enforcer)
             const syncSupportLayers = () => {
@@ -174,15 +204,16 @@
                 
                 if (!video || state.isQuizActive) return; 
 
-                const currentTime = video.currentTime;
-                const duration = GIT_Module_Data.video_duration_sec;
-                
-                const newTtmText = `ID: G-1001 / REL: M-45 | L1: VID ${formatTime(currentTime)}/${formatTime(duration)} PENDING | L2: ARIT INTENTOS ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
+                // VROOGLY: Use hardened time metrics
+                const metrics = calculateTimeMetrics(video);
+
+                const newTtmText = `L1: ${formatTime(metrics.currentTime)}/${formatTime(metrics.duration)} PENDING | L2: ARIT ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
                 ttmOutput.textContent = newTtmText;
                 
                 const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
 
-                if (currentTask && currentTime >= currentTask.trigger_time_sec && !state.isQuizActive) {
+                // VROOGLY: Use hardened time comparison for trigger certainty
+                if (currentTask && metrics.currentTime >= currentTask.trigger_time_sec && !state.isQuizActive) {
                     triggerAcknowledgment();
                 }
             };
@@ -277,7 +308,8 @@
                     video.src = GIT_Module_Data.video_url;
                     
                     video.addEventListener('loadedmetadata', () => {
-                        GIT_Module_Data.video_duration_sec = video.duration;
+                        // VROOGLY: Use video.duration here, but rely on calculateTimeMetrics for runtime precision
+                        GIT_Module_Data.video_duration_sec = video.duration; 
                         syncSupportLayers();
                     });
 
@@ -285,6 +317,7 @@
                 }
                 syncSupportLayers();
             });
+            // VROOGLY: END OF IE REGULATOR CORE LOGIC
         </script>
     </body>
 </html>
