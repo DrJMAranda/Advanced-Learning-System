@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SEA~ALS - Core System (MP4 Playback Only)</title>
+        <title>SEA~ALS - Core System V1.2</title>
         <style>
             /* VROOGLY: GLOBAL ORDER AND STRUCTURAL MAP */
             body { margin: 0; padding: 0; background-color: #000; font-size: 16px; color: #00ff00; }
@@ -124,7 +124,7 @@
                 
                 <div class="status-header">
                     <div class="metadata-item id-registro">ID: G-1001 / REL: M-45</div>
-                    <div class="ttm-output" id="ttm-output">L1: 00:00/00:00 VIDEO MODE</div>
+                    <div class="ttm-output" id="ttm-output">L1: 00:00/00:00 PENDING | L2: ARIT 0 PUNT 0.00</div>
                     <div class="action-status-zone monospaced-compliance"><p id="feedback-message">AWAITING MEDIA LOAD</p></div>
                 </div>
 
@@ -135,7 +135,7 @@
                         <button data-control="2" class="control-btn" title="Restart/A">|◀</button>
                         <button data-control="3" class="control-btn" title="Rewind/B">⏪</button>
                         <button data-control="4" class="control-btn" title="Play/Pause">▶</button>
-                        <button data-control="1" class="control-btn" title="Exit/Eject">↩</button>
+                        <button data-control="1" class="control-btn" title="Activate Chalice (Quiz)">↩</button> 
                     </div>
 
                     <div class="vidmon-display">
@@ -154,17 +154,27 @@
         <script>
             // --- JAVASCRIPT: THE INTELLIGENT ENTITY (IE) ---
             
-            // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT) - Quizzes removed
+            // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT) 
             const GIT_Module_Data = {
-                // IMPORTANT: Replace this with the actual MP4 file URL when ready.
                 video_url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4",
                 video_duration_sec: 192, 
-                tasks: []
+                // Tasks are used for manual quiz activation only
+                tasks: [
+                    { id: 1, question: "What civic value did the boy first violate?", solution: "Truthfulness", input_map: '4', progression_jump: 20 },
+                    { id: 2, question: "Why did the villagers stop trusting the boy's cries?", solution: "Repetition", input_map: '2', progression_jump: 30 },
+                    { id: 3, question: "When the wolf truly arrived, did the structural damage (the lie) matter?", solution: "Yes", input_map: '1', progression_jump: 40 },
+                    { id: 4, question: "The final moral is that habitual lying leads to a loss of:", solution: "Trust", input_map: '4', progression_jump: 22 }
+                ]
             };
 
-            // 25. VROOGLY: GLOBAL STATE - Simplified
+            // 25. VROOGLY: GLOBAL STATE 
             let state = {
-                videoTimeFrozen: 0 
+                isQuizActive: false, 
+                currentTaskIndex: 0,
+                attemptsCount: 0,
+                correctAttempts: 0, 
+                score: 0.0, 
+                videoTimeFrozen: 0, 
             };
             
             // VROOGLY: TIME FORMATTER
@@ -174,57 +184,133 @@
                 return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             };
 
-            // VROOGLY: TIME SYNCHRONIZATION LOGIC (Simplified for MP4 playback)
+            // VROOGLY: CHALICE ACTIVATION LOGIC (MANUAL TRIGGER ONLY)
+            const triggerAcknowledgment = () => {
+                if (state.currentTaskIndex >= GIT_Module_Data.tasks.length) {
+                    document.getElementById('feedback-message').textContent = "MODULE COMPLETE. No more tasks.";
+                    return;
+                }
+                const video = document.getElementById('viewmon-video');
+                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+
+                state.isQuizActive = true;
+                state.attemptsCount = 0; 
+                video.pause(); 
+                
+                document.getElementById('feedback-message').textContent = `CHALICE: ${currentTask.question.substring(0, 10)}...`; 
+                syncSupportLayers();
+            };
+
+            // VROOGLY: RESOLVE THE CHALICE 
+            const simulateOverlayConfirm = (isCorrect) => {
+                if (!state.isQuizActive) return;
+
+                state.attemptsCount++;
+                const video = document.getElementById('viewmon-video');
+
+                if (isCorrect) {
+                    state.correctAttempts++;
+                    // Score logic: 1.0 on first try, 0.5 on second try, 0.0 after that
+                    state.score = (state.attemptsCount === 1) ? 1.0 : (state.attemptsCount === 2 ? 0.5 : 0.0);
+                    
+                    state.isQuizActive = false;
+                    
+                    // Proceed to the next segment after a correct answer
+                    handleNextProgression(); 
+                } else {
+                    document.getElementById('feedback-message').textContent = `ERROR: Try Again (Att: ${state.attemptsCount})`;
+                }
+                syncSupportLayers();
+            };
+            
+            // VROOGLY: PROGRESSION LOGIC (Advancing Video Segment)
+            const handleNextProgression = () => {
+                const total = GIT_Module_Data.tasks.length;
+                const video = document.getElementById('viewmon-video');
+
+                // Check if module is complete before attempting task progression
+                if (state.currentTaskIndex >= total) {
+                    document.getElementById('feedback-message').textContent = "MODULE COMPLETE. Structural Order Achieved.";
+                    video.pause();
+                    return;
+                }
+                
+                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+                const jumpTime = currentTask.progression_jump || 0; 
+
+                // Jump the video time
+                video.currentTime = Math.min(video.currentTime + jumpTime, video.duration); 
+
+                state.currentTaskIndex++;
+                state.score = 0.0; // Reset score for the *next* task
+                
+                document.getElementById('feedback-message').textContent = `Task ${state.currentTaskIndex} complete. Play or Activate Chalice for next task.`;
+                video.play();
+                syncSupportLayers();
+            };
+
+            // VROOGLY: TIME SYNCHRONIZATION LOGIC (Updated to show full status)
             const syncSupportLayers = () => {
                 const video = document.getElementById('viewmon-video');
                 const ttmOutput = document.getElementById('ttm-output');
-                const feedbackMessageEl = document.getElementById('feedback-message');
                 
                 if (!video || isNaN(video.duration)) {
-                    ttmOutput.textContent = `L1: 00:00/00:00 LOADING...`;
-                    feedbackMessageEl.textContent = "AWAITING MEDIA LOAD";
+                    ttmOutput.textContent = `L1: 00:00/00:00 LOADING... | L2: ARIT 0 PUNT 0.00`;
                     return;
                 }
 
-                // VROOGLY: Simplified TTM Output (Current time / Total duration | Status)
                 const currentTime = video.currentTime;
                 const duration = video.duration;
-                const status = video.paused ? 'PAUSED' : 'RUNNING';
+                
+                let taskStatus = 'PENDING';
+                if (state.isQuizActive) {
+                    taskStatus = `Q${state.currentTaskIndex + 1} ACTIVE`;
+                } else if (state.currentTaskIndex >= GIT_Module_Data.tasks.length) {
+                    taskStatus = 'COMPLETE';
+                } else {
+                    taskStatus = video.paused ? 'PAUSED' : 'RUNNING';
+                }
 
-                const newTtmText = `L1: ${formatTime(currentTime)}/${formatTime(duration)} ${status}`;
+                // TTM Output now displays score statistics (ARIT / PUNT)
+                const newTtmText = `L1: ${formatTime(currentTime)}/${formatTime(duration)} ${taskStatus} | L2: ARIT ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
                 ttmOutput.textContent = newTtmText;
                 
                 // VROOGLY: Mobile high-density text bar update
                 const textBar = document.getElementById('high-density-text-bar');
                 if (textBar) {
-                    textBar.textContent = status.substring(0, 20); 
+                    textBar.textContent = taskStatus.substring(0, 20); 
                 }
                 
                 // VROOGLY: Update Play/Pause Button Icon
                 document.querySelector('[data-control="4"]').textContent = video.paused ? '▶' : '⏸';
                 
-                feedbackMessageEl.textContent = status === 'RUNNING' ? "Playing." : "Paused.";
             };
             
-            // VROOGLY: CONTROL CLICK HANDLER (Action Holon Logic - Simplified)
+            // VROOGLY: CONTROL CLICK HANDLER (Action Holon Logic - Modified)
             const handleControlClick = (event) => {
                 const controlNumber = event.currentTarget.dataset.control;
                 const video = document.getElementById('viewmon-video');
                 
-                if (!video || isNaN(video.duration)) { 
-                    document.getElementById('feedback-message').textContent = "ERROR: Media not loaded.";
-                    return; 
-                }
+                if (!video || isNaN(video.duration)) { return; }
 
                 if (controlNumber === '4') { 
                     // Play / Pause Toggle
                     if (video.paused) {
                         video.play();
+                        document.getElementById('feedback-message').textContent = "Running.";
                     } else {
                         video.pause();
+                        document.getElementById('feedback-message').textContent = "Paused.";
+                    }
+                } else if (controlNumber === '1') {
+                    // MODIFIED: Activate Chalice manually
+                    if (!state.isQuizActive) {
+                        triggerAcknowledgment();
+                    } else {
+                        document.getElementById('feedback-message').textContent = "Quiz already active. Answer 1, 2, 3, or 4.";
                     }
                 } else if (controlNumber === '3') { 
-                    // Rewind 10s
+                    // Rewind
                     video.currentTime = Math.max(0, video.currentTime - 10); 
                 } else if (controlNumber === '2') {
                     // Restart
@@ -238,21 +324,34 @@
                 syncSupportLayers();
             };
 
-            // VROOGLY: THE DIGITAL ACTIVATION MAP (Simplified)
+            // VROOGLY: THE DIGITAL ACTIVATION MAP
             const KEY_MAPPING = {
-                'Digit4': '4', 'Space': '4', // Space for Play/Pause
+                'Digit4': '4', 'Space': '4', 
                 'Digit3': '3', 
                 'Digit2': '2',
-                'Digit5': '5'
+                'Digit5': '5',
+                'Digit1': '1' // Map '1' to the Chalice button
             };
             
-            // VROOGLY: THE KEYBOARD BINDING (Simplified)
+            // VROOGLY: THE KEYBOARD BINDING (Handles 1-4 for answers when active, and controls otherwise)
             const handleGlobalKeyPress = (event) => {
-                const mappedControl = KEY_MAPPING[event.code];
+                const key = event.code;
+                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+
+                if (state.isQuizActive) {
+                    event.preventDefault(); 
+                    // VROOGLY: Simulated answer inputs
+                    if (key === 'Digit1') { simulateOverlayConfirm(currentTask.input_map === '1'); } 
+                    else if (key === 'Digit2') { simulateOverlayConfirm(currentTask.input_map === '2'); } 
+                    else if (key === 'Digit3') { simulateOverlayConfirm(currentTask.input_map === '3'); } 
+                    else if (key === 'Digit4') { simulateOverlayConfirm(currentTask.input_map === '4'); }
+                    return; 
+                }
                 
+                const mappedControl = KEY_MAPPING[event.code];
                 if (mappedControl) {
                     const targetButton = document.querySelector(`[data-control="${mappedControl}"]`);
-                    if (targetButton && !targetButton.disabled) {
+                    if (targetButton) {
                         targetButton.click(); 
                         event.preventDefault(); 
                     }
@@ -271,14 +370,18 @@
                 if (video) {
                     video.src = GIT_Module_Data.video_url;
                     
-                    // The core logic for playback:
-                    video.addEventListener('loadedmetadata', syncSupportLayers);
-                    video.addEventListener('timeupdate', syncSupportLayers); // Used for time/status display
+                    video.addEventListener('loadedmetadata', () => {
+                        GIT_Module_Data.video_duration_sec = video.duration; 
+                        syncSupportLayers();
+                        document.getElementById('feedback-message').textContent = "Ready. Press ▶ to start, or ↩ for Quiz.";
+                        video.pause();
+                    });
+                    
+                    // Essential listeners for status synchronization
+                    video.addEventListener('timeupdate', syncSupportLayers);
                     video.addEventListener('pause', syncSupportLayers);
                     video.addEventListener('play', syncSupportLayers);
                     video.addEventListener('ended', syncSupportLayers);
-
-                    syncSupportLayers(); 
                 }
             });
             // VROOGLY: END OF IE REGULATOR CORE LOGIC
