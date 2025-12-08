@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wizwig SEA Architecture - Advanced Learning System</title>
+    
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos Mínimos para Replicar la Vista de la Captura */
+        /* Estilos Mínimos de la Interfaz (Base de las 132 líneas) */
         body {
-            background-color: #222; /* Fondo oscuro */
+            background-color: #222;
             color: #ddd;
             font-family: Arial, sans-serif;
             display: flex;
@@ -20,7 +21,7 @@
         }
         .main-container {
             width: 90%;
-            max-width: 600px; /* Ancho típico para una interfaz centrada */
+            max-width: 600px; 
         }
         .top-row-buttons, .category-buttons {
             display: flex;
@@ -35,8 +36,6 @@
         }
         .button-group {
             display: flex;
-        }
-        .button-group div {
             padding: 5px 10px;
             border: 1px solid #555;
             margin: 0 2px;
@@ -47,7 +46,7 @@
         .indicator {
             height: 10px;
             width: 10px;
-            background-color: #4CAF50; /* Verde */
+            background-color: #4CAF50;
             border-radius: 50%;
             display: inline-block;
             margin-right: 5px;
@@ -67,11 +66,10 @@
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #333;
-            height: 150px; /* Altura de los contenedores */
+            height: 150px; 
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
         }
         .status-box {
             background-color: #333;
@@ -87,47 +85,56 @@
     <div class="main-container">
         
         <div class="top-row-buttons">
-            <div class="button-group">TS / PR</div>
-            <div class="button-group">SP</div>
-            <div class="button-group">
+            <div id="ts-pr" class="button-group">TS / PR</div>
+            <div id="sp" class="button-group">SP</div>
+            <div id="wm-pn" class="button-group">
                 <span class="indicator"></span> WM / PN
             </div>
-            <div class="button-group">BP / MR</div>
-            <div class="button-group">OB / CC</div>
+            <div id="bp-mr" class="button-group">BP / MR</div>
+            <div id="ob-cc" class="button-group">OB / CC</div>
         </div>
 
         <div class="category-buttons">
-            <div>ARITH</div>
-            <div>VOCAB</div>
-            <div>LIT</div>
+            <div id="arith-btn">ARITH</div>
+            <div id="vocab-btn">VOCAB</div>
+            <div id="lit-btn">LIT</div>
         </div>
 
-        <div class="video-player-container">
-            <video controls style="width: 90%; height: 90%; background-color: black;">
-                <source src="" type="video/mp4">
-            </video>
-            </div>
-
-        <div class="video-player-container">
-            <video controls style="width: 90%; height: 90%; background-color: black;">
+        <div id="video-container-1" class="video-player-container">
+            <video id="player-1" controls style="width: 90%; height: 90%; background-color: black;">
                 <source src="" type="video/mp4">
             </video>
         </div>
 
-        <div class="video-player-container">
-            <video controls style="width: 90%; height: 90%; background-color: black;">
+        <div id="video-container-2" class="video-player-container">
+            <video id="player-2" controls style="width: 90%; height: 90%; background-color: black;">
                 <source src="" type="video/mp4">
             </video>
         </div>
 
-        <div class="status-box">
+        <div id="video-container-3" class="video-player-container">
+            <video id="player-3" controls style="width: 90%; height: 90%; background-color: black;">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+
+        <div id="status-box" class="status-box">
             Status: **Sentinel GO**. Viability **1.0**. Concurrence **Achieved**. (5 chars = 1 word)
         </div>
 
     </div>
 
-    <script src="app.js"></script> 
-</body>
-</html>
+    <script>
+        // Pega el código de tu antigua sección <script> aquí.
+        // Este código es crucial para cargar los videos y manejar los clics en los botones.
+
+        // Si tu código es muy largo, puedes usar un archivo externo:
+        // document.getElementById('status-box').innerText = 'Loading Advanced Learning System...';
+        
+        // Aquí deberías tener tu lógica para:
+        // 1. Definir las fuentes de los videos.
+        // 2. Asignar los listeners de eventos a los botones.
+        // 3. Actualizar la caja de estado dinámicamente.
+    </script>
 </body>
 </html>
