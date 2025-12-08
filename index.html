@@ -1,390 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SEA~ALS - Core System V1.2</title>
-        <style>
-            /* VROOGLY: GLOBAL ORDER AND STRUCTURAL MAP */
-            body { margin: 0; padding: 0; background-color: #000; font-size: 16px; color: #00ff00; }
-            .outer-flexbox { display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; width: 100vw; overflow: hidden; }
-
-            /* VROOGLY: INNER GRID (Minimal Vertical Stack) */
-            .inner-grid-container {
-                display: grid;
-                grid-template-columns: repeat(5, 1fr); 
-                grid-template-rows: 0.2fr 3.6fr 0.2fr; 
-                width: 100%; max-width: 1200px; height: 100vh; 
-            }
-
-            /* VROOGLY: TTM & STATUS BAR (Consolidated into the top row) */
-            .status-header {
-                grid-column: 1 / span 5; grid-row: 1; 
-                display: flex; justify-content: space-between; align-items: center;
-                padding: 5px 10px; font-family: 'Courier New', monospace;
-            }
-            .ttm-output { white-space: nowrap; flex-grow: 1; text-align: left; padding-right: 10px; color: #00ff00; }
-
-            /* VROOGLY: STRUCTURAL INTEGRITY FIX - 20ch WIDTH COMPLIANCE */
-            .monospaced-compliance {
-                font-family: 'EB Garamond Mono', 'Courier New', monospace;
-                font-size: 14pt; 
-                width: 20ch; 
-                max-width: 20ch;
-                min-width: 20ch;
-                overflow: hidden;
-                white-space: nowrap;
-                text-align: center;
-            }
-
-            /* VROOGLY: Large Text/Image Holon Definitions */
-            .story-content-area {
-                grid-column: 1 / span 5; grid-row: 3; 
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
-                font-size: 1.1em;
-            }
-            .story-content-area img { max-width: 100px; height: auto; }
-
-            /* VROOGLY: High-Density Text Bar Definition */
-            .minimal-text-bar {
-                position: absolute;
-                bottom: 0; 
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 4px 0;
-                background-color: #000;
-                z-index: 100;
-            }
-            
-            /* VROOGLY: THE CENTRAL HOLON (VidMon container) */
-            .viewmon-container {
-                grid-column: 1 / span 5; grid-row: 2; 
-                background-color: #000;
-                display: flex; flex-direction: column;
-                aspect-ratio: 16 / 9;
-                width: 90%; margin: 0 auto; position: relative;
-                border: 5px solid #333; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.8); 
-            }
-            .vidmon-display {
-                flex-grow: 1; background-color: black; position: relative;
-            }
-            .vidmon-display video { width: 100%; height: 100%; object-fit: contain; }
-            .vidmon-display::after {
-                content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                background: repeating-linear-gradient(#00000000, #00000000 1px, #0a0a0a33 1px, #0a0a0a33 2px);
-                opacity: 0.1; pointer-events: none; 
-            }
-            
-            /* VROOGLY: THE ACTION HOLON (CONTROLS ROW) */
-            .controls-row {
-                order: -1; 
-                display: flex; justify-content: space-between; align-items: center;
-                padding: 5px 5px; width: 100%;
-                gap: 10px; 
-                background-color: #333; 
-            }
-            .control-btn {
-                width: 67px; height: 67px; display: flex; justify-content: center; align-items: center;
-                background-color: #555; color: #fff; border: 2px solid #888; border-radius: 4px;
-                font-weight: bold; cursor: pointer; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-                font-size: 28px; 
-            }
-
-            /* ----------------------------------------------------------------- */
-            /* VROOGLY: STRUCTURAL TRANSFORMATION - MOBILE BREAKPOINT ENFORCEMENT */
-            /* ----------------------------------------------------------------- */
-            @media (max-width: 600px) {
-                /* 1. STRUCTURAL ELIMINATION: Hide the large, chaotic elements */
-                .story-content-area, .metadata-item.id-registro {
-                    display: none !important;
-                }
-                
-                /* 2. STRUCTURAL ACTIVATION: Activate the high-density text bar */
-                #high-density-text-bar {
-                    display: block !important;
-                }
-
-                /* 3. CONSOLIDATE STATUS: Ensure TTM output uses maximum width available */
-                .ttm-output {
-                    width: auto;
-                    flex-grow: 1; 
-                }
-            }
-
-        </style>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizwig SEA Architecture - Step 1: Final Reification (Control & MP4)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ======================================================= */
+        /* == ARQUITECTURA GEOMÉTRICA (AnaGeo: Ángulos Fijos, Lados Proporcionales) == */
+        /* ======================================================= */
         
-        <div class="outer-flexbox">
-            <div class="inner-grid-container">
-                
-                <div class="status-header">
-                    <div class="metadata-item id-registro">ID: G-1001 / REL: M-45</div>
-                    <div class="ttm-output" id="ttm-output">L1: 00:00/00:00 PENDING | L2: ARIT 0 PUNT 0.00</div>
-                    <div class="action-status-zone monospaced-compliance"><p id="feedback-message">AWAITING MEDIA LOAD</p></div>
-                </div>
+        body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; background-color: #1a1a1a; color: #e0e0e0; }
+        
+        /* 2nd Break Point (Control Base) y PPA */
+        #main-view-port { width: 375px; margin: 0 auto; min-height: 100vh; background-color: #222; }
+        
+        /* FILA DE CONCEPTACONS (CONTROL ROW) - ToVP */
+        #conceptacon-row {
+            display: flex;
+            width: 100%; /* 375px */
+            box-sizing: border-box;
+            border-bottom: 2px solid #333;
+        }
 
-                <div class="viewmon-container">
-                    
-                    <div class="controls-row">
-                        <button data-control="5" class="control-btn" title="Fast Forward/End">⏭</button>
-                        <button data-control="2" class="control-btn" title="Restart/A">|◀</button>
-                        <button data-control="3" class="control-btn" title="Rewind/B">⏪</button>
-                        <button data-control="4" class="control-btn" title="Play/Pause">▶</button>
-                        <button data-control="1" class="control-btn" title="Activate Chalice (Quiz)">↩</button> 
-                    </div>
+        /* Conceptacons (Control Icons) - Regla Geométrica 9:16 */
+        .controlacon {
+            width: 75px; /* 1/5 del ancho */
+            height: 133.33px; /* Proporción 9:16 (75 * 16 / 9) */
+            flex-grow: 1; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #333;
+            position: relative;
+            font-size: 14pt; /* Valida la métrica 5 chars @ 14pt mono */
+            cursor: pointer;
+            text-align: center;
+        }
+        .controlacon:last-child { border-right: none; }
+        
+        /* Sentinel (ST) - Innermost Break Point */
+        #sentinel-viability-light {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #444; 
+            border: 1px solid #fff;
+            z-index: 100;
+        }
 
-                    <div class="vidmon-display">
-                        <video id="viewmon-video" controlsList="nodownload" disablepictureinpicture src="http://your.video.source/default.mp4"></video> 
-                        <div id="high-density-text-bar" class="monospaced-compliance minimal-text-bar" style="display: none;"></div> 
-                    </div>
-                </div>
-                
-                <div class="story-content-area">
-                    <p>The Boy Who Cried Wolf...</p>
-                    <img src="placeholder.jpg" alt="Boy and Sheep" />
-                </div>
+        /* FILA DE STAFFING (MÓDULOS MP4 y Doble Altura Placeholder) */
+        #staffing-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+            /* Placeholder para Doble Altura para notación musical */
+            min-height: 50px; 
+        }
+        .staffing-module { padding: 5px 10px; cursor: pointer; border: 1px dashed #555; }
+
+        /* Contenedores de Video (VidMon) - Regla Geométrica 16:9 */
+        .video-container {
+            width: 100%;
+            padding-bottom: 56.25%; /* Mantiene la proporción 16:9 */
+            position: relative;
+            margin-bottom: 15px;
+            background-color: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Vertical Ticker Tape (VTT) - Rol de Acento */
+        #vtt-ticker-tape {
+            min-height: 20px;
+            line-height: 20px;
+            padding: 5px 10px;
+            background-color: #333;
+            overflow: hidden;
+            font-size: 14pt;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-view-port">
+        
+        <nav id="conceptacon-row">
+            <div class="controlacon" data-position="1" data-concons="TS,PR">TS / PR</div>
+            <div class="controlacon" data-position="2" data-concons="SP">SP</div>
+            <div class="controlacon" data-position="3" data-concons="WM,PN">
+                WM / PN
+                <span id="sentinel-viability-light" title="Sentinel Viability (Authority 1.0)"></span>
             </div>
-        </div>
-        
-        <script>
-            // --- JAVASCRIPT: THE INTELLIGENT ENTITY (IE) ---
+            <div class="controlacon" data-position="4" data-concons="BP,MR">BP / MR</div>
+            <div class="controlacon" data-position="5" data-concons="OB,CC">OB / CC</div>
+        </nav>
+
+        <section id="staffing-row">
+            <div class="staffing-module" data-mp4-bucket="Arith">ARITH</div>
+            <div class="staffing-module" data-mp4-bucket="Vocab">VOCAB</div>
+            <div class="staffing-module" data-mp4-bucket="Lit">LIT</div>
+        </section>
+
+        <section id="content-workspace">
             
-            // 24. VROOGLY: DATA SCHEMA (GIT PENSUM - STRUCTURAL CONTRACT) 
-            const GIT_Module_Data = {
-                video_url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4",
-                video_duration_sec: 192, 
-                // Tasks are used for manual quiz activation only
-                tasks: [
-                    { id: 1, question: "What civic value did the boy first violate?", solution: "Truthfulness", input_map: '4', progression_jump: 20 },
-                    { id: 2, question: "Why did the villagers stop trusting the boy's cries?", solution: "Repetition", input_map: '2', progression_jump: 30 },
-                    { id: 3, question: "When the wolf truly arrived, did the structural damage (the lie) matter?", solution: "Yes", input_map: '1', progression_jump: 40 },
-                    { id: 4, question: "The final moral is that habitual lying leads to a loss of:", solution: "Trust", input_map: '4', progression_jump: 22 }
-                ]
-            };
+            </section>
 
-            // 25. VROOGLY: GLOBAL STATE 
-            let state = {
-                isQuizActive: false, 
-                currentTaskIndex: 0,
-                attemptsCount: 0,
-                correctAttempts: 0, 
-                score: 0.0, 
-                videoTimeFrozen: 0, 
-            };
+        <footer id="vtt-ticker-tape">
+            Status: Initializing... Sentinel Check Pending. Today is Dec 7. Award after Dec 12.
+        </footer>
+    </div>
+    
+    <script>
+        // === LOGICA DE CONCURRENCIA Y ACTIVACIÓN MP4 ===
+
+        const MANIFEST_URL = './display_manifest.json';
+        const WORKSPACE = document.getElementById('content-workspace');
+        const VTT = document.getElementById('vtt-ticker-tape');
+
+        // 1. Sentinel Check (Innermost Break Point)
+        function checkSentinelViability() {
+            // Lógica de la Realidad Dispone: Si es viable (true), procede.
+            const isViable = true; 
+            const light = document.getElementById('sentinel-viability-light');
             
-            // VROOGLY: TIME FORMATTER
-            const formatTime = (seconds) => {
-                const minutes = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            };
+            if (isViable) {
+                light.style.backgroundColor = '#00ff00';
+                VTT.textContent = "Status: Sentinel GO. Viability 1.0. Concurrence Achieved. (5 chars = 1 word)";
+                return true; 
+            } else {
+                light.style.backgroundColor = '#ff0000';
+                VTT.textContent = "Status: ERROR! Reality Disposes: Execution Blocked. (5 chars = 1 word)";
+                return false;
+            }
+        }
 
-            // VROOGLY: CHALICE ACTIVATION LOGIC (MANUAL TRIGGER ONLY)
-            const triggerAcknowledgment = () => {
-                if (state.currentTaskIndex >= GIT_Module_Data.tasks.length) {
-                    document.getElementById('feedback-message').textContent = "MODULE COMPLETE. No more tasks.";
-                    return;
-                }
-                const video = document.getElementById('viewmon-video');
-                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
+        // 2. Wampum Execution (Posición 3: Play) - Orden de Operaciones
+        document.querySelector('[data-position="3"]').addEventListener('click', () => {
+            if (checkSentinelViability()) {
+                console.log("DF Execution initiated. Wampum processing...");
+            }
+        });
 
-                state.isQuizActive = true;
-                state.attemptsCount = 0; 
-                video.pause(); 
-                
-                document.getElementById('feedback-message').textContent = `CHALICE: ${currentTask.question.substring(0, 10)}...`; 
-                syncSupportLayers();
-            };
+        // 3. Función de Libertad del Dominio (PFC) - Carga los MP4's del manifiesto
+        async function loadAndActivateDisplays() {
+            try {
+                // Simulación de carga del manifiesto para activación
+                const manifest = {
+                    "active_displays": [
+                        {"id": "MP4_Arith", "src": "/assets/arith_module.mp4"},
+                        {"id": "MP4_Vocab", "src": "/assets/vocab_lessons.mp4"},
+                        {"id": "MP4_Lit", "src": "/assets/literature_analysis.mp4"}
+                    ]
+                };
 
-            // VROOGLY: RESOLVE THE CHALICE 
-            const simulateOverlayConfirm = (isCorrect) => {
-                if (!state.isQuizActive) return;
-
-                state.attemptsCount++;
-                const video = document.getElementById('viewmon-video');
-
-                if (isCorrect) {
-                    state.correctAttempts++;
-                    // Score logic: 1.0 on first try, 0.5 on second try, 0.0 after that
-                    state.score = (state.attemptsCount === 1) ? 1.0 : (state.attemptsCount === 2 ? 0.5 : 0.0);
+                manifest.active_displays.forEach(display => {
+                    const container = document.createElement('div');
+                    container.className = 'video-container';
+                    container.id = display.id;
                     
-                    state.isQuizActive = false;
+                    const video = document.createElement('video');
+                    video.src = display.src;
+                    video.controls = true;
+                    // Los programadores NO deben cortar esto: el PPA fuerza 16:9
                     
-                    // Proceed to the next segment after a correct answer
-                    handleNextProgression(); 
-                } else {
-                    document.getElementById('feedback-message').textContent = `ERROR: Try Again (Att: ${state.attemptsCount})`;
-                }
-                syncSupportLayers();
-            };
-            
-            // VROOGLY: PROGRESSION LOGIC (Advancing Video Segment)
-            const handleNextProgression = () => {
-                const total = GIT_Module_Data.tasks.length;
-                const video = document.getElementById('viewmon-video');
-
-                // Check if module is complete before attempting task progression
-                if (state.currentTaskIndex >= total) {
-                    document.getElementById('feedback-message').textContent = "MODULE COMPLETE. Structural Order Achieved.";
-                    video.pause();
-                    return;
-                }
-                
-                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
-                const jumpTime = currentTask.progression_jump || 0; 
-
-                // Jump the video time
-                video.currentTime = Math.min(video.currentTime + jumpTime, video.duration); 
-
-                state.currentTaskIndex++;
-                state.score = 0.0; // Reset score for the *next* task
-                
-                document.getElementById('feedback-message').textContent = `Task ${state.currentTaskIndex} complete. Play or Activate Chalice for next task.`;
-                video.play();
-                syncSupportLayers();
-            };
-
-            // VROOGLY: TIME SYNCHRONIZATION LOGIC (Updated to show full status)
-            const syncSupportLayers = () => {
-                const video = document.getElementById('viewmon-video');
-                const ttmOutput = document.getElementById('ttm-output');
-                
-                if (!video || isNaN(video.duration)) {
-                    ttmOutput.textContent = `L1: 00:00/00:00 LOADING... | L2: ARIT 0 PUNT 0.00`;
-                    return;
-                }
-
-                const currentTime = video.currentTime;
-                const duration = video.duration;
-                
-                let taskStatus = 'PENDING';
-                if (state.isQuizActive) {
-                    taskStatus = `Q${state.currentTaskIndex + 1} ACTIVE`;
-                } else if (state.currentTaskIndex >= GIT_Module_Data.tasks.length) {
-                    taskStatus = 'COMPLETE';
-                } else {
-                    taskStatus = video.paused ? 'PAUSED' : 'RUNNING';
-                }
-
-                // TTM Output now displays score statistics (ARIT / PUNT)
-                const newTtmText = `L1: ${formatTime(currentTime)}/${formatTime(duration)} ${taskStatus} | L2: ARIT ${state.attemptsCount} PUNT ${state.score.toFixed(2)}`;
-                ttmOutput.textContent = newTtmText;
-                
-                // VROOGLY: Mobile high-density text bar update
-                const textBar = document.getElementById('high-density-text-bar');
-                if (textBar) {
-                    textBar.textContent = taskStatus.substring(0, 20); 
-                }
-                
-                // VROOGLY: Update Play/Pause Button Icon
-                document.querySelector('[data-control="4"]').textContent = video.paused ? '▶' : '⏸';
-                
-            };
-            
-            // VROOGLY: CONTROL CLICK HANDLER (Action Holon Logic - Modified)
-            const handleControlClick = (event) => {
-                const controlNumber = event.currentTarget.dataset.control;
-                const video = document.getElementById('viewmon-video');
-                
-                if (!video || isNaN(video.duration)) { return; }
-
-                if (controlNumber === '4') { 
-                    // Play / Pause Toggle
-                    if (video.paused) {
-                        video.play();
-                        document.getElementById('feedback-message').textContent = "Running.";
-                    } else {
-                        video.pause();
-                        document.getElementById('feedback-message').textContent = "Paused.";
-                    }
-                } else if (controlNumber === '1') {
-                    // MODIFIED: Activate Chalice manually
-                    if (!state.isQuizActive) {
-                        triggerAcknowledgment();
-                    } else {
-                        document.getElementById('feedback-message').textContent = "Quiz already active. Answer 1, 2, 3, or 4.";
-                    }
-                } else if (controlNumber === '3') { 
-                    // Rewind
-                    video.currentTime = Math.max(0, video.currentTime - 10); 
-                } else if (controlNumber === '2') {
-                    // Restart
-                    video.currentTime = 0;
-                    video.pause();
-                } else if (controlNumber === '5') {
-                    // Fast Forward/End
-                    video.currentTime = video.duration;
-                    video.pause();
-                }
-                syncSupportLayers();
-            };
-
-            // VROOGLY: THE DIGITAL ACTIVATION MAP
-            const KEY_MAPPING = {
-                'Digit4': '4', 'Space': '4', 
-                'Digit3': '3', 
-                'Digit2': '2',
-                'Digit5': '5',
-                'Digit1': '1' // Map '1' to the Chalice button
-            };
-            
-            // VROOGLY: THE KEYBOARD BINDING (Handles 1-4 for answers when active, and controls otherwise)
-            const handleGlobalKeyPress = (event) => {
-                const key = event.code;
-                const currentTask = GIT_Module_Data.tasks[state.currentTaskIndex];
-
-                if (state.isQuizActive) {
-                    event.preventDefault(); 
-                    // VROOGLY: Simulated answer inputs
-                    if (key === 'Digit1') { simulateOverlayConfirm(currentTask.input_map === '1'); } 
-                    else if (key === 'Digit2') { simulateOverlayConfirm(currentTask.input_map === '2'); } 
-                    else if (key === 'Digit3') { simulateOverlayConfirm(currentTask.input_map === '3'); } 
-                    else if (key === 'Digit4') { simulateOverlayConfirm(currentTask.input_map === '4'); }
-                    return; 
-                }
-                
-                const mappedControl = KEY_MAPPING[event.code];
-                if (mappedControl) {
-                    const targetButton = document.querySelector(`[data-control="${mappedControl}"]`);
-                    if (targetButton) {
-                        targetButton.click(); 
-                        event.preventDefault(); 
-                    }
-                }
-            };
-            
-            // VROOGLY: INITIALIZATION 
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.control-btn').forEach(button => {
-                    button.addEventListener('click', handleControlClick);
+                    container.appendChild(video);
+                    WORKSPACE.appendChild(container);
                 });
-                
-                document.addEventListener('keydown', handleGlobalKeyPress);
-                
-                const video = document.getElementById('viewmon-video');
-                if (video) {
-                    video.src = GIT_Module_Data.video_url;
-                    
-                    video.addEventListener('loadedmetadata', () => {
-                        GIT_Module_Data.video_duration_sec = video.duration; 
-                        syncSupportLayers();
-                        document.getElementById('feedback-message').textContent = "Ready. Press ▶ to start, or ↩ for Quiz.";
-                        video.pause();
-                    });
-                    
-                    // Essential listeners for status synchronization
-                    video.addEventListener('timeupdate', syncSupportLayers);
-                    video.addEventListener('pause', syncSupportLayers);
-                    video.addEventListener('play', syncSupportLayers);
-                    video.addEventListener('ended', syncSupportLayers);
-                }
-            });
-            // VROOGLY: END OF IE REGULATOR CORE LOGIC
-        </script>
-    </body>
+                console.log(`MP4 Activation Complete. Total Displays: ${manifest.active_displays.length}.`);
+
+            } catch (error) {
+                console.error("Failed to load MP4 manifest:", error);
+                VTT.textContent = "ERROR: Failed to load display manifest.";
+            }
+        }
+
+        // Inicialización del View Port (Ejecución de la realidad)
+        checkSentinelViability();
+        loadAndActivateDisplays();
+
+    </script>
+</body>
 </html>
