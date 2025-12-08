@@ -3,194 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wizwig SEA Architecture - Step 1: Final Reification (Control & MP4)</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>Wizwig SEA Architecture - Advanced Learning System</title>
+    <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* ======================================================= */
-        /* == ARQUITECTURA GEOMÉTRICA (AnaGeo: Ángulos Fijos, Lados Proporcionales) == */
-        /* ======================================================= */
-        
-        body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; background-color: #1a1a1a; color: #e0e0e0; }
-        
-        /* 2nd Break Point (Control Base) y PPA */
-        #main-view-port { width: 375px; margin: 0 auto; min-height: 100vh; background-color: #222; }
-        
-        /* FILA DE CONCEPTACONS (CONTROL ROW) - ToVP */
-        #conceptacon-row {
+        /* Estilos Mínimos para Replicar la Vista de la Captura */
+        body {
+            background-color: #222; /* Fondo oscuro */
+            color: #ddd;
+            font-family: Arial, sans-serif;
             display: flex;
-            width: 100%; /* 375px */
-            box-sizing: border-box;
-            border-bottom: 2px solid #333;
-        }
-
-        /* Conceptacons (Control Icons) - Regla Geométrica 9:16 */
-        .controlacon {
-            width: 75px; /* 1/5 del ancho */
-            height: 133.33px; /* Proporción 9:16 (75 * 16 / 9) */
-            flex-grow: 1; 
-            display: flex;
-            align-items: center;
             justify-content: center;
-            border-right: 1px solid #333;
-            position: relative;
-            font-size: 14pt; /* Valida la métrica 5 chars @ 14pt mono */
-            cursor: pointer;
-            text-align: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
         }
-        .controlacon:last-child { border-right: none; }
-        
-        /* Sentinel (ST) - Innermost Break Point */
-        #sentinel-viability-light {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #444; 
-            border: 1px solid #fff;
-            z-index: 100;
+        .main-container {
+            width: 90%;
+            max-width: 600px; /* Ancho típico para una interfaz centrada */
         }
-
-        /* FILA DE STAFFING (MÓDULOS MP4 y Doble Altura Placeholder) */
-        #staffing-row {
+        .top-row-buttons, .category-buttons {
             display: flex;
             justify-content: space-around;
+            margin-bottom: 20px;
             padding: 10px 0;
             border-bottom: 1px solid #444;
-            /* Placeholder para Doble Altura para notación musical */
-            min-height: 50px; 
         }
-        .staffing-module { padding: 5px 10px; cursor: pointer; border: 1px dashed #555; }
-
-        /* Contenedores de Video (VidMon) - Regla Geométrica 16:9 */
-        .video-container {
-            width: 100%;
-            padding-bottom: 56.25%; /* Mantiene la proporción 16:9 */
-            position: relative;
-            margin-bottom: 15px;
-            background-color: #000;
+        .top-row-buttons {
+            border-bottom: none;
+            margin-bottom: 5px;
         }
-        .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        .button-group {
+            display: flex;
         }
-        
-        /* Vertical Ticker Tape (VTT) - Rol de Acento */
-        #vtt-ticker-tape {
-            min-height: 20px;
-            line-height: 20px;
+        .button-group div {
             padding: 5px 10px;
+            border: 1px solid #555;
+            margin: 0 2px;
+            cursor: pointer;
+            font-size: 14px;
             background-color: #333;
-            overflow: hidden;
-            font-size: 14pt;
+        }
+        .indicator {
+            height: 10px;
+            width: 10px;
+            background-color: #4CAF50; /* Verde */
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            box-shadow: 0 0 5px #4CAF50;
+        }
+        .category-buttons div {
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .video-player-container {
+            width: 100%;
+            background-color: #111;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #333;
+            height: 150px; /* Altura de los contenedores */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+        .status-box {
+            background-color: #333;
+            border: 1px solid #444;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-
-    <div id="main-view-port">
+    <div class="main-container">
         
-        <nav id="conceptacon-row">
-            <div class="controlacon" data-position="1" data-concons="TS,PR">TS / PR</div>
-            <div class="controlacon" data-position="2" data-concons="SP">SP</div>
-            <div class="controlacon" data-position="3" data-concons="WM,PN">
-                WM / PN
-                <span id="sentinel-viability-light" title="Sentinel Viability (Authority 1.0)"></span>
+        <div class="top-row-buttons">
+            <div class="button-group">TS / PR</div>
+            <div class="button-group">SP</div>
+            <div class="button-group">
+                <span class="indicator"></span> WM / PN
             </div>
-            <div class="controlacon" data-position="4" data-concons="BP,MR">BP / MR</div>
-            <div class="controlacon" data-position="5" data-concons="OB,CC">OB / CC</div>
-        </nav>
+            <div class="button-group">BP / MR</div>
+            <div class="button-group">OB / CC</div>
+        </div>
 
-        <section id="staffing-row">
-            <div class="staffing-module" data-mp4-bucket="Arith">ARITH</div>
-            <div class="staffing-module" data-mp4-bucket="Vocab">VOCAB</div>
-            <div class="staffing-module" data-mp4-bucket="Lit">LIT</div>
-        </section>
+        <div class="category-buttons">
+            <div>ARITH</div>
+            <div>VOCAB</div>
+            <div>LIT</div>
+        </div>
 
-        <section id="content-workspace">
-            
-            </section>
+        <div class="video-player-container">
+            <video controls style="width: 90%; height: 90%; background-color: black;">
+                <source src="" type="video/mp4">
+            </video>
+            </div>
 
-        <footer id="vtt-ticker-tape">
-            Status: Initializing... Sentinel Check Pending. Today is Dec 7. Award after Dec 12.
-        </footer>
+        <div class="video-player-container">
+            <video controls style="width: 90%; height: 90%; background-color: black;">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="video-player-container">
+            <video controls style="width: 90%; height: 90%; background-color: black;">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="status-box">
+            Status: **Sentinel GO**. Viability **1.0**. Concurrence **Achieved**. (5 chars = 1 word)
+        </div>
+
     </div>
-    
-    <script>
-        // === LOGICA DE CONCURRENCIA Y ACTIVACIÓN MP4 ===
 
-        const MANIFEST_URL = './display_manifest.json';
-        const WORKSPACE = document.getElementById('content-workspace');
-        const VTT = document.getElementById('vtt-ticker-tape');
-
-        // 1. Sentinel Check (Innermost Break Point)
-        function checkSentinelViability() {
-            // Lógica de la Realidad Dispone: Si es viable (true), procede.
-            const isViable = true; 
-            const light = document.getElementById('sentinel-viability-light');
-            
-            if (isViable) {
-                light.style.backgroundColor = '#00ff00';
-                VTT.textContent = "Status: Sentinel GO. Viability 1.0. Concurrence Achieved. (5 chars = 1 word)";
-                return true; 
-            } else {
-                light.style.backgroundColor = '#ff0000';
-                VTT.textContent = "Status: ERROR! Reality Disposes: Execution Blocked. (5 chars = 1 word)";
-                return false;
-            }
-        }
-
-        // 2. Wampum Execution (Posición 3: Play) - Orden de Operaciones
-        document.querySelector('[data-position="3"]').addEventListener('click', () => {
-            if (checkSentinelViability()) {
-                console.log("DF Execution initiated. Wampum processing...");
-            }
-        });
-
-        // 3. Función de Libertad del Dominio (PFC) - Carga los MP4's del manifiesto
-        async function loadAndActivateDisplays() {
-            try {
-                // Simulación de carga del manifiesto para activación
-                const manifest = {
-                    "active_displays": [
-                        {"id": "MP4_Arith", "src": "/assets/arith_module.mp4"},
-                        {"id": "MP4_Vocab", "src": "/assets/vocab_lessons.mp4"},
-                        {"id": "MP4_Lit", "src": "/assets/literature_analysis.mp4"}
-                    ]
-                };
-
-                manifest.active_displays.forEach(display => {
-                    const container = document.createElement('div');
-                    container.className = 'video-container';
-                    container.id = display.id;
-                    
-                    const video = document.createElement('video');
-                    video.src = display.src;
-                    video.controls = true;
-                    // Los programadores NO deben cortar esto: el PPA fuerza 16:9
-                    
-                    container.appendChild(video);
-                    WORKSPACE.appendChild(container);
-                });
-                console.log(`MP4 Activation Complete. Total Displays: ${manifest.active_displays.length}.`);
-
-            } catch (error) {
-                console.error("Failed to load MP4 manifest:", error);
-                VTT.textContent = "ERROR: Failed to load display manifest.";
-            }
-        }
-
-        // Inicialización del View Port (Ejecución de la realidad)
-        checkSentinelViability();
-        loadAndActivateDisplays();
-
-    </script>
+    <script src="app.js"></script> 
+</body>
+</html>
 </body>
 </html>
