@@ -1,347 +1,225 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEA ~ Sistema Educacional Avanzado</title>    
+    <title>Advanced Learning System - ONETH INTERACTIVE</title>
+    
     <style>
-        /* La nueva base CSS limpia */
-		@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-<!--1-->
-		@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        /* CSS remains the same as the previous version */
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88; 
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 120vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 400px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-		#credits { text-align: center; }
-<!--2-->
-		#content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        /* BARRA DE ÍCONOS */
-		#scrolling-icon-bar { height: 100px; display: flex; flex-wrap: nowrap; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
+        body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
+        #left-menu { width: 200px; background: var(--color-menu); color: white; padding: 15px; flex-shrink: 0; }
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        #scrolling-icon-bar { height: 96px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button {
             width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
             border: none; background: none; display: flex; flex-direction: column; align-items: center;
             justify-content: flex-start; box-sizing: border-box;
         }
-        .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-<!--3-->
-		.icon-title {
+        .icon-button img { height: 54px; width: 100%; object-fit: cover; margin-bottom: 5px; }
+        .icon-title {
             font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
             width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        /* ÁREA DE CONTENIDO Y VIDEO */
         #content-area { flex-grow: 1; }
         #main-flex-container { display: flex; height: 100%; }
         #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
         #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
-<!--4-->
-		#video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         #video-player { width: 100%; height: 100%; }
         #return-to-cards-btn-embedded {
             position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
             border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
         }
-        /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
-        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
-<!--5-->
-	</style>
+    </style>
 </head>
-<body>   
+<body>
+    
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            <h3><big>Bienvenido SEA<br>
-                  Sistema Educacional Avanzado*<br></big>
-				  Programado por ARAGEM</big><br>
-<!--6-->          jmaf.phd@gmail.com</h3>
-				 
+            <h3>Advanced Learning System</h3>
+            <p>Powered by Google Gemini</p>
         </div>
-		    <hr >
-        <div id="student-id-box" style="padding-top: 10px; font-size: 0.8em; text-align: left;">
-            <big>Nombre:<br>IDN:<br>*Evidencia gubernamental disponible</big></big>
-			<hr >
-			
-        </div>
-        <div style="margin-top: 10px; font-size: 0.80em;">
-<!--7-->
-			<p style="font-weight: bold;"Curriculum K-6</p>
-            <ul style="list-style: none; padding-left: 10px; line-height: 1;">
-            <li><u><b><big><big>Estudios Generales (G1-6)</big></b></u></li>
-			<li><u><b>Aritmética© (G1-2)</b></u></li>
-			<li><b>G1 Números Enteros</b></li>
-			<li><i>Enumeración hasta |Nueve|</i></li>
-            <li>—U1S1 Descubriendo a Sunya-Sifr Cero</li>
-            <li>—U1S2 Uno al Cuatro</li>
-            <li>—U1S3 Cinco al Nueve</li>
-			<li><i>Enumeración ~ |Noventa y Nueve|</i></li>
- <!--8-->
-            <li><i>Enumeración ~ |Decilliones|</i></li>
-            <li><i>Principios de Suma</i></li>
-            <li><i>Fundamentos de Suma</i></li>
-            <li><i>Suma—Definiciones, Elementos, y Principios</i></li>
-            <li><i>Paridad, Comparación, Conjuntos, y Números Compuestos</i>&nbsp;</li>
-            <li><i>Sumas, Signos Oppuestos, y Restas</i></li>
-            <li><i>Multiplicación</i></li>
-			<li><i>División y Partición</i></li>
-			<li><i>Fracciones</i></li>
-<!--9-->
-			<li><i>Chronos, El Tiempo</i></li>
-			<li><i>Formas Geométricas</i></li>	
-			<li><b>G2 Números Racionales</b></li>
-			<li>       —Fracciones Decimales</li>
-			<li>       —Razones y Proporciones</li>
-            <li>       —Porcientos</li>
-            <li>       —Sistemas de Mensura</li>
-			<li><b>G3 Geometría</b></li>
-            <li>       —Postulados y Teoremas
-			</li>
-<!--10-->
-            <li>       —Líneas y Secgmentos</li>				
-            <li>       —áangulos</li>				
-            <li>       —Lineas Paralelas y Planos</li>				
-			<li>       —Congruencia</li>
-            <li>       —Polígonos Similares</li>	
-            <li>       —Triangulos Rectos Similares</li>					
-            <li>       —Círculos</li>					
-            <li>       —Construcciones y Loci</li>
-<!--11-->
-			<li>       —Geometría Coordenada: Métodología</li>
-            <li>       —Geometría Coordenada: Pruebas</li>
-            <li>       —Transformaciones</li>
-            <li>       —Áreas de Polígonos y Círculos</li>
-	        <li>       —Área y Volumen de Sólidos</li>
-			<li><b>G4 Álgebra 1© (64 Unidades)</b></li>			
-			<li>       Ecuaciones con una Variable</li>
-			<li>       —Números Enteros</li>
-			<li>       —Porcientos</li>
-<!--12-->
-			<li>       —Números Racionales</li>
-			<li>       Ecuaciones con dos Variables</li>
-			<li>       —Polinomios</li>
-			<li>       —Ecuaciones Cuadráticas</li>
-			<li>       —Números Racionales</li>
-			<li><b>G5 Álgebra 2</b></li>
-			<li><b>G6 Trigonometría</b></li>
-			<li><u><b>Lenguaje (G1-6)</b></u></li>
-			<li>       —LSE Vocabulario (G1-6: 45,000)</li>
-<!--11-->
-            <li>       —LSE Gramática</li>
-			<li>       —LSE Literatura</small></li>				
-           	<li><u><b>Historia (G1-6)</b></u></li>
-            <li>       —H1 Mundial</li>
-            <li>       —H2 General</li>
-			<li><u><b>Ciencias Sociales G1-6)</b></u></li>
-            <li><u><b>Cultura y Artes (G1-6)</b></u></li>
-            <li><u><b>Ejercicios Interactivos(G1-6)</b></u></li>
-            </ul>
-<!--14-->
-		</div>
     </nav>
+
     <div id="content-wrapper">
-         <header id="scrolling-icon-bar" class="beveled-frame">
-			<button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'U1S1: Finding Zero (Meet The Digits)')"
-				title="U1S1 Finding Zero">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="U1S1">
-                <span class="icon-title">U1S1</span>
-<!--15-->
-            </button>
+        
+        <header id="scrolling-icon-bar" class="beveled-frame">
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'U1S2: Enumeration ~ 4')"
-                    title="U1S2 Enumeration ~ 4">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="U1S2">
-				<span class="icon-title">U1S2</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S1%20Meet%20The%20Digits.mp4', 'A1P1U1S1: The Journey Begins...')"
+                    title="The Journey Begins...">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Journey%20Begins.jpg" alt="A1P1U1S1">
+                <span class="icon-title">A1P1U1S1</span>
             </button>
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'U1S3: Enumeration ~ 9')"
-<!--16-->
-                    title="U1S3 Enumeration ~ 9">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="U1S3">
-                <span class="icon-title">U1S3</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/04%20AP1U1S2%20Counting%20through%20Four.mp4', 'A1P1U1S2: Mr. Zero, The First Something!')"
+                    title="Mr. Zero, The First Something!">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Mr.%20Zero%2C%20The%20First%20Something.jpg" alt="A1P1U1S2">
+                <span class="icon-title">A1P1U1S2</span>
             </button>
+            
             <button class="icon-button beveled-frame" 
-				onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4', 'U2: Enumeration ~ 99')"
-                    title="U2 Enumeration ~ 99">
-				<img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/APIU2%20Phalanges.jpg" alt="U2">
-                <span class="icon-title">U2</span>
-<!--17-->
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/AP1U1S3T5-9%20250928%202033%20TN.mp4', 'A1P1U1S3: The Numeral Family')"
+                    title="The Numeral Family">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Numeral%20Family.jpg" alt="A1P1U1S3">
+                <span class="icon-title">A1P1U1S3</span>
             </button>
+            
             <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'U3: Enumeration to 100')"
-                    title="U3 Enumeration ~ 100">
-				<img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Bus%20100.jpg" alt="U3">
-                <span class="icon-title">U3</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'Decillones: Counting Concepts')"
+                    title="Counting Concepts">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="Decillones">
+                <span class="icon-title">Decillions</span>
             </button>
-			<button class="icon-button beveled-frame" 
-<!--16-->
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Activos/Arithmetic/ToInfinity.mp4', '999x10^33')"
-                    title="999x10^33">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ToInfinity.jpg" alt="999x10^33">
-                <span class="icon-title">999x10^33</span>
-            </button>
+            
             <button class="icon-button beveled-frame" 
-				onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ID Match: Identify and Match')"
-                    title="ID Match">
-				<img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID Match">
-                <span class="icon-title">ID Match</span>
-<!--19-->   </button>      
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary/Vocabulario%20001~100~SE.mp4', 'LAV: Vocabulary 1~100')"
-                    title="LAV Vocabulary 1~100">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/01%20Pip.jpg" alt="LAV>
-					<span class="icon-title">LAV Vocab</span>
-            </button>			 
-	        <button class="icon-button beveled-frame"
-                     onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Enunciation%2002.mp4', 'LAV: Enunciation 02 (Vowels)')"
-                    title="Enunciation 02 (Vowels)">
-<!--20-->       <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/02%20Pip.jpg" alt="Vowels">
-                <span class="icon-title">Vowels</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U1S4: The Zero\'s Journey')"
+                    title="The Zero's Journey">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/The%20Zero's%20Journey.jpg" alt="A1P1U1S4">
+                <span class="icon-title">A1P1U1S4</span>
             </button>
+            
             <button class="icon-button beveled-frame" 
-				onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/English%20Vowels.mp4', 'LAV: Enunciation 03 (Vowels)')"
-                    title="Enunciation 03 (Vowels)">
-				<img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/03%20Pip.jpg" alt="Vowels">
-                <span class="icon-title">Vowels</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%2C%20Diez%20Uno.mp4', 'A1P1U2S1: Classification Gates')"
+                    title="Classification Gates">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Classification%20Gates.jpg" alt="A1P1U2S1">
+                <span class="icon-title">A1P1U2S1</span>
             </button>
+            
             <button class="icon-button beveled-frame" 
-<!--21-->                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Sapiencio\'s%20Fruits%20251001%201103%20TN.mp4', 'LAV: Sapiencio\'s Fruits')"
-                    title="Sapiencio's Fruits">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/04%20Pip.jpg" alt="FRUITS">
-				<span class="icon-title">Fruits</span>
+                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'A1P1U2S2: System Recalibration')"
+                    title="System Recalibration">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/System%20Recalibration.jpg" alt="A1P1U2S2">
+                <span class="icon-title">A1P1U2S2</span>
             </button>
-			<button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Vocabulary%2001-20.mp4', 'LAV: Vocabulary ~20')"
-				    title="Vocabulary ~20">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/05%20Pip.jpg" alt="VOCAB~20">
-                <span class="icon-title">Vocab ~20</span>
-<!--21-->    </button>
-		 </header>
-		<div id="content-area">		
-            <div id="main-flex-container">
-				<section id="main-content">
+            
+        </header>
+
+        <div id="content-area">
+             <div id="main-flex-container">
+                <section id="main-content">
                     <div id="module-view-container">
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 15px; margin-top: 25px; text-align: center; background: white;">
-               <h2>Welcome to the Advanced Learning System</h2>
+                        <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
+                            <h2>Welcome to the Advanced Learning System</h2>
                             <p id="status-message">Select a module from the scrolling icon bar above to begin the ONETH experience.</p>
                         </div>
-<!--23-->               <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
+                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
                             <h3 id="detail-code"></h3>
                             <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-							<button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
+                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
                                 ▶ Begin Module
-<!--24-->
                             </button>
                         </div>
                     </div>
                     <div id="video-wrapper-16-9" style="display:none;">
-						<button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
+                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
                         <div id="video-container-aspect-lock">
-
                             <video id="video-player" controls></video>
-						</div>
-<!--25--> 
-					</div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
     </div>
+    
     <script>
+        // JS remains the same
         const player = document.getElementById('video-player');
-		const videoWrapper = document.getElementById('video-wrapper-16-9');
+        const videoWrapper = document.getElementById('video-wrapper-16-9');
         const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-<!--26-->
-		const moduleViewContainer = document.getElementById('module-view-container');
+        const moduleViewContainer = document.getElementById('module-view-container');
         const statusMessage = document.getElementById('status-message');
         const moduleDetailPanel = document.getElementById('module-detail-panel');
         const detailCode = document.getElementById('detail-code');
         const detailTitle = document.getElementById('detail-title');
-		const detailControlBtn = document.getElementById('detail-control-btn'); 
+        const detailControlBtn = document.getElementById('detail-control-btn'); 
         let currentModuleTitle = '';
-		let nextVideoSource = '';
-          function toggleVideoPlayback() {
-<!--27-->
-			  if (!nextVideoSource) {
+        let nextVideoSource = '';
+        
+        function toggleVideoPlayback() {
+            if (!nextVideoSource) {
                 alert("Error: No module loaded.");
                 showModules();
                 return;
             }
-				if (videoWrapper.style.display !== 'block') {
-				playSelectedModule();
+            if (videoWrapper.style.display !== 'block') {
+                playSelectedModule();
                 player.play(); 
                 detailControlBtn.textContent = '❚❚ Pause Module';
- <!--28-->
-				detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
+                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
                 detailControlBtn.style.color = 'var(--color-menu)';
             } else if (player.paused) {
                 player.play();
                 detailControlBtn.textContent = '❚❚ Pause Module';
                 detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-				detailControlBtn.style.color = 'var(--color-menu)';
+                detailControlBtn.style.color = 'var(--color-menu)';
             } else {
                 player.pause();
-<!--29-->
                 detailControlBtn.textContent = '▶ Resume Module';
                 detailControlBtn.style.backgroundColor = 'white';
                 detailControlBtn.style.color = 'black';
             }
         }
-		function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';		
+        
+        function playSelectedModule() {
+            moduleViewContainer.style.display = 'none';
             moduleDetailPanel.style.display = 'none'; 
-            videoWrapper.style.display = 'block';      
-<!--30-->
+            videoWrapper.style.display = 'block';
             embeddedReturnBtn.style.display = 'block'; 
             player.src = nextVideoSource;
             player.load(); 
         }
-		function showModules() {
+        
+        function showModules() {
             moduleViewContainer.style.display = 'block'; 
             document.getElementById('landing-status-box').style.display = 'block';
             moduleDetailPanel.style.display = 'none';
             videoWrapper.style.display = 'none';
-<!--31-->
             embeddedReturnBtn.style.display = 'none'; 
             player.pause();
             player.removeAttribute('src'); 
             player.load();
-			currentModuleTitle = '';
+            currentModuleTitle = '';
             nextVideoSource = '';
             statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
             detailControlBtn.textContent = '▶ Begin Module';
             detailControlBtn.style.backgroundColor = 'white';
-<!--32-->
             detailControlBtn.style.color = 'black';
         }
+
         function launchVideo(videoSource, moduleTitle) {
             currentModuleTitle = moduleTitle; 
-			nextVideoSource = videoSource;
+            nextVideoSource = videoSource;
             const parts = moduleTitle.split(':');
             const code = parts[0].trim();
             const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
             detailCode.textContent = `Module Code: ${code}`;
-<!--33-->
             detailTitle.textContent = title;
             document.getElementById('landing-status-box').style.display = 'none';
             moduleDetailPanel.style.display = 'block';
             moduleViewContainer.style.display = 'block';
-		}
+        }
+
         function closeVideo() { showModules(); }
-		document.addEventListener('DOMContentLoaded', () => {
-            if (player) {			
-                player.addEventListener('ended', () => {
-<!--34-->
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showLandingScreen();
-				});
-            }
-            // Reset button to video handler for safety and call initial setup
-            detailControlBtn.onclick = toggleModulePlayback; 
-<!--35-->
-			showLandingScreen(); 
-        });
-	</script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (player) {
+                player.addEventListener('ended', () => {
+                    alert(`Module "${currentModuleTitle}" has finished.`);
+                    showModules();
+                });
+            }
+            statusMessage.textContent = 'Select a module from the scrolling icon bar above to begin the ONETH experience.';
+            moduleDetailPanel.style.display = 'none';
+            document.getElementById('landing-status-box').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
