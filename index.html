@@ -3,524 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Educacion Avanzada© (SEAtm)</title>
+    <title>Advanced Learning System (ONETH)</title>
     
     <style>
-        /* La nueva base CSS limpia */
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-        :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
         }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-        #credits { text-align: center; }
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        /* BARRA DE ÍCONOS */
-        #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button {
-            width: 96px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px;
-            border: none; background: none; display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; box-sizing: border-box;
+        
+        #main-container {
+            display: flex;
+            flex: 1; 
         }
-        .icon-button img { height: 75px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title {
-            font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1;
-            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        
+        .beveled-frame {
+            border: 2px solid #ccc;
+            border-right-color: #999;
+            border-bottom-color: #999;
+            background-color: #eee;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
-        /* ÁREA DE CONTENIDO Y VIDEO */
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
-        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded {
-            position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white;
-            border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px;
-        }
-        /* DETALLES DEL PANEL DE CONTROL DE MÓDULOS */
-        #module-detail-panel { padding: 30px; margin-top: 20px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
 
-        /* --- COLLAPSIBLE CSS IMPLEMENTADO --- */
-        .collapsible-section { 
-            margin-bottom: 5px; 
+        #left-menu {
+            width: 280px;
+            padding: 10px;
+            overflow-y: auto;
+            border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
         }
+
+        #center-panel {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        #video-player-container {
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        #video-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #000;
+        }
+
+        #video-details {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #footer-console {
+            height: 50px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+            line-height: 50px;
+            background-color: #ddd;
+        }
+        
+        /* --- NEW CODE INSERTION POINT: COLLAPSIBLE CURRICULUM STYLING --- */
         .collapsible-content {
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            max-height: 0; /* Starts collapsed */
-            padding-left: 0; 
+          overflow: hidden;
+          transition: max-height 0.3s ease-out;
+          max-height: 0; 
+          padding-left: 0; 
         }
 
-        /* Header style for the main subjects (clickable indicator) */
         .collapsible-header {
-            cursor: pointer;
-            display: block;
+          font-weight: bold;
+          cursor: pointer;
+          padding: 5px 0; 
+          display: block;
         }
 
-        /* Icon (Diamond) for the collapsible header */
         .collapsible-header:before {
-            content: '♦ '; 
-            display: inline-block;
-            transition: transform 0.3s ease;
-            transform: rotate(0deg); 
-            color: black;
+          content: '◆ '; 
+          display: inline-block;
+          transition: transform 0.3s ease;
+          transform: rotate(0deg); 
         }
+
         .collapsible-header.open:before {
-            transform: rotate(90deg); /* Rotates icon when open */
+            transform: rotate(90deg); 
         }
-
-        /* Module link styling (Keeps original visual structure) */
+        
         .module-link {
-            display: block;
-            text-decoration: none; 
-            color: black;
-            padding-left: 5px; /* slight indentation for list readability */
+            display: block; 
+        }
+        
+        .module-link:before {
+          content: '⚪ '; 
+          display: inline-block;
+          margin-right: 5px;
         }
 
-        /* Ensure list items inside content are reset */
-        .collapsible-content ul {
-            list-style: none; 
-            padding-left: 0; 
-            margin-top: 0;
-            margin-bottom: 0;
+        .module-link.active-module:before {
+          content: '⚫ '; 
+          color: #333; 
         }
-        /* --- FIN COLLAPSIBLE CSS IMPLEMENTADO --- */
+
+        .collapsible-content li {
+          list-style: none;
+          padding-left: 20px;
+          line-height: 1.5;
+        }
+        
     </style>
 </head>
 <body>
-    
-    <nav id="left-menu" class="beveled-frame">
-        <div id="credits">
-            <h2>Bienvenito SEA<br>Sistema de Educación Avanzada©</h2>
-            <h4>Powered by ARAGEM</br
-            SEA01ALS@gmail.com<h4>
-        </div>
-        <div id="student-id-box" style="padding-top: 15px; font-size: 0.9em; text-align: center;">
 
-        </div>
-        <div style="margin-top: 20px; font-size: 0.95em;">
-            <p style="font-weight: bold;"></p>
-            <p style="margin-left: 10px; font-weight: bold;"></p>
+    <div id="main-container">
 
-            <ul style="list-style: none; padding-left: 10px; line-height: 1.1;">
-                <li><big><big><b>Estudios Elementales K-6</b></big></big></li>
+        <nav id="left-menu" class="beveled-frame">
+            <h2>ONETH Curriculum</h2>
+            <hr>
+            
+            <div style="margin-bottom: 20px;">
                 
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <big></big><b>Matemáticas</b></big>
-                    </span>
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <b>Aritmética</b>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li>
-                                <a href="#" class="module-link"
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">
-                                    U1 Enumeración ~ |Nueve|
-                                </a>
-                            <li>
-                                
-                            <li>
-                                <a href="#" class="module-link"
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">
-                                    —<u>S1</u> Descubriendo Sunya-Sifr Cero
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'MAT-U1S2: Uno al Cuatro'); return false;">
-                                    —<u>S2</u> Uno al Cuatro
-                                </a>
-                            </li>
+                <input type="text" placeholder="Search Modules..." style="width: 100%; padding: 5px;">
+            </div>
 
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'MAT-U1S3: Cinco al Nueve'); return false;">
-                                    —<u>S3</u> Cinco al Nueve
-                                </a>
-                            </li>
+            <div style="margin-top: 20px; font-size: 0.95em;">
+                <ul style="list-style: none; padding-left: 10px; line-height: 1.1;">
 
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4', 'MAT-U2: Noventa y Nueve'); return false;">
-                                    <u>U2</u> Enumeración ~ |Noventa y Nueve|
-                                </a>
-                            </li>
+                    <li><big><big><b>Estudios Elementales K-6</b></big></big></li>
 
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                          <b>Mathematicas</b> 
+                        </span>
+                        <ul class="collapsible-content">
+                            <li>U1 Enumeración ~ |Nueve|</li>
                             <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'MAT-U3: Decillones'); return false;">
-                                    <u>U3</u> Enumeración ~ |Decillones|
-                                </a>
-                            </li>  
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'MAT-U3: Decillones'); return false;">
-                                    U4 Principios de Suma
-                                </a>
-                            </li> 
+                              <a href="#" class="module-link" 
+                                 onclick="setActiveModule(this); launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1 : Descubriendo Sunya-Sifr Cero'); return false;" 
+                                 style="text-decoration: none; color: black; cursor: pointer;">
+                                <span style="font-style: italic;"
+                              </a>
+                            </li>—<u>S1<u>Descubriendo Sunya-Sifr Cero
+                            <li>—<u>S2<u> Uno al Cuatro</li>
+                            <li>—<u>S3<u>Cinco al Nueve</li>
+                            <li><u>U2<u>Enumeración ~ |Noventa y Nueve|</li>
+                            <li><u>U3<u>Enumeración ~ |Decillones|</li>
+                            <li>U4 Principios de Suma</li>
                         </ul>
                     </div>
-                </div>
-                    
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <b>Aritmética</b>
-                    </span>
 
-                    
-                    <div class="collapsible-content">
-                        <ul>
-                            <li>
-                                <a href="#" class="module-link"
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">
-                                    Subject 1
-                                </a>
-                            <li>
-                                
-                            <li>
-                                <a href="#" class="module-link"
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">
-                                    Subject 2
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'MAT-U1S2: Uno al Cuatro'); return false;">
-                                    Subject 3
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'MAT-U1S3: Cinco al Nueve'); return false;">
-                                   Subject 4
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4', 'MAT-U2: Noventa y Nueve'); return false;">
-                                    Subject 5
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'MAT-U3: Decillones'); return false;">
-                                    Subject 6
-                                </a>
-                            </li>  
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'MAT-U3: Decillones'); return false;">
-                                    Subject 7
-                                </a>
-                            </li> 
-                        </ul>
-                    </div>
-                </div>
-
-
-
-
-
-                
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <b>Empiricismo</b>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                            <b>Ciencias & Mundo</b>
+                        </span>
+                        <ul class="collapsible-content">
                             <li><b>Astronomía</b></li>
-                            <li><b>Biología</b></li>
                             <li><b>Física</b></li>
-                            <li><b>Geografia</b></li>
-                            <li><b>Geología</b></li>                            
-                            <li><b>Meterología</b></li>
                             <li><b>Química</b></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <b>Linguística</b>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li>Literatura</li>
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: The Boy Who Cried Wolf'); return false;">
-                                    FA<u>001</u>
-                                </a>
-                            </li>                 
-                            <li>Vocabulario</li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LAV1: Vocabulario 1'); return false;">
-                                LV<u>001</u>
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4', 'LAV2: Vocabulario 2'); return false;">
-                                LV<u>002</u>
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4', 'LAV3: Vocabulario 3'); return false;">
-                                LV<u>003</u>
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4', 'LAV4: Vocabulario 4'); return false;">
-                                LV<u>004</u>
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4', 'LAV5: Vocabulario 5'); return false;">
-                                LV<u>005</u>
-                                </a>
-                            </li>
-
-                            <li>Grammática</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <b>Históría</b>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li><b>Civilizaciones Antiguas</b></li>
-                        </ul>
-                    </div>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li><b>Civilizaciones Modernas</b></li>
-                        </ul>
-                    </div>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li><b>El Pensamiento Gerencial</b></li>
-                        </ul>
-                    </div>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li><b>El Desarrollo Cientfico</b></li>
-                        </ul>
-                    </div>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li><b>Principios de la Educación</b></li>
+                            <li><b>Biología</b></li>
+                            <li><b>Geografia</b></li>
+                            <li><b>Geología</b></li>
+                            <li><b>Meterología</b></li>
                         </ul>
                     </div>
 
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                            <b>Linguística & Literatura</b>
+                        </span>
+                        <ul class="collapsible-content">
+                            <li><u>Literatura</u></li>
+                            <li>
+                              <a href="#" class="module-link" 
+                                 onclick="setActiveModule(this); launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001 : The Boy Who Cried Wolf'); return false;" 
+                                 style="text-decoration: none; color: black; cursor: pointer;">
+                                <span style="font-style: italic;">—Esopo 001</span> (The Boy Who Cried Wolf)
+                              </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                    
-                </div>
-                
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <u>Expression</u>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                            <u>Vocabulario</u>
+                        </span>
+                        <ul class="collapsible-content">
+                            <li>—LV1</li>
+                            <li>—LV2</li>
+                            <li>—LV3</li>
+                            <li>—LV4</li>
+                            <li>—LV5</li>
+                        </ul>
+                    </div>
+
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                            <b>Otros Temas</b>
+                        </span>
+                        <ul class="collapsible-content">
+                            <li><u>Grammática</u></li>
+                            <li><b>Historía</b></li> 
+                            <li><b>Cultura</b></li>
+                            <li><u>Artes</u></li>               
                             <li><u>Música</u></li>
                         </ul>
                     </div>
-                </div>
-                            
-     
-                            
-                <div class="collapsible-section">
-                    <span class="collapsible-header" onclick="toggleCollapse(this)">
-                        <u><b>Practicum</b></u>
-                    </span>
-                    <div class="collapsible-content">
-                        <ul>
-                            <li>
-                                <a href="#" class="module-link" 
-                                   onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT-ID: Identify and Match'); return false;">
-                                    —ID Match: Identify and Match
-                                </a>
-                            </li>
+
+                    <div class="collapsible-section">
+                        <span class="collapsible-header" onclick="toggleCollapse(this)">
+                            <u><b>Practicum</b></u>
+                        </span>
+                        <ul class="collapsible-content">
                             <li>—Familiarizacion Numeral</li>
                         </ul>
                     </div>
-                </div>
-            </ul>
+                    
+                </ul>
             </div>
-    </nav>
+            <hr style="margin-top: auto;">
+            <p style="font-size: 0.8em; text-align: center;">Computerization assignable to Google.</p>
+        </nav>
 
-    <div id="content-wrapper">
-        
-        <header id="scrolling-icon-bar" class="beveled-frame">
-
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC-SEA.mp4', 'BTC-SEA')"
-                    title="BTC-SEA">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ToInfinity.jpg" alt="BTC-SEA">
-                <span class="icon-title">BTC-SEA</span>
-            </button>
+        <div id="center-panel">
+            <div id="video-player-container" class="beveled-frame">
+                <video id="video-player" controls poster="https://storage.googleapis.com/noenbalde/Curriculum/ALC_Placeholder.png"></video>
+            </div>
             
-        </header>
-
-                
-        <div id="content-area">
-            <div id="main-flex-container">
-                <section id="main-content">
-                    <div id="module-view-container">
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
-                            <h2>Welcome to the Advanced Learning System</h2>
-                            <p id="status-message">Select a module from the scrolling icon bar above or the curriculum list to begin the ONETH experience.</p>
-                        </div>
-                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
-                            <h3 id="detail-code"></h3>
-                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
-                                ▶ Begin Module
-                            </button>
-                        </div>
-                    </div>
-                    <div id="video-wrapper-16-9" style="display:none;">
-                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-                           <video id="video-player" controls controlsList="nodownload"></video>
-                        </div>
-                    </div>
-                </section>
+            <div id="video-details">
+                <h3 id="detail-code">Welcome to the Advanced Learning System</h3>
+                <h2 id="detail-title">Select a Module from the ONETH Curriculum on the left to begin.</h2>
             </div>
         </div>
+
     </div>
-    
+
+    <footer id="footer-console" class="beveled-frame">
+        Console Message: ONETH System Initialized.
+    </footer>
+
     <script>
-        /* --- COLLAPSIBLE JS IMPLEMENTADO --- */
+        let currentVideoSource = '';
+        let currentModuleTitle = '';
+
+        function launchVideo(videoSource, moduleTitle) {
+            const player = document.getElementById('video-player');
+            const detailCode = document.getElementById('detail-code');
+            const detailTitle = document.getElementById('detail-title');
+
+            if (player) {
+                player.src = videoSource;
+                player.play();
+            }
+
+            if (detailCode && detailTitle) {
+                const parts = moduleTitle.split(' : ');
+                detailCode.textContent = parts[0] || 'Module Code';
+                detailTitle.textContent = parts[1] || moduleTitle;
+            }
+
+            currentVideoSource = videoSource;
+            currentModuleTitle = moduleTitle;
+        }
+        
+        // --- NEW FUNCTIONS FOR COLLAPSIBLE MENU AND PROGRESS TRACKER ---
+
+        function setActiveModule(linkElement) {
+            document.querySelectorAll('.module-link').forEach(link => {
+                link.classList.remove('active-module');
+            });
+            linkElement.classList.add('active-module');
+        }
+
         function toggleCollapse(headerElement) {
             const content = headerElement.nextElementSibling;
             if (content && content.classList.contains('collapsible-content')) {
-                if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                if (content.style.maxHeight) {
                     content.style.maxHeight = null;
                     headerElement.classList.remove('open'); 
                 } else {
-                    // Set max-height to scrollHeight to enable transition
-                    content.style.maxHeight = content.scrollHeight + "px"; 
+                    if (content.scrollHeight > 0) {
+                         content.style.maxHeight = content.scrollHeight + "px";
+                    } else {
+                         content.style.maxHeight = "500px"; 
+                    }
                     headerElement.classList.add('open');    
                 }
             }
         }
-        /* --- FIN COLLAPSIBLE JS IMPLEMENTADO --- */
-
-        const player = document.getElementById('video-player');
-        const videoWrapper = document.getElementById('video-wrapper-16-9');
-        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-        const detailControlBtn = document.getElementById('detail-control-btn'); 
-        let currentModuleTitle = '';
-        let nextVideoSource = '';
         
-        function toggleVideoPlayback() {
-            if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
-                return;
-            }
-            if (videoWrapper.style.display !== 'block') {
-                playSelectedModule();
-                player.play(); 
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
-        }
-        
-        function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';
-            moduleDetailPanel.style.display = 'none'; 
-            videoWrapper.style.display = 'block';
-            embeddedReturnBtn.style.display = 'block'; 
-            player.src = nextVideoSource;
-            player.load(); 
-        }
-        
-        function showModules() {
-            moduleViewContainer.style.display = 'block'; 
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none'; 
-            player.pause();
-            player.removeAttribute('src'); 
-            player.load();
-            currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Welcome back. Select a new icon to continue.'; 
-            detailControlBtn.textContent = '▶ Begin Module';
-            detailControlBtn.style.backgroundColor = 'white';
-            detailControlBtn.style.color = 'black';
-        }
+        console.log("ONETH Law Incorporated into AI Structure.");
+        console.log("Computerization is assignable to Google.");
 
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle; 
-            nextVideoSource = videoSource;
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            detailCode.textContent = `Module Code: ${code}`;
-            detailTitle.textContent = title;
-            document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
-        }
-
-        function closeVideo() { showModules(); }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (player) {
-                player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showModules();
-                });
-            }
-            statusMessage.textContent = 'Select a module from the scrolling icon bar above or the curriculum list to begin the ONETH experience.';
-            moduleDetailPanel.style.display = 'none';
-            document.getElementById('landing-status-box').style.display = 'block';
-        });
     </script>
 </body>
 </html>
