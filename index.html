@@ -2,98 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA - Advanced Learning System</title>
+    <title>SEA - Ultimate VMC Substrate</title>
     <style>
-        body, html { margin: 0; padding: 0; overflow: hidden; background: #000; }
-        
-        /* Layer 0: The Ultimate VMC (The Static Base) */
-        #vmc-substrate {
-            position: absolute;
-            width: 100vw;
-            height: 100vh;
-            background-image: url('ultimate_vmc_base.png'); /* The Congruent Dummy */
-            background-size: cover;
-            z-index: 0;
+        body, html { margin: 0; padding: 0; overflow: hidden; background: #1a1a1a; font-family: sans-serif; }
+        /* Layer 0: The Floor - No Top Drafting Table Design */
+        #vmc-floor {
+            position: absolute; width: 100vw; height: 100vh;
+            background: #2c3e50; z-index: 0;
         }
-
         /* Layer 1: Active Logic & Intercept Wedges */
-        #active-logic-layer {
-            position: absolute;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            pointer-events: auto;
+        #logic-layer {
+            position: absolute; width: 100%; height: 100%; z-index: 10;
+            display: grid; grid-template-columns: 250px 1fr 300px;
+            grid-template-rows: 1fr 200px;
         }
-
-        /* Layer 2: The Sichuan Mask (The Greeting Dialog) */
+        /* Layer 2: The Sichuan Mask (The Catch) */
         #sichuan-mask {
-            position: absolute;
-            z-index: 20;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease-in-out;
+            position: absolute; z-index: 20; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center;
         }
-        
-        .dialog-box {
-            background: white;
-            padding: 40px;
-            border: 2px solid #000;
-            box-shadow: 10px 10px 0px #333;
+        .greeting-box {
+            background: white; padding: 40px; text-align: center; border: 5px solid #000;
+            box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
         }
-
-        /* Hidden MP4 Call-up (The Mirror in Mirror Fix) */
-        #nested-content {
-            width: 480px;
-            height: 270px;
-            border: 1px solid #ccc;
-        }
+        .mp4-preview { width: 400px; height: 225px; background: #eee; margin: 20px auto; border: 1px solid #ccc; }
     </style>
 </head>
-<body>
+<body onload="console.log('srand by: Mouseketeer Active')">
 
-    <div id="vmc-substrate"></div>
-
-    <div id="active-logic-layer">
+    <div id="vmc-floor">
         </div>
 
-    <div id="sichuan-mask" onclick="whackMask()">
-        <div class="dialog-box">
+    <div id="sichuan-mask" onclick="this.style.display='none'">
+        <div class="greeting-box">
             <h1>Bienvenido SEA</h1>
             <p>Sistemas de Educación Avanzada</p>
-            <div id="nested-content">
+            <div class="mp4-preview">
                 </div>
-            <p style="font-size: 0.8em;">(Click to acknowledge/dismiss)</p>
+            <p>(Click to acknowledge / Fall Backwards)</p>
         </div>
     </div>
 
-    <script>
-        // Schumann Resonance Audio Anchor (7.83Hz)
-        const schumannContext = new (window.AudioContext || window.webkitAudioContext)();
-        function playSchumann() {
-            const osc = schumannContext.createOscillator();
-            osc.frequency.setValueAtTime(7.83, schumannContext.currentTime);
-            osc.connect(schumannContext.destination);
-            osc.start();
-        }
+    <div id="logic-layer">
+        <aside id="student-panel" style="grid-row: 1/3; background: rgba(255,255,255,0.05); border-right: 1px solid #444;">
+            </aside>
+        
+        <main id="video-display" style="grid-column: 2; grid-row: 1; padding: 20px; color: white;">
+            <h2>Full Index Active: Z-Axis Depth Cleared</h2>
+        </main>
 
-        // The "Whack" - Zero-Penalty Transition
-        function whackMask() {
-            const mask = document.getElementById('sichuan-mask');
-            mask.style.opacity = '0';
-            setTimeout(() => {
-                mask.style.display = 'none';
-                console.log("Full Index Active: Z-Axis Depth Cleared.");
-            }, 800);
-        }
+        <nav id="10-key-pad" style="grid-column: 3; grid-row: 2; background: #000; color: white; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 10px;">
+            <div>7</div><div>8</div><div>9</div>
+            <div>4</div><div>5</div><div>6</div>
+            <div>1</div><div>2</div><div>3</div>
+            <div style="grid-column: 1/3;">0</div><div>ENT</div>
+        </nav>
+    </div>
 
-        // Initialize srand by state
-        window.onload = () => {
-            console.log("srand by: Mouseketeer on standby.");
-            // playSchumann(); // Optional: Unleash the lullaby
-        };
-    </script>
 </body>
 </html>
