@@ -1,63 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SEA - Ultimate VMC Substrate</title>
+    <meta charset="UTF-8"><title>SEA - Ultimate VMC Substrate</title>
     <style>
         body, html { margin: 0; padding: 0; overflow: hidden; background: #1a1a1a; font-family: sans-serif; }
-        /* Layer 0: The Floor - No Top Drafting Table Design */
-        #vmc-floor {
-            position: absolute; width: 100vw; height: 100vh;
-            background: #2c3e50; z-index: 0;
-        }
-        /* Layer 1: Active Logic & Intercept Wedges */
-        #logic-layer {
-            position: absolute; width: 100%; height: 100%; z-index: 10;
-            display: grid; grid-template-columns: 250px 1fr 300px;
-            grid-template-rows: 1fr 200px;
-        }
-        /* Layer 2: The Sichuan Mask (The Catch) */
-        #sichuan-mask {
-            position: absolute; z-index: 20; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center;
-        }
-        .greeting-box {
-            background: white; padding: 40px; text-align: center; border: 5px solid #000;
-            box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
-        }
-        .mp4-preview { width: 400px; height: 225px; background: #eee; margin: 20px auto; border: 1px solid #ccc; }
+        #floor { position: absolute; width: 100vw; height: 100vh; background: #2c3e50; z-index: 0; }
+        #mask { position: absolute; z-index: 30; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .box { background: white; padding: 40px; text-align: center; border: 5px solid #000; box-shadow: 20px 20px 0px rgba(0,0,0,0.5); max-width: 500px; }
+        #logic { position: absolute; width: 100%; height: 100%; z-index: 10; display: grid; grid-template-columns: 250px 1fr 300px; grid-template-rows: 1fr 200px; }
+        .panel { background: rgba(255,255,255,0.05); border-right: 1px solid #444; grid-row: 1/3; }
+        .display { grid-column: 2; padding: 40px; color: white; text-align: center; }
+        .keypad { grid-column: 3; grid-row: 2; background: #000; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 10px; }
+        .key { background: #333; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2em; cursor: pointer; }
     </style>
 </head>
-<body onload="console.log('srand by: Mouseketeer Active')">
-
-    <div id="vmc-floor">
-        </div>
-
-    <div id="sichuan-mask" onclick="this.style.display='none'">
-        <div class="greeting-box">
-            <h1>Bienvenido SEA</h1>
-            <p>Sistemas de Educación Avanzada</p>
-            <div class="mp4-preview">
-                </div>
-            <p>(Click to acknowledge / Fall Backwards)</p>
+<body>
+    <div id="floor"></div>
+    <div id="mask" onclick="this.style.display='none'">
+        <div class="box">
+            <h1>Bienvenido SEA</h1><p>Sistemas de Educación Avanzada</p>
+            <div style="width:100%; height:150px; background:#eee; margin:20px 0;"></div>
+            <p>(Click to Acknowledge / Fall Backwards)</p>
         </div>
     </div>
-
-    <div id="logic-layer">
-        <aside id="student-panel" style="grid-row: 1/3; background: rgba(255,255,255,0.05); border-right: 1px solid #444;">
-            </aside>
-        
-        <main id="video-display" style="grid-column: 2; grid-row: 1; padding: 20px; color: white;">
-            <h2>Full Index Active: Z-Axis Depth Cleared</h2>
-        </main>
-
-        <nav id="10-key-pad" style="grid-column: 3; grid-row: 2; background: #000; color: white; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 10px;">
-            <div>7</div><div>8</div><div>9</div>
-            <div>4</div><div>5</div><div>6</div>
-            <div>1</div><div>2</div><div>3</div>
-            <div style="grid-column: 1/3;">0</div><div>ENT</div>
+    <div id="logic">
+        <aside class="panel"></aside>
+        <main class="display"><h2 id="status">Full Index Active: Z-Axis Depth Cleared</h2></main>
+        <nav class="keypad">
+            <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+            <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+            <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+            <div class="key" style="grid-column: span 2">0</div><div class="key">ENT</div>
         </nav>
     </div>
-
+    <script>
+        const registry = {
+            "1": "UA Flank: Strategic Telemetry Active.", "2": "Mediterranean Source: Signal Lock.",
+            "3": "Sevastopol Anchor: Infrastructure Cured.", "4": "Integrity: Non-Religious Value Set.",
+            "5": "Justice: Civic Value Alignment.", "6": "Human Dignity: Core Principle.",
+            "7": "Strikers: Sector A Movement.", "8": "Strikers: Sector B Movement.",
+            "9": "Audit: 10-Year Plan Congruence 100%."
+        };
+        document.addEventListener('keydown', (e) => {
+            if (registry[e.key]) document.getElementById('status').innerText = registry[e.key];
+            if (e.key === '0') document.getElementById('mask').style.display = 'flex';
+        });
+        console.log("srand by: Mouseketeer Active.");
+    </script>
 </body>
 </html>
