@@ -1,91 +1,133 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA© V4.0 | Virtual Monitor System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEA© V4.0 | Advanced Learning System</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
-        :root { --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; }
-        body { margin: 0; font-family: 'Atkinson Hyperlegible', sans-serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
-        #left-menu { width: 340px; background: var(--color-lighthouse); padding: 15px; flex-shrink: 0; overflow-y: auto; border-right: 1px solid var(--color-stealth); }
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        :root {
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-terminal: #1a1a1a;
+            --color-glow: #00ff00; --color-accent: #cc8800;
+        }
+        body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
+        
+        /* SIDEBAR: FULL PENSUM */
+        #left-menu { width: 340px; background: var(--color-lighthouse); border-right: 2px solid var(--color-stealth); padding: 15px; overflow-y: auto; flex-shrink: 0; }
+        .pensum-section { margin-bottom: 20px; font-size: 0.9em; }
+        .pensum-header { font-weight: bold; border-bottom: 1px solid #ccc; text-transform: uppercase; margin-bottom: 5px; }
+        .pensum-list { list-style: none; padding-left: 10px; line-height: 1.2; }
+        .pensum-list li { margin-bottom: 4px; color: #555; }
+
+        /* ICON BAR */
+        #scrolling-icon-bar { height: 110px; display: flex; overflow-x: auto; background: var(--color-stealth); padding: 10px; gap: 8px; border-bottom: 2px solid #bbb; }
+        .icon-button { width: 100px; flex-shrink: 0; background: white; border: 1px solid #999; cursor: pointer; display: flex; flex-direction: column; align-items: center; padding: 5px; }
+        .icon-button img { height: 60px; width: 100%; object-fit: cover; }
+        .icon-title { font-size: 0.7em; font-weight: bold; margin-top: 5px; font-family: sans-serif; }
+
+        /* MAJESTIC MONITOR */
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        #main-content { padding: 40px; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; }
-        .collapsible-header { cursor: pointer; font-weight: bold; padding: 10px 0; display: block; border-bottom: 1px solid #eee; font-size: 0.95em; }
-        .collapsible-header:before { content: '♦ '; transition: transform 0.3s; display: inline-block; }
-        .collapsible-header.open:before { transform: rotate(90deg); }
-        .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; padding-left: 15px; }
-        .module-link { display: block; text-decoration: none; color: #444; padding: 5px 0; font-size: 0.85em; cursor: pointer; }
-        .module-link:hover { color: #cc8800; font-weight: bold; }
-        #landing-box { background: #1a1a1a; color: #00ff00; padding: 25px; font-family: monospace; border: 3px solid #333; width: 100%; max-width: 750px; box-shadow: 0 0 20px rgba(0,255,0,0.1); }
-        #video-wrapper { width: 100%; max-width: 900px; display: none; position: relative; background: #000; border: 5px solid #333; }
+        #main-content { flex-grow: 1; padding: 40px; background: #e5e5e5; display: flex; justify-content: center; }
+        #landing-status-box { 
+            width: 100%; max-width: 850px; background: var(--color-terminal); color: var(--color-glow); 
+            padding: 30px; border: 4px double #444; font-family: 'Roboto Mono', monospace;
+        }
+        .monitor-header { border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; justify-content: space-between; }
+        
+        /* VIDEO PLAYER */
+        #video-wrapper-16-9 { width: 100%; max-width: 1000px; display: none; background: #000; position: relative; border: 8px solid #222; }
         video { width: 100%; display: block; }
+        #close-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,255,0,0.2); color: var(--color-glow); border: 1px solid var(--color-glow); cursor: pointer; }
     </style>
 </head>
 <body>
     <nav id="left-menu">
-        <h3>SEA© V4.0</h3>
-        <p style="font-size: 0.8em; color: #666;">Virtual Language Monitor</p>
-        <div id="full-curriculum">
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggle(this)">Aritmética: Beyond the Core</span>
-                <div class="collapsible-content">
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">U1S1: Sunya-Sifr (Cero)</a>
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">U02: Noventa y Nueve</a>
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">U03: Decillones</a>
-                    <span class="module-link">U04: Principios de Suma</span>
-                    <span class="module-link">U07: Paridad y Conjuntos</span>
-                </div>
-            </div>
-            <div class="collapsible-section">
-                <span class="collapsible-header" id="lang-menu" onclick="toggle(this)">Lingüística Fonética (VMC)</span>
-                <div class="collapsible-content">
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LX001: Lexis Pollito/Chick</a>
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4')">LTFB: Aesop 001</a>
-                    <span class="module-link">GF01: Morfología</span>
-                    <span class="module-link">GA03: Normativa RAE</span>
-                </div>
-            </div>
-            <div class="collapsible-section">
-                <span class="collapsible-header" id="als-menu" onclick="toggle(this)">ALS & Practicum</span>
-                <div class="collapsible-content">
-                    <a class="module-link" id="als-core" onclick="play('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4')">PR001: ID Comparativa (ALS)</a>
-                    <a class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4')">MS10: Gramática Musical</a>
-                </div>
-            </div>
+        <h3>SEA© V4.0 | ALS</h3>
+        <div class="pensum-section">
+            <div class="pensum-header">1. Arithmetic BTC</div>
+            <ul class="pensum-list">
+                <li>• U1S1 Discovering Sunya-Sifr Zero</li>
+                <li>• U1S2 One to Four</li>
+                <li>• U1S3 Five to Nine</li>
+                <li>• U2 Enumeration ~ |Ninety-Nine|</li>
+                <li>• U3 Enumeration ~ |Decillions|</li>
+                <li>• U4 Addition Principles</li>
+            </ul>
+        </div>
+        <div class="pensum-section">
+            <div class="pensum-header">2. Linguistics VMC</div>
+            <ul class="pensum-list">
+                <li>• LAV1 Vocabulary (Pollito)</li>
+                <li>• LAV2-LAV5 Lexis Expansion</li>
+                <li>• LAG1 Grammar Structural</li>
+                <li>• LTFB Aesop Literature</li>
+            </ul>
+        </div>
+        <div class="pensum-section">
+            <div class="pensum-header">3. Interactive ALS</div>
+            <ul class="pensum-list">
+                <li>• PR001 ID Match: Identification</li>
+                <li>• MS10 Musical Grammar</li>
+                <li>• MS02 Chronos Logic</li>
+            </ul>
         </div>
     </nav>
+
     <div id="content-wrapper">
+        <header id="scrolling-icon-bar">
+            <button class="icon-button" onclick="launch('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PR001: ID Match')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID">
+                <span class="icon-title">ALS: ID</span>
+            </button>
+            <button class="icon-button" onclick="launch('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'U1S1: Zero')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U1S1ENGCS1.jpg" alt="U1S1">
+                <span class="icon-title">U1S1</span>
+            </button>
+            <button class="icon-button" onclick="launch('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4', 'U3: Decillions')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg" alt="U3">
+                <span class="icon-title">U3: 10^33</span>
+            </button>
+        </header>
+
         <main id="main-content">
-            <div id="landing-box">
-                <div style="border-bottom: 1px solid #333; padding-bottom:10px; margin-bottom:15px; display:flex; justify-content:space-between;">
-                    <span>VIRTUAL MONITOR DISPLAY - VMC 4.0</span>
-                    <span style="color:#ffdd88;">SISTEMA ACTIVO</span>
+            <div id="landing-status-box">
+                <div class="monitor-header">
+                    <span>VIRTUAL MONITOR: ACTIVE</span>
+                    <span>V4.0-AUDIT</span>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                    <div>
-                        <p>> CARGA COGNITIVA: OPTIMAL</p>
-                        <p>> LATENCIA: 24ms</p>
-                    </div>
-                    <div style="border-left: 1px solid #333; padding-left:20px;">
-                        <p>> BUCKET: CONECTADO</p>
-                        <p>> MODO: AUDITORÍA</p>
-                    </div>
-                </div>
-                <div style="margin-top:20px; background:#000; padding:10px; border:1px solid #00ff00;">
-                    <marquee scrollamount="3">> EJECUTANDO PELDAÑOS DE CONSTRUCCIÓN... ALS READY...</marquee>
+                <p>> SYSTEM LOAD: OPTIMAL</p>
+                <p>> PENSUM STATUS: FULLY POPULATED</p>
+                <p>> ACCESSING BUCKET: GRANTED</p>
+                <div style="margin-top:20px; border: 1px solid #333; padding: 10px;">
+                    <marquee scrollamount="2">> VALIDATING COGNITIVE STEPS... PR001 READY... U1S1 READY...</marquee>
                 </div>
             </div>
-            <div id="video-wrapper">
-                <button onclick="stop()" style="position:absolute; top:10px; left:10px; z-index:10; cursor:pointer; padding:5px 15px;">← Regresar</button>
+
+            <div id="video-wrapper-16-9">
+                <button id="close-btn" onclick="closeVideo()">EXIT</button>
                 <video id="player" controls controlsList="nodownload"></video>
             </div>
         </main>
     </div>
+
     <script>
-        function toggle(el) { el.classList.toggle('open'); var content = el.nextElementSibling; content.style.maxHeight = content.style.maxHeight && content.style.maxHeight !== '0px' ? '0px' : content.scrollHeight + "px"; }
-        function play(src) { document.getElementById('landing-box').style.display = 'none'; document.getElementById('video-wrapper').style.display = 'block'; var p = document.getElementById('player'); p.src = src; p.play().catch(e => {}); }
-        function stop() { var p = document.getElementById('player'); p.pause(); p.src = ""; document.getElementById('video-wrapper').style.display = 'none'; document.getElementById('landing-box').style.display = 'block'; }
-        window.onload = () => { toggle(document.getElementById('lang-menu')); toggle(document.getElementById('als-menu')); document.getElementById('als-core').click(); };
+        const player = document.getElementById('player');
+        const monitor = document.getElementById('landing-status-box');
+        const wrapper = document.getElementById('video-wrapper-16-9');
+
+        function launch(src, title) {
+            monitor.style.display = 'none';
+            wrapper.style.display = 'block';
+            player.src = src;
+            player.play();
+        }
+
+        function closeVideo() {
+            player.pause();
+            wrapper.style.display = 'none';
+            monitor.style.display = 'block';
+        }
     </script>
 </body>
 </html>
