@@ -2,122 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA© V4.0 | Advanced Learning System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Educación Avanzada© (SEA)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-        :root { --color-gold: #c5a059; --color-navy: #1b2631; --color-paper: #fdfdfd; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         
-        body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: #e0e0e0; }
+        :root {
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; 
+            --color-accent-active: #ffdd88; --color-terminal-bg: #1a1a1a; --color-glow: #00ff00;
+        }
         
-        /* Sidebar de Auditoría Real */
-        #left-menu { width: 360px; background: var(--color-paper); border-right: 1px solid #bbb; padding: 30px; overflow-y: auto; flex-shrink: 0; }
-        h3 { color: var(--color-navy); border-bottom: 2px solid var(--color-gold); padding-bottom: 10px; margin-bottom: 20px; }
-        .pensum-section { margin-bottom: 25px; }
-        .pensum-title { font-weight: bold; color: var(--color-navy); text-transform: uppercase; font-size: 1.1em; margin-bottom: 8px; }
-        .pensum-list { list-style: none; padding-left: 10px; font-size: 1em; line-height: 1.3; color: #333; }
-        .pensum-list li { margin-bottom: 5px; border-left: 2px solid #eee; padding-left: 8px; }
-
-        /* Icon Bar Superior (Peldaños de Construcción) */
-        #icon-bar { height: 110px; display: flex; overflow-x: auto; background: #cfcfcf; padding: 10px; gap: 15px; border-bottom: 1px solid #999; }
-        .module-icon { width: 105px; flex-shrink: 0; background: white; border: 1px solid #aaa; cursor: pointer; padding: 4px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
-        .module-icon img { height: 65px; width: 100%; object-fit: cover; }
-        .module-label { font-size: 0.75em; font-weight: bold; text-align: center; display: block; margin-top: 4px; color: var(--color-navy); }
-
-        /* Monitor de Validación Principal */
-        #main-stage { flex-grow: 1; display: flex; flex-direction: column; background: #f0f0f0; }
-        #display-area { flex-grow: 1; padding: 60px; display: flex; justify-content: center; align-items: flex-start; }
-        #monitor-box { width: 100%; max-width: 900px; background: white; padding: 45px; border: 1px solid #fff; box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+        body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
         
-        .monitor-header { border-bottom: 1px solid var(--color-gold); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; }
-        .monitor-status { width: 100%; border-collapse: collapse; }
-        .monitor-status td { padding: 15px 0; border-bottom: 1px solid #eee; font-size: 1.1em; }
+        /* SIDEBAR: PENSUM COMPLETO */
+        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 20px; flex-shrink: 0; overflow-y: auto; border-right: 1px solid var(--color-stealth); }
+        .collapsible-header { cursor: pointer; display: block; font-weight: bold; border-bottom: 1px solid #ccc; padding: 5px 0; margin-top: 10px; }
+        .collapsible-header:before { content: '♦ '; display: inline-block; transition: transform 0.3s; }
+        .collapsible-header.open:before { transform: rotate(90deg); }
+        .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; padding-left: 15px; font-size: 0.9em; }
+        .module-link { display: block; text-decoration: none; color: #444; padding: 3px 0; }
+        .module-link:hover { color: #cc8800; font-weight: bold; }
 
-        /* Video Stage */
-        #video-stage { width: 100%; max-width: 1000px; display: none; background: #000; position: relative; }
-        video { width: 100%; display: block; border: 10px solid #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .btn-exit { position: absolute; top: -50px; left: 0; background: var(--color-navy); color: white; border: none; padding: 10px 25px; cursor: pointer; font-weight: bold; }
+        /* MONITOR VIRTUAL MAJESTUOSO */
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        #scrolling-icon-bar { height: 100px; display: flex; overflow-x: auto; background: var(--color-stealth); padding: 5px; flex-shrink: 0; gap: 10px; }
+        .icon-button { width: 85px; flex-shrink: 0; background: white; border: 1px solid #999; cursor: pointer; padding: 5px; text-align: center; }
+        .icon-button img { height: 55px; width: 100%; object-fit: cover; }
+        .icon-title { font-size: 0.7em; font-weight: bold; display: block; margin-top: 3px; font-family: sans-serif; }
+
+        #main-content { flex-grow: 1; padding: 40px; background: #e5e5e5; display: flex; justify-content: center; align-items: flex-start; }
+        #landing-status-box { 
+            width: 100%; max-width: 850px; background: var(--color-terminal-bg); color: var(--color-glow); 
+            padding: 30px; border: 5px double #444; font-family: 'Roboto Mono', monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .monitor-row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+
+        /* VIDEO PLAYER */
+        #video-wrapper-16-9 { width: 100%; max-width: 950px; display: none; position: relative; background: #000; border: 8px solid #222; }
+        video { width: 100%; display: block; }
+        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: var(--color-glow); color: #000; border: none; padding: 5px 15px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
     <nav id="left-menu">
-        <h3>SEA© V4.0 | SOBERANO</h3>
-        <div class="pensum-section">
-            <div class="pensum-title">1. Arithmetic BTC</div>
-            <ul class="pensum-list">
-                <li>U1S1: Discovering Sunya-Sifr Zero</li>
-                <li>U1S2: One to Four</li>
-                <li>U1S3: Five to Nine</li>
-                <li>U2: Enumeration ~ |Ninety-Nine|</li>
-                <li>U3: Enumeration ~ |Decillions|</li>
-            </ul>
+        <h2 style="text-align:center;">SEA© V4.0</h2>
+        <p style="text-align:center; font-size:0.8em; margin-top:-15px;">Estudios Elementales K-6</p>
+        
+        <div class="collapsible-section">
+            <span class="collapsible-header" id="math-header" onclick="toggleCollapse(this)">Aritmética BTC</span>
+            <div class="collapsible-content">
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'MAT-U1S1: Sunya-Sifr')">—U1S1 Descubriendo Cero</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4', 'MAT-U2: Ninety-Nine')">U02 Noventa y Nueve</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4', 'MAT-U3: Decillions')">U03 Decillones</a>
+                <span class="module-link">U04 Principios de Suma</span>
+                <span class="module-link">U11 Fracciones Racionales</span>
+            </div>
         </div>
-        <div class="pensum-section">
-            <div class="pensum-title">2. Linguistics VMC</div>
-            <ul class="pensum-list">
-                <li>LAV1: Vocabulary (Pollito)</li>
-                <li>LAV2-LAV5: Lexis Expansion</li>
-                <li>LAG1: Structural Grammar</li>
-                <li>LTFB: Aesop Literature</li>
-            </ul>
+
+        <div class="collapsible-section">
+            <span class="collapsible-header" id="lang-header" onclick="toggleCollapse(this)">Linguística VMC</span>
+            <div class="collapsible-content">
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LAV1: Vocabulary')">LV001 Vocabulario (Pollito)</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop')">LTFB Aesop 001</a>
+                <span class="module-link">LG01 Ortografía</span>
+                <span class="module-link">LG02 Sintaxis</span>
+            </div>
         </div>
-        <div class="pensum-section">
-            <div class="pensum-title">3. ALS & Practicum</div>
-            <ul class="pensum-list">
-                <li>PR001: Identification Practice</li>
-                <li>MS10: Gramática Musical</li>
-                <li>MS02: Chronos Logic</li>
-            </ul>
+
+        <div class="collapsible-section">
+            <span class="collapsible-header" id="pract-header" onclick="toggleCollapse(this)">Practicum & ALS</span>
+            <div class="collapsible-content">
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PR001: ID Match')">PR001 ID Comparativa</a>
+                <span class="module-link">PR001 Subitización</span>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Music/M10_IntegrityAnthem.mp4', 'Music10: Integrity')">M10 Integrity Anthem</a>
+            </div>
         </div>
     </nav>
 
-    <div id="main-stage">
-        <header id="icon-bar">
-            <div class="module-icon" onclick="launch('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U1S1ENGCS1.jpg">
-                <span class="module-label">U1S1: Zero</span>
-            </div>
-            <div class="module-icon" onclick="launch('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg">
-                <span class="module-label">ALS: ID Match</span>
-            </div>
-            <div class="module-icon" onclick="launch('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg">
-                <span class="module-label">U3: 10^33</span>
-            </div>
+    <div id="content-wrapper">
+        <header id="scrolling-icon-bar">
+            <button class="icon-button" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'ALS: ID Match')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/ID%20Match.jpg" alt="ID">
+                <span class="icon-title">ALS: ID</span>
+            </button>
+            <button class="icon-button" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'U1S1: Zero')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U1S1ENGCS1.jpg" alt="U1S1">
+                <span class="icon-title">U1S1</span>
+            </button>
         </header>
 
-        <main id="display-area">
-            <div id="monitor-box">
-                <div class="monitor-header">
-                    <h1 style="margin:0; font-size:1.6em;">Virtual System Monitor</h1>
-                    <span style="color: var(--color-gold); font-weight: bold;">NODE: AUDIT_STABLE</span>
+        <main id="main-content">
+            <div id="landing-status-box">
+                <div class="monitor-row">
+                    <span>SEA© VIRTUAL MONITOR</span>
+                    <span>V4.0-AUDIT_MODE</span>
                 </div>
-                <table class="monitor-status">
-                    <tr><td><strong>Pensum Population:</strong></td><td style="text-align:right; color:green;">100% VERIFIED</td></tr>
-                    <tr><td><strong>Cognitive Metric (VMC):</strong></td><td style="text-align:right;">OPTIMAL (5x5)</td></tr>
-                    <tr><td><strong>ALS Infrastructure:</strong></td><td style="text-align:right;">ACTIVE</td></tr>
-                    <tr><td><strong>Sovereign Sync:</strong></td><td style="text-align:right;">CONNECTED TO BUCKET</td></tr>
-                </table>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <p>> CARGA COGNITIVA: ÓPTIMA</p>
+                        <p>> PENSUM: 100% POBLADO</p>
+                    </div>
+                    <div style="border-left: 1px solid #333; padding-left: 20px;">
+                        <p>> BUCKET: CONECTADO</p>
+                        <p>> ESTADO: LISTO PARA EXAMEN</p>
+                    </div>
+                </div>
+                <div style="margin-top:20px; background:#000; padding:10px; border:1px solid #333;">
+                    <marquee scrollamount="2">> VALIDANDO PELDAÑOS DE CONSTRUCCIÓN... ALS INFRASTRUCTURE ACTIVE...</marquee>
+                </div>
             </div>
 
-            <div id="video-stage">
-                <button class="btn-exit" onclick="exit()">← VOLVER AL MONITOR</button>
-                <video id="v-player" controls controlsList="nodownload"></video>
+            <div id="video-wrapper-16-9">
+                <button id="return-btn" onclick="closeVideo()">← VOLVER</button>
+                <video id="video-player" controls controlsList="nodownload"></video>
             </div>
         </main>
     </div>
 
     <script>
-        function launch(src) {
-            document.getElementById('monitor-box').style.display = 'none';
-            document.getElementById('video-stage').style.display = 'block';
-            const p = document.getElementById('v-player'); p.src = src; p.play();
+        function toggleCollapse(header) {
+            header.classList.toggle('open');
+            const content = header.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight && content.style.maxHeight !== '0px' ? '0px' : content.scrollHeight + "px";
         }
-        function exit() {
-            const p = document.getElementById('v-player'); p.pause(); p.src = "";
-            document.getElementById('video-stage').style.display = 'none';
-            document.getElementById('monitor-box').style.display = 'block';
+
+        function launchVideo(src, title) {
+            document.getElementById('landing-status-box').style.display = 'none';
+            document.getElementById('video-wrapper-16-9').style.display = 'block';
+            const p = document.getElementById('video-player');
+            p.src = src; p.play();
         }
+
+        function closeVideo() {
+            const p = document.getElementById('video-player');
+            p.pause(); p.src = "";
+            document.getElementById('video-wrapper-16-9').style.display = 'none';
+            document.getElementById('landing-status-box').style.display = 'block';
+        }
+
+        window.onload = () => {
+            toggleCollapse(document.getElementById('math-header'));
+            toggleCollapse(document.getElementById('lang-header'));
+            toggleCollapse(document.getElementById('pract-header'));
+        };
     </script>
 </body>
 </html>
