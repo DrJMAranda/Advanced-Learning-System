@@ -4,377 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)</title>
-    
     <style>
-        /* CSS Base Limpia */
-        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
+        /* 1. ATOMIC FONT & COLOR LOCK */
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+            --color-lighthouse: #f4f4f4; 
+            --color-slate-blue: #708090; 
+            --color-charcoal: #36454f;
+            --color-stealth: #d3d3d3; 
+            --color-menu: #333; 
+            --color-accent-active: #ffdd88;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); 
+            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-        #credits { text-align: center; }
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         
-        /* BARRA DE ÍCONOS */
-        #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
-        .icon-button img { height: 60px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        body { 
+            margin: 0; font-family: 'Atkinson Hyperlegible', sans-serif; 
+            height: 100vh; display: flex; background: var(--color-lighthouse); 
+        }
+
+        /* 2. INTERFACE STRUCTURE */
+        #left-menu { width: 350px; background: var(--color-slate-blue); color: white; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #credits { text-align: center; color: white; margin-bottom: 20px; }
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; background: var(--color-charcoal); }
         
-        /* ÁREA DE CONTENIDO Y VIDEO */
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
+        #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
+        .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; background: white; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+        .icon-button img { height: 60px; width: 100%; object-fit: cover; }
+        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; overflow: hidden; }
+        
+        #content-area { flex-grow: 1; padding: 20px; }
+        #main-content { height: 100%; background: var(--color-lighthouse); padding: 20px; overflow-y: auto; border-radius: 4px; }
+
+        /* 3. VIDEO & MODULE LOGIC */
+        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background: black; margin-top: 20px; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px; }
-        #module-detail-panel { padding: 30px; margin-top: 10px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
+        #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; cursor: pointer; }
 
-        /* --- COLLAPSIBLE CSS IMPLEMENTADO --- */
-        .collapsible-section { margin-bottom: 5px; }
-        .collapsible-content {
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            max-height: 0; /* Starts collapsed */
-            padding-left: 0; 
-        }
-        .collapsible-header {
-            cursor: pointer;
-            display: block;
-        }
-        /* Icon (Diamond) for the collapsible header */
-        .collapsible-header:before {
-            content: '♦ '; 
-            display: inline-block;
-            transition: transform 0.3s ease;
-            transform: rotate(0deg); 
-            color: black;
-        }
-        .collapsible-header.open:before {
-            transform: rotate(90deg); /* Rotates icon when open */
-        }
-        /* Module link styling */
-        .module-link { display: block; text-decoration: none; color: black; padding-left: 5px; }
-        /* Ensure list items inside content are reset */
-        .collapsible-content ul { list-style: none; padding-left: 0; margin-top: 0; margin-bottom: 0; }
-        /* --- FIN COLLAPSIBLE CSS IMPLEMENTADO --- */
+        /* 4. COLLAPSIBLE NAV (THE LAZARUS) */
+        .collapsible-section { margin-bottom: 10px; }
+        .collapsible-header { cursor: pointer; display: block; color: white; font-weight: bold; }
+        .collapsible-header:before { content: '♦ '; display: inline-block; transition: transform 0.3s; }
+        .collapsible-header.open:before { transform: rotate(90deg); }
+        .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; padding-left: 15px; }
+        .module-link { display: block; text-decoration: none; color: #f0f0f0; padding: 4px 0; font-size: 0.9em; }
     </style>
 </head>
 <body>
-    
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-            <h3>Bienvenido SEA<br>
-            <br>Sistemas de Educación Avanzada©</h3>
-            <h4>Elemental K-6<br>
-                Desarrollado por ARAGEM<br>
-                jmaf.phd@gmail.com</h4>
+            <h3>Sistemas de Educación Avanzada©</h3>
+            <p>Elemental K-6 | ARAGEM</p>
         </div>
-
-        <div style="margin-top: 20px; font-size: 0.95em;">
-            
-            <ul style="list-style: none; padding-left: 10px; line-height: 1.1;">
-                <li><big><big><b>Estudios Elementales K-6</b></big></big></li>
-            </ul>
-            
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Aritmética ~ Beyond the Core</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-<li><a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank" class="module-link">BTC AF<b><u>662</u></b>jm</a></li>
-
-                        <li><i>U1 Enumeración hasta |Nueve|</i></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">—U1<b><u>S1 </u></b> Descubriendo a Sunya-Sifr Cero</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four'); return false;">—U1<b><u>S2 </u></b> Uno al Cuatro</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'AR-U1S3: Five to Nine'); return false;">—U1<b><u>S3 </u></b> Cinco al Nueve</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4',   'AR-U2: Ninety-Nine'); return false;">U<b><u>02 </u></b> Enumeración ~ |Noventa y Nueve|</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4',   'AR-U3: Decillions'); return false;">U<b><u>03 </u></b> Enumeración ~ |Decillones|</a></li>
-                        <li>U04 Principios de Suma</li>
-                        <li>U05 Fundamentos de Suma</li>
-                        <li>U06 Suma—Elementos y Algorithmos</li>
-                        <li>U07 Paridad, Comparación, Conjuntos y Compuestos</li>
-                        <li>U08 Sumas, Signos, y Restas</li>
-                        <li>U09 Multiplicación</li>
-                        <li>U10 División, Partición, y Cuotición</li>
-                        <li>U11 Aprender y Usar Fracciones</li>
-                        <li>U12 Chronos, la Palabra Tiempo en Griega</li>
-                        <li>U13 Formas y Otras Cosas</li>
-                    </ul>
-                </div>
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleCollapse(this)">Aritmética</span>
+            <div class="collapsible-content">
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Cero')">U1S1: Cero</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four')">U1S2: Uno al Cuatro</a>
             </div>
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Linguistica</b></big>
-                </span>
-
-                <div class="collapsible-content">
-                    <ul>
-
-                        <li><b>Gramática</b></li>
-                        <li><i>GF - Forma</i></li>
-                           <li>-GF01 - Morfología</li>
-                           <li>-GF02 - Lexis</li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX1: Lexis 1'); return false;">LX<b><u>001</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4', 'LX2: Lexis 2'); return false;">LX<b><u>002</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4', 'LX3: Lexis 3'); return false;">LX<b><u>003</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4', 'LX4: Lexis 4'); return false;">LX<b><u>004</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4', 'LX5: Lexis 5'); return false;">LX<b><u>005</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4', 'LX6: Lexis 6'); return false;">LX<b><u>006</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4', 'LX6: Lexis 7'); return false;">LX<b><u>007</u></b></a></li>                           
-                           <li>-GF03 - Fonología</li>
-                           <li>-GF04 - Fonética</li>
-                           <li>-GF05 - Clases de Palabra</li>
-                           <li>-GF05 - Producción Visual, Auditiva, y Tactil</li>
-                        
-                        <li><i>-GI - Ideas</i></li>
-                           <li>-GI05 - Significados</li>
-                           <li>-GI05 - Synonymos</li>
-                           <li>-GI05 - Antonymos</li>
-                           <li>-GI05 - Connotationes</li>
-                           <li>-GI05 - Implicationes</li>
-                           
-                        <li><i>GO - Orden</i></li>
-                        <li>GO01 - Nombres</li>
-                        <li>GO02 - Pronombres</li>
-                        <li>GO03 - Artículos</li>
-                        <li>GO04 - Adjetivos</li>
-                        <li>GO05 - Verbos</li>
-                        <li>GO06 - Adverbios</li>
-                        <li>GO07 - Preposiciones</li>
-                        <li>GO08 - Conjunciones</li>
-                        <li>GO09 - Interjeccions</li>
-                        <li>GO10 - Estructura de una Oracion</li>
-
-                        <li>CGP - Puntuación</i></li>                        
-                        
-                        <li>GA - Acuerdos</li>
-                        <li>GA01 - MLA</li>
-                        <li>GA02 - APA</li>
-                        <li>GA03 - RAE</li>
-                        
-                        <li><b>Literatura</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop 001'); return false;"><b><u>LTFB</u></b> ~ Aesop 001</a></li>
-                        <li>LTFT</li>
-                        <li>LTPR</li>
-                        <li>LTCL1</li>
-                        <li>LTCL2</li>
-                    </ul>
-                </div>
+        </div>
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleCollapse(this)">Linguistica</span>
+            <div class="collapsible-content">
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX001: Lexis 1')">LX001: Lexis 1</a>
             </div>
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Ciencias Empíricas</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li>EM01 Astronomía</li>
-                        <li>EM02 Biología</li>
-                        <li>EM03 Física</li>
-                        <li>EM04 Química</li>
-                        <li>EM05 Horticultura</li>
-                        <li>EM05 Metereología</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Expressión y Práctica</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li>EX04 Rhetorica</li>
-                        <li>EX04 Artes Visuales</li>
-                        <li>EX02 Arte Applicadas</li>
-                        <li>EX03 Artes Escénicas</li>
-                        <li>EX02 Artes en Papel</li>
-                        <li>EX02 Artes Marcial</li>
-                        
-                        <li><b>Música</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Minnie\'s Pennie Song'); return false;">—Song Penny (M<b><u>01</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'Music02: Chronos~Time'); return false;">—Chronos~Time (M<b><u>(02</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4', 'Music03: Decillones'); return false;">—Decillones (M<u><b>03</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4', 'Music04: Evens and Odds'); return false;">—Evens and Odds (M<u><b>04</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4', 'Music05: Learning to Divide'); return false;">—Learning to Divide <(Mu><b>05</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Money.mp4', 'Music06: The Money Song'); return false;">—The Money Song (M<b><u>06</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4', 'Music07: Parity is Key'); return false;">—Parity is Key (M<b><u>07</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4', 'Music08: Sets'); return false;">—Sets (M<b><u>08)</u></b></a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Lions Count'); return false;">—Lions Count (M<b><u>09)</u></b></a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music10: Grammar'); return false;">—Grammar (M<b><u>10</u></b>)</a></li>
-                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
-                        <li><b>Practicum</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT-ID: Identify and Match'); return false;"><u>PR001</u> Identifcación Comparativa</a></li>
-                        <li>PR001 Subitización</li>
-                        <li>PR001 Orden Estable</li>
-                        <li>PR001 Cardinalidad</li>
-                        <li>PR001 Ordinalidad</li>
-                        <li>PR001 Movimiento es Magnitud</li>
-                        <li>PR001 Anidación</li>
-                        
-                    </ul>
-                </div>
-            </div>
-
         </div>
     </nav>
 
     <div id="content-wrapper">
-        
         <header id="scrolling-icon-bar" class="beveled-frame">
-            
-            <button class="icon-button beveled-frame" 
-                    onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4', 'BTC')"
-                    title="BTC">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/BTC.jpg" alt="BTC">
+            <button class="icon-button" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4', 'BTC')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/BTC.jpg">
                 <span class="icon-title">BTC</span>
             </button>
-            </header>
-
-        
+        </header>
         <div id="content-area">
-            <div id="main-flex-container">
-                <section id="main-content">
-                    <div id="module-view-container">
-                        <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
-                            <h2>Bienvenido al Sistema de Educación Avanzada</h2>
-                            <p id="status-message">Selecione un modulo del Pensum Curricular o un ícono.</p>
-                        </div>
-                        <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
-                            <h3 id="detail-code"></h3>
-                            <h2 id="detail-title" style="margin-bottom: 20px;"></h2>
-                            <button id="detail-control-btn" class="control-btn beveled-frame" onclick="toggleVideoPlayback()" style="width: 50%; padding: 15px; margin-top: 10px;">
-                                ▶ Inicie el Módulo
-                            </button>
-                        </div>
-                    </div>
-                    <div id="video-wrapper-16-9" style="display:none;">
-                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-                           <video id="video-player" controls controlsList="nodownload"></video>
-                        </div>
-                    </div>
-                </section>
-            </div>
+            <section id="main-content" class="beveled-frame">
+                <div id="landing-status-box" style="text-align: center; margin-top: 50px;">
+                    <h2>Bienvenido SEA</h2>
+                    <p id="status-message">Seleccione un módulo para comenzar.</p>
+                </div>
+                <div id="video-wrapper-16-9" style="display:none;">
+                    <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
+                    <div id="video-container-aspect-lock"><video id="video-player" controls></video></div>
+                </div>
+            </section>
         </div>
     </div>
-    
+
     <script>
-        // --- COLLAPSIBLE JS IMPLEMENTADO (EL LÁZARO) --- 
-        function toggleCollapse(headerElement) {
-            const content = headerElement.nextElementSibling;
-            if (content && content.classList.contains('collapsible-content')) {
-                if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                    content.style.maxHeight = null;
-                    headerElement.classList.remove('open'); 
-                } else {
-                    // Set max-height to scrollHeight to enable smooth transition
-                    content.style.maxHeight = content.scrollHeight + "px"; 
-                    headerElement.classList.add('open');    
-                }
-            }
+        function toggleCollapse(h) {
+            const c = h.nextElementSibling;
+            if (c.style.maxHeight) { c.style.maxHeight = null; h.classList.remove('open'); }
+            else { c.style.maxHeight = c.scrollHeight + "px"; h.classList.add('open'); }
         }
-        // --- FIN COLLAPSIBLE JS IMPLEMENTADO --- 
-
-        // --- FUNCIONES DE VIDEO (EXISTENTES) ---
-        const player = document.getElementById('video-player');
-        const videoWrapper = document.getElementById('video-wrapper-16-9');
-        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-        const detailControlBtn = document.getElementById('detail-control-btn');    
-        let currentModuleTitle = '';
-        let nextVideoSource = '';
-        
-        function toggleVideoPlayback() {
-            if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
-                return;
-            }
-            if (videoWrapper.style.display !== 'block') {
-                playSelectedModule();
-                player.play();  
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
-        }
-        
-        function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';
-            moduleDetailPanel.style.display = 'none';    
-            videoWrapper.style.display = 'block';
-            embeddedReturnBtn.style.display = 'block';    
-            player.src = nextVideoSource;
-            player.load();    
-        }
-        
-        function showModules() {
-            moduleViewContainer.style.display = 'block';    
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none';    
-            player.pause();
-            player.removeAttribute('src');    
-            player.load();
-            currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Selecione un nuevo módulo para continuar.';    
-            detailControlBtn.textContent = '▶ Inicie el Módulo';
-            detailControlBtn.style.backgroundColor = 'white';
-            detailControlBtn.style.color = 'black';
-        }
-
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle;    
-            nextVideoSource = videoSource;
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            detailCode.textContent = `Module Code: ${code}`;
-            detailTitle.textContent = title;
+        function launchVideo(src, title) {
             document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
+            document.getElementById('video-wrapper-16-9').style.display = 'block';
+            const v = document.getElementById('video-player');
+            v.src = src; v.play();
         }
-
-        function closeVideo() { showModules(); }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (player) {
-                player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showModules();
-                });
-            }
-            statusMessage.textContent = 'Selecione un módulo para continuar.';
-            moduleDetailPanel.style.display = 'none';
+        function closeVideo() {
+            document.getElementById('video-wrapper-16-9').style.display = 'none';
             document.getElementById('landing-status-box').style.display = 'block';
-        });
+            document.getElementById('video-player').pause();
+        }
     </script>
 </body>
 </html>
