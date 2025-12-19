@@ -2,42 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA© V4.0 | Monitor Console</title>
+    <title>SEA© V4.0 | Monitor de Sistema</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap');
-        body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: #f4f4f4; overflow: hidden; }
+        body { margin: 0; font-family: 'EB Garamond', serif; height: 100vh; display: flex; background: #f0f0f0; overflow: hidden; }
         
-        /* Sidebar: Strict Pensum only */
-        #left-menu { width: 350px; background: white; padding: 25px; flex-shrink: 0; overflow-y: auto; border-right: 1px solid #d3d3d3; }
-        .section { font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #333; margin-top: 20px; font-size: 0.9em; }
-        .list { list-style: none; padding: 0; margin: 10px 0; font-size: 1.1em; }
-        .list li { margin-bottom: 10px; cursor: pointer; text-decoration: underline; }
-        .list li:hover { color: #cc8800; }
+        /* Sidebar: Créditos y Outline */
+        #left-menu { width: 360px; background: #fff; padding: 25px; flex-shrink: 0; overflow-y: auto; border-right: 1px solid #ccc; }
+        .credits { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+        .credits h2 { margin: 0; font-size: 1.4em; }
+        .credits p { margin: 5px 0; font-size: 0.9em; color: #555; }
+        
+        .outline-cat { font-weight: bold; text-transform: uppercase; margin-top: 15px; font-size: 0.95em; color: #000; }
+        .pensum-list { list-style: none; padding: 0; margin: 10px 0; }
+        .pensum-list li { margin-bottom: 8px; font-size: 0.95em; color: #333; line-height: 1.2; }
+        .trigger { text-decoration: underline; cursor: pointer; color: #000; }
+        .trigger:hover { font-weight: bold; color: #cc8800; }
 
-        /* Main Monitor Console */
+        /* Consola de Video */
         #main-stage { flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #e5e5e5; padding: 40px; }
-        #video-console { width: 100%; max-width: 900px; background: #1a1a1a; border: 12px solid #222; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        video { width: 100%; display: block; background: #000; }
+        #monitor-frame { width: 100%; max-width: 950px; background: #000; border: 12px solid #222; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
+        video { width: 100%; display: block; }
     </style>
 </head>
 <body>
     <nav id="left-menu">
-        <h2 style="margin:0;">SEA© V4.0</h2>
-        <div class="section">Arithmetic: Beyond the Core</div>
-        <ul class="list">
-            <li onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">U1S1: Discovering Sunya-Sifr Zero</li>
-            <li onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">U02: Enumeration ~ |Ninety-Nine|</li>
-            <li onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">U03: Enumeration ~ |Decillions|</li>
+        <div class="credits">
+            <h2>Bienvenido SEA</h2>
+            <p>Sistemas de Educación Avanzada©</p>
+            <p>Elemental K-6</p>
+            <p>Desarrollado por ARAGEM</p>
+            <p style="font-size: 0.8em;">jmaf.phd@gmail.com</p>
+        </div>
+
+        <div class="outline-cat">Estudios Elementales K-6</div>
+        
+        <div class="outline-cat">Aritmética</div>
+        <ul class="pensum-list">
+            <li><i>U1 Enumeración hasta |Nueve|</i></li>
+            <li><span class="trigger" onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—U1S1 Descubriendo a Sunya-Sifr Cero</span></li>
+            <li><span class="trigger" onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—U1S2 Uno al Cuatro</span></li>
+            <li><span class="trigger" onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4')">—U1S3 Cinco al Nueve</span></li>
+            <li><span class="trigger" onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">U02 Enumeración ~ |Noventa y Nueve|</span></li>
+            <li><span class="trigger" onclick="load('https://storage.googleapis.com/noenbalde/Videos/Video%20Cien%20Diez%20Uno.mp4')">U03 Enumeración ~ |Decillones|</span></li>
+            <li>U04 Principios de Suma</li>
+            <li>U05 Fundamentos de Suma</li>
+            <li>U06 Suma—Elementos y Algorithmos</li>
+            <li>U07 Paridad, Comparación, Conjuntos y Compuestos</li>
+            <li>U08 Sumas, Signos, y Restas</li>
+            <li>U09 Multiplicación</li>
+            <li>U10 División, Partición, y Cuotición</li>
+            <li>U11 Aprender y Usar Fracciones</li>
+            <li>U12 Chronos (Tiempo)</li>
+            <li>U13 Formas y Otras Cosas</li>
         </ul>
-        <div class="section">Linguistics VMC</div>
-        <ul class="list">
-            <li onclick="load('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4')">LTFB: Aesop Literature 001</li>
-        </ul>
+
+        <div class="outline-cat">Linguistica</div>
+        <div class="outline-cat" style="margin-top:40px;">Ciencias Empíricas</div>
+        <div class="outline-cat" style="margin-top:40px;">Expressión y Práctica</div>
     </nav>
 
     <main id="main-stage">
-        <div id="video-console">
-            <video id="v-player" controls controlsList="nodownload" poster="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/AP1U1S1ENGCS1.jpg"></video>
+        <div id="monitor-frame">
+            <video id="v-player" controls controlsList="nodownload" poster="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/Decillones.jpg"></video>
         </div>
     </main>
 
