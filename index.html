@@ -3,114 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Educación Avanzada© (SEA)</title>
+    <title>Sistema de Educación Avanzada© (SEA V4.0)</title>
     <style>
-        /* 1. ATOMIC FONT & COLOR LOCK */
-        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
+        /* CSS Base Consolidado */
+        @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
         :root {
-            --color-lighthouse: #f4f4f4; 
-            --color-slate-blue: #708090; 
-            --color-charcoal: #36454f;
-            --color-stealth: #d3d3d3; 
-            --color-menu: #333; 
-            --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); 
-            --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        
-        body { 
-            margin: 0; font-family: 'Atkinson Hyperlegible', sans-serif; 
-            height: 100vh; display: flex; background: var(--color-lighthouse); 
-        }
-
-        /* 2. INTERFACE STRUCTURE */
-        #left-menu { width: 350px; background: var(--color-slate-blue); color: white; padding: 10px; flex-shrink: 0; overflow-y: auto; }
-        #credits { text-align: center; color: white; margin-bottom: 20px; }
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; background: var(--color-charcoal); }
-        
+        body { margin: 0; font-family: 'Atkinson Hyperlegible', serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
+        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; background: white; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
-        .icon-button img { height: 60px; width: 100%; object-fit: cover; }
-        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; overflow: hidden; }
+        .icon-button { width: 60px; height: 100%; margin-right: 5px; cursor: pointer; border: none; background: none; text-align: center; }
+        .icon-button img { height: 55px; width: 100%; object-fit: cover; }
+        #main-content { flex-grow: 1; padding: 20px; overflow-y: auto; }
         
-        #content-area { flex-grow: 1; padding: 20px; }
-        #main-content { height: 100%; background: var(--color-lighthouse); padding: 20px; overflow-y: auto; border-radius: 4px; }
-
-        /* 3. VIDEO & MODULE LOGIC */
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background: black; margin-top: 20px; }
-        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; cursor: pointer; }
-
-        /* 4. COLLAPSIBLE NAV (THE LAZARUS) */
-        .collapsible-section { margin-bottom: 10px; }
-        .collapsible-header { cursor: pointer; display: block; color: white; font-weight: bold; }
-        .collapsible-header:before { content: '♦ '; display: inline-block; transition: transform 0.3s; }
+        /* Collapsible System */
+        .collapsible-section { margin-bottom: 8px; border-bottom: 1px solid #eee; }
+        .collapsible-header { cursor: pointer; display: block; font-weight: bold; padding: 5px 0; }
+        .collapsible-header:before { content: '♦ '; transition: transform 0.3s; display: inline-block; }
         .collapsible-header.open:before { transform: rotate(90deg); }
         .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; padding-left: 15px; }
-        .module-link { display: block; text-decoration: none; color: #f0f0f0; padding: 4px 0; font-size: 0.9em; }
+        .module-link { display: block; text-decoration: none; color: black; padding: 3px 0; font-size: 0.9em; }
+        .module-link:hover { color: #cc8800; }
+
+        /* VMC Hover Style */
+        .vmc-unit { transition: all 0.2s; padding: 0 5px; cursor: help; }
+        .vmc-unit:hover { background: #fff5d7; border-bottom: 4px solid #cc8800; }
+        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background: black; display: none; }
+        #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 100; background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
     <nav id="left-menu" class="beveled-frame">
-        <div id="credits">
-            <h3>Sistemas de Educación Avanzada©</h3>
-            <p>Elemental K-6 | ARAGEM</p>
+        <div style="text-align: center;">
+            <h3>SEA© V4.0</h3>
+            <p><small>jmaf.phd@gmail.com</small></p>
         </div>
-        <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleCollapse(this)">Aritmética</span>
-            <div class="collapsible-content">
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Cero')">U1S1: Cero</a>
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four')">U1S2: Uno al Cuatro</a>
+        <div style="margin-top: 20px;">
+            <p><b>Estudios Elementales K-6</b></p>
+            
+            <div class="collapsible-section">
+                <span class="collapsible-header" onclick="toggleCollapse(this)">Aritmética ~ BTC</span>
+                <div class="collapsible-content">
+                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Cero')">U1S1 Descubriendo Cero</a>
+                    <a href="#" class="module-link">U1S2 Uno al Cuatro</a>
+                    <a href="#" class="module-link">U03 Enumeración Decillones</a>
+                </div>
             </div>
-        </div>
-        <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleCollapse(this)">Linguistica</span>
-            <div class="collapsible-content">
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX001: Lexis 1')">LX001: Lexis 1</a>
+
+            <div class="collapsible-section">
+                <span class="collapsible-header" onclick="toggleCollapse(this)">Linguistica (VMC Activo)</span>
+                <div class="collapsible-content">
+                    <b>Gramática / Lexis</b>
+                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX001: Lexis 1')">LX001 - Validación Primaria</a>
+                    <a href="#" class="module-link">GF01 Morfología</a>
+                    <b>Literatura</b>
+                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop')">LTFB Aesop 001</a>
+                </div>
+            </div>
+
+            <div class="collapsible-section">
+                <span class="collapsible-header" onclick="toggleCollapse(this)">Ciencias Empíricas</span>
+                <div class="collapsible-content">
+                    <span class="module-link">EM02 Biología</span>
+                    <span class="module-link">EM03 Física</span>
+                </div>
+            </div>
+
+            <div class="collapsible-section">
+                <span class="collapsible-header" onclick="toggleCollapse(this)">Expresión y Música</span>
+                <div class="collapsible-content">
+                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music: Grammar')">M10 - Grammar Song</a>
+                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PR001: Match')">PR001 Identificación</a>
+                </div>
             </div>
         </div>
     </nav>
 
     <div id="content-wrapper">
         <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4', 'BTC')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/BTC.jpg">
-                <span class="icon-title">BTC</span>
+            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4', 'BTC')">
+                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/BTC.jpg" alt="BTC">
             </button>
         </header>
-        <div id="content-area">
-            <section id="main-content" class="beveled-frame">
-                <div id="landing-status-box" style="text-align: center; margin-top: 50px;">
-                    <h2>Bienvenido SEA</h2>
-                    <p id="status-message">Seleccione un módulo para comenzar.</p>
+
+        <main id="main-content">
+            <div id="landing-status-box" class="beveled-frame" style="padding:40px; background:white; text-align:center;">
+                <h3>VMC 4.0: Análisis de Carga Fonética</h3>
+                <p style="font-style:italic; color:#888;">Pase el cursor sobre las sílabas para validar el énfasis:</p>
+                <div style="font-size:4.5em; letter-spacing:8px; margin:20px 0;">
+                    <span class="vmc-unit" title="Sílaba Átona">Po</span><span style="color:#ccc;">|</span><span class="vmc-unit" title="Sílaba Átona">lli</span><span style="color:#ccc;">|</span><span class="vmc-unit" style="font-weight:bold; color:#cc8800;" title="Énfasis Tónico">to</span>
                 </div>
-                <div id="video-wrapper-16-9" style="display:none;">
-                    <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                    <div id="video-container-aspect-lock"><video id="video-player" controls></video></div>
-                </div>
-            </section>
-        </div>
+                <p id="status-text">ESTADO: <span style="color:green;">LISTO</span> | MODO: VISUALIZACIÓN DE CARETS</p>
+            </div>
+
+            <div id="video-wrapper-16-9">
+                <button id="return-btn" onclick="closeVideo()">← Volver</button>
+                <video id="video-player" controls controlsList="nodownload"></video>
+            </div>
+        </main>
     </div>
 
     <script>
-        function toggleCollapse(h) {
-            const c = h.nextElementSibling;
-            if (c.style.maxHeight) { c.style.maxHeight = null; h.classList.remove('open'); }
-            else { c.style.maxHeight = c.scrollHeight + "px"; h.classList.add('open'); }
+        function toggleCollapse(header) {
+            header.classList.toggle('open');
+            const content = header.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight && content.style.maxHeight !== '0px' ? '0px' : content.scrollHeight + "px";
         }
+
         function launchVideo(src, title) {
             document.getElementById('landing-status-box').style.display = 'none';
-            document.getElementById('video-wrapper-16-9').style.display = 'block';
-            const v = document.getElementById('video-player');
-            v.src = src; v.play();
+            const wrapper = document.getElementById('video-wrapper-16-9');
+            const player = document.getElementById('video-player');
+            wrapper.style.display = 'block';
+            player.src = src;
+            player.play();
         }
+
         function closeVideo() {
+            const player = document.getElementById('video-player');
+            player.pause();
             document.getElementById('video-wrapper-16-9').style.display = 'none';
             document.getElementById('landing-status-box').style.display = 'block';
-            document.getElementById('video-player').pause();
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = document.querySelectorAll('.collapsible-header');
+            if(headers[1]) toggleCollapse(headers[1]); // Auto-abre Linguística
+        });
     </script>
 </body>
 </html>
