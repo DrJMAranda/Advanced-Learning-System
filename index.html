@@ -1,140 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Educación Avanzada© (SEA V4.0)</title>
+    <title>SEA© V4.0 | Advanced Language System</title>
     <style>
-        /* CSS Base Consolidado */
         @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
-        :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
-        }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: 'Atkinson Hyperlegible', serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        :root { --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; }
+        .beveled-frame { box-shadow: inset 1px 1px 3px rgba(255,255,255,0.7), inset -1px -1px 3px rgba(0,0,0,0.3); border: 1px solid var(--color-stealth); }
+        body { margin: 0; font-family: 'Atkinson Hyperlegible', sans-serif; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
+        #left-menu { width: 340px; background: var(--color-lighthouse); padding: 15px; flex-shrink: 0; overflow-y: auto; border-right: 1px solid var(--color-stealth); }
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
-        .icon-button { width: 60px; height: 100%; margin-right: 5px; cursor: pointer; border: none; background: none; text-align: center; }
-        .icon-button img { height: 55px; width: 100%; object-fit: cover; }
-        #main-content { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        #main-content { padding: 40px; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; }
         
-        /* Collapsible System */
-        .collapsible-section { margin-bottom: 8px; border-bottom: 1px solid #eee; }
-        .collapsible-header { cursor: pointer; display: block; font-weight: bold; padding: 5px 0; }
+        /* Peldaños de Construcción (Collapsibles) */
+        .collapsible-header { cursor: pointer; font-weight: bold; padding: 10px 0; display: block; border-bottom: 1px solid #eee; font-size: 0.95em; }
         .collapsible-header:before { content: '♦ '; transition: transform 0.3s; display: inline-block; }
         .collapsible-header.open:before { transform: rotate(90deg); }
         .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; padding-left: 15px; }
-        .module-link { display: block; text-decoration: none; color: black; padding: 3px 0; font-size: 0.9em; }
-        .module-link:hover { color: #cc8800; }
+        .module-link { display: block; text-decoration: none; color: #444; padding: 6px 0; font-size: 0.85em; }
+        .module-link:hover { color: #cc8800; font-weight: bold; }
 
-        /* VMC Hover Style */
-        .vmc-unit { transition: all 0.2s; padding: 0 5px; cursor: help; }
-        .vmc-unit:hover { background: #fff5d7; border-bottom: 4px solid #cc8800; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background: black; display: none; }
-        #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 100; background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; }
+        /* VMC Carets & Hovers */
+        .vmc-unit { transition: all 0.2s; padding: 0 4px; cursor: help; border-bottom: 2px solid transparent; }
+        .vmc-unit:hover { background: #fff5d7; border-bottom: 4px solid #cc8800; color: #000; }
+        #video-wrapper { width: 100%; max-width: 900px; display: none; position: relative; background: #000; border: 5px solid #333; }
+        video { width: 100%; display: block; }
     </style>
 </head>
 <body>
-    <nav id="left-menu" class="beveled-frame">
-        <div style="text-align: center;">
-            <h3>SEA© V4.0</h3>
-            <p><small>jmaf.phd@gmail.com</small></p>
-        </div>
-        <div style="margin-top: 20px;">
-            <p><b>Estudios Elementales K-6</b></p>
-            
+    <nav id="left-menu">
+        <h3>SEA© V4.0</h3>
+        <p style="font-size: 0.8em; color: #666; margin-top:0;">Sistemas de Educación Avanzada</p>
+        
+        <div id="full-curriculum">
             <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">Aritmética ~ BTC</span>
+                <span class="collapsible-header" onclick="toggle(this)">Aritmética BTC</span>
                 <div class="collapsible-content">
-                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Cero')">U1S1 Descubriendo Cero</a>
-                    <a href="#" class="module-link">U1S2 Uno al Cuatro</a>
-                    <a href="#" class="module-link">U03 Enumeración Decillones</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">U1S1: Sunya-Sifr</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">U02: Noventa y Nueve</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">U03: Decillones</a>
                 </div>
             </div>
 
             <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">Linguistica (VMC Activo)</span>
+                <span class="collapsible-header" id="lang-menu" onclick="toggle(this)">Linguística Fonética (VMC)</span>
                 <div class="collapsible-content">
-                    <b>Gramática / Lexis</b>
-                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX001: Lexis 1')">LX001 - Validación Primaria</a>
-                    <a href="#" class="module-link">GF01 Morfología</a>
-                    <b>Literatura</b>
-                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop')">LTFB Aesop 001</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LX001 - Módulo Pollito/Chick</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4')">LTFB - Aesop 001</a>
                 </div>
             </div>
 
             <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">Ciencias Empíricas</span>
+                <span class="collapsible-header" id="als-menu" onclick="toggle(this)">ALS & Practicum</span>
                 <div class="collapsible-content">
-                    <span class="module-link">EM02 Biología</span>
-                    <span class="module-link">EM03 Física</span>
-                </div>
-            </div>
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">Expresión y Música</span>
-                <div class="collapsible-content">
-                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music: Grammar')">M10 - Grammar Song</a>
-                    <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PR001: Match')">PR001 Identificación</a>
+                    <a href="#" class="module-link" id="als-core" onclick="play('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4')">PR001: ID Comparativa (ALS)</a>
+                    <a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4')">MS10: Gramática Musical</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <div id="content-wrapper">
-        <header id="scrolling-icon-bar" class="beveled-frame">
-            <button class="icon-button beveled-frame" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4', 'BTC')">
-                <img src="https://storage.googleapis.com/noenbalde/Car%C3%A1tulas/BTC.jpg" alt="BTC">
-            </button>
-        </header>
-
         <main id="main-content">
-            <div id="landing-status-box" class="beveled-frame" style="padding:40px; background:white; text-align:center;">
-                <h3>VMC 4.0: Análisis de Carga Fonética</h3>
-                <p style="font-style:italic; color:#888;">Pase el cursor sobre las sílabas para validar el énfasis:</p>
-                <div style="font-size:4.5em; letter-spacing:8px; margin:20px 0;">
-                    <span class="vmc-unit" title="Sílaba Átona">Po</span><span style="color:#ccc;">|</span><span class="vmc-unit" title="Sílaba Átona">lli</span><span style="color:#ccc;">|</span><span class="vmc-unit" style="font-weight:bold; color:#cc8800;" title="Énfasis Tónico">to</span>
+            <div id="landing-box" class="beveled-frame" style="padding:40px; background:white; text-align:center; max-width:650px;">
+                <h2 style="color:#444;">VMC 4.0: Validación de Carets</h2>
+                <div style="font-size:4.5em; letter-spacing:10px; margin:25px 0; font-family: serif;">
+                    <span class="vmc-unit">Po</span><span style="color:#ccc;">|</span><span class="vmc-unit">lli</span><span style="color:#ccc;">|</span><span class="vmc-unit" style="font-weight:bold; color:#cc8800;">to</span>
                 </div>
-                <p id="status-text">ESTADO: <span style="color:green;">LISTO</span> | MODO: VISUALIZACIÓN DE CARETS</p>
+                <p>Métrica de Carga: <span style="color:green; font-weight:bold;">ESTABLE</span></p>
             </div>
-
-            <div id="video-wrapper-16-9">
-                <button id="return-btn" onclick="closeVideo()">← Volver</button>
-                <video id="video-player" controls controlsList="nodownload"></video>
+            <div id="video-wrapper" class="beveled-frame">
+                <button onclick="stop()" style="position:absolute; top:10px; left:10px; z-index:10; cursor:pointer; padding:5px 15px;">← Regresar</button>
+                <video id="player" controls controlsList="nodownload"></video>
             </div>
         </main>
     </div>
 
     <script>
-        function toggleCollapse(header) {
-            header.classList.toggle('open');
-            const content = header.nextElementSibling;
+        function toggle(el) {
+            el.classList.toggle('open');
+            const content = el.nextElementSibling;
             content.style.maxHeight = content.style.maxHeight && content.style.maxHeight !== '0px' ? '0px' : content.scrollHeight + "px";
         }
-
-        function launchVideo(src, title) {
-            document.getElementById('landing-status-box').style.display = 'none';
-            const wrapper = document.getElementById('video-wrapper-16-9');
-            const player = document.getElementById('video-player');
-            wrapper.style.display = 'block';
-            player.src = src;
-            player.play();
+        function play(src) {
+            document.getElementById('landing-box').style.display = 'none';
+            document.getElementById('video-wrapper').style.display = 'block';
+            const p = document.getElementById('player');
+            p.src = src; p.play().catch(e => {});
         }
-
-        function closeVideo() {
-            const player = document.getElementById('video-player');
-            player.pause();
-            document.getElementById('video-wrapper-16-9').style.display = 'none';
-            document.getElementById('landing-status-box').style.display = 'block';
+        function stop() {
+            const p = document.getElementById('player');
+            p.pause(); p.src = "";
+            document.getElementById('video-wrapper').style.display = 'none';
+            document.getElementById('landing-box').style.display = 'block';
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const headers = document.querySelectorAll('.collapsible-header');
-            if(headers[1]) toggleCollapse(headers[1]); // Auto-abre Linguística
-        });
+        window.onload = () => { 
+            toggle(document.getElementById('lang-menu'));
+            toggle(document.getElementById('als-menu'));
+            document.getElementById('als-core').click(); // Auto-lanzamiento ALS
+        };
     </script>
 </body>
 </html>
