@@ -376,5 +376,32 @@
             document.getElementById('landing-status-box').style.display = 'block';
         });
     </script>
+    <script>
+        /* THE MAGIC WAND: Hijack the launch for an AUTO-YES */
+        // This wraps your original function to force immediate playback
+        const originalLaunch = launchVideo;
+        launchVideo = function(videoSource, moduleTitle) {
+            originalLaunch(videoSource, moduleTitle); // Runs your sacrosanct logic first
+            
+            // Forces the Auto-Approval
+            if (typeof playSelectedModule === "function") {
+                playSelectedModule(); 
+                if (player) player.play(); 
+            }
+            
+            // THE CLOAK: Final visual cover-up of the landing site
+            const landingBox = document.getElementById('landing-status-box');
+            const detailPanel = document.getElementById('module-detail-panel');
+            if (landingBox) landingBox.style.display = 'none';
+            if (detailPanel) detailPanel.style.display = 'none';
+        };
+
+        /* THE COSMETIC LAYER: Professional Overlays */
+        const menu = document.getElementById('left-menu');
+        const wrapper = document.getElementById('content-wrapper') || document.body;
+        
+        if (menu) menu.style.backgroundColor = '#f4f4f4'; // Lighthouse Gray
+        if (wrapper) wrapper.style.backgroundColor = '#2f3e46'; // Charcoal/Slate
+    </script>
 </body>
 </html>
