@@ -8,16 +8,16 @@
         body { margin: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
         .wrapper { display: grid; grid-template-columns: 1fr 1.618fr 1fr; height: 100vh; padding: 20px; box-sizing: border-box; }
         
-        /* THE PATH: Triple Bar */
-        .triple-bar { grid-column: 1; display: flex; flex-direction: column; justify-content: center; }
+        /* EL CAMINO: Triple Barra */
+        .triple-bar { grid-column: 1; display: flex; flex-direction: column; justify-content: center; z-index: 10; }
         .bar { width: 45px; height: 7px; background: var(--path-blue); margin: 10px 0; transition: 0.4s; }
         .triple-bar:hover .bar { width: 65px; box-shadow: 0 0 20px var(--path-blue); }
         
-        /* THE ENGINE: Viseme-Phoneme Sync */
+        /* EL MOTOR: Sincronía Visema-Fonema */
         .monitor { grid-column: 2; display: flex; align-items: center; justify-content: center; position: relative; }
         video { width: 100%; border: 1px solid #333; box-shadow: 0 0 50px rgba(0,242,255,0.1); }
         
-        /* THE IDEM: Granny/Geography (100% Opacity for Saturday) */
+        /* EL IDEM: Abuela + Territorio (Imagen Final) */
         .idem { 
             grid-column: 3; 
             background: url('vmc4_idem_final.jpg') no-repeat center; 
@@ -25,10 +25,10 @@
             border-left: 1px solid #222;
         }
 
-        /* TOOLTIP LOGIC: No Hedges */
+        /* EXPLICACIÓN: Sin rodeos */
         [data-path]:hover::after {
             content: attr(data-path); position: absolute; left: 20px; bottom: 100px;
-            background: #111; border: 1px solid var(--gold); padding: 20px; width: 250px;
+            background: #111; border: 1px solid var(--gold); padding: 20px; width: 250px; z-index: 100;
         }
         
         .footer { 
@@ -39,17 +39,17 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="triple-bar" data-path="EL CAMINO: Arquitectura Correct-by-Construction. Sin 'about'. Sin demoras.">
-            <div class="bar"></div><div class="bar"></div><div class="bar)</div>
+        <div class="triple-bar" data-path="EL CAMINO: Arquitectura de Soberanía. El cambio es la única dirección.">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             <p style="color:var(--path-blue); font-size: 12px; margin-top:20px;">METABOLISMO: ACTIVO</p>
         </div>
         <div class="monitor">
             <video autoplay loop muted playsinline><source src="vmc_engine_v4.mp4" type="video/mp4"></video>
         </div>
-        <div class="idem" title="IDEM: Sabiduría Ancestral + Territorio Nacional"></div>
+        <div class="idem" title="IDEM: Territorio Nacional y Sabiduría Ancestral"></div>
     </div>
     <div class="footer">
-        [ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // STATUS: SATURDAY INSPECTION READY
+        [ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // STATUS: INSPECCIÓN DE SÁBADO LISTA
     </div>
 </body>
 </html>
