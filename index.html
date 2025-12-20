@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)</title>
     <style>
         :root { --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; }
-        body { margin: 0; display: flex; height: 100vh; font-family: serif; overflow: hidden; background: var(--color-lighthouse); }
+        body { margin: 0; display: flex; height: 100vh; font-family: serif; background: var(--color-lighthouse); overflow: hidden; }
         
-        /* SIDEBAR: UNCOLLAPSED & INTACT */
-        #left-menu { width: 350px; padding: 15px; border-right: 1px solid var(--color-stealth); overflow-y: auto; flex-shrink: 0; }
-        .pensum-header { font-weight: bold; font-size: 1.1em; margin-top: 15px; display: block; }
+        /* SIDEBAR: FULL SCROLLING VISIBILITY */
+        #left-menu { 
+            width: 350px; padding: 15px; border-right: 1px solid var(--color-stealth); 
+            overflow-y: auto; flex-shrink: 0; background: var(--color-lighthouse);
+        }
+        .section-header { font-weight: bold; font-size: 1.1em; margin-top: 15px; display: block; }
         .module-link { display: block; text-decoration: none; color: black; font-size: 0.9em; margin: 4px 0; padding-left: 10px; }
-        .module-link:hover { text-decoration: underline; color: blue; }
 
-        /* VMC 4.0 MONITOR: GLUE-GUNNED IN SITU */
+        /* VMC 4.0 MONITOR: BOLTED IN SITU */
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; background: #000; position: relative; }
         #vmc-console { 
             width: 100%; height: 100%; 
@@ -31,11 +32,11 @@
 <body>
     <nav id="left-menu">
         <div style="text-align:center; margin-bottom:20px;">
-            <h3>Bienvenido SEA<br><br>Sistemas de Educación Avanzada©</h3>
+            <h3>Sistemas de Educación Avanzada©</h3>
             <h4>Elemental K-6 | ARAGEM</h4>
         </div>
 
-        <span class="pensum-header">♦ Aritmética ~ BTC</span>
+        <span class="section-header">♦ Aritmética ~ BTC</span>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—U1S1 Descubriendo Cero</a>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—U1S2 Uno al Cuatro</a>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4')">—U1S3 Cinco al Nueve</a>
@@ -49,12 +50,12 @@
         <span class="module-link">U11 Aprender Fracciones</span>
         <span class="module-link">U12 Chronos (Tiempo)</span>
 
-        <span class="pensum-header">♦ Linguistica</span>
+        <span class="section-header">♦ Linguistica</span>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LX001 Morocco/Dolphin</a>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4')">LX002 Lexis 2</a>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4')">LX003 Lexis 3</a>
         
-        <span class="pensum-header">♦ Música</span>
+        <span class="section-header">♦ Música</span>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4')">M01 Penny Song</a>
         <a href="#" class="module-link" onclick="run('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4')">M03 Decillones</a>
     </nav>
@@ -62,17 +63,13 @@
     <div id="content-wrapper">
         <div id="vmc-console">
             <div id="monitor-window">
-                <video id="player" controls autoplay muted></video>
+                <video id="p" controls autoplay muted></video>
             </div>
         </div>
     </div>
 
     <script>
-        function run(src) { 
-            const v = document.getElementById('player'); 
-            v.src = src; 
-            v.play(); 
-        }
+        function run(s) { const v = document.getElementById('p'); v.src = s; v.play(); }
     </script>
 </body>
 </html>
