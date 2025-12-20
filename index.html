@@ -6,78 +6,50 @@
     <style>
         :root { --gold: #c5a059; --path-blue: #00f2ff; --atomic-green: #00ff41; }
         body { margin: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
-
-        /* The Golden Ratio Container */
-        .wrapper { 
-            display: grid; 
-            grid-template-columns: 1fr 1.618fr 1fr; 
-            grid-template-rows: 1fr 0.618fr;
-            height: 100vh; 
-            padding: 20px;
-            box-sizing: border-box;
+        .wrapper { display: grid; grid-template-columns: 1fr 1.618fr 1fr; height: 100vh; padding: 20px; box-sizing: border-box; }
+        
+        /* THE PATH: Triple Bar */
+        .triple-bar { grid-column: 1; display: flex; flex-direction: column; justify-content: center; }
+        .bar { width: 45px; height: 7px; background: var(--path-blue); margin: 10px 0; transition: 0.4s; }
+        .triple-bar:hover .bar { width: 65px; box-shadow: 0 0 20px var(--path-blue); }
+        
+        /* THE ENGINE: Viseme-Phoneme Sync */
+        .monitor { grid-column: 2; display: flex; align-items: center; justify-content: center; position: relative; }
+        video { width: 100%; border: 1px solid #333; box-shadow: 0 0 50px rgba(0,242,255,0.1); }
+        
+        /* THE IDEM: Granny/Geography (100% Opacity for Saturday) */
+        .idem { 
+            grid-column: 3; 
+            background: url('vmc4_idem_final.jpg') no-repeat center; 
+            background-size: contain; 
+            border-left: 1px solid #222;
         }
 
-        /* The Triple Bar: "WE ARE THE PATH" */
-        .triple-bar-path {
-            grid-column: 1; grid-row: 1 / span 2;
-            display: flex; flex-direction: column; justify-content: center;
-            border-left: 3px solid var(--path-blue); padding-left: 20px;
+        /* TOOLTIP LOGIC: No Hedges */
+        [data-path]:hover::after {
+            content: attr(data-path); position: absolute; left: 20px; bottom: 100px;
+            background: #111; border: 1px solid var(--gold); padding: 20px; width: 250px;
         }
-        .bar { width: 40px; height: 6px; background: var(--path-blue); margin: 8px 0; transition: 0.3s; }
-        .triple-bar-path:hover .bar { width: 60px; box-shadow: 0 0 15px var(--path-blue); }
-
-        /* Center Stage: The Idling Engine (MP4) */
-        .monitor-center {
-            grid-column: 2; grid-row: 1;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; border: 1px solid #222; background: #050505;
-        }
-        video { width: 90%; height: auto; border-radius: 4px; }
-
-        /* The Idem Overlay: Granny + Geography */
-        .idem-overlay {
-            grid-column: 3; grid-row: 1;
-            background: url('granny_colombia_idem.jpg') no-repeat center;
-            background-size: contain; opacity: 0.6; transition: opacity 0.5s;
-        }
-        .idem-overlay:hover { opacity: 1; cursor: help; }
-
-        /* The Atomic Footer: (1, 0) Logic */
-        .atomic-footer {
-            grid-column: 2; grid-row: 2;
-            display: flex; align-items: center; justify-content: center;
-            font-family: monospace; color: var(--atomic-green);
-            letter-spacing: 5px; border-top: 1px solid #111;
-        }
-
-        /* Hover Tooltip (The Windows 98 Tour) */
-        [data-tooltip]:hover::after {
-            content: attr(data-tooltip);
-            position: absolute; background: #111; padding: 15px;
-            border: 1px solid var(--gold); width: 200px; z-index: 100;
+        
+        .footer { 
+            position: absolute; bottom: 20px; width: 100%; text-align: center; 
+            color: var(--atomic-green); font-family: monospace; letter-spacing: 3px;
         }
     </style>
 </head>
 <body>
-
     <div class="wrapper">
-        <div class="triple-bar-path" data-tooltip="EL CAMINO: Arquitectura Correct-by-Construction para la Revolución de la Vida.">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            <p style="color: var(--path-blue); margin-top: 20px;">ACELERANDO EL METABOLISMO</p>
+        <div class="triple-bar" data-path="EL CAMINO: Arquitectura Correct-by-Construction. Sin 'about'. Sin demoras.">
+            <div class="bar"></div><div class="bar"></div><div class="bar)</div>
+            <p style="color:var(--path-blue); font-size: 12px; margin-top:20px;">METABOLISMO: ACTIVO</p>
         </div>
-
-        <div class="monitor-center" data-tooltip="EL MOTOR: Sincronización Visema-Fonema renderizando en tiempo real.">
-            <video autoplay loop muted playsinline>
-                <source src="vmc_engine_v4.mp4" type="video/mp4">
-            </video>
+        <div class="monitor">
+            <video autoplay loop muted playsinline><source src="vmc_engine_v4.mp4" type="video/mp4"></video>
         </div>
-
-        <div class="idem-overlay" data-tooltip="IDEM: El matrimonio de la lógica ancestral con el territorio. La soberanía del Pensum."></div>
-
-        <div class="atomic-footer" data-tooltip="EL PENSUM: Evaluación Atómica (1, 0). Corrigiendo errores humanos heredados.">
-            [ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // STATUS: AWAITING PENSUM FUEL
-        </div>
+        <div class="idem" title="IDEM: Sabiduría Ancestral + Territorio Nacional"></div>
     </div>
-
+    <div class="footer">
+        [ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // STATUS: SATURDAY INSPECTION READY
+    </div>
 </body>
 </html>
