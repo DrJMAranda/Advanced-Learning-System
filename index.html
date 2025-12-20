@@ -1,84 +1,82 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VMC 4.0 | SEA</title>
+    <title>Sistema de Educacion Avanzada VMC 4.0</title>
     <style>
         :root { --gold: #c5a059; --path-blue: #00f2ff; --atomic-green: #00ff41; }
         body { margin: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; }
         
-        /* PILAR IZQUIERDO: Pensum SEA (350px VIP) */
-        #left-menu { width: 250px; border-right: 1px solid #333; padding: 20px; flex-shrink: 0; overflow-y: auto; background: #050505; }
-        .collapsible-header { cursor: pointer; color: var(--gold); display: block; margin: 10px 0; font-weight: bold; }
-        .collapsible-header:before { content: '♦ '; }
-        .collapsible-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; padding-left: 15px; }
-        .module-link { color: #ccc; text-decoration: none; font-size: 12px; display: block; margin: 8px 0; }
+        /* ADJUSTED VIP PILLAR: 250px Width */
+        #left-menu { 
+            width: 250px; 
+            border-right: 1px solid #333; 
+            padding: 15px; 
+            flex-shrink: 0; 
+            overflow-y: auto; 
+            background: #050505; 
+        }
+        
+        .collapsible-header { cursor: pointer; color: var(--gold); display: block; margin: 10px 0; font-weight: bold; font-size: 13px; }
+        .collapsible-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; padding-left: 10px; }
+        .module-link { color: #888; text-decoration: none; font-size: 11px; display: block; margin: 6px 0; }
 
-        /* TERRITORIO VMC: Consola de Alta Fidelidad */
+        /* VMC TERRITORY: Expanded View */
         #content-wrapper { flex-grow: 1; position: relative; display: flex; align-items: center; justify-content: center; }
         .console-bg { 
-            width: 90%; height: 90%; 
+            width: 95%; height: 95%; 
             background: url('VCM%204.0%20image.jpg') no-repeat center; 
             background-size: contain; position: relative; 
         }
         
-        /* MONITOR OPERATIVO (OVERLAY SOBRE 3.3") */
         #video-overlay { 
             position: absolute; top: 4.5%; left: 26.5%; width: 47%; height: 31%; 
             background: #000; display: none; z-index: 100; border: 1px solid var(--path-blue); 
         }
         video { width: 100%; height: 100%; object-fit: cover; }
 
-        .footer { position: absolute; bottom: 15px; width: 100%; text-align: center; color: var(--atomic-green); font-family: monospace; font-size: 10px; }
+        .footer { position: absolute; bottom: 15px; width: 100%; text-align: center; color: var(--atomic-green); font-family: monospace; font-size: 9px; }
     </style>
 </head>
 <body>
     <nav id="left-menu">
-        <h2 style="color:var(--gold); margin-bottom:5px;">PENSUM SEA</h2>
-        <p style="font-size:10px; color:#666; margin-bottom:20px;">Arquitectura de Soberanía Educativa</p>
+        <h3 style="color:var(--gold); margin-bottom:15px;">Bienvenido SEA<br>
+            Sistema de Educacion Avanzada<br>
+            PENSUM</h3>
         
         <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleCollapse(this)">Aritmética ~ BTC</span>
+            <span class="collapsible-header" onclick="toggleCollapse(this)">♦ Arithmetic</span>
             <div class="collapsible-content">
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'U1S1: Sunya-Sifr Cero')">U1S1: Cero</a>
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'U1S2: Uno al Cuatro')">U1S2: Uno al Cuatro</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/.../A1U1S1ENG.mp4', 'U1S1')">U1S1: Zero</a>
             </div>
         </div>
 
         <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleCollapse(this)">Expresión y Música</span>
+            <span class="collapsible-header" onclick="toggleCollapse(this)">♦ Music</span>
             <div class="collapsible-content">
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'M01: Song Penny')">M01: Song Penny</a>
-                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'M02: Chronos')">M02: Chronos</a>
+                <a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/.../Pennie%20Song.mp4', 'M01')">M01: Song Penny</a>
             </div>
-        </div>
-
-        <div style="margin-top:50px; font-size:9px; color:var(--gold);">
-            DRJMARANDA / GOOGLE <br> STATUS: METABOLISMO ACTIVO
         </div>
     </nav>
 
     <div id="content-wrapper">
         <div class="console-bg">
-            <div id="video-overlay"><video id="player" controls controlsList="nodownload"></video></div>
+            <div id="video-overlay"><video id="player" controls></video></div>
         </div>
     </div>
 
-    <div class="footer">[ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // PRODUCTO LISTO: INSPECCIÓN COMPLETADA</div>
+    <div class="footer">[ 1 0 1 1 0 ] P-Í-O / F-R-Í-O // 250PX PENSUM INTEGRATION COMPLETE</div>
 
     <script>
         function toggleCollapse(h) {
             const c = h.nextElementSibling;
             c.style.maxHeight = c.style.maxHeight ? null : c.scrollHeight + "px";
-            h.style.color = c.style.maxHeight ? "var(--path-blue)" : "var(--gold)";
         }
         function launchVideo(s, t) {
-            const o = document.getElementById('video-overlay');
+            document.getElementById('video-overlay').style.display = 'block';
             const p = document.getElementById('player');
-            o.style.display = 'block';
             p.src = s;
             p.play();
-            console.log("SEA: Reproduciendo " + t);
         }
     </script>
 </body>
