@@ -3,16 +3,15 @@
 <head>
 
 <script>
-  /* Morsa-Approved Lock-Out */
   (function() {
-      // SET OR CHANGE YOUR CODE HERE
-      var mySecretBolt = "AR662"; 
+      var masterBolt = "AR662jm"; // Only for the Smart Ape
+      var tempBolt = "AR662";      // Give this to vetted students
       
-      var entry = prompt("Welcome to the SEA. This is a private study.\n\nTeachers Keep Out.\n\nPlease enter your access code:");
+      var entry = prompt("Welcome to the SEA.\nTeachers Keep Out.\n\nPlease enter your access code:");
 
-      if (entry !== mySecretBolt) {
+      if (entry !== masterBolt && entry !== tempBolt) {
           alert("Sovereign Territory: Access Denied.");
-          window.location.href = "https://www.google.com"; // Severed and sent to the fog
+          window.location.href = "https://www.google.com";
       }
   })();
 </script>
