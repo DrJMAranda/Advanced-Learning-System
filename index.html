@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script>
+  /* Morsa-Approved Lock-Out */
+  (function() {
+      // SET OR CHANGE YOUR CODE HERE
+      var mySecretBolt = "AR662"; 
+      
+      var entry = prompt("Welcome to the SEA. This is a private study.\n\nTeachers Keep Out.\n\nPlease enter your access code:");
+
+      if (entry !== mySecretBolt) {
+          alert("Sovereign Territory: Access Denied.");
+          window.location.href = "https://www.google.com"; // Severed and sent to the fog
+      }
+  })();
+</script>
+
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)</title>
