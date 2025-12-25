@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<script>
-  (function() {
-      var masterBolt = "Master"; // Only for the Smart Ape
-      var tempBolt = "AR662";      // Give this to vetted students
-      
-      var entry = prompt("Welcome to the SEA.\nTeachers Keep Out.\n\nPlease enter your access code:");
-
-      if (entry !== masterBolt && entry !== tempBolt) {
-          alert("Sovereign Territory: Access Denied.");
-          window.location.href = "https://www.google.com";
-      }
-  })();
-</script>
-
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)</title>
@@ -25,33 +9,25 @@
         /* CSS Base Limpia */
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
-
-          :root {
-              --color-lighthouse: #f4f4f4; /* Porcelain White (Text/Glow) */
-              --color-stealth: #778899;     /* Light Steel Blue (The Nocturne Slate) */
-              --color-menu: #2f3e46;       /* Deep Charcoal (The Suit) */
-              --color-accent-active: #ffdd88; /* Honey Amber (The Va-Va-Voom) */
-              --bevel-shadow-light: rgba(255, 255, 255, 0.15); 
-              --bevel-shadow-dark: rgba(0, 0, 0, 0.2);
-                }
-
+        :root {
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
+        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #credits { text-align: center; }
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        
         /* BARRA DE ÍCONOS */
         #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
         .icon-button img { height: 60px; width: 100%; object-fit: cover; margin-bottom: 5px; }
         .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-    /* ÁREA DE CONTENIDO Y VIDEO - Nocturne Slate */
-        #content-area { 
-            flex-grow: 1; 
-            background: var(--color-stealth); 
-        }
-        #main-content { 
-            flex-grow: 1; 
-            padding: 20px; 
-            background: var(--color-stealth) !important; 
-            overflow-y: auto; 
-        }
+        /* ÁREA DE CONTENIDO Y VIDEO */
+        #content-area { flex-grow: 1; }
+        #main-flex-container { display: flex; height: 100%; }
         #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
         #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -104,34 +80,23 @@
         <div style="margin-top: 20px; font-size: 0.95em;">
             
             <ul style="list-style: none; padding-left: 10px; line-height: 1.1;">
-                <li><big><big><b>Estudios K-6</b></big></big></li>
+                <li><big><big><b>Estudios Elementales K-6</b></big></big></li>
             </ul>
             
             <div class="collapsible-section">
                 <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Matemática</b></big>
+                    <big><b>Aritmética ~ Beyond the Core</b></big>
                 </span>
                 <div class="collapsible-content">
                     <ul>
-                        <li><b>P1 Existencia</b></li>
-                           <li><a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank" class="module-link">BTC AF<b><u>662</u></b>jm</a></li>
-                           <li><i>U1 Enumeración hasta |Nueve|</i></li>
-                               <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">—U1<b><u>S1 </u></b> Descubriendo a Sunya-Sifr Cero</a></li>
-                               <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four'); return false;">—U1<b><u>S2 </u></b> Uno al Cuatro</a></li>
-                               <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'AR-U1S3: Five to Nine'); return false;">—U1<b><u>S3 </u></b> Cinco al Nueve</a></li>
-                          <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4',   'AR-U2: Ninety-Nine'); return false;">U<b><u>02 </u></b> Enumeración ~ |Noventa y Nueve|</a></li>                        
-                          <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4',   'AR-U3: Decillions'); return false;">U<b><u>03 </u></b> Enumeración ~ |Decillones|</a></li>
+<li><a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank" class="module-link">BTC AF<b><u>662</u></b>jm</a></li>
 
-                      
-                      <li><i>El Entero (Entidad)</i></li>
-                        <li><i>La Operación (Aritmos)</i></li>
-                        <li><i>El Lugar (Situ)</i></li><br>
-                        <li><b>Aritmética</b></li>
-
-
-
-
-
+                        <li><i>U1 Enumeración hasta |Nueve|</i></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">—U1<b><u>S1 </u></b> Descubriendo a Sunya-Sifr Cero</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four'); return false;">—U1<b><u>S2 </u></b> Uno al Cuatro</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'AR-U1S3: Five to Nine'); return false;">—U1<b><u>S3 </u></b> Cinco al Nueve</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4',   'AR-U2: Ninety-Nine'); return false;">U<b><u>02 </u></b> Enumeración ~ |Noventa y Nueve|</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4',   'AR-U3: Decillions'); return false;">U<b><u>03 </u></b> Enumeración ~ |Decillones|</a></li>
                         <li>U04 Principios de Suma</li>
                         <li>U05 Fundamentos de Suma</li>
                         <li>U06 Suma—Elementos y Algorithmos</li>
@@ -224,7 +189,7 @@
 
             <div class="collapsible-section">
                 <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Expressión</b></big>
+                    <big><b>Expressión y Práctica</b></big>
                 </span>
                 <div class="collapsible-content">
                     <ul>
@@ -236,27 +201,19 @@
                         <li>EX02 Artes Marcial</li>
                         
                         <li><b>Música</b></li>
-Aquí tienes el snippet limpio y nivelado. He corregido el "Bogart" de Evan's, eliminado el contenedor roto en Divide y asegurado que el alineamiento visual sea perfecto para que no gastes energía innecesaria.
-
-El Bloque de Música (M01 - M14)
-HTML
-
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Pennie Song');return false;">—Song Penny (M<u>01</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'Music02: Chronos Time');return false;">—Chronos~Time (M<u>02</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4', 'Music03: Decillones');return false;">—Decillones (M<u>03</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4', 'Music04: Evens and Odds');return false;">—Evens and Odds (M<u>04</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4', 'Music05: Learning to Divide');return false;">—Learning to Divide (M<u>05</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Money.mp4', 'Music06: Money Song');return false;">—The Money Song (M<u>06</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4', 'Music07: Parity is Key');return false;">—Parity is Key (M<u>07</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4', 'Music08: Sets');return false;">—Sets (M<u>08</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Lions Count');return false;">—Lions Count (M<u>09</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music10: Grammar');return false;">—Grammar (M<u>10</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music11: Rational Numbers');return false;">—Rational Numbers (M<u>11</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/07%20Small%20Smaller%20Smallest.mp4', 'Music12: Smallest');return false;">—Smallest (M<u>12</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/02%20Evan%27s%20Pairs.mp4', 'Music13: Evans Pairs');return false;">—Evan's Pairs (M<u>13</u>)</a></li>
-<li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Pollito%20Bilingue.mp4', 'Music14: Pollito Bilingue');return false;">—Pollito Bilingue (M<u>14</u>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Minnie\'s Pennie Song'); return false;">—Song Penny (M<b><u>01</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'Music02: Chronos~Time'); return false;">—Chronos~Time (M<b><u>(02</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4', 'Music03: Decillones'); return false;">—Decillones (M<u><b>03</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4', 'Music04: Evens and Odds'); return false;">—Evens and Odds (M<u><b>04</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4', 'Music05: Learning to Divide'); return false;">—Learning to Divide <(Mu><b>05</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Money.mp4', 'Music06: The Money Song'); return false;">—The Money Song (M<b><u>06</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4', 'Music07: Parity is Key'); return false;">—Parity is Key (M<b><u>07</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4', 'Music08: Sets'); return false;">—Sets (M<b><u>08)</u></b></a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Lions Count'); return false;">—Lions Count (M<b><u>09)</u></b></a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music10: Grammar'); return false;">—Grammar (M<b><u>10</u></b>)</a></li>
+                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
                         <li><b>Practicum</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT01: Identify and Match'     );return false;"><u>PR001</u> Identifcación Comparativa     </a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT-ID: Identify and Match'); return false;"><u>PR001</u> Identifcación Comparativa</a></li>
                         <li>PR001 Subitización</li>
                         <li>PR001 Orden Estable</li>
                         <li>PR001 Cardinalidad</li>
@@ -418,33 +375,6 @@ HTML
             moduleDetailPanel.style.display = 'none';
             document.getElementById('landing-status-box').style.display = 'block';
         });
-    </script>
-    <script>
-        /* THE MAGIC WAND: Hijack the launch for an AUTO-YES */
-        // This wraps your original function to force immediate playback
-        const originalLaunch = launchVideo;
-        launchVideo = function(videoSource, moduleTitle) {
-            originalLaunch(videoSource, moduleTitle); // Runs your sacrosanct logic first
-            
-            // Forces the Auto-Approval
-            if (typeof playSelectedModule === "function") {
-                playSelectedModule(); 
-                if (player) player.play(); 
-            }
-            
-            // THE CLOAK: Final visual cover-up of the landing site
-            const landingBox = document.getElementById('landing-status-box');
-            const detailPanel = document.getElementById('module-detail-panel');
-            if (landingBox) landingBox.style.display = 'none';
-            if (detailPanel) detailPanel.style.display = 'none';
-        };
-
-        /* THE COSMETIC LAYER: Professional Overlays */
-        const menu = document.getElementById('left-menu');
-        const wrapper = document.getElementById('content-wrapper') || document.body;
-        
-        if (menu) menu.style.backgroundColor = '#f4f4f4'; // Lighthouse Gray
-        if (wrapper) wrapper.style.backgroundColor = '#2f3e46'; // Charcoal/Slate
     </script>
 </body>
 </html>
