@@ -43,7 +43,12 @@
         
         /* ÁREA DE CONTENIDO Y VIDEO */
         #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
+        #main-content { 
+            flex-grow: 1; 
+            padding: 20px; 
+            background: transparent !important; 
+            overflow-y: auto; 
+            }
         #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
         #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
         #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
