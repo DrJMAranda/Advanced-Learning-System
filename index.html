@@ -10,12 +10,12 @@
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #dce0e5; --color-menu: #333; --color-accent-active: #ffdd88;
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
         body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 300px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
         #credits { text-align: center; }
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         
@@ -23,7 +23,7 @@
         #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
         .icon-button img { height: 60px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.0; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         /* ÁREA DE CONTENIDO Y VIDEO */
         #content-area { flex-grow: 1; }
@@ -50,7 +50,7 @@
         }
         /* Icon (Diamond) for the collapsible header */
         .collapsible-header:before {
-            content: '≡ '; 
+            content: '♦ '; 
             display: inline-block;
             transition: transform 0.3s ease;
             transform: rotate(0deg); 
@@ -70,30 +70,26 @@
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
-
-            <h3>SEA Bienvenido<br></h3>
-            <h4>Desarrollado por ARAGEM<br>
+            <h3>Bienvenido SEA<br>
+            <h4>Elemental (K-6)<br>
+                Desarrollado por ARAGEM<br>
                 jmaf.phd@gmail.com</h4>
         </div>
 
         <div style="margin-top: 20px; font-size: 0.95em;">
             
             <ul style="list-style: none; padding-left: 10px; line-height: 1.1;">
-                <li><big><b>Elemental (K-6)</b></big></li>
+                <li><big><big><b>Pensum Elemental (K-6)</b></big></big></li>
             </ul>
-
-        <div class="collapsible-content">
-           <div class="collapsible-section">
+            
+            <div class="collapsible-section">
                 <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Aritmética</b><big></big>
+                    <big><b>Aritmética ~ BTC</b></big>
                 </span>
-
-
- 
-
-        <div class="collapsible-content">
-                </span>
+                <div class="collapsible-content">
                     <ul>
+<li><a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank" class="module-link">BTC AF<b><u>662</u></b>jm</a></li>
+
                         <li><i>U1 Enumeración hasta |Nueve|</i></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Descubriendo Sunya-Sifr Cero'); return false;">—U1<b><u>S1 </u></b> Descubriendo a Sunya-Sifr Cero</a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four'); return false;">—U1<b><u>S2 </u></b> Uno al Cuatro</a></li>
@@ -135,15 +131,15 @@
                               <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4', 'LX6: Lexis 7'); return false;">LX<b><u>007</u></b></a></li>                           
                            <li>-GF03 - Fonología</li>
                            <li>-GF04 - Fonética</li>
-                           <li>-GF05 - Clases de Palabra</li>
+                           <li>-GF05 - Clases de Palabras</li>
                            <li>-GF05 - Producción Visual, Auditiva, y Tactil</li>
                         
-                        <li><i>-GI - Ideas</i></li>
+                        <li><i>-GI - Conceptos</i></li>
                            <li>-GI05 - Significados</li>
-                           <li>-GI05 - Synonymos</li>
-                           <li>-GI05 - Antonymos</li>
-                           <li>-GI05 - Connotationes</li>
-                           <li>-GI05 - Implicationes</li>
+                           <li>-GI05 - Synónimos</li>
+                           <li>-GI05 - Antónimos</li>
+                           <li>-GI05 - Connotaciones</li>
+                           <li>-GI05 - Implicaciones</li>
                            
                         <li><i>GO - Orden</i></li>
                         <li>GO01 - Nombres</li>
@@ -154,8 +150,8 @@
                         <li>GO06 - Adverbios</li>
                         <li>GO07 - Preposiciones</li>
                         <li>GO08 - Conjunciones</li>
-                        <li>GO09 - Interjeccions</li>
-                        <li>GO10 - Estructura de una Oracion</li>
+                        <li>GO09 - Interjecciones</li>
+                        <li>GO10 - Estructura de una Oración</li>
 
                         <li>CGP - Puntuación</i></li>                        
                         
@@ -165,7 +161,7 @@
                         <li>GA03 - RAE</li>
                         
                         <li><b>Literatura</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop 001'); return false;"><b><u>LTFB</u></b> ~ Aesop 001</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop 001'); return false;"><b><u>LTFB</u></b> ~ Esopo 001</a></li>
                         <li>LTFT</li>
                         <li>LTPR</li>
                         <li>LTCL1</li>
@@ -202,6 +198,7 @@
                         <li>EX03 Artes Escénicas</li>
                         <li>EX02 Artes en Papel</li>
                         <li>EX02 Artes Marcial</li>
+                        
                         <li><b>Música</b></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Minnie\'s Pennie Song'); return false;">—Song Penny (M<b><u>01</u></b>)</a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'Music02: Chronos~Time'); return false;">—Chronos~Time (M<b><u>(02</u></b>)</a></li>
@@ -213,22 +210,17 @@
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4', 'Music08: Sets'); return false;">—Sets (M<b><u>08)</u></b></a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Lions Count'); return false;">—Lions Count (M<b><u>09)</u></b></a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music10: Grammar'); return false;">—Grammar (M<b><u>10</u></b>)</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
-                        <li><b>Practicum</b></li>
+                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
+                        <li><b>Pragma</b></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT-ID: Identify and Match'); return false;"><u>PR001</u> Identifcación Comparativa</a></li>
-                        <li>PR001 Subitización</li>
-                        <li>PR001 Orden Estable</li>
-                        <li>PR001 Cardinalidad</li>
-                        <li>PR001 Ordinalidad</li>
-                        <li>PR001 Movimiento es Magnitud</li>
-                        <li>PR001 Anidación</li>
+                        <li>PR002 Subitización</li>
+                        <li>PR003 Orden Estable</li>
+                        <li>PR004 Cardinalidad</li>
+                        <li>PR005 Ordinalidad</li>
+                        <li>PR006 Movimiento es Magnitud</li>
+                        <li>PR007 Anidación</li>
+                        
                     </ul>
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Pragma</b></big>
-                </span>
-                <div class="collapsible-content">
-                    
                 </div>
             </div>
 
@@ -253,7 +245,7 @@
                 <section id="main-content">
                     <div id="module-view-container">
                         <div id="landing-status-box" class="beveled-frame" style="padding: 25px; margin-top: 50px; text-align: center; background: white;">
-                            <h2>Sistema de Educación Avanzada©</h2>
+                            <h2>Bienvenido al Sistema de Educación Avanzada</h2>
                             <p id="status-message">Selecione un modulo del Pensum Curricular o un ícono.</p>
                         </div>
                         <div id="module-detail-panel" class="beveled-frame" style="display: none; padding: 30px; margin-top: 20px; text-align: center; background: white;">
