@@ -23,7 +23,7 @@
         #scrolling-icon-bar { height: 100px; display: flex; overflow-x: scroll; overflow-y: hidden; background: var(--color-stealth); padding: 5px; flex-shrink: 0; }
         .icon-button { width: 60px; height: 100%; flex-shrink: 0; margin-right: 5px; cursor: pointer; padding: 4px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; }
         .icon-button img { height: 60px; width: 100%; object-fit: cover; margin-bottom: 5px; }
-        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.1; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .icon-title { font-size: 0.75em; color: var(--color-menu); font-weight: bold; text-align: center; line-height: 1.0; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         /* ÁREA DE CONTENIDO Y VIDEO */
         #content-area { flex-grow: 1; }
@@ -50,7 +50,7 @@
         }
         /* Icon (Diamond) for the collapsible header */
         .collapsible-header:before {
-            content: '♦ '; 
+            content: '≡ '; 
             display: inline-block;
             transition: transform 0.3s ease;
             transform: rotate(0deg); 
@@ -187,7 +187,7 @@
 
             <div class="collapsible-section">
                 <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>Expressión y Práctica</b></big>
+                    <big><b>Expressión</b></big>
                 </span>
                 <div class="collapsible-content">
                     <ul>
@@ -197,7 +197,6 @@
                         <li>EX03 Artes Escénicas</li>
                         <li>EX02 Artes en Papel</li>
                         <li>EX02 Artes Marcial</li>
-                        
                         <li><b>Música</b></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Minnie\'s Pennie Song'); return false;">—Song Penny (M<b><u>01</u></b>)</a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'Music02: Chronos~Time'); return false;">—Chronos~Time (M<b><u>(02</u></b>)</a></li>
@@ -209,7 +208,7 @@
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4', 'Music08: Sets'); return false;">—Sets (M<b><u>08)</u></b></a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Lions Count'); return false;">—Lions Count (M<b><u>09)</u></b></a></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'Music10: Grammar'); return false;">—Grammar (M<b><u>10</u></b>)</a></li>
-                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
+                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4', 'Music10: Rational Numbers'); return false;">—Rational Numbers (M<b><u>10</u></b>)</a></li>
                         <li><b>Practicum</b></li>
                         <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'PRACT-ID: Identify and Match'); return false;"><u>PR001</u> Identifcación Comparativa</a></li>
                         <li>PR001 Subitización</li>
@@ -218,8 +217,13 @@
                         <li>PR001 Ordinalidad</li>
                         <li>PR001 Movimiento es Magnitud</li>
                         <li>PR001 Anidación</li>
-                        
                     </ul>
+            <div class="collapsible-section">
+                <span class="collapsible-header" onclick="toggleCollapse(this)">
+                    <big><b>Pragma</b></big>
+                </span>
+                <div class="collapsible-content">
+                    
                 </div>
             </div>
 
