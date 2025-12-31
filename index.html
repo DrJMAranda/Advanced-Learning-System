@@ -2,413 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)</title>
     <style>
-        /* CSS Base Limpia */
-        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
-        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
-        :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
-        }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
+        :root { --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; }
+        body { margin: 0; height: 100vh; display: flex; background: var(--color-lighthouse); overflow: hidden; }
+        
+        /* THE SOVEREIGN (Left Menu) */
         #left-menu { 
-            width: 350px; 
-            min-width: 350px; 
-            max-width: 350px; 
-            flex: none; 
-            background: var(--color-lighthouse); 
-            color: black; 
-            padding: 10px; 
-            overflow-x: hidden; /* X: The Carriage Return Anchor */
-            overflow-y: auto;   /* Y: The Open Fan Depth */
-        
-        #credits { text-align: center; }
-        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
-        
-        /* BARRA DE ÍCONOS */
-        
-        /* ÁREA DE CONTENIDO Y VIDEO */
-        #content-area { flex-grow: 1; }
-        #main-flex-container { display: flex; height: 100%; }
-        #main-content { flex-grow: 1; padding: 20px; background: var(--color-lighthouse); overflow-y: auto; }
-        #video-wrapper-16-9 { width: 100%; padding-bottom: 56.25%; position: relative; background-color: black; margin-top: 20px; }
-        #video-container-aspect-lock { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        #video-player { width: 100%; height: 100%; }
-        #return-to-cards-btn-embedded { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.7); color: white; border: none; padding: 5px 10px; font-size: 1.2em; cursor: pointer; line-height: 1; border-radius: 3px; }
-        #module-detail-panel { padding: 30px; margin-top: 10px; text-align: center; background: white; max-width: 600px; margin-left: auto; margin-right: auto; }
-        #module-view-container { text-align: center; }
+            width: 350px; min-width: 350px; flex: none; 
+            background: var(--color-lighthouse); padding: 15px; overflow-y: auto;
+            border-right: 2px solid #ccc; box-shadow: inset -2px 0 5px rgba(0,0,0,0.1);
+        }
 
-        /* --- COLLAPSIBLE CSS IMPLEMENTADO --- */
-        .collapsible-section { margin-bottom: 5px; }
-        .collapsible-content {
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            max-height: 0; /* Starts collapsed */
-            padding-left: 0; 
-        }
-        .collapsible-header {
-            cursor: pointer;
-            display: block;
-        }
-        /* Icon (Diamond) for the collapsible header */
-        .collapsible-header:before {
-            content: '≡ ';
-            display: inline-block;
-            transition: transform 0.3s ease;
-            transform: rotate(0deg); 
-            color: black;
-        }
-        .collapsible-header.open:before {
-            transform: rotate(90deg); /* Rotates icon when open */
-        }
-        /* Module link styling */
-        .module-link { display: block; text-decoration: none; color: black; padding-left: 5px; }
-        /* Ensure list items inside content are reset */
-        .collapsible-content ul { list-style: none; padding-left: 0; margin-top: 0; margin-bottom: 0; }
-        /* --- FIN COLLAPSIBLE CSS IMPLEMENTADO --- */
+        /* THE ESTATE (VMC 5.0 Screen) */
+        #content-area { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; }
+        #video-player { width: 100%; height: 100%; object-fit: contain; }
+
+        /* PENSUM STYLING */
+        .collapsible-header { cursor: pointer; font-weight: bold; display: block; margin-top: 10px; }
+        .collapsible-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; }
+        .module-link { display: block; text-decoration: none; color: blue; padding: 2px 0; }
     </style>
 </head>
 <body>
-    <nav id="left-menu" class="beveled-frame">
-        <div id="credits">
+    <nav id="left-menu">
+        <div style="text-align:center; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
             <h3>Bienvenido SEA</h3>
-            <h4><big>Pensum K-6</big><br>
-                <li><a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank" class="module-link">BTC AF<b><u>662</u></b>jm</a></li>
-                Desarrollado por ARAGEM<br>
-                Bajo Construcción<br>
-                jmaf.phd@gmail.com</h4>
-        </div>        
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>(K~1) Aritmética</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li><b>U1 |Nueve|</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4', 'AR-U1S1: Sunya-Sifr Cero'); return false;">—U1<b><u>S1</u></b> Sunya-Sifr Cero</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4', 'AR-U1S2: One to Four');     return false;">—U1<b><u>S2</u></b> Uno al Cuatro</a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4', 'AR-U1S3: Five to Nine');    return false;">—U1<b><u>S3</u></b> Cinco al Nueve</a></li>
-                        <li><b>Principios</b>            </li>
-                        <li>—PR01 Subitización           </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4', 'PR01a: Perceptual');             return false;">—PR<b><u>01a</u></b> Perceptual          </a></li>                        
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'PR01a: Conceptual');                  return false;">—PR<b><u>01b</u></b> Conceptual          </a></li>
-                        <li>—PR02 Orden                  </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Springtime%20Kyo.mp4', 'PR02: Estable');                               return false;">—PR<b><u>02</u></b> Estable              </a></li>
-                        <li>—PR03 Comparacion           </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Evans%20Odds.mp4', 'PR03a: Parity');                                   return false;">—PR<b><u>03a</u></b> Parity               </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4', 'PR03b: Pares y Nones');                       return false;">—PR<u><b>03b</u></b> Pares y Nones        </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4', 'PR03c: Paridad');                                         return false;">—PR<b><u>03c</u></b> Paridad              </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Cardenality.mp4', 'PR03b: Cardinalidad');                              return false;">—PR<b><u>03b</u></b> Cardinalidad         </a></li>
-                        <li>—PR03b Menor                </li>
-                        <li>—PR03c Igual                </li>
-                        <li>—PR03d Mayor                </li>
-                        <li>—PR04 Ordinalidad            </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Ordinales%20-%20Rin.mp4', 'PR04a: Serial');                            return false;">—PRa<b><u>04</u></b> Serial              </a></li>
-                        <li>—PR04b Paralela              </li>
-                        <li>—PR05 Magnitud               </li>
-                        <li>—PR05a Dimensional (x,y,z,t) </li>
-                        <li>—PR05b Escalar               </li>
-                        <li>—PR06 Apareado 1:1           </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/One%20for%20One%20Chibi.mp4', 'PR06: Correspondencia');                return false;">—PR<b><u>06</u></b> Correspondencia       </a></li>
-                        <li>—PR07 Inclusión              </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Staging/Inclusion.mp4', 'PR07a: Jerárquica');                                  return false;">—PR<b><u>07a</u></b> Jerárquica           </a></li>
-                        <li>—PR07b Partitiva             </li>
-                        <li>—PR08 Conservación           </li>
-                        <li>—PR09 Unitización            </li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4',   'AR-U2: Ninety-Nine');       return false;">U<b><u>02</u></b> |Noventa y Nueve|        </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4',   'AR-U3a: Decillions');       return false;">U<b><u>03a</u></b> |Decillones|            </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4',                          'AR-U3b: Decillones');       return false;">—U<u><b>03b</u></b> Decillones             </a></li>
-                        <li><b>U04 Principios de Suma</b></li>
-                        <li><b>U05 Fundamentos de Suma</b></li>
-                        <li><b>U06 Suma—Elementos y Algorithmos</b></li>
-                        <li><b>U07 Paridad, Comparación, Conjuntos y Compuestos</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4',                                  'U07a: Conjuntos');        return false;">—U<b><u>07a</u></b> Conjuntos               </a></li>
-                        <li><b>U08 Sumas, Signos, y Restas</b></li>
-                        <li><b>U09 Multiplicación</b></li>
-                        <li><b>U10 División, Partición, y Cuotición</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4',                 'U10a: División');         return false;">—U<u><b>10a</u></b> División             </a></li>
-                        <li><b>U11 Fracciones</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4',           'U11a: Números Racionales');         return false;">—U<b><u>11a</u></b> Números Racionales   </a></li>
-                        <li><b>U12 Tiempo</b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4', 'U12a: Chronos~Time');                                    return false;">—U<b><u>U12a</u></b> Chronos~Time         </a></li>
-                        <li><b>U13 Formas y Otras Cosas</b></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>(2~3) Algebra I</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li>—AL01-03 Conjuntos                        </li>
-                        <li>—AL04-Evaluando Sumas                     </li>
-                        <li>—AL05-Evaluando Restas                    </li>
-                        <li>—AL06-Evaluando Multiplicaciones          </li>
-                        <li>—AL07-Evaluando Divisiones                </li>
-                        <li>—AL08-Operaciones Multiples               </li>
-                        <li>—AL09-Usando Factores                     </li>
-                        <li>—AL10-Factor Común                        </li>
-                        <li>—AL11-Multiples y LCM's                   </li>
-                        <li>—AL12-Expresiones Abiertas                </li>
-                        <li>—AL13-Evaluando Expresiones Numéricas     </li>
-                        <li>—AL14-Suma: Comutacion y Associación      </li>
-                        <li>—AL15-Multiplicacion (C, A y ley del Uno) </li>
-                        <li>—AL16-Ley Distributiva y Simplificación   </li>
-                        <li>—AL17-Simplificando Expresiones Abiertas  </li>
-                        <li>—AL18-Declaraciones y Oraciones Abiertas  </li>
-                        <li>—AL19-Resolviendo Ecuaciones              </li>
-                        <li>—AL20-Soluciones con Numeros Naturales    </li>
-                        <li>—AL21-Cotejando Soluciones                </li>
-                        <li>—-Continua ...AL64               </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-
-                    <big><b>(K~6) Gramática</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4', 'G00a: Grammática');                                          return false;">—G<b><u>00a</u></b> Grammática           </a></li>
-                        <li>—GR01-El Sujeto                                    </li>
-                        <li>—GR02-El Predicado                                 </li>
-                        <li>—GR02-La Oración Sencilla                          </li>
-                        <li>—GR03-Los Modificadores                            </li>
-                        <li>—GR04-Mejorando las Oraciones                      </li>
-                        <li>—GR05-Entendiendo la Oración                       </li>
-                        <li>—GR06-Verbos                                       </li>
-                        <li>—GR07-Concordancia entre Sujeto y Verbo            </li>
-                        <li>—GR08-Mejorando las Oraciones                      </li>
-                        <li>—GR09-Usando el Modificador Correcto               </li>
-                        <li>—GR10-El Pronombre                                 </li>
-                        <li>—GR11-Las Letras Meayúsculas                       </li>
-                        <li>—GR12-La Coma                                      </li>
-                        <li>—GR13-El Apostrofe                                 </li>
-                        <li>—GR13-Las Comillas                                 </li>
-
-                        <li>—-Continua ...GR103                               </li>
-
-  
-                        
-                        <li><i>GF - Forma</i></li>
-                           <li>-GF01 - Morfología</li>
-                           <li>-GF02 - Lexis</li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4', 'LX1: Lexis 1'); return false;">LX<b><u>001</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4', 'LX2: Lexis 2'); return false;">LX<b><u>002</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4', 'LX3: Lexis 3'); return false;">LX<b><u>003</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4', 'LX4: Lexis 4'); return false;">LX<b><u>004</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4', 'LX5: Lexis 5'); return false;">LX<b><u>005</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4', 'LX6: Lexis 6'); return false;">LX<b><u>006</u></b></a></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4', 'LX6: Lexis 7'); return false;">LX<b><u>007</u></b></a></li>                           
-                              <li>-GF03 - Fonología</li>
-                              <li>-GF04 - Fonética</li>
-                              <li>-GF05 - Clases de Palabras</li>
-                              <li>-GF05 - Producción</li>
-                              <li><i>-GI - Concepto</i></li>
-                              <li>-GI05 - Significado</li>
-                              <li>-GI05 - Synónimo</li>
-                              <li>-GI05 - Antónimo</li>
-                              <li>-GI05 - Connotacion</li>
-                              <li>-GI05 - Implicacion</li>
-                              <li><i>OR - Orden</i></li>
-                              <li>-ORO1 - Nombre</li>
-                              <li>-OR02 - Pronombre</li>
-                              <li>-ORO3 - Artículo</li>
-                              <li>-ORO4 - Adjetivo</li>
-                              <li>-ORO5 - Verbo</li>
-                              <li>-OR06 - Adverbio</li>
-                              <li>-OR07 - Preposicion</li>
-                              <li>-ORO8 - Conjuncion</li>
-                              <li>-OR09 - Interjeccion</li>
-                              <li>-OR10 - Oración</li>
-                              <li>CG - Puntuación</i></li>                        
-                              <li>GA - Acuerdos</li>
-                              <li>-GA01 - MLA</li>
-                              <li>-GA02 - APA</li>
-                              <li>-GA03 - RAE</li>
-                              <li><b>Literatura</b></li>
-                              <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4', 'AES001: Aesop 001'); return false;"><b><u>LTFB</u></b> ~ Esopo 001</a></li>
-                              <li>-LTFT</li>
-                              <li>-LTPR</li>
-                              <li>-LTCL1</li>
-                              <li>-LTCL2</li>
-                    </ul>
-                </div>
-            </div>
-       
-                    </ul>
-                </div>
-            </div>                                       
-
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>(K~6) Ciencia</b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li>EM01 Astronomía       </li>
-                        <li>EM02 Biología         </li>
-                        <li>EM03 Física           </li>
-                        <li>EM04 Química          </li>
-                        <li>EM05 Horticultura     </li>
-                        <li>EM05 Metereología     </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="collapsible-section">
-                <span class="collapsible-header" onclick="toggleCollapse(this)">
-                    <big><b>(K~6) Expressión        </b></big>
-                </span>
-                <div class="collapsible-content">
-                    <ul>
-                        <li>EX04 Rhetorica        </li>
-                        <li>EX04 Artes Visuales   </li>
-                        <li>EX02 Arte Applicadas  </li>
-                        <li>EX03 Artes Escénicas  </li>
-                        <li>EX02 Artes en Papel   </li>
-                        <li>EX02 Artes Marciales  </li>
-                        
-                        <li><b>Música             </b></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4', 'Music01: Minnie\'s Pennie Song');                  return false;">—M<b><u>01</u></b> Song Penny           </a></li>
-
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4', 'Music09: Leones Cuentan');            return false;">—M<b><u>09</u></b> Leones Cuentan       </a></li>
-                        <li><a href="#" class="module-link" onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4', 'Music12: Identifcación');    return false;">—M<b><u>12</u></b> Identifcación        </a></li>
-
-                        
-                    </ul>
-                </div>
-            </div>
-
+            <h4 onclick="launchVideo('https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4')" style="cursor:pointer; color:darkblue; text-decoration:underline;">
+                PENSUM K-6 (PLAY BTC)
+            </h4>
         </div>
-        <div id="content-area">
-            <div id="main-flex-container">
-                <section id="main-content">
-                    <div id="module-view-container">
 
-                        <button id="return-to-cards-btn-embedded" onclick="closeVideo()">&larr;</button>
-                        <div id="video-container-aspect-lock">
-                           <video id="video-player" controls controlsList="nodownload"></video>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
+        </nav>
+
+    <div id="content-area">
+        <video id="video-player" controls></video>
     </div>
-    
+
     <script>
-        // --- COLLAPSIBLE JS IMPLEMENTADO (EL LÁZARO) --- 
-        function toggleCollapse(headerElement) {
-            const content = headerElement.nextElementSibling;
-            if (content && content.classList.contains('collapsible-content')) {
-                if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                    content.style.maxHeight = null;
-                    headerElement.classList.remove('open'); 
-                } else {
-                    // Set max-height to scrollHeight to enable smooth transition
-                    content.style.maxHeight = content.scrollHeight + "px"; 
-                    headerElement.classList.add('open');    
-                }
-            }
+        function toggleCollapse(header) {
+            const content = header.nextElementSibling;
+            content.style.maxHeight = (content.style.maxHeight && content.style.maxHeight !== '0px') ? '0px' : content.scrollHeight + "px";
         }
-        // --- FIN COLLAPSIBLE JS IMPLEMENTADO --- 
-
-        // --- FUNCIONES DE VIDEO (EXISTENTES) ---
-        const player = document.getElementById('video-player');
-        const videoWrapper = document.getElementById('video-wrapper-16-9');
-        const embeddedReturnBtn = document.getElementById('return-to-cards-btn-embedded');
-        const moduleViewContainer = document.getElementById('module-view-container');
-        const statusMessage = document.getElementById('status-message');
-        const moduleDetailPanel = document.getElementById('module-detail-panel');
-        const detailCode = document.getElementById('detail-code');
-        const detailTitle = document.getElementById('detail-title');
-        const detailControlBtn = document.getElementById('detail-control-btn');    
-        let currentModuleTitle = '';
-        let nextVideoSource = '';
-        
-        function toggleVideoPlayback() {
-            if (!nextVideoSource) {
-                alert("Error: No module loaded.");
-                showModules();
-                return;
-            }
-            if (videoWrapper.style.display !== 'block') {
-                playSelectedModule();
-                player.play();  
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else if (player.paused) {
-                player.play();
-                detailControlBtn.textContent = '❚❚ Pause Module';
-                detailControlBtn.style.backgroundColor = 'var(--color-accent-active)';
-                detailControlBtn.style.color = 'var(--color-menu)';
-            } else {
-                player.pause();
-                detailControlBtn.textContent = '▶ Resume Module';
-                detailControlBtn.style.backgroundColor = 'white';
-                detailControlBtn.style.color = 'black';
-            }
+        function launchVideo(src) {
+            const v = document.getElementById('video-player');
+            v.src = src;
+            v.play();
         }
-        
-        function playSelectedModule() {
-            moduleViewContainer.style.display = 'none';
-            moduleDetailPanel.style.display = 'none';    
-            videoWrapper.style.display = 'block';
-            embeddedReturnBtn.style.display = 'block';    
-            player.src = nextVideoSource;
-            player.load();    
-        }
-        
-        function showModules() {
-            moduleViewContainer.style.display = 'block';    
-            document.getElementById('landing-status-box').style.display = 'block';
-            moduleDetailPanel.style.display = 'none';
-            videoWrapper.style.display = 'none';
-            embeddedReturnBtn.style.display = 'none';    
-            player.pause();
-            player.removeAttribute('src');    
-            player.load();
-            currentModuleTitle = '';
-            nextVideoSource = '';
-            statusMessage.textContent = 'Selecione un nuevo módulo para continuar.';    
-            detailControlBtn.textContent = '▶ Inicie el Módulo';
-            detailControlBtn.style.backgroundColor = 'white';
-            detailControlBtn.style.color = 'black';
-        }
-
-        function launchVideo(videoSource, moduleTitle) {
-            currentModuleTitle = moduleTitle;    
-            nextVideoSource = videoSource;
-            const parts = moduleTitle.split(':');
-            const code = parts[0].trim();
-            const title = parts.length > 1 ? parts.slice(1).join(':').trim() : moduleTitle;
-            detailCode.textContent = `Module Code: ${code}`;
-            detailTitle.textContent = title;
-            document.getElementById('landing-status-box').style.display = 'none';
-            moduleDetailPanel.style.display = 'block';
-            moduleViewContainer.style.display = 'block';
-        }
-
-        function closeVideo() { showModules(); }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (player) {
-                player.addEventListener('ended', () => {
-                    alert(`Module "${currentModuleTitle}" has finished.`);
-                    showModules();
-                });
-            }
-            statusMessage.textContent = 'Selecione un módulo para continuar.';
-            moduleDetailPanel.style.display = 'none';
-            document.getElementById('landing-status-box').style.display = 'block';
-        });
     </script>
 </body>
 </html>
