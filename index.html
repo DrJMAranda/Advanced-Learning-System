@@ -15,7 +15,17 @@
         }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
         body { margin: 0; font-family: serif; height: 100vh; display: flex; background: var(--color-lighthouse); }
-        #left-menu { width: 350px; background: var(--color-lighthouse); color: black; padding: 10px; flex-shrink: 0; overflow-y: auto; }
+        #left-menu { 
+            width: 350px; 
+            min-width: 350px; 
+            max-width: 350px; 
+            flex: none; 
+            background: var(--color-lighthouse); 
+            color: black; 
+            padding: 10px; 
+            overflow-x: hidden; /* X: The Carriage Return Anchor */
+            overflow-y: auto;   /* Y: The Open Fan Depth */
+        
         #credits { text-align: center; }
         #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
         
