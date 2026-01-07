@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA_SPACE_CONTROL_V2.8</title>
+    <title>SEA_SPACE_CONTROL_V3.2</title>
     <style>
         :root {
             --pewter: #8E9294;
@@ -33,11 +33,19 @@
         }
 
         .outline-sec { grid-column: 1 / 41; border-right: 1px solid #EEE; padding-left: 2px; }
-        .z0 { color: #000; font-weight: bold; grid-column: 41 / 61; }
-        .z1 { color: rgba(0,0,0,0.5); font-style: italic; grid-column: 41 / 61; }
-        .z2 { color: rgba(0,0,0,0.3); grid-column: 41 / 61; letter-spacing: 1px; }
+        .vmc-block { grid-column: 41 / 61; cursor: crosshair; }
+        .z0 { color: #000; font-weight: bold; }
+        .z1 { color: rgba(0,0,0,0.15); transition: color 0.3s; }
+        .z2 { color: rgba(0,0,0,0.05); transition: color 0.4s; }
+
+        .vmc-block:hover .z1 { color: rgba(0,0,0,0.6); }
+        .vmc-block:hover .z2 { color: rgba(0,0,0,0.4); }
+
         .base-line { font-weight: bold; color: #333; border-top: 1.5px solid var(--pewter); grid-column: 1 / 41; }
-        .indent { padding-left: calc(3 * var(--cell-w)); }
+        
+        /* NAV ANCHOR: ROW 45 */
+        .nav-anchor { grid-row: 45; grid-column: 1 / 61; background: var(--pewter); color: #FFF; text-align: center; font-weight: bold; cursor: pointer; border-top: 1px solid #555; }
+        .nav-anchor:hover { background: #666; }
     </style>
 </head>
 <body>
@@ -46,53 +54,16 @@
     <div id="sea-grid">
         
         <div class="outline-sec" style="grid-row: 1/5;">
-            <div>[+] I. VOCAL_FOUNDATION</div>
-            <div class="indent">[+] A. THE_VOW_OF_LIFE</div>
-            <div class="base-line"> > VOW: BREATHE_V01</div>
+            <div>[+] I. ETHICAL_RESONANCE</div><div class="indent">[+] A. THE_VOW_OF_LIFE</div><div class="base-line"> > VOW: BREATHE_V01</div>
         </div>
-        <div class="z0" style="grid-row: 1;">BREATHE</div>
-        <div class="z1" style="grid-row: 2;">/briːð/</div>
-        <div class="z2" style="grid-row: 3;">( - O - )</div>
+        <div class="vmc-block" style="grid-row: 1/4;"><div class="z0">BREATHE</div><div class="z1">/briːð/</div><div class="z2">( - O - )</div></div>
 
-        <div class="outline-sec" style="grid-row: 5/9;">
-            <div>[+] II. BILABIAL_AXIS</div>
-            <div class="indent">[+] B. VOICED_EQUITY</div>
-            <div class="base-line"> > VOW: BALANCE_C01</div>
+        <div class="outline-sec" style="grid-row: 5/45; color: #BBB; font-style: italic;">
+            <div style="padding: 10mm;">RESONANCE MATRIX ACTIVE: STANDING BY FOR INPUT</div>
         </div>
-        <div class="z0" style="grid-row: 5;">BALANCE</div>
-        <div class="z1" style="grid-row: 6;">/ˈbæləns/</div>
-        <div class="z2" style="grid-row: 7;">( [ - ] )</div>
 
-        <div class="outline-sec" style="grid-row: 9/13;">
-            <div>[+] III. ALVEOLAR_AXIS</div>
-            <div class="indent">[+] C. UNVOICED_SIGNAL</div>
-            <div class="base-line"> > VOW: TRUTH_C03</div>
-        </div>
-        <div class="z0" style="grid-row: 9;">TRUTH</div>
-        <div class="z1" style="grid-row: 10;">/truːθ/</div>
-        <div class="z2" style="grid-row: 11;">( | - | )</div>
-
-        <div class="outline-sec" style="grid-row: 13/17;">
-            <div>[+] IV. VELAR_AXIS</div>
-            <div class="indent">[+] D. BACK_RESONANCE</div>
-            <div class="base-line"> > VOW: CREATE_C06</div>
-        </div>
-        <div class="z0" style="grid-row: 13;">GROWTH</div>
-        <div class="z1" style="grid-row: 14;">/ɡroʊθ/</div>
-        <div class="z2" style="grid-row: 15;">( < - > )</div>
-
-        <div class="outline-sec" style="grid-row: 17/21;">
-            <div>[+] V. GLOTTAL_AXIS</div>
-            <div class="indent">[+] E. HEART_SIGNAL</div>
-            <div class="base-line"> > VOW: HONOR_C07</div>
-        </div>
-        <div class="z0" style="grid-row: 17;">HEART</div>
-        <div class="z1" style="grid-row: 18;">/hɑːrt/</div>
-        <div class="z2" style="grid-row: 19;">( { - } )</div>
-
-        <div class="outline-sec" style="grid-row: 21/45;">
-            <div class="indent">...FULL PAGE TRI-COLUMN REIFICATION ACTIVE...</div>
-            <div class="base-line" style="grid-row: 44;"> > STATUS: SPACE_CONTROL_V2.8_COMMITTED</div>
+        <div class="nav-anchor">
+            [ PAGE_01: VOCAL ] ——— [ PAGE_02: CONSONANT ] ——— [ PAGE_03: SOVEREIGN ]
         </div>
 
     </div>
