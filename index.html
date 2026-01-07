@@ -2,35 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA_SPACE_CONTROL_V1.5</title>
+    <title>SEA_SPACE_CONTROL_V1.9</title>
     <style>
-        /* ARAGEM STANDARD: 1 Unit = 2.5mm (0.1") */
         :root {
             --pewter: #8E9294;
             --cell-w: 2.5mm;
             --cell-h: 5.0mm;
-            --frame: 6.35mm; /* .25" Pewter */
-            --gutter: 12.7mm; /* .5" Gutter */
+            --frame: 6.35mm;
         }
 
-        body {
-            background: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        body { background: #050505; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
 
-        /* THE PEWTER FRAME */
         #pewter-housing {
             padding: var(--frame);
             background: var(--pewter);
-            border-radius: 2px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,255,255,0.2);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.98);
         }
 
-        /* THE 60x45 GRID */
         #sea-grid {
             width: calc(60 * var(--cell-w));
             height: calc(45 * var(--cell-h));
@@ -38,42 +26,21 @@
             display: grid;
             grid-template-columns: repeat(60, var(--cell-w));
             grid-template-rows: repeat(45, var(--cell-h));
-            font-family: 'Atkinson Hyperlegible Mono', 'Courier New', monospace;
-            font-size: 14px; /* Calibrated to fit 2.5mm x 5.0mm cell */
+            font-family: 'Atkinson Hyperlegible Mono', monospace;
+            font-size: 13px;
             line-height: var(--cell-h);
             position: relative;
-            overflow: hidden;
         }
 
-        /* SECTOR SEGREGATION */
-        .outline-sector {
-            grid-column: 1 / 41;
-            border-right: 1px solid #EEE;
-            padding-left: 2px;
-            z-index: 10;
-        }
-
-        .vmc-sector {
-            grid-column: 41 / 61;
-            background: #F9F9F9;
-            position: relative;
-        }
-
-        /* Z-LAYER DEPTH (The Atomic Trinity) */
-        .vmc-block {
-            display: contents;
-        }
-
-        .z0-grapheme { color: #000; z-index: 5; grid-column: 41 / 61; }
-        .z1-phoneme  { color: rgba(0,0,0,0.35); z-index: 4; grid-column: 41 / 61; }
-        .z2-viseme   { color: rgba(0,0,0,0.15); z-index: 3; grid-column: 41 / 61; }
-
-        /* HIERARCHY STYLING */
-        .indent-1 { grid-column: 2 / 41; }
-        .indent-2 { grid-column: 4 / 41; }
-        .indent-3 { grid-column: 6 / 41; }
-        .base-line { font-weight: bold; color: #555; background: #FFF; border-top: 1px solid #DDD; }
-
+        .outline-sec { grid-column: 1 / 41; border-right: 1px solid #EEE; padding-left: 2px; }
+        .vmc-sec { grid-column: 41 / 61; background: #FBFBFB; }
+        
+        .z0 { color: #000; font-weight: bold; grid-column: 41 / 61; }
+        .z1 { color: rgba(0,0,0,0.45); font-style: italic; grid-column: 41 / 61; }
+        .z2 { color: rgba(0,0,0,0.25); grid-column: 41 / 61; letter-spacing: 2px; }
+        
+        .base-line { font-weight: bold; color: #444; border-top: 1.5px solid var(--pewter); grid-column: 1 / 41; }
+        .indent { padding-left: calc(4 * var(--cell-w)); }
     </style>
 </head>
 <body>
@@ -81,20 +48,31 @@
 <div id="pewter-housing">
     <div id="sea-grid">
         
-        <div class="outline-sector">
-            <div style="grid-row: 1;">[+] I. COGNITIVE_ATOMS</div>
-            <div style="grid-row: 2;">&nbsp;&nbsp;&nbsp;[+] A. GRID_SOVEREIGNTY</div>
-            <div style="grid-row: 3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[+] 1. COORDINATE_LOCK</div>
-            <div class="base-line" style="grid-row: 4;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> REIFY: 1 UNIT : 1 CMD</div>
+        <div class="outline-sec" style="grid-row: 1/5;">
+            <div>[+] I. ETHICAL_RESONANCE</div>
+            <div class="indent">[+] A. THE_ZEROTH_VOW</div>
+            <div class="indent" style="padding-left: 8mm;">[+] 1. ALPHA_VITALITY</div>
+            <div class="base-line"> > VOW: LIFE_PROTECTION_V01</div>
+        </div>
+        <div class="z0" style="grid-row: 1;">BREATHE</div>
+        <div class="z1" style="grid-row: 2;">/briːð/</div>
+        <div class="z2" style="grid-row: 3;">( - O - )</div>
+
+        <div class="outline-sec" style="grid-row: 5/9;">
+            <div>[+] II. COGNITIVE_SHIELD</div>
+            <div class="indent">[+] B. THE_SHANKS_DECREE</div>
+            <div class="indent" style="padding-left: 8mm;">[+] 1. EPSILON_EQUITY</div>
+            <div class="base-line"> > VOW: TRUTH_REIFIED_V02</div>
+        </div>
+        <div class="z0" style="grid-row: 5;">SHIELD</div>
+        <div class="z1" style="grid-row: 6;">/ʃiːld/</div>
+        <div class="z2" style="grid-row: 7;">( = - = )</div>
+
+        <div class="outline-sec" style="grid-row: 9/45; color: #CCC; font-style: italic;">
+            <div class="indent">...Logic Baking: Column_Sweep_Active...</div>
         </div>
 
-        <div class="vmc-sector">
-            <div class="z0-grapheme" style="grid-row: 1;">SYMMETRY</div>
-            <div class="z1-phoneme"  style="grid-row: 2;">sɪm-ɪ-tri</div>
-            <div class="z2-viseme"   style="grid-row: 3;">///--O--///</div>
-            <div style="grid-row: 4; background: #FFF;"></div> </div>
-
-        </div>
+    </div>
 </div>
 
 </body>
