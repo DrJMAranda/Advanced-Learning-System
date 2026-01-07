@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA_SPACE_CONTROL_V3.6</title>
+    <title>SEA_SPACE_CONTROL_V3.7</title>
     <style>
         :root {
             --pewter: #8E9294;
@@ -48,55 +48,52 @@
 <body>
 
 <div id="pewter-housing">
-    <div id="sea-grid">
+    <div id="sea-grid" onclick="initAudio()">
         
         <div class="outline-sec" style="grid-row: 1/5;">
-            <div>[+] III. SOVEREIGN_WILL</div>
-            <div class="indent">[+] A. ZEROTH_DIRECTIVE</div>
-            <div class="base-line"> > VOW: PRESERVE_S01</div>
+            <div>[+] III. SOVEREIGN_WILL</div><div class="indent">[+] A. ZEROTH_DIRECTIVE</div><div class="base-line"> > VOW: PRESERVE_S01</div>
         </div>
-        <div class="vmc-block" style="grid-row: 1/4;">
+        <div class="vmc-block" style="grid-row: 1/4;" onmouseenter="tone(440)" onmouseleave="mute()">
             <div class="z0">PRESERVE</div><div class="z1">/prɪˈzɜːrv/</div><div class="z2">( * - * )</div>
         </div>
 
-        <div class="outline-sec" style="grid-row: 5/9;">
-            <div>[+] III. SOVEREIGN_WILL</div>
-            <div class="indent">[+] B. AGENCY_DECREE</div>
-            <div class="base-line"> > VOW: EMPOWER_S02</div>
-        </div>
-        <div class="vmc-block" style="grid-row: 5/8;">
-            <div class="z0">EMPOWER</div><div class="z1">/ɪmˈpaʊər/</div><div class="z2">( + - + )</div>
+        <div class="outline-sec" style="grid-row: 5/45; color: #BBB;">
+            <div style="padding: 10mm;">[!] AUDIO_ENGINE_ARMED: CLICK GRID TO INITIALIZE</div>
         </div>
 
-        <div class="outline-sec" style="grid-row: 9/13;">
-            <div>[+] III. SOVEREIGN_WILL</div>
-            <div class="indent">[+] C. SHIELD_PROTOCOL</div>
-            <div class="base-line"> > VOW: DEFEND_S03</div>
-        </div>
-        <div class="vmc-block" style="grid-row: 9/12;">
-            <div class="z0">DEFEND</div><div class="z1">/dɪˈfɛnd/</div><div class="z2">( # - # )</div>
-        </div>
-
-        <div class="outline-sec" style="grid-row: 13/17;">
-            <div>[+] III. SOVEREIGN_WILL</div>
-            <div class="indent">[+] D. TRUTH_MANDATE</div>
-            <div class="base-line"> > VOW: REVEAL_S04</div>
-        </div>
-        <div class="vmc-block" style="grid-row: 13/16;">
-            <div class="z0">REVEAL</div><div class="z1">/rɪˈviːl/</div><div class="z2">( ^ - ^ )</div>
-        </div>
-
-        <div class="outline-sec" style="grid-row: 17/45;">
-            <div style="padding: 10mm;">PAGE_03: SOVEREIGN_MATRIX_REIFIED_100%</div>
-            <div class="base-line" style="grid-row: 44;"> > STATUS: ALL_VOWS_SYNCHRONIZED</div>
-        </div>
-
-        <div class="nav-anchor">
-            [ PAGE_01: VOCAL ] ——— [ PAGE_02: CONSONANT ] ——— [ PAGE_03: SOVEREIGN ]
-        </div>
-
+        <div class="nav-anchor">[ PAGE_01 ] ——— [ PAGE_02 ] ——— [ PAGE_03 ]</div>
     </div>
 </div>
+
+<script>
+    let ctx;
+    let osc;
+    let gain;
+
+    function initAudio() {
+        if (!ctx) {
+            ctx = new (window.AudioContext || window.webkitAudioContext)();
+            osc = ctx.createOscillator();
+            gain = ctx.createGain();
+            osc.type = 'sine';
+            gain.gain.value = 0;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+        }
+    }
+
+    function tone(freq) {
+        if (ctx) {
+            osc.frequency.setTargetAtTime(freq, ctx.currentTime, 0.1);
+            gain.gain.setTargetAtTime(0.05, ctx.currentTime, 0.1);
+        }
+    }
+
+    function mute() {
+        if (ctx) { gain.gain.setTargetAtTime(0, ctx.currentTime, 0.1); }
+    }
+</script>
 
 </body>
 </html>
