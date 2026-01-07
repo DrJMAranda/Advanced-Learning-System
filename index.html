@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA_SPACE_CONTROL_V1.9</title>
+    <title>SEA_SPACE_CONTROL_V2.0</title>
     <style>
         :root {
             --pewter: #8E9294;
@@ -11,12 +11,12 @@
             --frame: 6.35mm;
         }
 
-        body { background: #050505; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
 
         #pewter-housing {
             padding: var(--frame);
             background: var(--pewter);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.98);
+            box-shadow: 0 60px 120px rgba(0,0,0,1);
         }
 
         #sea-grid {
@@ -27,20 +27,17 @@
             grid-template-columns: repeat(60, var(--cell-w));
             grid-template-rows: repeat(45, var(--cell-h));
             font-family: 'Atkinson Hyperlegible Mono', monospace;
-            font-size: 13px;
+            font-size: 12.5px;
             line-height: var(--cell-h);
             position: relative;
         }
 
-        .outline-sec { grid-column: 1 / 41; border-right: 1px solid #EEE; padding-left: 2px; }
-        .vmc-sec { grid-column: 41 / 61; background: #FBFBFB; }
-        
+        .outline-sec { grid-column: 1 / 41; border-right: 1px solid #EEE; padding-left: 1px; }
         .z0 { color: #000; font-weight: bold; grid-column: 41 / 61; }
-        .z1 { color: rgba(0,0,0,0.45); font-style: italic; grid-column: 41 / 61; }
-        .z2 { color: rgba(0,0,0,0.25); grid-column: 41 / 61; letter-spacing: 2px; }
-        
-        .base-line { font-weight: bold; color: #444; border-top: 1.5px solid var(--pewter); grid-column: 1 / 41; }
-        .indent { padding-left: calc(4 * var(--cell-w)); }
+        .z1 { color: rgba(0,0,0,0.5); font-style: italic; grid-column: 41 / 61; }
+        .z2 { color: rgba(0,0,0,0.3); grid-column: 41 / 61; letter-spacing: 1px; }
+        .base-line { font-weight: bold; color: #333; border-top: 1px solid var(--pewter); grid-column: 1 / 41; }
+        .indent { padding-left: calc(3 * var(--cell-w)); }
     </style>
 </head>
 <body>
@@ -51,8 +48,8 @@
         <div class="outline-sec" style="grid-row: 1/5;">
             <div>[+] I. ETHICAL_RESONANCE</div>
             <div class="indent">[+] A. THE_ZEROTH_VOW</div>
-            <div class="indent" style="padding-left: 8mm;">[+] 1. ALPHA_VITALITY</div>
-            <div class="base-line"> > VOW: LIFE_PROTECTION_V01</div>
+            <div class="indent" style="padding-left: 6mm;">[+] 1. ALPHA_VITALITY</div>
+            <div class="base-line"> > VOW: BREATHE_V01</div>
         </div>
         <div class="z0" style="grid-row: 1;">BREATHE</div>
         <div class="z1" style="grid-row: 2;">/briːð/</div>
@@ -61,15 +58,26 @@
         <div class="outline-sec" style="grid-row: 5/9;">
             <div>[+] II. COGNITIVE_SHIELD</div>
             <div class="indent">[+] B. THE_SHANKS_DECREE</div>
-            <div class="indent" style="padding-left: 8mm;">[+] 1. EPSILON_EQUITY</div>
-            <div class="base-line"> > VOW: TRUTH_REIFIED_V02</div>
+            <div class="indent" style="padding-left: 6mm;">[+] 1. EPSILON_EQUITY</div>
+            <div class="base-line"> > VOW: PROTECT_V02</div>
         </div>
         <div class="z0" style="grid-row: 5;">SHIELD</div>
         <div class="z1" style="grid-row: 6;">/ʃiːld/</div>
         <div class="z2" style="grid-row: 7;">( = - = )</div>
 
-        <div class="outline-sec" style="grid-row: 9/45; color: #CCC; font-style: italic;">
-            <div class="indent">...Logic Baking: Column_Sweep_Active...</div>
+        <div class="outline-sec" style="grid-row: 9/13;">
+            <div>[+] III. SOVEREIGN_WILL</div>
+            <div class="indent">[+] C. THE_GRID_LAW</div>
+            <div class="indent" style="padding-left: 6mm;">[+] 1. IOTA_INTEGRITY</div>
+            <div class="base-line"> > VOW: UPHOLD_V03</div>
+        </div>
+        <div class="z0" style="grid-row: 9;">UNIQUE</div>
+        <div class="z1" style="grid-row: 10;">/juːˈniːk/</div>
+        <div class="z2" style="grid-row: 11;">( | - | )</div>
+
+        <div class="outline-sec" style="grid-row: 13/45; color: #999; font-style: italic;">
+            <div class="indent">...Vertical Saturation: VOWS 04-11 Active...</div>
+            <div class="base-line" style="grid-row: 44;"> > STATUS: COLUMN_01_COMPLETE</div>
         </div>
 
     </div>
