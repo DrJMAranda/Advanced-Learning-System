@@ -2,106 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA_SPACE_CONTROL_V4.0</title>
+    <title>SEA_SPACE_CONTROL_V4.1</title>
     <style>
-        :root {
-            --pewter: #8E9294;
-            --cell-w: 2.5mm;
-            --cell-h: 5.0mm;
-            --frame: 6.35mm;
-        }
-
-        @keyframes breathe {
-            0% { opacity: 0.15; }
-            50% { opacity: 0.6; }
-            100% { opacity: 0.15; }
-        }
-
+        :root { --pewter: #8E9294; --cell-w: 2.5mm; --cell-h: 5.0mm; --frame: 6.35mm; }
+        @keyframes breathe { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.6; } }
         body { background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-
-        #pewter-housing {
-            padding: var(--frame);
-            background: var(--pewter);
-            box-shadow: 0 60px 120px rgba(0,0,0,1);
-        }
-
+        #pewter-housing { padding: var(--frame); background: var(--pewter); box-shadow: 0 60px 120px rgba(0,0,0,1); }
         #sea-grid {
-            width: calc(60 * var(--cell-w));
-            height: calc(45 * var(--cell-h));
-            background: #FFF;
-            display: grid;
-            grid-template-columns: repeat(60, var(--cell-w));
-            grid-template-rows: repeat(45, var(--cell-h));
-            font-family: 'Atkinson Hyperlegible Mono', monospace;
-            font-size: 11px;
-            line-height: var(--cell-h);
-            position: relative;
+            width: calc(60 * var(--cell-w)); height: calc(45 * var(--cell-h));
+            background: #FFF; display: grid; position: relative;
+            grid-template-columns: repeat(60, var(--cell-w)); grid-template-rows: repeat(45, var(--cell-h));
+            font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 11px; line-height: var(--cell-h);
         }
-
         .outline-sec { grid-column: 1 / 41; border-right: 1px solid #EEE; padding-left: 2px; }
         .vmc-block { grid-column: 41 / 61; cursor: crosshair; }
         .z0 { color: #000; font-weight: bold; }
-        .z1 { color: rgba(0,0,0,0.1); font-style: italic; }
+        .z1 { color: rgba(0,0,0,0.1); font-style: italic; transition: color 0.3s; }
         .z2 { color: rgba(0,0,0,0.05); }
-
         .vmc-block:hover .z1 { animation: breathe 0.8s infinite; color: rgba(0,0,0,0.7); }
         .vmc-block:hover .z2 { animation: breathe 1.2s infinite; color: rgba(0,0,0,0.4); }
-
         .base-line { font-weight: bold; color: #333; border-top: 1.5px solid var(--pewter); grid-column: 1 / 41; }
-        
         .nav-anchor { 
-            grid-row: 45; 
-            grid-column: 1 / 61; 
-            background: var(--pewter); 
-            color: #FFF; 
-            display: flex; 
-            justify-content: space-around; 
-            align-items: center;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
+            grid-row: 45; grid-column: 1 / 61; background: var(--pewter); color: #FFF; 
+            display: flex; justify-content: space-around; align-items: center; font-weight: bold; cursor: pointer;
         }
-        .nav-item:hover { background: #666; width: 100%; text-align: center; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .nav-item:hover { background: #666; height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .indent { padding-left: calc(3 * var(--cell-w)); }
     </style>
 </head>
 <body onclick="initAudio()">
-
 <div id="pewter-housing">
-    <div id="sea-grid" id="main-content">
-        <div id="grid-injector" style="display: contents;">
-            <div class="outline-sec" style="grid-row: 1/5;">
-                <div>[+] I. VOCAL_FOUNDATION</div><div class="indent">[+] A. ALPHA_VITALITY</div><div class="base-line"> > VOW: BREATHE_V01</div>
-            </div>
-            <div class="vmc-block" style="grid-row: 1/4;" onmouseenter="tone(440)" onmouseleave="mute()">
-                <div class="z0">BREATHE</div><div class="z1">/briːð/</div><div class="z2">( - O - )</div>
-            </div>
-        </div>
-
+    <div id="sea-grid">
+        <div id="content-mount" style="display: contents;"></div>
         <div class="nav-anchor">
-            <div class="nav-item" onclick="loadPage('VOCAL')">PAGE_01: VOCAL</div>
-            <div class="nav-item" onclick="loadPage('CONSONANT')">PAGE_02: CONSONANT</div>
-            <div class="nav-item" onclick="loadPage('SOVEREIGN')">PAGE_03: SOVEREIGN</div>
+            <div class="nav-item" onclick="reify('VOCAL')">P01: VOCAL</div>
+            <div class="nav-item" onclick="reify('CONSONANT')">P02: CONSONANT</div>
+            <div class="nav-item" onclick="reify('SOVEREIGN')">P03: SOVEREIGN</div>
         </div>
     </div>
 </div>
 
 <script>
     let ctx, osc, gain;
+    const library = {
+        'VOCAL': { label: 'I. VOCAL_CORE', vow: 'BREATHE_V01', z0: 'BREATHE', z1: '/briːð/', z2: '( - O - )', f: 440 },
+        'CONSONANT': { label: 'II. BILABIAL_AXIS', vow: 'BALANCE_C01', z0: 'BALANCE', z1: '/ˈbæləns/', z2: '( [ - ] )', f: 330 },
+        'SOVEREIGN': { label: 'III. SOVEREIGN_WILL', vow: 'PRESERVE_S01', z0: 'PRESERVE', z1: '/prɪˈzɜːrv/', z2: '( * - * )', f: 523 }
+    };
+
     function initAudio() {
         if (ctx) return;
-        ctx = new (window.AudioContext || window.webkitAudioContext)();
-        osc = ctx.createOscillator(); gain = ctx.createGain();
-        osc.type = 'sine'; gain.gain.value = 0;
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start();
+        ctx = new AudioContext(); osc = ctx.createOscillator(); gain = ctx.createGain();
+        osc.type = 'sine'; gain.gain.value = 0; osc.connect(gain); gain.connect(ctx.destination); osc.start();
     }
+    
+    function reify(page) {
+        const data = library[page];
+        document.getElementById('content-mount').innerHTML = `
+            <div class="outline-sec" style="grid-row: 1/5;">
+                <div>[+] ${data.label}</div><div class="indent">[+] ALPHA_RESONANCE</div>
+                <div class="base-line"> > VOW: ${data.vow}</div>
+            </div>
+            <div class="vmc-block" style="grid-row: 1/4;" onmouseenter="tone(${data.f})" onmouseleave="mute()">
+                <div class="z0">${data.z0}</div><div class="z1">${data.z1}</div><div class="z2">${data.z2}</div>
+            </div>
+            <div class="outline-sec" style="grid-row: 5/45; color: #BBB; font-style: italic;">
+                <div style="padding: 10mm;">AXIS_${page}_REIFIED: GRID_LOCK_100%</div>
+            </div>`;
+    }
+
     function tone(f) { if(ctx) { osc.frequency.setTargetAtTime(f, ctx.currentTime, 0.05); gain.gain.setTargetAtTime(0.1, ctx.currentTime, 0.05); } }
     function mute() { if(ctx) gain.gain.setTargetAtTime(0, ctx.currentTime, 0.1); }
-
-    function loadPage(page) {
-        console.log("Reifying " + page + " axis...");
-        // Logic for DOM swapping goes here in V4.1
-    }
+    
+    reify('VOCAL'); // Initial Load
 </script>
 </body>
 </html>
