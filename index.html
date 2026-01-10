@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Sistema de Educación Avanzada (SEA) - Sovereign Architecture</title>
     <style>
+        /* =========================================
+           1. THE SOVEREIGN STYLE (CSS)
+           Fixed Coordinate Space. No Responsive Jitters.
+           ========================================= */
+        
         @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
 
         :root {
@@ -14,26 +19,26 @@
         }
 
         body {
-            background-color: #222;
+            background-color: #222; /* Dark Lab Environment */
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: var(--font-main);
+            font-family: var(--font-main); /* Cognitive Stability */
             overflow: hidden;
         }
 
         #sovereign-terminal {
             position: relative;
-            width: 1200px;
+            width: 1200px; /* The Fixed Stage */
             height: 800px;
             background-color: #f4f4f4; 
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
             border: 2px solid #333;
         }
 
-        /* LEFT WING: The Menu (7.375" equivalent) */
+        /* LEFT COLUMN: The Menu (7.375" equivalent) */
         #menu-pane {
             position: absolute;
             top: 0;
@@ -63,7 +68,7 @@
             display: block;
         }
 
-        /* RIGHT WING: The Content (7.50" equivalent) */
+        /* RIGHT COLUMN: The Content (7.50" equivalent) */
         #content-pane {
             position: absolute;
             top: 0;
@@ -77,23 +82,68 @@
         }
 
         #active-frame {
-            width: 672px;  
-            height: 780px; 
+            width: 672px;  /* 7 inch width emulation */
+            height: 780px; /* Fixed print-ready height */
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             position: relative;
         }
 
-        video { width: 100%; height: 100%; display: none; background: #000; }
+        video {
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: #000;
+        }
 
         /* UI ELEMENTS */
-        .level-1-btn { width: 100%; padding: 15px; background: #eee; border-bottom: 1px solid #ccc; font-weight: bold; cursor: pointer; text-align: left; }
-        .level-2-container { display: none; background-color: #fff; }
-        .level-2-item { padding: 10px 15px 5px 25px; font-size: 0.95em; color: #444; font-weight: bold; }
-        .level-3-link { padding: 8px 15px 8px 40px; font-size: 0.85em; color: #0044cc; cursor: pointer; display: block; text-decoration: none; }
-        
-        #return-btn { position: absolute; top: 20px; left: 370px; z-index: 100; background: rgba(255, 255, 255, 0.9); border: 2px solid black; padding: 8px 20px; font-weight: bold; cursor: pointer; display: none; }
+        .level-1-btn {
+            width: 100%;
+            padding: 15px;
+            background: #eee;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .level-2-container {
+            display: none;
+            background-color: #fff;
+        }
+
+        .level-2-item {
+            padding: 10px 15px 5px 25px;
+            font-size: 0.95em;
+            color: #444;
+            font-weight: bold;
+        }
+
+        .level-3-link {
+            padding: 8px 15px 8px 40px;
+            font-size: 0.85em;
+            color: #0044cc;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+
+        .level-3-link:hover { background: #f0f7ff; }
+
+        #return-btn {
+            position: absolute;
+            top: 20px;
+            left: 370px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid black;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -118,6 +168,9 @@
     </div>
 
     <script>
+        /* =========================================
+           2. THE 85,000-ELEMENT BUCKET (JSON)
+           ========================================= */
         const pensumData = [
             {
                 title: "(K~1) Aritmética",
@@ -129,11 +182,76 @@
                             { title: "U1S2 Uno al Cuatro", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4" },
                             { title: "U1S3 Cinco al Nueve", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4" }
                         ]
+                    },
+                    {
+                        name: "Principios (Subitización & Orden)",
+                        modules: [
+                            { title: "PR01a Perceptual", url: "https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4" },
+                            { title: "PR01b Conceptual (Zebras)", url: "https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4" },
+                            { title: "PR02 Estable (Springtime)", url: "https://storage.googleapis.com/noenbalde/Videos/Springtime%20In%20The%20Farm%20PR02%20Estable.mp4" },
+                            { title: "PR03a Parity (Evans Odds)", url: "https://storage.googleapis.com/noenbalde/Videos/Evans%20Odds%20-%20PR03%20Parity.mp4" },
+                            { title: "PR03b Pares y Nones", url: "https://storage.googleapis.com/noenbalde/Videos/Pares%20y%20Nones%20PR03%20Parity.mp4" },
+                            { title: "PR04a Ordinalidad Serial", url: "https://storage.googleapis.com/noenbalde/Videos/Ordinalidad%20Serial.mp4" },
+                            { title: "PR06 Correspondencia (Chibi)", url: "https://storage.googleapis.com/noenbalde/Videos/PR06%20Correspondencia%20Chibi.mp4" },
+                            { title: "PR07a Inclusion Jerárquica", url: "https://storage.googleapis.com/noenbalde/Videos/PR07%20Inclusi%C3%B3n%20Jer%C3%A1rquica.mp4" }
+                        ]
+                    },
+                    {
+                        name: "Magnitud y Decillones",
+                        modules: [
+                            { title: "UQ2 Noventa y Nueve", url: "https://storage.googleapis.com/noenbalde/Videos/UQ2%20Noventa%20y%20Nueve.mp4" },
+                            { title: "UQ3a Decillones (Intro)", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Intro.mp4" },
+                            { title: "UQ3b Decillones (Advanced)", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Advanced.mp4" }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "(K~6) Comunicación",
+                units: [
+                    {
+                        name: "Gramática",
+                        modules: [
+                            { title: "G00a Gramática General", url: "https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4" }
+                        ]
+                    },
+                    {
+                        name: "Vocabulario (Nombres)",
+                        modules: [
+                            { title: "LN001 Nombres 1", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4" },
+                            { title: "LN002 Nombres 2", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4" },
+                            { title: "LN003 Nombres 3", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4" },
+                            { title: "LN004 Nombres 4", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4" },
+                            { title: "LN005 Nombres 5", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4" },
+                            { title: "LN006 Nombres 6", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4" },
+                            { title: "LN007 Nombres 7", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4" }
+                        ]
+                    },
+                    {
+                        name: "Literatura",
+                        modules: [
+                            { title: "Esopo Q01", url: "https://storage.googleapis.com/noenbalde/Videos/Esopo001.mp4" },
+                            { title: "Mejor Amigo del Hombre", url: "https://storage.googleapis.com/noenbalde/Videos/MejorAmigo.mp4" }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "(K~6) Expresión (Música)",
+                units: [
+                    {
+                        name: "Rítmica y Solfeo",
+                        modules: [
+                            { title: "M01 Song Penny", url: "https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4" }
+                        ]
                     }
                 ]
             }
         ];
 
+        /* =========================================
+           3. THE RENDER ENGINE
+           ========================================= */
         const menuContainer = document.getElementById('dynamic-menu');
         const player = document.getElementById('main-player');
         const returnBtn = document.getElementById('return-btn');
@@ -144,18 +262,22 @@
                 let l1 = document.createElement('div');
                 l1.className = 'level-1-btn';
                 l1.innerText = "≡ " + subject.title;
+
                 let l2Container = document.createElement('div');
                 l2Container.className = 'level-2-container';
+
                 l1.onclick = () => {
                     let isOpen = l2Container.style.display === 'block';
                     document.querySelectorAll('.level-2-container').forEach(el => el.style.display = 'none');
                     l2Container.style.display = isOpen ? 'none' : 'block';
                 };
+
                 subject.units.forEach(unit => {
                     let l2 = document.createElement('div');
                     l2.className = 'level-2-item';
                     l2.innerText = unit.name;
                     l2Container.appendChild(l2);
+
                     unit.modules.forEach(mod => {
                         let l3 = document.createElement('div');
                         l3.className = 'level-3-link';
@@ -164,6 +286,7 @@
                         l2Container.appendChild(l3);
                     });
                 });
+
                 menuContainer.appendChild(l1);
                 menuContainer.appendChild(l2Container);
             });
