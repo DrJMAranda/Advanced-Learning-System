@@ -96,7 +96,23 @@
             display: none;
             background: #000;
         }
-A
+
+        /* UI ELEMENTS */
+        .level-1-btn {
+            width: 100%;
+            padding: 15px;
+            background: #eee;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .level-2-container {
+            display: none;
+            background-color: #fff;
+        }
 
         .level-2-item {
             padding: 10px 15px 5px 25px;
@@ -149,7 +165,11 @@ A
         
         <div id="content-pane">
             <div id="active-frame" style="background-image: url('https://storage.googleapis.com/noenbalde/Staging/VMC%20v6%20PNG.png');">
+                
                 <video id="main-player" controls controlsList="nodownload"></video>
+                
+                <iframe id="doc-viewer" style="width:100%; height:100%; border:none; display:none;"></iframe>
+
             </div>
         </div>
     </div>
@@ -162,7 +182,7 @@ A
             {
                 title: "Matemática",
                 units: [
-                            {
+                    {
                         name: "U1 |Nueve|",
                         modules: [
                             { title: "U1S1 Sunya-Sifr Cero", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4" },
@@ -171,19 +191,22 @@ A
                         ]
                     },
 
-{
-                name: "El Autor y Obra",
-
-    
-                modules: [
-                    { 
-                        title: "Curriculum Vitae", 
-                        url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" 
+                    /* === NEW SECTION: AUTHOR & BOOK === */
+                    {
+                        name: "El Autor y Obra",
+                        modules: [
+                            { 
+                                title: "Curriculum Vitae", 
+                                url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" 
+                            },
+                            { 
+                                title: "Book 1 Arithmetic", 
+                                url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf"
+                            }
+                        ]
                     },
-                    { 
-                        title: "Book 1 Arithmetic", 
-                        url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf",
-                    } ] },
+                    /* ================================== */
+
                     {
                         name: "Principios (Subitización & Orden)",
                         modules: [
@@ -251,10 +274,11 @@ A
         ];
 
         /* =========================================
-           3. THE RENDER ENGINE
+           3. THE RENDER ENGINE (UPGRADED)
            ========================================= */
         const menuContainer = document.getElementById('dynamic-menu');
         const player = document.getElementById('main-player');
+        const docViewer = document.getElementById('doc-viewer'); 
         const returnBtn = document.getElementById('return-btn');
         const frame = document.getElementById('active-frame');
 
@@ -283,7 +307,10 @@ A
                         let l3 = document.createElement('div');
                         l3.className = 'level-3-link';
                         l3.innerText = "— " + mod.title;
+                        
+                        /* CLICK EVENT: Uses new logic */
                         l3.onclick = () => loadModule(mod.url);
+                        
                         l2Container.appendChild(l3);
                     });
                 });
@@ -293,18 +320,36 @@ A
             });
         }
 
+        /* --- THE TRAFFIC COP: Handles PDF vs Video --- */
         function loadModule(url) {
             frame.style.backgroundImage = 'none';
-            player.style.display = 'block';
-            player.src = url;
-            player.play();
             returnBtn.style.display = 'block';
+
+            // Check if it is a PDF
+            if (url.toLowerCase().indexOf('.pdf') > -1) {
+                // BOOK MODE
+                player.pause();
+                player.style.display = 'none'; 
+                docViewer.src = url;
+                docViewer.style.display = 'block'; 
+            } else {
+                // VIDEO MODE
+                docViewer.style.display = 'none'; 
+                docViewer.src = ""; 
+                player.src = url;
+                player.style.display = 'block'; 
+                player.play();
+            }
         }
 
         function resetViewer() {
             player.pause();
-            player.src = ""; 
+            player.src = "";
             player.style.display = 'none';
+            
+            docViewer.src = "";
+            docViewer.style.display = 'none';
+
             frame.style.backgroundImage = "url('https://storage.googleapis.com/noenbalde/Staging/VMC%20v6%20PNG.png')";
             returnBtn.style.display = 'none';
         }
