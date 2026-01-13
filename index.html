@@ -1,74 +1,486 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <title>SEA_BEC_v5.2_SOVEREIGN</title>
+    <title>Sistema de Educación Avanzada (SEA) v4.5</title>
     <style>
-        :root { --pwt: #888; --font: 'Atkinson Hyperlegible Mono', monospace; }
-        body { margin: 0; background: #000; font-family: var(--font); overflow: hidden; color: #fff; }
-
-        /* Z-1: THE SACRED GRID (1:1 MLA) */
-        #grid { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                width: 8.5in; height: 11in; background: #fff; border: 0.25in solid var(--pwt); z-index: 1;
-                padding: 0.5in; box-sizing: border-box; color: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-
-        /* Z-30: VMC WITNESS (NE CORNER) */
-        #vmc { position: absolute; top: 0.25in; right: 0.25in; width: 300px; height: 180px; 
-               background: #111; border: 1px solid var(--pwt); z-index: 30; color: gold; 
-               display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.8em; }
-
-        /* Z-50: ID CREDIT ZONE (NW CORNER) */
-        #credits { position: absolute; top: 0.25in; left: 0.25in; width: 200px; height: 80px;
-                   background: #111; border: 1px solid gold; z-index: 50; color: gold;
-                   display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7em; }
-
-        /* Z-10: THE LOOM (STRIKE ZONE) */
-        #loom { position: absolute; bottom: 0; width: 100%; height: 60px; background: #111; z-index: 10; display: flex; justify-content: center; align-items: center; }
-        #strike { width: 6.5in; background: none; border: none; color: #0f0; font-size: 1.2em; outline: none; text-align: center; }
+        /* =========================================
+           1. THE SOVEREIGN STYLE (CSS)
+           ========================================= */
         
-        #ink-well { line-height: 24pt; font-size: 12pt; white-space: pre-wrap; margin-top: 20px; }
-        .pre-check { color: #888; font-size: 0.7em; text-align: right; }
-    </style></head><body>
+        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
 
-    <div id="credits">
-        <strong>UID: AR662jm</strong><br>AUTHORITY LOCKED<br><span style="font-size:0.8em; color:#0f0;">PRE-CHECK: OK</span>
-    </div>
+        :root {
+            --pewter-metal: #888888; 
+            --stealth-gray: #d3d3d3;
+            --logic-black: #000000;
+            --font-main: 'Atkinson Hyperlegible Mono', monospace;
+        }
 
-    <div id="grid">
-        <div style="border-bottom: 1px solid #eee; font-size: 0.8em; color: #999; margin-bottom: 0.2in; text-align: center;">
-            SEA SOVEREIGN ESTATE | BEC v5.2 | P.001
+        body {
+            background-color: #222; 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-main);
+            overflow: hidden;
+        }
+
+        #sovereign-terminal {
+            position: relative;
+            width: 1200px; 
+            height: 800px;
+            background-color: #f4f4f4; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border: 2px solid #333;
+        }
+
+        #menu-pane {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 800px;
+            border-right: 2px solid var(--stealth-gray);
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        .credits {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+        }
+
+        .aragem-brand {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: gold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            display: block;
+        }
+
+        #content-pane {
+            position: absolute;
+            top: 0;
+            left: 350px;
+            width: 850px;
+            height: 800px;
+            background-color: var(--logic-black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #active-frame {
+            width: 672px;  
+            height: 780px; 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+        }
+
+        /* MEDIA ELEMENTS */
+        video { width: 100%; height: 100%; display: none; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; display: none; }
+
+        /* INTERACTIVE STAGE */
+        #interactive-stage {
+            display: none; width: 100%; height: 100%; background: #fff;
+            padding: 40px; box-sizing: border-box; text-align: center;
+            border: 1px solid #ccc; overflow-y: auto;
+        }
+        .interaction-btn {
+            display: inline-block; margin: 15px; padding: 20px 40px;
+            font-size: 1.5em; cursor: pointer; background: #eee;
+            border: 2px solid #333; border-radius: 8px; font-family: inherit;
+        }
+        .interaction-btn:hover { background: #ddd; }
+
+        /* === THE 4-LEVEL MENU STYLES === */
+        
+        /* Level 1: Subject (Clickable) */
+        .level-1-btn {
+            width: 100%; padding: 15px; background: #333; color: #fff;
+            border-bottom: 1px solid #555; font-weight: bold;
+            cursor: pointer; text-align: left; box-sizing: border-box;
+        }
+        
+        /* Level 2: Unit (Container) */
+        .level-2-container { display: none; background-color: #eee; }
+        .level-2-label {
+            padding: 10px 15px; font-weight: bold; color: #000;
+            border-bottom: 1px solid #ccc; background: #ddd;
+        }
+
+        /* Level 3: Topic (Clickable) */
+        .level-3-btn {
+            padding: 8px 15px 8px 25px; font-size: 0.95em;
+            color: #333; font-weight: bold; cursor: pointer;
+            border-bottom: 1px solid #e0e0e0; background: #f9f9f9;
+        }
+        .level-3-btn:hover { background: #fff; }
+        .level-3-btn::before { content: "▸ "; } 
+
+        /* Level 4: Module/Link (Clickable) */
+        .level-4-container { display: none; background-color: #fff; }
+        .level-4-link {
+            padding: 8px 15px 8px 45px; font-size: 0.85em;
+            color: #0044cc; cursor: pointer; display: block;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .level-4-link:hover { background: #f0f7ff; text-decoration: underline; }
+
+        #return-btn {
+            position: absolute; top: 20px; left: 370px; z-index: 100;
+            background: rgba(255, 255, 255, 0.9); border: 2px solid black;
+            padding: 8px 20px; font-weight: bold; cursor: pointer; display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sovereign-terminal">
+        <div id="menu-pane">
+            <div class="credits">
+                <h3><big>Bienvenido al<br>PENSUM SEA</big><br><small>Educacion Avanzada</small></h3>
+                <span class="aragem-brand"><small>Creada por ARAGEM</small></span>
+            </div>
+            <div id="dynamic-menu"></div>
         </div>
-        <div class="pre-check">POST-CHECK: VERIFIED NOU MENON</div>
-        <div id="ink-well"></div>
+        <button id="return-btn" onclick="resetViewer()">← Regresar</button>
+        <div id="content-pane">
+            <div id="active-frame" style="background-image: url('https://storage.googleapis.com/noenbalde/Staging/VMC%20v6%20PNG.png');">
+                <video id="main-player" controls controlsList="nodownload"></video>
+                <iframe id="doc-viewer"></iframe>
+                <div id="interactive-stage">
+                    <h2 id="stimulus-text" style="font-size: 2em; margin-bottom: 40px; color: #333;"></h2>
+                    <div id="response-area"></div>
+                    <div id="action-feedback" style="margin-top: 40px; font-size: 1.5em; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div id="vmc">
-        <div>VMC WITNESS</div>
-        <div id="metronome" style="font-size: 2em;">•</div>
-        <div style="font-size:0.7em;">LENS: HOODED / CONNECTED</div>
-    </div>
-
-    <div id="loom"><input type="text" id="strike" placeholder="STRIKE ATOMS..." autofocus></div>
 
     <script>
-        const strike = document.getElementById('strike');
-        const ink = document.getElementById('ink-well');
-        const metronome = document.getElementById('metronome');
+        /* =========================================
+           2. THE PENSUM DATA (FULL ARSENAL - v4.5)
+           Hierarchy: Subject -> Unit -> Topic -> Module
+           ========================================= */
+        const pensumData = [
+            {
+                title: "EL AUTOR Y OBRA", 
+                units: [
+                    {
+                        name: "Linaje y Ética", 
+                        topics: [
+                            {
+                                name: "Fundamentos", 
+                                modules: [ 
+                                    { title: "Curriculum Vitae", url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" },
+                                    { title: "Educación Prusiana vs SEA", url: "https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4" },
+                                    { title: "Aritmética BTC", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" },
 
-        // t-Metronome Pulse (Oscilloscope Heartbeat)
-        setInterval(() => { metronome.style.opacity = metronome.style.opacity === '0' ? '1' : '0'; }, 1000);
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "NUEVA UNIDAD (SAMPLE)",
+                        topics: [
+                            {
+                                name: "Tema Nuevo",
+                                modules: [ 
+                                    { title: "Titulo del Video", url: "URL_AQUI.mp4" },
+                                    { title: "Titulo del PDF", url: "URL_AQUI.pdf" },
+                                    { title: "Interactive Q&A", type: "interaction", data: { stimulus: "PREGUNTA_AQUI", options: [{label:"OPCION_1",correct:false}, {label:"OPCION_2",correct:true}], successMsg:"¡Correcto!", failMsg:"Intenta de nuevo." } }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "El Pensum Seminal",
+                        topics: [
+                            {
+                                name: "Matemática Maestro",
+                                modules: [
+                                    { title: "Cien Diez uno", url: "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Castellano/Video%20Cien%20Diez%20Uno.mp4" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "NUEVA CATEGORIA (SAMPLE)", 
+                units: [
+                    {
+                        name: "Unidad Nueva", 
+                        topics: [
+                            {
+                                name: "Tema Nuevo", 
+                                modules: [ 
+                                    { title: "Video Titulo", url: "URL.mp4" },
+                                    { title: "Q&A Sample", type: "interaction", data: { stimulus: "Pregunta?", options: [{label:"No",correct:false}, {label:"Si",correct:true}], successMsg:"Ok", failMsg:"No" } }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Matemática", 
+                units: [
+                    {
+                        name: "U1 |Nueve|", 
+                        topics: [
+                            {
+                                name: "Concepto: El Cero", 
+                                modules: [ 
+                                    { title: "Video: Sunya-Sifr", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4" },
+                                    { title: "Ex: ¿Qué es la nada?", type: "interaction", data: { stimulus: "¿El cero tiene valor?", options: [{label:"Sí",correct:false}, {label:"Posicional",correct:true}], successMsg:"¡Correcto!", failMsg:"Intenta de nuevo." } }
+                                ]
+                            },
+                            {
+                                name: "Concepto: Conteo", 
+                                modules: [ 
+                                    { title: "Video: Uno al Cuatro", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4" },
+                                    { title: "Video: Cinco al Nueve", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4" },
+                                    { title: "★ EJERCICIO: La Suma", type: "interaction", data: { stimulus: "¿Cuánto es 2 + 2?", options: [{label:"3",correct:false}, {label:"4",correct:true}], successMsg:"¡Bien! La lógica se mantiene.", failMsg:"Error. Revisa tus axiomas." } }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Principios",
+                        topics: [
+                            {
+                                name: "Subitización",
+                                modules: [
+                                    { title: "PR01a Perceptual", url: "https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4" },
+                                    { title: "PR01b Conceptual", url: "https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4" }
+                                ]
+                            },
+                            {
+                                name: "Orden y Paridad",
+                                modules: [
+                                    { title: "PR02 Estable", url: "https://storage.googleapis.com/noenbalde/Videos/Springtime%20In%20The%20Farm%20PR02%20Estable.mp4" },
+                                    { title: "PR03a Paridad", url: "https://storage.googleapis.com/noenbalde/Videos/Evans%20Odds%20-%20PR03%20Parity.mp4" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Magnitud",
+                        topics: [
+                            {
+                                name: "Números Grandes",
+                                modules: [
+                                    { title: "UQ2 Noventa y Nueve", url: "https://storage.googleapis.com/noenbalde/Videos/UQ2%20Noventa%20y%20Nueve.mp4" },
+                                    { title: "UQ3 Decillones", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Advanced.mp4" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "El Autor y Obra",
+                        topics: [
+                            {
+                                name: "Documentos",
+                                modules: [
+                                    { title: "Curriculum Vitae", url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" },
+                                    { title: "Book 1 Arithmetic", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Comunicación",
+                units: [
+                    {
+                        name: "Gramática",
+                        topics: [
+                            {
+                                name: "Fundamentos",
+                                modules: [
+                                    { title: "G00a Gramática General", url: "https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Vocabulario",
+                        topics: [
+                            {
+                                name: "Nombres (Sustantivos)",
+                                modules: [
+                                    { title: "LN001 Nombres 1", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4" },
+                                    { title: "LN002 Nombres 2", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4" },
+                                    { title: "LN003 Nombres 3", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4" },
+                                    { title: "LN007 Nombres 7", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4" },
+                                    { title: "★ EJERCICIO: Vocabulario", type: "interaction", data: { stimulus: "Select: HOUSE", options: [{label:"Gato",correct:false}, {label:"Casa",correct:true}], successMsg:"¡Correcto!", failMsg:"Intenta de nuevo." } }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Literatura",
+                        topics: [
+                            {
+                                name: "Cuentos Clásicos",
+                                modules: [
+                                    { title: "Esopo Q01", url: "https://storage.googleapis.com/noenbalde/Videos/Esopo001.mp4" },
+                                    { title: "Mejor Amigo", url: "https://storage.googleapis.com/noenbalde/Videos/MejorAmigo.mp4" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Expresión (Música)",
+                units: [
+                    {
+                        name: "Rítmica y Solfeo",
+                        topics: [
+                            {
+                                name: "Canciones",
+                                modules: [
+                                    { title: "M01 Song Penny", url: "https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
 
-        document.addEventListener('keydown', e => {
-            // Atomic Librarian: Verified Strike-to-Grid
-            if(e.key === 'Enter' && strike.value !== "") {
-                const atom = document.createElement('div');
-                atom.innerText = strike.value;
-                ink.appendChild(atom);
-                strike.value = "";
-                // Log Post-Check Verification
-                console.log("Post-Check: Atom reified at (x,y,t)");
+        /* =========================================
+           3. THE RENDER ENGINE (4-LEVEL FAN)
+           ========================================= */
+        const menuContainer = document.getElementById('dynamic-menu');
+        const player = document.getElementById('main-player');
+        const docViewer = document.getElementById('doc-viewer');
+        const interactiveStage = document.getElementById('interactive-stage');
+        const returnBtn = document.getElementById('return-btn');
+        const frame = document.getElementById('active-frame');
+
+        function renderSystem() {
+            pensumData.forEach(subject => {
+                // LEVEL 1: SUBJECT
+                let l1 = document.createElement('div');
+                l1.className = 'level-1-btn';
+                l1.innerText = "≡ " + subject.title;
+                
+                let l2Container = document.createElement('div');
+                l2Container.className = 'level-2-container';
+
+                l1.onclick = () => {
+                    let isOpen = l2Container.style.display === 'block';
+                    document.querySelectorAll('.level-2-container').forEach(el => el.style.display = 'none');
+                    l2Container.style.display = isOpen ? 'none' : 'block';
+                };
+
+                subject.units.forEach(unit => {
+                    // LEVEL 2: UNIT (Label)
+                    let l2Label = document.createElement('div');
+                    l2Label.className = 'level-2-label';
+                    l2Label.innerText = unit.name;
+                    l2Container.appendChild(l2Label);
+
+                    // Iterate Topics
+                    if(unit.topics) {
+                        unit.topics.forEach(topic => {
+                            // LEVEL 3: TOPIC (Clickable)
+                            let l3Btn = document.createElement('div');
+                            l3Btn.className = 'level-3-btn';
+                            l3Btn.innerText = topic.name;
+
+                            let l4Container = document.createElement('div');
+                            l4Container.className = 'level-4-container';
+
+                            l3Btn.onclick = () => {
+                                let isL4Open = l4Container.style.display === 'block';
+                                l4Container.style.display = isL4Open ? 'none' : 'block';
+                            };
+
+                            // LEVEL 4: MODULES
+                            topic.modules.forEach(mod => {
+                                let l4Link = document.createElement('div');
+                                l4Link.className = 'level-4-link';
+                                l4Link.innerText = "— " + mod.title;
+                                l4Link.onclick = () => loadModule(mod);
+                                l4Container.appendChild(l4Link);
+                            });
+
+                            l2Container.appendChild(l3Btn);
+                            l2Container.appendChild(l4Container);
+                        });
+                    }
+                });
+
+                menuContainer.appendChild(l1);
+                menuContainer.appendChild(l2Container);
+            });
+        }
+
+        function loadModule(item) {
+            frame.style.backgroundImage = 'none';
+            returnBtn.style.display = 'block';
+            player.pause(); player.style.display = 'none';
+            docViewer.src = ""; docViewer.style.display = 'none';
+            interactiveStage.style.display = 'none';
+
+            if (item.type === 'interaction') {
+                interactiveStage.style.display = 'block';
+                renderInteraction(item.data);
+            } 
+            else if (item.url && item.url.toLowerCase().indexOf('.pdf') > -1) {
+                docViewer.src = item.url;
+                docViewer.style.display = 'block';
+            } 
+            else {
+                player.src = item.url;
+                player.style.display = 'block';
+                player.play();
             }
-            // Kamikaze Wipe: Session Incineration
-            if(e.key === 'Escape') {
-                document.body.innerHTML = '<div style="color:white; text-align:center; margin-top:20%;"><h1>SUNYA-SIFR: SESSION INCINERATED</h1><p>2/3 DECIMATION COMPLETE</p></div>';
-            }
-        });
-    </script></body></html>
+        }
+
+        function renderInteraction(data) {
+            const stimulus = document.getElementById('stimulus-text');
+            const responseArea = document.getElementById('response-area');
+            const feedback = document.getElementById('action-feedback');
+            stimulus.innerText = data.stimulus;
+            responseArea.innerHTML = ""; feedback.innerText = "";
+            data.options.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'interaction-btn';
+                btn.innerText = opt.label;
+                btn.onclick = function() {
+                    feedback.style.color = opt.correct ? "green" : "red";
+                    feedback.innerText = opt.correct ? data.successMsg : data.failMsg;
+                };
+                responseArea.appendChild(btn);
+            });
+        }
+
+        function resetViewer() {
+            player.pause(); player.src = ""; player.style.display = 'none';
+            docViewer.src = ""; docViewer.style.display = 'none';
+            interactiveStage.style.display = 'none';
+            frame.style.backgroundImage = "url('https://storage.googleapis.com/noenbalde/Staging/VMC%20v6%20PNG.png')";
+            returnBtn.style.display = 'none';
+        }
+
+        renderSystem();
+    </script>
+</body>
+</html>
