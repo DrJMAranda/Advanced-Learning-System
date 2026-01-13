@@ -2,122 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEA Sovereign Terminal v5.0</title>
+    <title>SEA_v5_MOHON_2056</title>
     <style>
-        :root {
-            --pewter: #888888;
-            --logic-black: #000000;
-            --sacred-white: #ffffff;
-            --font-main: 'Atkinson Hyperlegible Mono', monospace;
-        }
+        :root { --pwt: #888; --font: 'Atkinson Hyperlegible Mono', monospace; }
+        body { margin: 0; background: #111; font-family: var(--font); overflow: hidden; color: #333; }
 
-        body, html { margin: 0; padding: 0; height: 100%; background: #111; overflow: hidden; font-family: var(--font-main); }
+        /* Z-1: SACRED GRID (1:1 MLA) */
+        #grid { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                width: 8.5in; height: 11in; background: #fff; border: 0.25in solid var(--pwt); z-index: 1; }
 
-        /* THE SACRED GRID (Z-1) */
-        #sacred-grid {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 8.5in; height: 11in; /* 1:1 MLA Parity */
-            background: var(--sacred-white);
-            border: 0.25in solid var(--pewter); /* The Pewter Frame */
-            z-index: 1;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
-        }
+        /* Z-30: VMC WITNESS (NE QUADRANT) */
+        #vmc { position: absolute; top: 0.25in; right: 0.25in; width: 300px; height: 180px; 
+               background: #000; border: 1px solid var(--pwt); z-index: 30; color: gold; 
+               display: flex; align-items: center; justify-content: center; font-size: 0.8em; }
 
-        /* VMC WITNESS PORTAL (Z-30) */
-        #vmc-portal {
-            position: absolute;
-            top: 10px; right: 10px;
-            width: 320px; height: 180px;
-            background: var(--logic-black);
-            border: 2px solid var(--pewter);
-            z-index: 30; /* Fixed Northeast Owner */
-        }
+        /* Z-75: PENSUM BRANCH (GHOST HUD) */
+        #branch { position: absolute; top: 0; left: 0; width: 350px; height: 100%; 
+                  background: rgba(255,255,255,0.9); border-right: 2px solid var(--pwt); z-index: 75; 
+                  transition: 0.3s; pointer-events: none; opacity: 0; }
+        #branch.hud { opacity: 0.6; pointer-events: none; }
+        #branch.material { opacity: 1; pointer-events: auto; }
 
-        /* NORTHWEST AUTHORITY COLUMN (Z-70 / Z-15) */
-        #authority-column {
-            position: absolute;
-            top: 0; left: 0;
-            width: 350px; height: 100%;
-            background: var(--sacred-white);
-            border-right: 1px solid var(--pewter);
-            z-index: 70; /* The Shutter */
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-100%); /* Collapsed by default */
-        }
-
-        #authority-column.active { transform: translateX(0); }
-
-        .credits-seal {
-            background: var(--logic-black);
-            color: gold;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 2px solid gold;
-        }
-
-        /* THE LOOM (Z-10) */
-        #the-loom {
-            position: absolute;
-            bottom: 0; width: 100%;
-            height: 120px;
-            background: rgba(0,0,0,0.9);
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #strike-zone {
-            width: 6.5in; /* Aligned to MLA text margins */
-            color: #0f0;
-            font-family: inherit;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 1.2em;
-        }
+        /* Z-10: THE LOOM */
+        #loom { position: absolute; bottom: 0; width: 100%; height: 60px; background: #000; z-index: 10; display: flex; justify-content: center; }
+        #strike { width: 6.5in; background: none; border: none; color: #0f0; font-size: 1.2em; outline: none; text-align: center; }
     </style>
 </head>
 <body>
-
-    <div id="sacred-grid">
-        <iframe id="mla-production" style="width:100%; height:100%; border:none;"></iframe>
+    <div id="grid"></div>
+    <div id="vmc">VMC: AR662jm LOCKED</div>
+    <div id="branch" id="pensum">
+        <div style="background:#000; color:gold; padding:20px;">ARAGEM SOVEREIGN</div>
+        <div style="padding:20px;">[TAB] to Toggle Ghost/Material</div>
     </div>
-
-    <div id="the-loom">
-        <input type="text" id="strike-zone" placeholder="Strike atoms here..." autofocus>
-    </div>
-
-    <div id="vmc-portal">
-        <video id="witness-feed" autoplay muted style="width:100%; height:100%;"></video>
-    </div>
-
-    <div id="authority-column" id="shutter">
-        <div class="credits-seal">
-            <small>UID: 1:1 SOVEREIGN</small><br>
-            <strong>ARAGEM / SEA</strong>
-        </div>
-        <div id="pensum-track" style="padding:20px;">
-            </div>
-    </div>
+    <div id="loom"><input type="text" id="strike" placeholder="STRIKE ATOMS..." autofocus></div>
 
     <script>
-        // THE Z-SHUTTER TRIGGER
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') { // Trigger for the North-West Column
-                e.preventDefault();
-                document.getElementById('authority-column').classList.toggle('active');
-            }
-        });
+        const B = document.getElementById('branch');
+        let state = 0; // 0: Invis, 1: HUD, 2: Material
 
-        // KAMIKAZE WIPE
-        function kamikaze() {
-            document.body.innerHTML = '';
-            document.body.style.backgroundColor = '#000';
-            console.log("Session Incinerated.");
-        }
+        document.addEventListener('keydown', e => {
+            if(e.key === 'Tab') {
+                e.preventDefault();
+                state = (state + 1) % 3;
+                B.className = (state === 1) ? 'hud' : (state === 2) ? 'material' : '';
+                B.style.display = (state === 0) ? 'none' : 'block';
+            }
+            if(e.key === 'Escape') document.body.innerHTML = ''; // KAMIKAZE WIPE
+        });
     </script>
 </body>
 </html>
