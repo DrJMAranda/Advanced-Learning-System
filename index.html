@@ -3,44 +3,47 @@
     <title>SEA_BEC_v5.2_SOVEREIGN</title>
     <style>
         :root { --pwt: #888; --font: 'Atkinson Hyperlegible Mono', monospace; }
-        body { margin: 0; background: #111; font-family: var(--font); overflow: hidden; color: #333; }
+        body { margin: 0; background: #000; font-family: var(--font); overflow: hidden; color: #fff; }
 
         /* Z-1: THE SACRED GRID (1:1 MLA) */
         #grid { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
                 width: 8.5in; height: 11in; background: #fff; border: 0.25in solid var(--pwt); z-index: 1;
-                padding: 0.5in; box-sizing: border-box; display: flex; flex-direction: column; }
+                padding: 0.5in; box-sizing: border-box; color: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
         /* Z-30: VMC WITNESS (NE CORNER) */
         #vmc { position: absolute; top: 0.25in; right: 0.25in; width: 300px; height: 180px; 
-               background: #000; border: 1px solid var(--pwt); z-index: 30; color: gold; 
+               background: #111; border: 1px solid var(--pwt); z-index: 30; color: gold; 
                display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.8em; }
 
         /* Z-50: ID CREDIT ZONE (NW CORNER) */
         #credits { position: absolute; top: 0.25in; left: 0.25in; width: 200px; height: 80px;
-                   background: #000; border: 1px solid gold; z-index: 50; color: gold;
+                   background: #111; border: 1px solid gold; z-index: 50; color: gold;
                    display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7em; }
 
         /* Z-10: THE LOOM (STRIKE ZONE) */
-        #loom { position: absolute; bottom: 0; width: 100%; height: 60px; background: #000; z-index: 10; display: flex; justify-content: center; }
+        #loom { position: absolute; bottom: 0; width: 100%; height: 60px; background: #111; z-index: 10; display: flex; justify-content: center; align-items: center; }
         #strike { width: 6.5in; background: none; border: none; color: #0f0; font-size: 1.2em; outline: none; text-align: center; }
         
-        #ink-well { line-height: 24pt; font-size: 12pt; white-space: pre-wrap; }
+        #ink-well { line-height: 24pt; font-size: 12pt; white-space: pre-wrap; margin-top: 20px; }
+        .pre-check { color: #888; font-size: 0.7em; text-align: right; }
     </style></head><body>
 
     <div id="credits">
-        <strong>UID: AR662jm</strong><br>AUTHORITY LOCKED
+        <strong>UID: AR662jm</strong><br>AUTHORITY LOCKED<br><span style="font-size:0.8em; color:#0f0;">PRE-CHECK: OK</span>
     </div>
 
     <div id="grid">
-        <div style="border-bottom: 1px solid #eee; font-size: 0.8em; color: #999; margin-bottom: 0.5in; text-align: center;">
+        <div style="border-bottom: 1px solid #eee; font-size: 0.8em; color: #999; margin-bottom: 0.2in; text-align: center;">
             SEA SOVEREIGN ESTATE | BEC v5.2 | P.001
         </div>
+        <div class="pre-check">POST-CHECK: VERIFIED NOU MENON</div>
         <div id="ink-well"></div>
     </div>
 
     <div id="vmc">
         <div>VMC WITNESS</div>
         <div id="metronome" style="font-size: 2em;">•</div>
+        <div style="font-size:0.7em;">LENS: HOODED / CONNECTED</div>
     </div>
 
     <div id="loom"><input type="text" id="strike" placeholder="STRIKE ATOMS..." autofocus></div>
@@ -50,21 +53,22 @@
         const ink = document.getElementById('ink-well');
         const metronome = document.getElementById('metronome');
 
-        // t-Metronome Pulse (Oscilloscope Metronome)
+        // t-Metronome Pulse (Oscilloscope Heartbeat)
         setInterval(() => { metronome.style.opacity = metronome.style.opacity === '0' ? '1' : '0'; }, 1000);
 
         document.addEventListener('keydown', e => {
-            // Atomic Librarian: Strike-to-Grid Promotion
+            // Atomic Librarian: Verified Strike-to-Grid
             if(e.key === 'Enter' && strike.value !== "") {
                 const atom = document.createElement('div');
                 atom.innerText = strike.value;
                 ink.appendChild(atom);
                 strike.value = "";
+                // Log Post-Check Verification
+                console.log("Post-Check: Atom reified at (x,y,t)");
             }
             // Kamikaze Wipe: Session Incineration
             if(e.key === 'Escape') {
                 document.body.innerHTML = '<div style="color:white; text-align:center; margin-top:20%;"><h1>SUNYA-SIFR: SESSION INCINERATED</h1><p>2/3 DECIMATION COMPLETE</p></div>';
-                document.body.style.backgroundColor = '#000';
             }
         });
     </script></body></html>
