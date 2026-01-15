@@ -204,38 +204,21 @@
                             }
                         ]
                     },
-                    {
+{
                         name: "Pensum",
                         topics: [
                             {
                                 name: "999*10^33",
                                 modules: [
-                                    { title: "Cien Diez uno", url: "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Castellano/Video%20Cien%20Diez%20Uno.mp4" }
+                                    { title: "Cien Diez uno", url: "https://...mp4" }
                                 ]
                             }
                         ]
                     }
-                ]
-            },
-            {
-                title: "NUEVA CATEGORIA", 
-                units: [
-                    {
-                        name: "Unidad Nueva", 
-                        topics: [
-                            {
-                                name: "Tema Nuevo", 
-                                modules: [ 
-                                    { title: "Video Titulo", url: "URL.mp4" },
-                                    { title: "Q&A Sample", type: "interaction", data: { stimulus: "Pregunta?", options: [{label:"No",correct:false}, {label:"Si",correct:true}], successMsg:"Ok", failMsg:"No" } }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "Matemática", 
+                ] // <--- Aquí cierras el arreglo de 'units' de la primera categoría
+            }, // <--- Aquí cierras el objeto de la primera categoría ("EL AUTOR Y OBRA")
+            { // <--- AQUÍ abres la nueva categoría: "Matemática"
+                title: "Matemática",
 
                     {
                         name: "Principios",
