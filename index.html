@@ -71,7 +71,7 @@
             left: 350px;
             width: 850px;
             height: 800px;
-            background-color: var(--logic-black);
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -86,11 +86,9 @@
             position: relative;
         }
 
-        /* MEDIA ELEMENTS */
         video { width: 100%; height: 100%; display: none; background: #000; }
         iframe { width: 100%; height: 100%; border: none; display: none; }
 
-        /* INTERACTIVE STAGE */
         #interactive-stage {
             display: none; width: 100%; height: 100%; background: #fff;
             padding: 40px; box-sizing: border-box; text-align: center;
@@ -103,39 +101,31 @@
         }
         .interaction-btn:hover { background: #ddd; }
 
-        /* === THE 4-LEVEL MENU STYLES === */
-        
-        /* Level 1: Subject (Clickable) */
         .level-1-btn {
             width: 100%; padding: 15px; background: #333; color: #fff;
             border-bottom: 1px solid #555; font-weight: bold;
             cursor: pointer; text-align: left; box-sizing: border-box;
         }
         
-        /* Level 2: Unit (Container) */
         .level-2-container { display: none; background-color: #eee; }
         .level-2-label {
             padding: 10px 15px; font-weight: bold; color: #000;
             border-bottom: 1px solid #ccc; background: #ddd;
         }
 
-        /* Level 3: Topic (Clickable) */
         .level-3-btn {
             padding: 8px 15px 8px 25px; font-size: 0.95em;
             color: #333; font-weight: bold; cursor: pointer;
             border-bottom: 1px solid #e0e0e0; background: #f9f9f9;
         }
         .level-3-btn:hover { background: #fff; }
-        .level-3-btn::before { content: "▸ "; } 
 
-        /* Level 4: Module/Link (Clickable) */
         .level-4-container { display: none; background-color: #fff; }
         .level-4-link {
             padding: 8px 15px 8px 45px; font-size: 0.85em;
             color: #0044cc; cursor: pointer; display: block;
             border-bottom: 1px solid #f0f0f0;
         }
-        .level-4-link:hover { background: #f0f7ff; text-decoration: underline; }
 
         #return-btn {
             position: absolute; top: 20px; left: 370px; z-index: 100;
@@ -171,7 +161,6 @@
     <script>
         /* =========================================
            2. THE PENSUM DATA (FULL ARSENAL - v4.5)
-           Hierarchy: Subject -> Unit -> Topic -> Module
            ========================================= */
         const pensumData = [
             {
@@ -185,8 +174,7 @@
                                 modules: [ 
                                     { title: "Curriculum Vitae", url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" },
                                     { title: "Educación SEA", url: "https://storage.googleapis.com/noenbalde/Giddyap/BTC.mp4" },
-                                    { title: "Aritmética BTC", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" },
-
+                                    { title: "Aritmética BTC", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" }
                                 ]
                             }
                         ]
@@ -204,120 +192,13 @@
                             }
                         ]
                     },
-{
+                    {
                         name: "Pensum",
                         topics: [
                             {
                                 name: "999*10^33",
                                 modules: [
-                                    { title: "Cien Diez uno", url: "https://...mp4" }
-                                ]
-                            }
-                        ]
-                    }
-                ] // <--- Aquí cierras el arreglo de 'units' de la primera categoría
-            }, // <--- Aquí cierras el objeto de la primera categoría ("EL AUTOR Y OBRA")
-            { // <--- AQUÍ abres la nueva categoría: "Matemática"
-                title: "Matemática",
-
-                    {
-                        name: "Principios",
-                        topics: [
-                            {
-                                name: "Subitización",
-                                modules: [
-                                    { title: "PR01a Perceptual", url: "https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4" },
-                                    { title: "PR01b Conceptual", url: "https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4" }
-                                ]
-                            },
-                            {
-                                name: "Orden y Paridad",
-                                modules: [
-                                    { title: "PR02 Estable", url: "https://storage.googleapis.com/noenbalde/Videos/Springtime%20In%20The%20Farm%20PR02%20Estable.mp4" },
-                                    { title: "PR03a Paridad", url: "https://storage.googleapis.com/noenbalde/Videos/Evans%20Odds%20-%20PR03%20Parity.mp4" }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-
-
-
-                        
-                        name: "Magnitud",
-                        topics: [
-                            {
-                                name: "Números Grandes",
-                                modules: [
-                                    { title: "UQ2 Noventa y Nueve", url: "https://storage.googleapis.com/noenbalde/Videos/UQ2%20Noventa%20y%20Nueve.mp4" },
-                                    { title: "UQ3 Decillones", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Advanced.mp4" }
-                                ]
-                            }
-                        ]
-                    },
-
-
-                
-                units: [
-                    {
-                        name: "U1 |Nueve|", 
-                        topics: [
-                            {
-                                name: "Concepto: El Cero", 
-                                modules: [ 
-                                    { title: "Video: Sunya-Sifr", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4" },
-                                    { title: "Ex: ¿Qué es la nada?", type: "interaction", data: { stimulus: "¿El cero tiene valor?", options: [{label:"Sí",correct:false}, {label:"Posicional",correct:true}], successMsg:"¡Correcto!", failMsg:"Intenta de nuevo." } }
-                                ]
-                            },
-                            {
-                                name: "Conceptos", 
-                                modules: [ 
-                                    { title: "Video: Uno al Cuatro", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4" },
-                                    { title: "Video: Cinco al Nueve", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4" },
-                                    { title: "★ EJERCICIO: La Suma", type: "interaction", data: { stimulus: "¿Cuánto es 2 + 2?", options: [{label:"3",correct:false}, {label:"4",correct:true}], successMsg:"¡Bien! La lógica se mantiene.", failMsg:"Error. Revisa tus axiomas." } }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: "Principios",
-                        topics: [
-                            {
-                                name: "Subitización",
-                                modules: [
-                                    { title: "PR01a Perceptual", url: "https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4" },
-                                    { title: "PR01b Conceptual", url: "https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4" }
-                                ]
-                            },
-                            {
-                                name: "Orden y Paridad",
-                                modules: [
-                                    { title: "PR02 Estable", url: "https://storage.googleapis.com/noenbalde/Videos/Springtime%20In%20The%20Farm%20PR02%20Estable.mp4" },
-                                    { title: "PR03a Paridad", url: "https://storage.googleapis.com/noenbalde/Videos/Evans%20Odds%20-%20PR03%20Parity.mp4" }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: "Magnitud",
-                        topics: [
-                            {
-                                name: "Números Grandes",
-                                modules: [
-                                    { title: "UQ2 Noventa y Nueve", url: "https://storage.googleapis.com/noenbalde/Videos/UQ2%20Noventa%20y%20Nueve.mp4" },
-                                    { title: "UQ3 Decillones", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Advanced.mp4" }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: "El Autor y Obra",
-                        topics: [
-                            {
-                                name: "Documentos",
-                                modules: [
-                                    { title: "Curriculum Vitae", url: "https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" },
-                                    { title: "Beyond the Core", url: "https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" }
+                                    { title: "Cien Diez uno", url: "https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Castellano/Video%20Cien%20Diez%20Uno.mp4" }
                                 ]
                             }
                         ]
@@ -325,61 +206,15 @@
                 ]
             },
             {
-                title: "Comunicación",
+                title: "NUEVA CATEGORIA", 
                 units: [
                     {
-                        name: "Gramática",
+                        name: "Unidad Nueva", 
                         topics: [
                             {
-                                name: "Componentes",
-                                modules: [
-                                    { title: "G00a Proposito", url: "https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4" }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: "Vocabulario",
-                        topics: [
-                            {
-                                name: "Nombres",
-                                modules: [
-                                    { title: "LN001 Nombres 1", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4" },
-                                    { title: "LN002 Nombres 2", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4" },
-                                    { title: "LN003 Nombres 3", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4" },
-                                    { title: "LN004 Nombres 4", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4" },                                    
-                                    { title: "LN004 Nombres 5", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4" }, 
-                                    { title: "LN004 Nombres 6", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4" }, 
-                                    { title: "LN007 Nombres 7", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4" },                                    
-                                    { title: "★ EJERCICIO: Vocabulario", type: "interaction", data: { stimulus: "Select: HOUSE", options: [{label:"Gato",correct:false}, {label:"Casa",correct:true}], successMsg:"¡Correcto!", failMsg:"Intenta de nuevo." } }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name: "Literatura",
-                        topics: [
-                            {
-                                name: "Cuentos Clásicos",
-                                modules: [
-                                    { title: "Esopo Q01", url: "https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4" },
-                                    { title: "Mejor Amigo", url: "https://storage.googleapis.com/noenbalde/Staging/Mans%20Best%20Friend.mp4" },
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "Ciencia", 
-                units: [
-                    {
-                        name: "Física", 
-                        topics: [
-                            {
-                                name: "Herrmientas", 
+                                name: "Tema Nuevo", 
                                 modules: [ 
-                                    { title: "Ventaja Mecánica", url: "https://storage.googleapis.com/noenbalde/Activos/Physics/Physics.mp4" },
+                                    { title: "Video Titulo", url: "URL.mp4" },
                                     { title: "Q&A Sample", type: "interaction", data: { stimulus: "Pregunta?", options: [{label:"No",correct:false}, {label:"Si",correct:true}], successMsg:"Ok", failMsg:"No" } }
                                 ]
                             }
@@ -387,18 +222,52 @@
                     }
                 ]
             },
-
-            
             {
-                title: "Expresión",
+                title: "Matemática", 
                 units: [
                     {
-                        name: "Sonora y Visual",
+                        name: "Principios",
                         topics: [
                             {
-                                name: "Canciones",
+                                name: "Subitización",
                                 modules: [
-                                    { title: "M01 Song Penny", url: "https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4" }
+                                    { title: "PR01a Perceptual", url: "https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4" },
+                                    { title: "PR01b Conceptual", url: "https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4" }
+                                ]
+                            },
+                            {
+                                name: "Orden y Paridad",
+                                modules: [
+                                    { title: "PR02 Estable", url: "https://storage.googleapis.com/noenbalde/Videos/Springtime%20In%20The%20Farm%20PR02%20Estable.mp4" },
+                                    { title: "PR03a Paridad", url: "https://storage.googleapis.com/noenbalde/Videos/Evans%20Odds%20-%20PR03%20Parity.mp4" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Magnitud",
+                        topics: [
+                            {
+                                name: "Números Grandes",
+                                modules: [
+                                    { title: "UQ2 Noventa y Nueve", url: "https://storage.googleapis.com/noenbalde/Videos/UQ2%20Noventa%20y%20Nueve.mp4" },
+                                    { title: "UQ3 Decillones", url: "https://storage.googleapis.com/noenbalde/Videos/UQ3%20Decillones%20Advanced.mp4" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "AULA MEET",
+                        topics: [
+                            {
+                                name: "Sesión Pro Bono",
+                                modules: [
+                                    { 
+                                        title: "Google Meet", 
+                                        url: "https://meet.google.com/xxx-yyyy-zzz",
+                                        type: "interaction",
+                                        data: { stimulus: "Acceso al Aula", options: [{label:"ENTRAR", correct:true}], successMsg:"Abriendo...", failMsg:"" }
+                                    }
                                 ]
                             }
                         ]
@@ -408,7 +277,7 @@
         ];
 
         /* =========================================
-           3. THE RENDER ENGINE (4-LEVEL FAN)
+           3. THE RENDER ENGINE
            ========================================= */
         const menuContainer = document.getElementById('dynamic-menu');
         const player = document.getElementById('main-player');
@@ -419,7 +288,6 @@
 
         function renderSystem() {
             pensumData.forEach(subject => {
-                // LEVEL 1: SUBJECT
                 let l1 = document.createElement('div');
                 l1.className = 'level-1-btn';
                 l1.innerText = "≡ " + subject.title;
@@ -429,21 +297,17 @@
 
                 l1.onclick = () => {
                     let isOpen = l2Container.style.display === 'block';
-                    document.querySelectorAll('.level-2-container').forEach(el => el.style.display = 'none');
                     l2Container.style.display = isOpen ? 'none' : 'block';
                 };
 
                 subject.units.forEach(unit => {
-                    // LEVEL 2: UNIT (Label)
                     let l2Label = document.createElement('div');
                     l2Label.className = 'level-2-label';
                     l2Label.innerText = unit.name;
                     l2Container.appendChild(l2Label);
 
-                    // Iterate Topics
                     if(unit.topics) {
                         unit.topics.forEach(topic => {
-                            // LEVEL 3: TOPIC (Clickable)
                             let l3Btn = document.createElement('div');
                             l3Btn.className = 'level-3-btn';
                             l3Btn.innerText = topic.name;
@@ -456,7 +320,6 @@
                                 l4Container.style.display = isL4Open ? 'none' : 'block';
                             };
 
-                            // LEVEL 4: MODULES
                             topic.modules.forEach(mod => {
                                 let l4Link = document.createElement('div');
                                 l4Link.className = 'level-4-link';
@@ -485,7 +348,7 @@
 
             if (item.type === 'interaction') {
                 interactiveStage.style.display = 'block';
-                renderInteraction(item.data);
+                renderInteraction(item);
             } 
             else if (item.url && item.url.toLowerCase().indexOf('.pdf') > -1) {
                 docViewer.src = item.url;
@@ -498,7 +361,8 @@
             }
         }
 
-        function renderInteraction(data) {
+        function renderInteraction(item) {
+            const data = item.data;
             const stimulus = document.getElementById('stimulus-text');
             const responseArea = document.getElementById('response-area');
             const feedback = document.getElementById('action-feedback');
@@ -511,6 +375,9 @@
                 btn.onclick = function() {
                     feedback.style.color = opt.correct ? "green" : "red";
                     feedback.innerText = opt.correct ? data.successMsg : data.failMsg;
+                    if(opt.correct && item.url && item.url.includes("meet.google.com")) {
+                        window.open(item.url, '_blank');
+                    }
                 };
                 responseArea.appendChild(btn);
             });
