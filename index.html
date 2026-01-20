@@ -389,18 +389,6 @@
         <button onclick="unlockEstate()" style="padding: 10px 30px; cursor: pointer; background: #444; color: white; border: none;">Entrar</button>
     </div>
 </div>
-<script>
-    function unlockEstate() {
-        const key = document.getElementById('').value;
-        // Replace 'Everest2026' with your chosen password
-        if (key === '') {
-            document.getElementById('gatekeeper-overlay').style.display = 'none';
-            // Trigger the internal engine
-            statusMessage.textContent = 'Acceso Concedido. Seleccione un módulo.';
-        } else {
-            alert('Acceso Denegado. La SEA permanece cerrada.');
-        }
-    }
-</script>
+
 </body>
 </html>
