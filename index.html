@@ -382,7 +382,47 @@
         });
     </script>
 
+<div id="VMC-Layer-Chassis" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background: transparent; visibility: hidden; pointer-events: none;">
+    
+    <div id="Silo-Monitor-4x6" class="beveled-frame" style="position: absolute; top: 180px; left: 370px; width: 4in; height: 6in; background: #d3d3d3; padding: 3ch; box-sizing: border-box; pointer-events: auto; border: 1px solid #333;">
+        
+        <pre id="Silo-Content-Target" style="font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 14pt; line-height: 1.1; color: black; margin: 0; white-space: pre;"></pre>
+        
+    </div>
+</div>
+<script>
+    /* THE CREDITS SCRIPT: GEMARA MONO PITCH */
+    const SNIPPET_CREDITS = 
+`UNIT ID      CR
+-------      --
+BU01-01      .5
+BU01-02      .5
+BU01-03      .5
+BU01-04      .5
+BU01-05      .5
+BU01-06      .5
+BU01-07      .5
+BU01-08      .5
+BU01-09      .5
+BU01-10      .5
+BU01-11      .5
+BU01-12      .5
+BU01-13      .5
+-------      --
+TOTAL       6.5`;
 
+    /* THE Z-STRIKE: 90 DEGREES UP */
+    function GOTO_CREDITS_ON() {
+        const target = document.getElementById('Silo-Content-Target');
+        const chassis = document.getElementById('VMC-Layer-Chassis');
+        
+        target.innerText = SNIPPET_CREDITS;
+        chassis.style.visibility = 'visible';
+    }
 
+    function GOTO_OFF() {
+        document.getElementById('VMC-Layer-Chassis').style.visibility = 'hidden';
+    }
+</script>
 </body>
 </html>
