@@ -435,5 +435,24 @@ ESTADO       VERIFICADO`;
         }
     }
 </script>
+
+/* VMC SOVEREIGN MARKER: SQUARE-Z */
+const sq = document.createElement('div');
+sq.id = "Sovereign-Square";
+sq.style.cssText = `
+    position: absolute;
+    top: 250px;
+    left: 150px;
+    width: 60px;
+    height: 60px;
+    background: #FF8C00; 
+    border: 3px solid #333;
+    z-index: 10001;
+    pointer-events: auto;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+`;
+document.body.appendChild(sq);
+console.log("VMC: Lighthouse Orange Square materializing at (250, 150).");
+    
 </body>
 </html>
