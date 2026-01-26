@@ -389,11 +389,15 @@
         <pre id="Silo-Content-Target" style="font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 14pt; line-height: 1.1; color: black; margin: 0; white-space: pre;"></pre>
         
     </div>
+<div id="VMC-Layer-Chassis" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: transparent; visibility: hidden; pointer-events: none;">
+    <div id="Silo-Monitor-4x6" class="beveled-frame" style="position: absolute; top: 180px; left: 370px; width: 4in; height: 6in; background: #d3d3d3; padding: 3ch; box-sizing: border-box; pointer-events: auto; border: 1px solid #333; box-shadow: 10px 10px 20px rgba(0,0,0,0.5);">
+        <pre id="Silo-Content-Target" style="font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 14pt; line-height: 1.1; color: black; margin: 0; white-space: pre;"></pre>
+    </div>
 </div>
+
 <script>
-    /* THE CREDITS SCRIPT: GEMARA MONO PITCH */
-    const SNIPPET_CREDITS = 
-`UNIT ID      CR
+    /* THE CREDITS CARGO */
+    const SNIPPET_CREDITS = `UNIT ID      CR
 -------      --
 BU01-01      .5
 BU01-02      .5
@@ -411,17 +415,23 @@ BU01-13      .5
 -------      --
 TOTAL       6.5`;
 
-    /* THE Z-STRIKE: 90 DEGREES UP */
+    /* THE COMMAND CENTER */
     function GOTO_CREDITS_ON() {
         const target = document.getElementById('Silo-Content-Target');
         const chassis = document.getElementById('VMC-Layer-Chassis');
-        
-        target.innerText = SNIPPET_CREDITS;
-        chassis.style.visibility = 'visible';
+        if (target && chassis) {
+            target.innerText = SNIPPET_CREDITS;
+            chassis.style.visibility = 'visible';
+            console.log("VMC: Credits Projected 90 Degrees Up.");
+        }
     }
 
     function GOTO_OFF() {
-        document.getElementById('VMC-Layer-Chassis').style.visibility = 'hidden';
+        const chassis = document.getElementById('VMC-Layer-Chassis');
+        if (chassis) {
+            chassis.style.visibility = 'hidden';
+            console.log("VMC: Sovereign Plane Deactivated.");
+        }
     }
 </script>
 </body>
