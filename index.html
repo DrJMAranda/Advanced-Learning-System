@@ -439,7 +439,7 @@ BU04PA005    Motus
 -------      ------------------
 ESTADO       VERIFICADO`;
 
-    /* THE COMMAND CENTER */
+    /* START THE COMMAND CENTER */
     function GOTO_CREDITS_ON() {
         const target = document.getElementById('Silo-Content-Target');
         const chassis = document.getElementById('VMC-Layer-Chassis');
@@ -449,7 +449,7 @@ ESTADO       VERIFICADO`;
             console.log("VMC: Credits Projected 90 Degrees Up.");
         }
     }
-
+     /* CLOSE THE COMMAND CENTER */
     function GOTO_OFF() {
         const chassis = document.getElementById('VMC-Layer-Chassis');
         if (chassis) {
