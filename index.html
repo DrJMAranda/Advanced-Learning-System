@@ -418,62 +418,7 @@
     </div>
 </div>
 
-<script>
-/* THE PRIMARY CARGO: BTC DESCRIPTIONS */
-    const SNIPPET_BTC = 
-`UNIT ID      DESCRIPTION
--------      ------------------
-BU01-01      Cero (The Void)
-BU01-02      1 - 4 (The Few)
-BU01-03      5 - 9 (The Hand)
-BU02         10 - 99 (The Dual)
-BU03         Decillones
-BU03M1       999x10^33
-BU04         Principia
-BU04PR01     Estabilidad
-BU04PA001    Subitizatio
-BU04PA002    Ordo
-BU04PA003    Cardinalitas
-BU04PA004    Ordinalitas
-BU04PA005    Motus
--------      ------------------
-ESTADO       VERIFICADO`;
 
-    /* START THE COMMAND CENTER */
-    function GOTO_CREDITS_ON() {
-        const target = document.getElementById('Silo-Content-Target');
-        const chassis = document.getElementById('VMC-Layer-Chassis');
-        if (target && chassis) {
-            target.innerText = SNIPPET_CREDITS;
-            chassis.style.visibility = 'visible';
-            console.log("VMC: Credits Projected 90 Degrees Up.");
-        }
-    }
-     /* CLOSE THE COMMAND CENTER */
-    function GOTO_OFF() {
-        const chassis = document.getElementById('VMC-Layer-Chassis');
-        if (chassis) {
-            chassis.style.visibility = 'hidden';
-            console.log("VMC: Sovereign Plane Deactivated.");
-        }
-    }
-</script>
-
-/* VMC SOVEREIGN MARKER: SQUARE-Z */
-const sq = document.createElement('div');
-sq.id = "Sovereign-Square";
-sq.style.cssText = `
-    position: absolute;
-    top: 250px;
-    left: 150px;
-    width: 60px;
-    height: 60px;
-    background: #FF8C00; 
-    border: 3px solid #333;
-    z-index: 10001;
-    pointer-events: auto;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
-`;
 
 </body>
 </html>
