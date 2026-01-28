@@ -318,6 +318,28 @@ const SOVEREIGNTY = (() => {
 window.onload = () => { setTimeout(SOVEREIGNTY.requestEntry, 500); };
 
 // # END_900_SOVEREIGNTY_DATA_CORE
+
+/* PLACE THIS BEFORE YOUR LAST LINE OF CODE, 
+   BETWEEN SCRIPT AND BODY TO CLAIM Z-SPACE 
+*/
+
+function lockVMC() {
+    // 1. Zoom Control: Locks at 100% to prevent grid distortion
+    document.body.style.zoom = "100%";
+
+    // 2. F11 Courtesy Alert: Triggered if the menu bar occupies Z-Space
+    if (!window.screenTop && !window.screenY) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = "Para accessar el menu, oprima la tecla <F11>";
+        alertBox.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#adb5bd; color:#000; padding:10px; border:2px solid #8e979e; z-index:10000; font-family:monospace;";
+        document.body.appendChild(alertBox);
+        
+        // Brief flash then fade
+        setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
+    }
+}
+
+window.onload = lockVMC;
         
 </body>
 </html>
