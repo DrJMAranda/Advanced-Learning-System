@@ -255,62 +255,68 @@
         }
     </script>
 
-# INI_900_SOVEREIGNTY_SHIELD
+# INI_900_SOVEREIGNTY_DATA_CORE
 JavaScript
-// [900] PROTOCOLO DE SOBERANÍA Y CORTESÍA AL USUARIO
-// Propósito: Bloquear Zoom, Evictar Menú y Notificar F11
+// [900] BUFFER HOLLERITH: SOBERANÍA, ÉTICA Y AUDITORÍA
+// Reemplazo holístico para Jurisdicción 1:1 - SEA-ALS
 
 const SOVEREIGNTY = (() => {
-    // Escala Maestra elegida por el GEM para el Fixed Grid
     const MASTER_SCALE = 1.0; 
 
     return {
-        establish: () => {
+        establish: (visitorName, visitorEmail, count) => {
             const doc = document.documentElement;
-            
-            // 1. Congelar Zoom y Scroll (Evicción de anomia)
+            // 1. Blindaje de Pantalla y Zoom 1:1 (Evicción de Habitantes)
             doc.style.overflow = "hidden";
             doc.style.touchAction = "none";
             doc.style.transform = `scale(${MASTER_SCALE})`;
             doc.style.transformOrigin = "0 0";
 
-            // 2. Neutralizar interferencia de teclas de zoom
-            window.addEventListener('keydown', e => {
-                if ((e.ctrlKey || e.metaKey) && [187, 189, 48].includes(e.keyCode)) e.preventDefault();
-            });
-
-            // 3. Notificación de Cortesía (Aparece y se desvanece)
+            // 2. Notificación de Cortesía, Auditoría y Ética
             const msg = document.createElement('div');
             msg.id = "user_courtesy_f11";
-            msg.innerHTML = "Para accesar el menú, oprima la tecla &lt;F11&gt;";
+            msg.innerHTML = `
+                <strong>Sesión #${count}</strong> | Bienvenido ${visitorName}<br>
+                <small>Privacidad protegida: Contacto solo para mejoras en SEA-ALS.</small><br>
+                Oprima &lt;F11&gt; para el menú.
+            `;
             
-            // Estilo JS Puro (Z-Space Superior)
             Object.assign(msg.style, {
-                position: "fixed",
-                top: "20px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                backgroundColor: "rgba(142, 146, 148, 0.9)", // Color Peltre
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                fontFamily: "monospace",
-                zIndex: "9999",
-                pointerEvents: "none"
+                position: "fixed", top: "20px", left: "50%", transform: "translateX(-50%)",
+                backgroundColor: "rgba(50, 50, 50, 0.95)", color: "white",
+                padding: "15px 30px", borderRadius: "8px", fontFamily: "monospace",
+                zIndex: "9999", border: "1px solid #8E9294", textAlign: "center",
+                boxShadow: "0 4px 15px rgba(0,0,0,0.5)", fontSize: "14px"
             });
 
             document.body.appendChild(msg);
+            setTimeout(() => { msg.style.opacity = '0'; setTimeout(()=>msg.remove(), 1000); }, 7000);
+        },
 
-            // Desvanecer después de 5 segundos para limpiar el Oasis
-            setTimeout(() => { msg.style.display = 'none'; }, 5000);
+        requestEntry: () => {
+            // Auditoría Local Persistente (Visitor Count)
+            let count = localStorage.getItem('sea_visit_count') || 0;
+            count = parseInt(count) + 1;
+            localStorage.setItem('sea_visit_count', count);
+
+            const consent = "\n\n(Privacidad: Ninguna información será usada sin su consentimiento previo, excepto para mejoras en SEA).";
+            
+            const name = prompt(`SEA-ALS (Visita #${count})\nIngrese su nombre:${consent}`);
+            if (name) {
+                const email = prompt(`Ingrese su correo para seguimiento:${consent}`);
+                if (email) {
+                    SOVEREIGNTY.establish(name, email, count);
+                    console.log(`Auditoría Forense: ${name} | ${email} | Sesión: ${count}`);
+                }
+            }
         }
     };
 })();
 
-// Ejecución inmediata al despejar el servidor
-SOVEREIGNTY.establish();
+// Punto de Entrada Único (Bootstrap del Bioma)
+window.onload = () => { setTimeout(SOVEREIGNTY.requestEntry, 500); };
 
-// # END_900_SOVEREIGNTY_SHIELD
+// # END_900_SOVEREIGNTY_DATA_CORE
         
 </body>
 </html>
