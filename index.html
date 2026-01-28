@@ -255,30 +255,28 @@
         }
     </script>
 
-# INI_900_SOVEREIGNTY_DATA_CORE
-JavaScript
-// [900] BUFFER HOLLERITH: SOBERANÍA, ÉTICA Y AUDITORÍA
-// Reemplazo holístico para Jurisdicción 1:1 - SEA-ALS
+// [900] BUFFER HOLLERITH: JURISDICCIÓN, IDENTIDAD Y AUDITORÍA
+// Reemplazo holístico para SEA-ALS - Protocolo de Aterrizaje
 
 const SOVEREIGNTY = (() => {
     const MASTER_SCALE = 1.0; 
 
     return {
-        establish: (visitorName, visitorEmail, count) => {
+        establish: (name, title, email, count) => {
             const doc = document.documentElement;
-            // 1. Blindaje de Pantalla y Zoom 1:1 (Evicción de Habitantes)
+            // 1. Soberanía Visual 1:1 (Grid Fijo)
             doc.style.overflow = "hidden";
             doc.style.touchAction = "none";
             doc.style.transform = `scale(${MASTER_SCALE})`;
             doc.style.transformOrigin = "0 0";
 
-            // 2. Notificación de Cortesía, Auditoría y Ética
+            // 2. Notificación de Cortesía y Registro
             const msg = document.createElement('div');
             msg.id = "user_courtesy_f11";
             msg.innerHTML = `
-                <strong>Sesión #${count}</strong> | Bienvenido ${visitorName}<br>
-                <small>Privacidad protegida: Contacto solo para mejoras en SEA-ALS.</small><br>
-                Oprima &lt;F11&gt; para el menú.
+                <strong>Sesión #${count}</strong> | ${name} [${title}]<br>
+                <small>Privacidad SEA: Contacto solo para mejoras pedagógicas.</small><br>
+                Oprima &lt;F11&gt; para modo Oasis.
             `;
             
             Object.assign(msg.style, {
@@ -294,26 +292,29 @@ const SOVEREIGNTY = (() => {
         },
 
         requestEntry: () => {
-            // Auditoría Local Persistente (Visitor Count)
+            // Auditoría Local de Sesiones
             let count = localStorage.getItem('sea_visit_count') || 0;
             count = parseInt(count) + 1;
             localStorage.setItem('sea_visit_count', count);
 
-            const consent = "\n\n(Privacidad: Ninguna información será usada sin su consentimiento previo, excepto para mejoras en SEA).";
+            const consent = "\n\n(Privacidad: Información protegida por el protocolo pro bono de SEA-ALS).";
             
-            const name = prompt(`SEA-ALS (Visita #${count})\nIngrese su nombre:${consent}`);
+            const name = prompt(`SEA-ALS (Visita #${count})\nIngrese su Primer Nombre:${consent}`);
             if (name) {
-                const email = prompt(`Ingrese su correo para seguimiento:${consent}`);
-                if (email) {
-                    SOVEREIGNTY.establish(name, email, count);
-                    console.log(`Auditoría Forense: ${name} | ${email} | Sesión: ${count}`);
+                const title = prompt(`Ingrese su Título/Cargo (ej. Docente, Director):${consent}`);
+                const email = prompt(`Ingrese su Correo para actualizaciones de SEA:${consent}`);
+                
+                if (title && email) {
+                    SOVEREIGNTY.establish(name, title, email, count);
+                    // Registro forense en consola para tu auditoría inmediata
+                    console.log(`AUDIT_LOG: ${name} | ${title} | ${email} | Sesión: ${count}`);
                 }
             }
         }
     };
 })();
 
-// Punto de Entrada Único (Bootstrap del Bioma)
+// Punto de Entrada tras Latencia de Servidor
 window.onload = () => { setTimeout(SOVEREIGNTY.requestEntry, 500); };
 
 // # END_900_SOVEREIGNTY_DATA_CORE
