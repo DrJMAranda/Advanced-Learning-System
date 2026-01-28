@@ -254,5 +254,63 @@
             msg.style.display = 'block';
         }
     </script>
+
+# INI_900_SOVEREIGNTY_SHIELD
+JavaScript
+// [900] PROTOCOLO DE SOBERANÍA Y CORTESÍA AL USUARIO
+// Propósito: Bloquear Zoom, Evictar Menú y Notificar F11
+
+const SOVEREIGNTY = (() => {
+    // Escala Maestra elegida por el GEM para el Fixed Grid
+    const MASTER_SCALE = 1.0; 
+
+    return {
+        establish: () => {
+            const doc = document.documentElement;
+            
+            // 1. Congelar Zoom y Scroll (Evicción de anomia)
+            doc.style.overflow = "hidden";
+            doc.style.touchAction = "none";
+            doc.style.transform = `scale(${MASTER_SCALE})`;
+            doc.style.transformOrigin = "0 0";
+
+            // 2. Neutralizar interferencia de teclas de zoom
+            window.addEventListener('keydown', e => {
+                if ((e.ctrlKey || e.metaKey) && [187, 189, 48].includes(e.keyCode)) e.preventDefault();
+            });
+
+            // 3. Notificación de Cortesía (Aparece y se desvanece)
+            const msg = document.createElement('div');
+            msg.id = "user_courtesy_f11";
+            msg.innerHTML = "Para accesar el menú, oprima la tecla &lt;F11&gt;";
+            
+            // Estilo JS Puro (Z-Space Superior)
+            Object.assign(msg.style, {
+                position: "fixed",
+                top: "20px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                backgroundColor: "rgba(142, 146, 148, 0.9)", // Color Peltre
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                fontFamily: "monospace",
+                zIndex: "9999",
+                pointerEvents: "none"
+            });
+
+            document.body.appendChild(msg);
+
+            // Desvanecer después de 5 segundos para limpiar el Oasis
+            setTimeout(() => { msg.style.display = 'none'; }, 5000);
+        }
+    };
+})();
+
+// Ejecución inmediata al despejar el servidor
+SOVEREIGNTY.establish();
+
+// # END_900_SOVEREIGNTY_SHIELD
+        
 </body>
 </html>
