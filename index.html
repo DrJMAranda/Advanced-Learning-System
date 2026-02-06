@@ -16,7 +16,7 @@
         }
 
         body {
-            background-color: #111;
+            background-color: #0a0a0a;
             margin: 0;
             padding: 0;
             overflow-x: auto;
@@ -32,7 +32,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            box-shadow: 15px 0 40px rgba(0,0,0,0.8);
+            box-shadow: 20px 0 50px rgba(0,0,0,0.9);
             border: 0.25in solid var(--pewter);
             display: flex;
             flex-direction: column;
@@ -44,8 +44,8 @@
             position: absolute;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+                linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
             background-size: var(--grid-size) var(--grid-size);
             pointer-events: none;
             z-index: 1;
@@ -65,8 +65,8 @@
             width: 3.5in;
             height: 2.0in;
             background: white;
-            border: 1px solid #d1d5db;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -74,9 +74,9 @@
             position: absolute;
         }
 
-        .card-image { max-width: 92%; max-height: 88%; object-fit: contain; }
-        .card-text-fallback { font-size: 100px; font-weight: 900; color: var(--sea-blue); letter-spacing: -5px; }
-        .card-label { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #94a3b8; font-weight: bold; }
+        .card-image { max-width: 94%; max-height: 90%; object-fit: contain; }
+        .card-text-fallback { font-size: 100px; font-weight: 900; color: var(--sea-blue); letter-spacing: -6px; }
+        .card-label { position: absolute; bottom: 8px; right: 12px; font-size: 9px; color: #94a3b8; font-weight: bold; letter-spacing: 1px; }
 
         #controls {
             height: 130px;
@@ -88,75 +88,79 @@
             z-index: 10;
         }
 
-        /* side-panel Utilization: Right of VMC */
+        /* Modern Vision Utilization: Right Panel */
         #side-panel {
             position: absolute;
-            left: 9.0in; /* Total width of VMC + Borders */
+            left: 9.0in; 
             top: 0;
             right: 0;
             height: 11in;
             display: flex;
             flex-direction: column;
-            min-width: 450px;
+            min-width: 480px;
+            background: #0a0a0a;
         }
 
         #nano-canton {
-            height: 240px;
+            height: 280px;
             background: var(--sea-blue);
             color: #fff;
-            padding: 30px;
-            border-bottom: 10px solid var(--pewter);
+            padding: 40px;
+            border-bottom: 12px solid var(--pewter);
             position: relative;
+            overflow: hidden;
         }
 
         #nano-canton::after {
-            content: 'KT-01';
+            content: 'KT-ALPHA';
             position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 40px;
-            font-weight: 900;
-            opacity: 0.1;
+            bottom: -15px;
+            right: -10px;
+            font-size: 90px;
+            font-weight: 950;
+            color: rgba(255, 255, 255, 0.04);
+            pointer-events: none;
         }
 
-        /* Stripes Area for Credits */
+        /* Flag Credits: Striped area for attributions */
         #flag-credits {
             flex: 1;
             background: repeating-linear-gradient(
                 0deg,
                 var(--stripe-white),
                 var(--stripe-white) 44px,
-                #f4f4f4 44px,
-                #f4f4f4 88px
+                #f5f5f5 44px,
+                #f5f5f5 88px
             );
             padding: 40px 60px;
             overflow-y: auto;
-            border-left: 2px solid #222;
+            border-left: 3px solid #000;
         }
 
         .credit-item {
             font-size: 11px;
-            color: #1a1a1a;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            color: #000;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.12);
             text-transform: uppercase;
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             display: flex;
             justify-content: space-between;
         }
 
         .btn-sea {
-            padding: 12px 20px;
+            padding: 14px 24px;
             background: #fff;
             border: 2px solid var(--pewter);
             color: var(--sea-blue);
             font-weight: 900;
-            font-size: 11px;
-            letter-spacing: 2px;
+            font-size: 10px;
+            letter-spacing: 2.5px;
             transition: all 0.2s;
+            text-transform: uppercase;
         }
-        .btn-sea:hover { background: var(--sea-blue); color: #fff; transform: translateY(-2px); }
+        .btn-sea:hover { background: var(--sea-blue); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
         #toast {
             position: absolute;
@@ -165,18 +169,19 @@
             transform: translateX(-50%);
             background: var(--sea-blue);
             color: white;
-            padding: 10px 25px;
+            padding: 10px 30px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 900;
             opacity: 0;
             z-index: 100;
             transition: opacity 0.3s;
             border-radius: 2px;
+            letter-spacing: 1px;
         }
 
         input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #ddd; border-radius: 2px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -8px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -185,7 +190,7 @@
         <div id="grid-layer"></div>
         <div id="display-area">
             <div id="active-card" class="kine-card">
-                <div id="card-type" class="absolute top-4 left-4 text-[10px] font-black text-slate-300 tracking-[0.3em] uppercase">TYPE: KINE</div>
+                <div id="card-type" class="absolute top-4 left-4 text-[10px] font-black text-slate-300 tracking-[0.4em] uppercase">TYPE: KINE</div>
                 <img id="asset-img" class="card-image hidden" src="" alt="Numeral Asset">
                 <div id="numeral-text" class="card-text-fallback">001</div>
                 <div id="filename" class="card-label">001 Kine.jpg</div>
@@ -193,10 +198,10 @@
         </div>
         <div id="controls">
             <button class="btn-sea" onclick="wipe()">[ WIPE ]</button>
-            <div class="flex flex-col items-center gap-2">
-                <span class="text-[10px] font-black text-slate-400 tracking-[0.2em]">INDEX SWIPE</span>
-                <input type="range" id="index-slider" min="1" max="100" value="1" class="w-72" oninput="updateIndex(this.value)">
-                <span id="val-display" class="text-3xl font-black text-[#002147]">001</span>
+            <div class="flex flex-col items-center gap-3">
+                <span class="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase">INDEX SWIPE</span>
+                <input type="range" id="index-slider" min="1" max="100" value="1" class="w-80" oninput="updateIndex(this.value)">
+                <span id="val-display" class="text-4xl font-black text-[#002147] tracking-tighter">001</span>
             </div>
             <button class="btn-sea" onclick="cycleFace()">[ CYCLE FACE ]</button>
         </div>
@@ -204,20 +209,20 @@
 
     <div id="side-panel">
         <div id="nano-canton">
-            <h2 class="text-xl font-black tracking-tighter border-b-2 border-blue-400/40 mb-4 pb-1">NANO CANTON</h2>
-            <div class="grid grid-cols-2 gap-y-2 text-[10px] font-black tracking-widest opacity-80 mb-6">
-                <div class="text-blue-200">SYSTEM ARCH:</div> <div>SEA-ALS v2.6</div>
-                <div class="text-blue-200">CORE MODULE:</div> <div>KT FOUNDATION</div>
-                <div class="text-blue-200">ESTATE:</div> <div>1:1 MLA</div>
-                <div class="text-blue-200">COORDS (X,Y):</div> <div id="coord-display">(0, 0)</div>
+            <h2 class="text-2xl font-black tracking-tighter border-b-4 border-blue-400/40 mb-6 pb-2">NANO CANTON</h2>
+            <div class="grid grid-cols-2 gap-y-4 text-[12px] font-black tracking-widest opacity-90 mb-8">
+                <div class="text-blue-300">SYSTEM ARCH:</div> <div>SEA-ALS v2.6.01</div>
+                <div class="text-blue-300">CORE MODULE:</div> <div>KT FOUNDATION</div>
+                <div class="text-blue-300">ESTATE:</div> <div>1:1 MLA</div>
+                <div class="text-blue-300">COORDS (X,Y):</div> <div id="coord-display">(0, 0)</div>
             </div>
-            <button onclick="toggleFullscreen()" class="w-full py-2 bg-blue-900/50 border border-blue-400/30 text-[10px] font-black tracking-[0.3em] hover:bg-blue-400 hover:text-white transition-colors">
+            <button onclick="toggleFullscreen()" class="w-full py-4 bg-blue-900/50 border-2 border-blue-400/30 text-[11px] font-black tracking-[0.4em] hover:bg-blue-400 hover:text-white transition-all uppercase">
                 [ ENGAGE FULLSCREEN VISION ]
             </button>
         </div>
 
         <div id="flag-credits">
-            <h3 class="text-sm font-black mb-8 text-blue-900 border-b-2 border-blue-900 inline-block tracking-widest">SYSTEM ATTRIBUTIONS</h3>
+            <h3 class="text-sm font-black mb-10 text-blue-900 border-b-2 border-blue-900 inline-block tracking-[0.2em] uppercase">SYSTEM ATTRIBUTIONS</h3>
             <div class="credit-item"><span>Architecture:</span> <span>ADVANCED LEARNING SYSTEM</span></div>
             <div class="credit-item"><span>PENSUM:</span> <span>FOUNDATION KT-01</span></div>
             <div class="credit-item"><span>Interface:</span> <span>VMC CONSOLE</span></div>
@@ -247,26 +252,40 @@
         function updateIndex(val) {
             currentVal = parseInt(val);
             const id3 = String(currentVal).padStart(3, '0'); 
-            const id2 = String(currentVal).padStart(2, '0'); 
+            const id2 = String(currentVal).padStart(2, '0'); // Legacy fallback
             const type = faces[faceIdx];
             
-            const labelName = `${id3} ${type}.jpg`;
-            const bucketName = `${id2} ${type}.jpg`;
-
+            // UI consistently shows Formal Naming
+            valDisplay.innerText = id3;
+            fileLabel.innerText = `${id3} ${type}.jpg`;
+            text.innerText = id3;
             card.style.transform = 'scale(0.97) translateY(5px)';
-            
-            setTimeout(() => {
-                valDisplay.innerText = id3;
-                fileLabel.innerText = labelName;
-                text.innerText = id3;
-                
-                const fetchUrl = `${bucketBase}${encodeURIComponent(bucketName)}`;
-                img.src = fetchUrl;
-                img.onload = () => { img.classList.remove('hidden'); text.classList.add('hidden'); };
-                img.onerror = () => { img.classList.add('hidden'); text.classList.remove('hidden'); };
-                
+
+            // Robust fetch logic with legacy fallback
+            const tryFetch = (id) => {
+                const fileName = `${id} ${type}.jpg`;
+                img.src = `${bucketBase}${encodeURIComponent(fileName)}`;
+            };
+
+            img.onload = () => { 
+                img.classList.remove('hidden'); 
+                text.classList.add('hidden'); 
                 card.style.transform = 'scale(1) translateY(0)';
-            }, 50);
+            };
+
+            let attempts = 0;
+            img.onerror = () => {
+                if (attempts === 0) {
+                    attempts++;
+                    tryFetch(id2); // Try 2-digit naming if 3-digit fails
+                } else {
+                    img.classList.add('hidden'); 
+                    text.classList.remove('hidden'); 
+                    card.style.transform = 'scale(1) translateY(0)';
+                }
+            };
+
+            tryFetch(id3); // Start with 3-digit Formal
         }
 
         function cycleFace() {
@@ -277,7 +296,7 @@
         }
 
         function wipe() {
-            card.style.transform = 'translateX(100vw)';
+            card.style.transform = 'translateX(100vw) rotate(5deg)';
             card.style.opacity = '0';
             
             setTimeout(() => {
@@ -286,7 +305,7 @@
                 document.getElementById('index-slider').value = 1;
                 typeLabel.innerText = `TYPE: KINE`;
                 updateIndex(1);
-                card.style.transform = 'translateX(0)';
+                card.style.transform = 'translateX(0) rotate(0deg)';
                 card.style.opacity = '1';
                 notify("SYSTEM WIPE: RESET COMPLETE");
             }, 400);
@@ -301,14 +320,13 @@
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    notify(`Error engaging fullscreen: ${err.message}`);
+                    notify(`Fullscreen Error: ${err.message}`);
                 });
             } else {
                 document.exitFullscreen();
             }
         }
 
-        // Monitoring Viewport/Monitor relation
         window.addEventListener('resize', () => {
             const isFullscreen = !!document.fullscreenElement;
             document.getElementById('coord-display').innerText = isFullscreen ? '(0, 0) MONITOR' : '(0, 0) VIEWPORT';
