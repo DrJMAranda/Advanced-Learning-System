@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)©</title>
- <style>
+
+<style>
     /* 1. Pull the high-density font from Google's live library */
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 
@@ -12,44 +13,53 @@
         --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
         --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
     }
-        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
-        #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
-        #credits { text-align: center; margin-bottom: 10px; }
-        #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
-        #video-player { width: 100%; height: 100%; display: none; }
-        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
-        #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
-        .collapsible-section { margin-bottom: 2px; }
-        .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
-        .collapsible-header:before { content: '≡ '; transition: transform 0.2s; display: inline-block; }
-        .collapsible-header.open:before { transform: rotate(90deg); }
-        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
-        .collapsible-content ul { list-style: none; padding: 5px; margin: 0; }
-        .module-link { text-decoration: none; color: #0044cc; display: block; padding: 2px 0; font-size: 0.70em; }
+    
+    .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+    
+    body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
 
- /* AUDIT: Level 2 Title Specification 
-           IDENTIFICATION: Reclaiming grid sovereignty by stripping 'bolder' inheritance */
-        .collapsible-content ul li {
-            font-size: 14pt !important;    /* Consented 14pt scale */
-            font-weight: 400 !important;   /* Strips surreptitious browser bolding */
-            line-height: 1.1 !important;    /* Sovereign vertical estate [cite: 2026-01-07] */
-            margin-top: 10px !important;    /* Precise section separation */
-            color: #000 !important;        /* Pure black for instructional density */
-        }
+    /* AUDIT: Reclaiming the 2" Stolen Estate */
+    #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
+    
+    #credits { text-align: center; margin-bottom: 10px; }
+    #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
+    #video-player { width: 100%; height: 100%; display: none; }
+    #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
+    #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
+    
+    .collapsible-section { margin-bottom: 2px; }
+    .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
+    .collapsible-header:before { content: '≡ '; transition: transform 0.2s; display: inline-block; }
+    .collapsible-header.open:before { transform: rotate(90deg); }
+    
+    .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
+    
+    /* AUDIT: Resetting List-Style to Evict Surreptitious Margins */
+    .collapsible-content ul { list-style: none; padding: 0 10px !important; margin: 0; }
 
-/* AUDIT: Level 3 Link Recalibration 
-           IDENTIFICATION: Closing the visual gap between Lilliputian and Goliath */
-        .collapsible-content ul li .module-link {
-            font-size: 11pt !important;      /* Replaces 0.70em for better parity */
-            font-weight: 400 !important;     /* Normal density for instructional clarity */
-            line-height: 1.2 !important;     /* Sovereign vertical estate */
-            margin-left: 18px !important;    /* Defined hierarchical indentation */
-            margin-top: 5px !important;      /* Controlled vertical separation */
-            color: #0044cc !important;       /* Explicitly identifying the blue 'launch' color */
-        }
+    /* AUDIT: Level 2 Title Specification - Reclaiming Grid Sovereignty */
+    .collapsible-content ul li {
+        font-size: 14pt !important;
+        font-weight: 400 !important;
+        line-height: 1.1 !important;
+        margin-top: 10px !important;
+        color: #000 !important;
+    }
 
-      </style>
+    /* SPECIFICATION: 5 Lines Per Vertical Inch (14.4pt Total)
+       IDENTIFICATION: Merged Master Lock for Level 3 Launch Lines */
+    .collapsible-content ul li .module-link {
+        display: block !important;
+        text-decoration: none !important;
+        color: #0044cc !important;
+        font-size: 11pt !important;
+        line-height: 14.4pt !important;  /* The "5 LPI" Master Lock [cite: 2026-02-06] */
+        margin-left: 18px !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+</style>
+    
 </head>
 <body>
     <nav id="left-menu" class="beveled-frame">
