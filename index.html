@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KT Foundation - Sea Flag Z-Layer</title>
+    <title>VMC v7.0 - SEA-ALS Staging Site</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 1 Cellite = 10px | 10 Cellites = 100px Square Mod */
+            /* CELLITE CALIBRATION: 10px per unit | 100px per square */
             --cellite: 10px;
             --pewter: #8E918F;
             --cream: #FAF9F6;
             --sea-blue: #002147;
             --flag-red: #B22234;
-            --stripe-white: #FFFFFF;
             
-            /* Calibration (96 DPI): 1 inch = 9.6 cellites */
-            --frame-units: 2.4;    /* .25" Pewter Frame */
-            --usable-w-units: 57.6; /* 6.0" Usable Interior */
-            --usable-h-units: 105.6; /* 11.0" Full Height */
-            
-            /* Calculated Block Width: 6.5" (62.4 cellites / 624px) */
-            --block-w-px: calc((var(--usable-w-units) + (var(--frame-units) * 2)) * var(--cellite));
-            --block-h-px: calc(var(--usable-h-units) * var(--cellite));
+            /* DIMENSIONS (96 DPI Standard) */
+            --frame-u: 2.4;      /* .25" Pewter Frame */
+            --usable-w-u: 57.6;   /* 6.0" Usable Width */
+            --usable-h-u: 105.6;  /* 11.0" Full Height */
+            --flag-h-u: 48.0;     /* 5.0" QII Height */
 
-            /* Typography: Atkinson Hyperlegible 14pt */
-            --font-main: 'Atkinson Hyperlegible', sans-serif;
-            --size-standard: 14pt;
+            /* CALCULATED PIXELS */
+            --block-w-px: calc((var(--usable-w-u) + (var(--frame-u) * 2)) * var(--cellite)); /* 624px */
+            --block-h-px: calc(var(--usable-h-u) * var(--cellite)); /* 1056px */
+            --q2-h-px: calc((var(--flag-h-u) + (var(--frame-u) * 2)) * var(--cellite)); /* 528px */
+
+            /* TYPOGRAPHY */
+            --font-atkinson: 'Atkinson Hyperlegible', sans-serif;
+            --size-14pt: 14pt;
         }
 
         body {
@@ -38,295 +39,273 @@
             padding: 0;
             overflow-x: auto;
             overflow-y: hidden;
-            font-family: var(--font-main);
-            font-size: var(--size-standard);
+            font-family: var(--font-atkinson);
+            font-size: var(--size-14pt);
             color: #fff;
         }
 
-        /* MASTER GRID: 10x10 Cellite Mod (100px) */
-        #master-grid-overlay {
+        /* MASTER MODULAR GRID: 10x10 Cellites (100px) */
+        #master-grid {
             position: fixed;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+                linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
             background-size: calc(10 * var(--cellite)) calc(10 * var(--cellite));
             pointer-events: none;
             z-index: 1000;
         }
 
-        .vmc-layer {
+        .quadrant {
             position: absolute;
-            top: 0;
-            height: var(--block-h-px);
-            width: var(--block-w-px);
-            border: calc(var(--frame-units) * var(--cellite)) solid var(--pewter);
+            border: calc(var(--frame-u) * var(--cellite)) solid var(--pewter);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* Z-LAYER 1: LANDING ZONE (IDLING) | Anchor (0, 0) */
-        #layer-landing {
+        /* QUADRANT II: SEA FLAG LANDING ZONE (0,0) */
+        #q-ii-flag {
+            top: 0;
             left: 0;
-            background-color: var(--cream);
-            z-index: 100;
-        }
-
-        /* Z-LAYER 2: PENSUM / SEA FLAG Z-LAYER | Anchor (624, 0) */
-        #layer-pensum {
-            left: var(--block-w-px);
+            width: var(--block-w-px);
+            height: var(--q2-h-px);
             background-color: #0a0a0a;
-            z-index: 200;
+            z-index: 500;
         }
 
-        .internal-estate {
+        /* QUADRANT III: STUDENT KT INSTRUMENTS (0, 52.8) */
+        #q-iii-instruments {
+            top: var(--q2-h-px);
+            left: 0;
+            width: var(--block-w-px);
+            height: calc(var(--block-h-px) - var(--q2-h-px));
+            background-color: var(--cream);
+            z-index: 400;
+            color: #1a1a1a;
+        }
+
+        /* QUADRANTS I & IV: PENSUM CONSOLE (62.4, 0) */
+        #q-i-iv-pensum {
+            top: 0;
+            left: var(--block-w-px);
+            width: var(--block-w-px);
+            height: var(--block-h-px);
+            background-color: #fcfcfc;
+            z-index: 300;
+            color: #000;
+        }
+
+        /* NANO CANTON */
+        .nano-canton {
+            height: calc(18 * var(--cellite));
+            background: var(--sea-blue);
+            padding: calc(2 * var(--cellite));
+            border-bottom: calc(0.5 * var(--cellite)) solid var(--pewter);
+            color: #fff;
+            position: relative;
+        }
+
+        .version-tag {
+            position: absolute;
+            top: calc(1 * var(--cellite));
+            right: calc(1 * var(--cellite));
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* FLAG STRIPES (OLD GLORY EMULATION) */
+        .flag-stripes {
             flex: 1;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: repeating-linear-gradient(
+                0deg,
+                #FFFFFF,
+                #FFFFFF calc(4.3 * var(--cellite)),
+                #f5f5f5 calc(4.3 * var(--cellite)),
+                #f5f5f5 calc(8.6 * var(--cellite))
+            );
+            color: #000;
         }
 
-        /* Asset Twin: 3.5" x 2.0" */
-        .kine-card-twin {
-            width: calc(33.6 * var(--cellite));
-            height: calc(19.2 * var(--cellite));
-            background: white;
-            border: 1px solid #ddd;
+        .stripe-row {
+            height: calc(4.3 * var(--cellite));
             display: flex;
-            justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            position: relative;
+            justify-content: space-between;
+            padding: 0 calc(3 * var(--cellite));
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11pt;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .card-image { max-width: 92%; max-height: 88%; object-fit: contain; }
-        .card-label { position: absolute; bottom: 8px; right: 12px; font-size: 11px; color: #999; font-weight: bold; }
+        /* INSTRUMENT PANEL (QIII) */
+        #kt-dashboard {
+            flex: 1;
+            padding: calc(2 * var(--cellite));
+            display: flex;
+            flex-direction: column;
+        }
 
-        #vmc-controls {
-            height: calc(15 * var(--cellite));
+        .asset-stage {
+            flex: 1;
             background: #fff;
-            border-top: 1px solid #ddd;
+            border: 2px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: calc(2 * var(--cellite));
+        }
+
+        .pollito-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            filter: grayscale(1);
+            transition: filter 0.3s;
+        }
+        .pollito-link:hover { filter: grayscale(0); }
+
+        .vmc-ui-controls {
+            height: calc(10 * var(--cellite));
+            background: #eee;
+            border: 1px solid #ccc;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 0 calc(2 * var(--cellite));
         }
 
-        .btn-kt {
-            padding: 10px 20px;
-            border: 2px solid var(--pewter);
-            color: var(--sea-blue);
-            font-weight: 700;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: #fff;
-        }
-
-        /* NANO CANTON: Flag Blue Header */
-        .nano-canton {
-            height: calc(36 * var(--cellite)); /* 360px */
+        /* PENSUM */
+        .pensum-hdr {
+            height: calc(22 * var(--cellite));
             background: var(--sea-blue);
-            padding: calc(4 * var(--cellite));
-            border-bottom: calc(1 * var(--cellite)) solid var(--pewter);
-            position: relative;
-            z-index: 10;
-        }
-
-        .nano-canton h2 {
-            font-size: 24pt;
-            font-weight: 950;
-            letter-spacing: -1px;
-            margin-bottom: calc(2 * var(--cellite));
-        }
-
-        .canton-data {
-            font-size: 12pt;
-            font-weight: 700;
-            opacity: 0.9;
-            letter-spacing: 1px;
-        }
-
-        /* FLAG STRIPES: Old Glory Attributions */
-        .flag-stripes-area {
-            flex: 1;
-            background: repeating-linear-gradient(
-                0deg,
-                #FFFFFF,
-                #FFFFFF calc(5.3 * var(--cellite)),
-                #f5f5f5 calc(5.3 * var(--cellite)),
-                #f5f5f5 calc(10.6 * var(--cellite))
-            );
-            color: #000;
-            overflow-y: auto;
-            border-left: 2px solid #000;
-        }
-
-        .stripe-item {
-            height: calc(5.3 * var(--cellite));
+            color: #fff;
+            padding: calc(3 * var(--cellite));
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 calc(6 * var(--cellite));
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .stripe-item span:first-child { opacity: 0.6; font-size: 11pt; }
+        .pensum-content {
+            padding: calc(4 * var(--cellite));
+        }
 
-        #promotion-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--sea-blue);
-            color: white;
-            padding: 10px 30px;
-            font-weight: bold;
-            opacity: 0;
-            z-index: 2000;
-            transition: opacity 0.3s;
+        .data-point {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12pt;
+        }
+
+        .btn-vmc {
+            background: #fff;
+            border: 2px solid var(--pewter);
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 10pt;
+            text-transform: uppercase;
+            cursor: pointer;
         }
 
         input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #ddd; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: #ddd; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 26px; width: 26px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; }
     </style>
 </head>
 <body>
 
-    <div id="master-grid-overlay"></div>
+    <div id="master-grid"></div>
 
-    <!-- Z-LAYER 1: LANDING ZONE (IDLING) -->
-    <div id="layer-landing" class="vmc-layer">
-        <div class="internal-estate">
-            <div id="active-card" class="kine-card-twin">
-                <div class="absolute top-4 left-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">Idling Landing Zone</div>
-                <img id="asset-img" class="card-image hidden" src="" alt="Asset">
-                <div id="numeral-text" class="text-[100px] font-black text-[#002147]">001</div>
-                <div id="filename" class="card-label">001 KINE.JPG</div>
-            </div>
-        </div>
-        <div id="vmc-controls">
-            <button class="btn-kt" onclick="wipe()">[ Wipe ]</button>
-            <div class="flex flex-col items-center">
-                <input type="range" id="index-slider" min="1" max="100" value="1" class="w-64" oninput="updateIndex(this.value)">
-                <div id="val-display" class="font-bold text-blue-900 mt-2 text-3xl">001</div>
-            </div>
-            <button class="btn-kt" onclick="cycleFace()">[ Promote ]</button>
-        </div>
-    </div>
-
-    <!-- Z-LAYER 2: SEA FLAG Z-LAYER -->
-    <div id="layer-pensum" class="vmc-layer">
+    <!-- QUADRANT II: SEA FLAG LANDING ZONE -->
+    <div id="q-ii-flag" class="quadrant">
         <div class="nano-canton">
-            <h2 class="uppercase tracking-tighter">Nano Canton</h2>
-            <div class="canton-data space-y-2 uppercase">
-                <div class="flex justify-between border-b border-white/20 pb-1"><span>System:</span> <span>SEA-ALS v2.6.01</span></div>
-                <div class="flex justify-between border-b border-white/20 pb-1"><span>Core:</span> <span>KT Foundation</span></div>
-                <div class="flex justify-between border-b border-white/20 pb-1"><span>Estate:</span> <span>1:1 MLA Calibrated</span></div>
-                <div class="flex justify-between"><span>Coords:</span> <span id="coord-display">(0, 0) Monitor</span></div>
+            <div class="version-tag">VMC v7.0.STAGING</div>
+            <h2 class="text-2xl font-black uppercase tracking-tighter">Nano Canton</h2>
+            <div class="text-[11pt] font-bold opacity-80">
+                SEA-ALS | FOUNDATION KT_01
             </div>
         </div>
-        
-        <div class="flag-stripes-area">
-            <div class="stripe-item"><span>Architecture</span> <span>Advanced Learning System</span></div>
-            <div class="stripe-item"><span>Pensum</span> <span>Foundation KT-01</span></div>
-            <div class="stripe-item"><span>Interface</span> <span>VMC Console</span></div>
-            <div class="stripe-item"><span>Numerical</span> <span>Sichuan / Huama</span></div>
-            <div class="stripe-item"><span>Frame</span> <span>.25" Pewter Standard</span></div>
-            <div class="stripe-item"><span>Grid</span> <span>10 Cellite / 100px</span></div>
-            <div class="stripe-item"><span>Typography</span> <span>Atkinson 14pt</span></div>
-            <div class="stripe-item"><span>Heritage</span> <span>Sichuan Opera Mask</span></div>
-            <div class="stripe-item"><span>Bucket</span> <span>noenbalde</span></div>
-            <div class="stripe-item"><span>Estate</span> <span>Dual 6" Areas</span></div>
-            <div class="stripe-item"><span>Status</span> <span>Idling Landing Zone</span></div>
-            <div class="stripe-item"><span>Commit</span> <span>v260206.1</span></div>
-            <div class="stripe-item" style="border-bottom: none;"><span>Protocol</span> <span>Knowledge Transfer</span></div>
+        <div class="flag-stripes">
+            <div class="stripe-row"><span>Architecture</span><span>ADVANCED LEARNING SYSTEM</span></div>
+            <div class="stripe-row"><span>Pensum</span><span>FOUNDATION MASTERED</span></div>
+            <div class="stripe-row"><span>Interface</span><span>VMC_ENGINE_7.0</span></div>
+            <div class="stripe-row"><span>Status</span><span>IDLING LANDING ZONE</span></div>
         </div>
     </div>
 
-    <div id="promotion-toast">Layer Promoted</div>
+    <!-- QUADRANT III: STUDENT KT INSTRUMENTS -->
+    <div id="q-iii-instruments" class="quadrant">
+        <div id="kt-dashboard">
+            <div class="asset-stage">
+                <div class="pollito-link" title="Melodic Dashboard Link">🐥</div>
+                <div id="asset-display" class="text-7xl font-black text-[#002147]">001</div>
+                <div class="absolute bottom-2 left-4 text-[10px] font-bold text-slate-300">001 KINE.JPG</div>
+            </div>
+            <div class="vmc-ui-controls">
+                <button class="btn-vmc" onclick="wipe()">[ Wipe ]</button>
+                <div class="flex flex-col items-center">
+                    <input type="range" class="w-40" min="1" max="100" value="1" oninput="updateAsset(this.value)">
+                    <span id="asset-val" class="font-bold text-blue-900 mt-1">001</span>
+                </div>
+                <button class="btn-vmc" onclick="promote()">[ Promote ]</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUADRANTS I & IV: PENSUM CONSOLE -->
+    <div id="q-i-iv-pensum" class="quadrant">
+        <div class="pensum-hdr">
+            <h1 class="text-4xl font-black tracking-widest uppercase">PENSUM</h1>
+            <p class="text-sm opacity-80 uppercase font-bold">ACCELERATED MASTER TRACK</p>
+        </div>
+        <div class="pensum-content">
+            <div class="data-point"><span>Modulation</span><span>10x10 CELLITE MOD</span></div>
+            <div class="data-point"><span>Typography</span><span>ATKINSON 14PT</span></div>
+            <div class="data-point"><span>Anchor</span><span>QUAD II (0,0) ANCHORED</span></div>
+            <div class="data-point"><span>Scale</span><span>100PX / 10 CELLITE</span></div>
+            <div class="data-point"><span>Status</span><span>POSITIVE UPGRADE STAGED</span></div>
+            <div class="data-point"><span>Calibration</span><span>8.5" x 11" 1:1 MLA</span></div>
+            
+            <div class="mt-10 pt-6 border-t-4 border-blue-900">
+                <h3 class="font-black text-blue-900 uppercase mb-2">VMC_v7.0_LOG:</h3>
+                <p class="text-sm leading-snug text-gray-700 font-bold">
+                    Units 1-3 formally demoted to Preschool Mastery. Arithmetic Level 1 transition ready. The Value is the Constant. The Face is the Variable.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        let currentVal = 1;
-        let faces = ['Kine', 'Sichuan', 'Hindu-Arabic'];
-        let faceIdx = 0;
-        const bucketBase = "https://storage.googleapis.com/noenbalde/Activos/Imagenes/05%20Kine/";
-
-        const card = document.getElementById('active-card');
-        const img = document.getElementById('asset-img');
-        const text = document.getElementById('numeral-text');
-        const fileLabel = document.getElementById('filename');
-        const valDisplay = document.getElementById('val-display');
-        const toast = document.getElementById('promotion-toast');
-
-        function updateIndex(val) {
-            currentVal = parseInt(val);
-            const id3 = String(currentVal).padStart(3, '0'); 
-            const id2 = String(currentVal).padStart(2, '0');
-            const type = faces[faceIdx];
-            
-            valDisplay.innerText = id3;
-            fileLabel.innerText = `${id3} ${type.toUpperCase()}.JPG`;
-            text.innerText = id3;
-
-            const tryFetch = (id) => {
-                const fileName = `${id} ${type}.jpg`;
-                img.src = `${bucketBase}${encodeURIComponent(fileName)}`;
-            };
-
-            img.onload = () => { 
-                img.classList.remove('hidden'); 
-                text.classList.add('hidden'); 
-            };
-
-            let attempts = 0;
-            img.onerror = () => {
-                if (attempts === 0) {
-                    attempts++;
-                    tryFetch(id2); 
-  A              } else {
-                    img.classList.add('hidden'); 
-                    text.classList.remove('hidden'); 
-                }
-            };
-
-            tryFetch(id3); 
+        function updateAsset(v) {
+            const formatted = String(v).padStart(3, '0');
+            document.getElementById('asset-val').innerText = formatted;
+            document.getElementById('asset-display').innerText = formatted;
         }
 
-        function cycleFace() {
-            faceIdx = (faceIdx + 1) % faces.length;
-            updateIndex(currentVal);
-            showToast(`Promoted to ${faces[faceIdx].toUpperCase()}`);
+        function promote() {
+            const current = document.getElementById('asset-val').innerText;
+            console.log(`Promoting Face for Value: ${current}`);
+            // Logic for Sichuan/Hindu-Arabic mask switching
         }
 
         function wipe() {
-            card.style.transform = 'translateX(100vw)';
-            card.style.opacity = '0';
+            const stage = document.querySelector('.asset-stage');
+            stage.style.opacity = '0';
             setTimeout(() => {
-                currentVal = 1;
-                faceIdx = 0;
-                document.getElementById('index-slider').value = 1;
-                updateIndex(1);
-                card.style.transform = 'translateX(0)';
-                card.style.opacity = '1';
-                showToast("System Wipe Complete");
-            }, 400);
+                updateAsset(1);
+                document.querySelector('input[type=range]').value = 1;
+                stage.style.opacity = '1';
+            }, 300);
         }
-
-        function showToast(msg) {
-            toast.innerText = msg;
-            toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 1500);
-        }
-
-        window.onload = () => updateIndex(1);
     </script>
 </body>
 </html>
