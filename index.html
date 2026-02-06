@@ -1,277 +1,461 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<h<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VMC v7.2 - SEA-ALS Flag-State Final Calibration</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* 1 Cellite = 10px | 10 Cellites = Mod de 100px */
-            --cellite: 10px;
-            --pewter: #8E918F;
-            --cream: #FAF9F6;
-            --sea-blue: #002147;
-            --stripe-white: #FFFFFF;
-            
-            /* CALIBRACIÓN HARDWARE (96 DPI) */
-            --inch: 9.6; 
-            --total-h-u: 105.6; /* 11.0" Altura Total */
-            --total-w-u: 124.8; /* 13.0" Ancho Total */
-            
-            /* CÁLCULO DE FRANJAS: 13 Franjas para 11" */
-            --stripe-h: 8.123; 
-            
-            /* CANTON: 7 Franjas de profundidad para alineación Old Glory */
-            --canton-size: calc(var(--stripe-h) * 7 * var(--cellite));
-            
-            /* TIPOGRAFÍA */
-            --font-atkinson: 'Atkinson Hyperlegible', sans-serif;
-            --size-14pt: 14pt;
-        }
+    <title>Sistema de Educación Avanzada© (SEA)©</title>
 
-        body {
-            background-color: #000;
-            margin: 0;
-            padding: 0;
-            overflow: auto;
-            font-family: var(--font-atkinson);
-            font-size: var(--size-14pt);
-            color: #fff;
-        }
+<style>
+    /* 1. Pull the high-density font from Google's live library */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 
-        /* REJILLA MAESTRA: 10x10 Cellite Bedrock */
-        #master-grid {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: calc(10 * var(--cellite)) calc(10 * var(--cellite));
-            pointer-events: none;
-            z-index: 1000;
-        }
+    :root {
+        --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
+        --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+    }
+    
+    .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+    
+    body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
 
-        #flag-monitor {
-            position: relative;
-            width: calc(var(--total-w-u) * var(--cellite));
-            height: calc(var(--total-h-u) * var(--cellite));
-            background: #000;
-            overflow: hidden;
-        }
+    /* AUDIT: Reclaiming the 2" Stolen Estate */
+    #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
+    
+    #credits { text-align: center; margin-bottom: 10px; }
+    #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
+    #video-player { width: 100%; height: 100%; display: none; }
+    #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
+    #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
+    
+    .collapsible-section { margin-bottom: 2px; }
+    .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
+    .collapsible-header:before { content: '≡ '; transition: transform 0.2s; display: inline-block; }
+    .collapsible-header.open:before { transform: rotate(90deg); }
+    
+    .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
+    
+    /* AUDIT: Resetting List-Style to Evict Surreptitious Margins */
+    .collapsible-content ul { list-style: none; padding: 0 10px !important; margin: 0; }
 
-        /* NANO CANTON - UBICACIÓN DE ESTRELLAS (FLUSH) */
-        #nano-canton {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--canton-size);
-            height: var(--canton-size);
-            background-color: var(--sea-blue);
-            z-index: 500;
-            /* Borde superfluo eliminado */
-            padding: calc(3 * var(--cellite));
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    /* AUDIT: Level 2 Title Specification - Reclaiming Grid Sovereignty */
+    .collapsible-content ul li {
+        font-size: 14pt !important;
+        font-weight: 400 !important;
+        line-height: 1.1 !important;
+        margin-top: 10px !important;
+        color: #000 !important;
+    }
 
-        #nano-canton h2 {
-            font-size: 24pt;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 5px;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        /* FRANJAS (IDLING LANDING ZONE) */
-        #stripes-system {
-            position: absolute;
-            inset: 0;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stripe {
-            height: calc(var(--stripe-h) * var(--cellite));
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding-right: calc(5 * var(--cellite));
-            box-sizing: border-box;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 11pt;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0,0,0,0.03);
-        }
-
-        /* Franjas superiores respetan el espacio del Cantón */
-        .stripe.short { padding-left: calc(var(--canton-size) + calc(3 * var(--cellite))); }
-        .stripe.long { padding-left: calc(3 * var(--cellite)); }
-
-        .stripe:nth-child(odd) { background-color: var(--stripe-white); color: #000; }
-        .stripe:nth-child(even) { background-color: #f6f6f6; color: #000; }
-
-        /* CAPAS Z (INTERFAZ ACTIVA) */
-        .z-layer {
-            position: absolute;
-            box-sizing: border-box;
-            transition: opacity 0.3s ease;
-        }
-
-        /* QIII: INSTRUMENTOS */
-        #q-iii-instruments {
-            top: var(--canton-size);
-            left: 0;
-            width: var(--canton-size);
-            height: calc(calc(var(--total-h-u) * var(--cellite)) - var(--canton-size));
-            z-index: 600;
-            background: rgba(250, 249, 246, 0.96);
-            border-top: calc(0.24 * var(--cellite)) solid var(--pewter);
-            color: #1a1a1a;
-            padding: calc(2 * var(--cellite));
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* QI & IV: PENSUM */
-        #q-i-iv-pensum {
-            top: 0;
-            left: var(--canton-size);
-            width: calc(calc(var(--total-w-u) * var(--cellite)) - var(--canton-size));
-            height: 100%;
-            z-index: 400;
-            background: rgba(252, 252, 252, 0.88);
-            border-left: calc(0.24 * var(--cellite)) solid var(--pewter);
-            padding: calc(4 * var(--cellite));
-            color: #000;
-        }
-
-        .asset-stage {
-            flex: 1;
-            background: #fff;
-            border: 1px solid #ddd;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .btn-vmc {
-            background: #fff;
-            border: 2px solid var(--pewter);
-            padding: 8px 16px;
-            font-weight: 700;
-            font-size: 10pt;
-            text-transform: uppercase;
-        }
-
-        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
-        input[type=range]::-webkit-slider-runnable-track { height: 6px; background: #ddd; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -9px; border: 3px solid #fff; }
-    </style>
+    /* SPECIFICATION: 5 Lines Per Vertical Inch (14.4pt Total)
+       IDENTIFICATION: Merged Master Lock for Level 3 Launch Lines */
+    .collapsible-content ul li .module-link {
+        display: block !important;
+        text-decoration: none !important;
+        color: #0044cc !important;
+        font-size: 11pt !important;
+        line-height: 14.4pt !important;  /* The "5 LPI" Master Lock [cite: 2026-02-06] */
+        margin-left: 18px !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+</style>
+    
 </head>
 <body>
-
-    <div id="master-grid"></div>
-
-    <div id="flag-monitor">
-        
-        <!-- LAS FRANJAS (OLD GLORY CONFIGURATION) -->
-        <div id="stripes-system">
-            <!-- 7 Franjas Cortas -->
-            <div class="stripe short"><span>Desarrollador:</span><span>ARAGEM</span></div>
-            <div class="stripe short"><span>Contacto:</span><span>jmaf.phd@gmail.com</span></div>
-            <div class="stripe short"><span>Versión:</span><span>CVP 1</span></div>
-            <div class="stripe short"><span>Sistema:</span><span>SEA-ALS v7.2</span></div>
-            <div class="stripe short"><span>Tipografía:</span><span>Atkinson 14pt</span></div>
-            <div class="stripe short"><span>Escala:</span><span>100px / 10 Cellite</span></div>
-            <div class="stripe short"><span>Grid:</span><span>Laminar Flow</span></div>
-            <!-- 6 Franjas Largas -->
-            <div class="stripe long"><span>Calibración:</span><span>8.5" x 11" 1:1 MLA</span></div>
-            <div class="stripe long"><span>Protocolo:</span><span>Transferencia de Conocimiento</span></div>
-            <div class="stripe long"><span>Unidad 4:</span><span>Transición Preparada</span></div>
-            <div class="stripe long"><span>Origen:</span><span>Monitor (0,0) Anchored</span></div>
-            <div class="stripe long"><span>Estado:</span><span>Staging Site Active</span></div>
-            <div class="stripe long"><span>Compromiso:</span><span>v260206.1</span></div>
+    <nav id="left-menu" class="beveled-frame">
+        <div id="credits">
+            <h3>Bienvenido SEA</h3>
+            <p><b>Pensum</b><br>
+            Desarrollado por ARAGEM<br>
+            <a href="https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" target="_blank"><u>CVP 1</u></a></p>      
+            <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank">BTC© AF662jm</a></p>
         </div>
 
-        <!-- EL CANTON (FLUSH TO TOP-LEFT) -->
-        <div id="nano-canton">
-            <div class="text-[10px] opacity-60 mb-2 font-bold tracking-widest">SEA-ALS v7.2</div>
-            <h2>BIENVENIDO<br>SEA</h2>
-            <div class="text-[11pt] font-bold opacity-80 mt-4 leading-tight">
-                PENSUM<br>DESARROLLADO POR<br>ARAGEM
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">K~G1 Aritmética</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>ARU01 |Nueve|</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2001.mp4')">—ARU01 Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—ARU1S1 Sunya-Sifr Cero</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—ARU1S2 Uno al Cuatro</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Espa%C3%B1ol%200%20al%204.mp4')">—ARU1S2 Castellano 0-4</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/English%200%20to%204.mp4')">—ARU1S2 Inglés 0-4</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/German%200%20bis%204.mp4')">—ARU1S2 Aleman 0-4</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/French%200%20%C3%A1%204.mp4')">—ARU1S2 Francés 0-4</a></li>
+                    <li><a href="#" class="module-link" onclick="play('')">—ARU1S2 Portugués 0-4</a></li>                    
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/BTC%20Preguntas%20-%20Esp.mp4')">—ARU1S2 Preguntas (0-4)</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/Stardust%20Counts%20to%20Five.mp4')">—ARU1S3 Contando 1 a 5</a></li>         
+                    <li>ARPR Principios</li>
+                    <li>—ARPR01 Subitización</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4')">—ARPR01a Perceptual</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4')">—ARPR01b Conceptual</a></li>
+                    <li>—ARPR02 Orden</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Principia/El%20Orden%20Estable%20250124%202250.mp4')">—ARPR02a Estabilidad</a></li>                    
+                    <li>—ARPR03 Comparacion</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Evans%20Odds.mp4')">—ARPR03a Parity</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4')">—ARPR03b Pares y Nones</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4')">—ARPR03c Paridad</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Cardenality.mp4')">—ARPR03b Cardinalidad</a></li>
+                    <li>—ARPR03b Menor</li>
+                    <li>—ARPR03c Igual</li>
+                    <li>—ARPR03d Mayor</li>
+                    <li>—ARPR04 Cardinalidad</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Springtime%20Kyo.mp4')">—ARPR04a Estable</a></li>
+                    <li>—ARPR05 Ordinalidad</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Ordinales%20-%20Rin.mp4')">—ARPR05a Serial</a></li>
+                    <li>—ARPR06 Magnitud</li>
+                    <li>—ARPR06a Dimensional</li>
+                    <li>—ARPR06b Escalar</li>
+                    <li>—ARPR07 Apareado 1:1</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/One%20for%20One%20Chibi.mp4')">—ARPR07a Correspondencia</a></li>
+                    <li>—ARPR08 Inclusión</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Inclusion.mp4')">—ARPR08a Jerárquica</a></li>
+                    <li>—ARPR08b Partitiva</li>
+                    <li>—ARPR09 Conservación</li>
+                    <li>—ARPR10 Unitización</li>
+                    <li><b>ARU02 |Noventa y Nueve|</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">ARU02 |Noventa y Nueve|</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2002.mp4')">—ARU02A Guia Docente</a></li>
+                    <li><b>ARU03 |Noventa y Nueve|</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">ARU03a |Decillones|</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2003.mp4')">—ARU03b Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4')">—ARU03c Decillones</a></li>
+                    <li><b>ARU04 Principios de Suma</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2004.mp4')">—ARU04 Guia Docente</a></li>
+                    <li><b>UAR05 Fundamentos de Suma</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2005.mp4')">—ARU05 Guia Docente</a></li>
+                    <li><b>ARU06 Suma—Elementos y Algorithmos</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2006.mp4')">—ARU06 Guia Docente</a></li>
+                    <li><b>ARU07 Paridad, Comparación, Conjuntos y Compuestos</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2007.mp4')">—ARU07 Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4')">—ARU07a Conjuntos</a></li>
+                    <li><b>ARU08 Sumas, Signos, y Restas</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2008.mp4')">—ARU08 Guia Docente</a></li> 
+                    <li><b>ARU09 Multiplicación</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2009.mp4')">—ARU09 Guia Docente</a></li>
+                    <li><b>ARU10 División, Partición, y Cuotición</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2010.mp4')">—ARU10 Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4')">—ARU10a División</a></li>
+                    <li><b>ARU11 Fracciones</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2011.mp4')">—ARU11 Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/07%20Small%20Smaller%20Smallest.mp4')">—ARU11a Números Chicos</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4')">—ARU11b Números Racionales</a></li>
+                    <li><b>ARU12 Tiempo</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2012.mp4')">—ARU12 Guia Docente</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4')">—ARUU12a Chronos~Time</a></li>
+                    <li><b>ARU13 Formas y Otras Cosas</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2013.mp4')">—ARU13 Guia Docente</a></li>
+                </ul>
             </div>
         </div>
 
-        <!-- QIII: HERRAMIENTAS -->
-        <div id="q-iii-instruments" class="z-layer">
-            <div class="asset-stage">
-                <div id="asset-display" class="text-6xl font-black text-[#002147]">001</div>
-                <div class="absolute bottom-2 left-4 text-[9px] font-bold text-slate-300">001 KINE.JPG</div>
-            </div>
-            <div class="space-y-4">
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-bold uppercase">Índice</span>
-                    <span id="asset-val" class="font-bold text-blue-900">001</span>
-                </div>
-                <input type="range" min="1" max="100" value="1" oninput="updateAsset(this.value)">
-                <div class="flex gap-2">
-                    <button class="btn-vmc flex-1" onclick="wipe()">Wipe</button>
-                    <button class="btn-vmc flex-1">Promote</button>
-                </div>
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">G2~G3 Algebra I~II</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>—AL001 Writing Brace Sets</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20001.pdf"    target="_blank">AL001</a></p><li>
+                    <li>—-AL002 Set Elements</li><br>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20002.pdf"    target="_blank">AL002</a></p>
+                    <li>—AL003 Counting Sets</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20003.pdf"    target="_blank">AL003</a></p>
+                    <li>—-AL004 Numerical Expressions</li><br>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20004.pdf"    target="_blank">AL004</a></p>
+                    <li>—AL005-Addition Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20005.pdf"    target="_blank">AL005</a></p>
+                     <li>—AL006 Subtaction Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20006.pdf"    target="_blank">AL006</a></p>
+                    <li>—AL007 Multiplication Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20007.pdf"    target="_blank">AL007</a></p>
+                    <li>—AL008 Division Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20008.pdf"    target="_blank">AL008</a></p>
+                    <li>—AL009 Multiple Operation Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20009.pdf"    target="_blank">AL009</a></p>
+                    <li>—AL010 Factors and Multiplication</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20010.pdf"    target="_blank">AL010</a></p>
+                    <li>—AL011 Finding the HCF</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20011.pdf"    target="_blank">AL011</a></p>
+                    <li>—AL012 Multiples and the LCM</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20012.pdf"    target="_blank">AL012</a></p>
+                    <li>—AL013 Numerical and Open Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20013.pdf"    target="_blank">AL013</a></p>
+                    <li>—AL014 Evaluating Numerical Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20014.pdf"    target="_blank">AL014</a></p>
+                    <li>—AL015 Commutative and Associative Addition</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20015.pdf"    target="_blank">AL015</a></p>
+                    <li>—AL016 Commutation, Association and One</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20016.pdf"    target="_blank">AL016</a></p>
+                    <li>—AL017 Distributive Law Simplification</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20017.pdf"    target="_blank">AL017</a></p>
+                    <li>—AL018 Simplifying Expressions</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20018.pdf"    target="_blank">AL018</a></p>
+                    <li>—AL019 Sentences and Statements</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20019.pdf"    target="_blank">AL019</a></p>
+                    <li>—AL020 Solving Equations</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20020.pdf"    target="_blank">AL020</a></p>
+                    <li>—AL021 Sets and Truth</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20021.pdf"    target="_blank">AL021</a></p>
+                    <li>—AL022 Solving and Checking</li> 
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20022.pdf"    target="_blank">AL022</a></p>
+                    <li>—ALTQ Tests-Quiz 001-022</li>
+                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Quizzes%201%20thru%2022.pdf" target="_blank">ALTQ 001-022</a></p>
+                    <li>—-Continúa 23 a 64GR103</li>
+                </ul>
             </div>
         </div>
 
-        <!-- QI & IV: PENSUM -->
-        <div id="q-i-iv-pensum" class="z-layer">
-            <div class="mb-6">
-                <h1 class="text-5xl font-black tracking-tighter uppercase mb-1">PENSUM</h1>
-                <p class="text-sm font-bold opacity-60">TRACK ACELERADO DE FUNDAMENTACIÓN</p>
-            </div>
-            
-            <div class="space-y-2">
-                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Modulación</span><span>10x10 Cellite</span></div>
-                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Coordenada</span><span>1:1 MLA Fixed</span></div>
-                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Identidad</span><span>CVP 1 / ARAGEM</span></div>
-            </div>
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">G2~G3 Geometry</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>—GESH 03 Triangles</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/03%20Triangles%C2%A9.mp4')">GESH 03 Triangles</a></li> 
+                    <li>—GESH 04 Squares</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/04%20Squares.mp4')">GESH 04 Squares</a></li>                     
+                    <li>—GESH 05 Pentagons</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/05%20Pentagons.mp4')">GESH 05 Pentagons</a></li> 
+                    <li>—GESH 06 Hexagons</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/06%20Hexagons.mp4')">GESH 06 Hexagons</a></li> 
 
-            <div class="mt-8 p-5 border-4 border-blue-900 bg-white">
-                <h3 class="font-black text-blue-900 uppercase mb-2 text-sm">Log:</h3>
-                <p class="text-[11px] leading-relaxed font-bold uppercase">
-                    Layout recalibrado. El Cantón y las franjas poseen el monitor al 100%. Sin bordes superfluos. Flujo laminar asegurado para la Unidad 4.
-                </p>
+
+                
+                </ul>
+            </div>
+        </div>
+                
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">(K~6) Comunicación</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>-GR - Gramática</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4')">—G00a Grammática</a></li>
+                    <li>—GR01-Sujeto</li>
+                    <li>—GR02-Predicado</li>
+                    <li>—GR02-Oración Sencilla</li>
+                    <li>—GR03-Modificadores</li>
+                    <li>—GR04-Mejorando las Oraciones</li>
+                    <li>—GR05-Entendiendo la Oración</li>
+                    <li>—GR06-Verbos</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Verbs/Verbs%200001-0010.mp4')">GR Verbs 0001-0010</a></li>
+                    <li>—GR07-Concordancia entre Sujeto y Verbo</li>
+                    <li>—GR08-Mejorando las Oraciones</li>
+                    <li>—GR09-Usando el Modificador Correcto</li>
+                    <li>—GR10-Pronombre</li>
+                    <li>—GR11-Letras Meayúsculas</li>
+                    <li>—GR12-Coma</li>
+                    <li>—GR13-Apostrofe</li>
+                    <li>—GR13-Comillas</li>
+                    <li>—-Continua ...GR103</li>
+                    <li><i>GF - Forma</i></li>
+                    <li>-GF01 - Morfología</li>
+                    <li>-GF02 - Fonología y Fonética</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Phonetics/CF%20A%20E%20I%20O%20U.mp4')">GFCA01 Castellano Vocales</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Phonetics/Castellano%20Cartilla.mp4')">GFCA02 Castellano Cartilla</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4')">GFEN01 English Enunciation</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4')">GFEN02 English Enunciation</a></li>
+                    <li>-GF03 - Clases de Palabras</li>
+                    <li><i>-GI - Concepto</i></li>
+                    <li>-GI05 - Significado</li>
+                    <li>-GI05 - Synónimo</li>
+                    <li>-GI05 - Antónimo</li>
+                    <li>-GI05 - Connotacion</li>
+                    <li>-GI05 - Implicacion</li>
+                    <li><i>OR - Orden</i></li>
+                    <li>-ORO1 - Nombre</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LN001 Nombres 001</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4')">LN002 Nombres 002</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4')">LN003 Nombres 003</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4')">LN004 Nombres 004</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4')">LN005 Nombres 005</a></li>
+                    <li>-OR02 - Pronombre</li>
+                    <li>-ORO3 - Artículo</li>
+                    <li>-ORO4 - Adjetivo</li>
+                    <li>-ORO5 - Verbo</li>
+                    <li>-OR06 - Adverbio</li>
+                    <li>-OR07 - Preposicion</li>
+                    <li>-ORO8 - Conjuncion</li>
+                    <li>-OR09 - Interjeccion</li>
+                    <li>-OR10 - Oración</li>
+                    <li>CG - Puntuación</li>
+                    <li>GA - Acuerdos</li>
+                    <li>-GA01 - MLA</li>
+                    <li>-GA02 - APA</li>
+                    <li>-GA03 - RAE</li>
+                    <li><b>-LI - Literatura</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4')">LTFB ~ Esopo 001</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Mans%20Best%20Friend.mp4')">LTML ~ Mejor Amigo del Hombre</a></li>
+                    <li>-LTFT</li>
+                    <li>-LTPR</li>
+                    <li>-LTCL1</li>
+                    <li>-LTCL2</li>
+                </ul>
             </div>
         </div>
 
-    </div>
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">(K~6) Ciencia</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>EM01 Astronomía</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Astronomy/Polaris.mp4')">AS Polaris</a></li>
+                    <li>EM02 Biología</li>
+                    <li>EM03 Física</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Physics/F%C3%ADsica%202.mp4')">FI Ventaja Mecánica</a></li>
+                       <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Physics/Gallileos%20Measures.mp4')">FI Galileo y Mensura</a></li>
+                    <li>EM04 Química</li>
+                    <li>EM05 Horticultura</li>
+                    <li>EM05 Metereología</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <span class="collapsible-header" onclick="toggleSection(this)">(K~6) Expressión</span>
+            <div class="collapsible-content">
+                <ul>
+                    <li>EX04 Rhetorica</li>
+                    <li>EX04 Artes Visuales</li>
+                    <li>EX02 Artes Applicadas</li>
+                    <li>EX03 Artes Escénicas</li>
+                    <li>EX02 Artes en Papel</li>
+                    <li>EX02 Artes Marciales</li>
+                    <li><b>Música</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Pennie%20Song.mp4')">—M01 Song Penny</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4')">—M09 Leones Cuentan</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Giddyap/Identify%20and%20Match%20for%20Git.mp4')">—M12 Identifcación</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main id="content-area">
+        <button id="return-btn" onclick="stopVideo()">&larr; Volver</button>
+<div id="landing-msg" style="width: 6in; height: 10in; background: rgb(174, 178, 183) url('https://storage.googleapis.com/noenbalde/Staging/VMCV6.jpg') no-repeat center top; background-size: contain; margin: 0 auto;"></div>
+<video id="video-player" style="display: none; width: 6in; height: auto; margin: 0 auto;" controls controlsList="nodownload" oncontextmenu="return false;"></video>
 
     <script>
-        function updateAsset(v) {
-            const formatted = String(v).padStart(3, '0');
-            document.getElementById('asset-val').innerText = formatted;
-            document.getElementById('asset-display').innerText = formatted;
+        function toggleSection(header) {
+            header.classList.toggle('open');
+            const content = header.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
         }
 
-        function wipe() {
-            const stage = document.querySelector('.asset-stage');
-            stage.style.opacity = '0';
-            setTimeout(() => {
-                updateAsset(1);
-                document.querySelector('input[type=range]').value = 1;
-                stage.style.opacity = '1';
-            }, 300);
+        const player = document.getElementById('video-player');
+        const btn = document.getElementById('return-btn');
+        const msg = document.getElementById('landing-msg');
+
+        function play(source) {
+            msg.style.display = 'none';
+            player.style.display = 'block';
+            btn.style.display = 'block';
+            player.src = source;
+            player.play();
+        }
+
+        function stopVideo() {
+            player.pause();
+            player.src = "";
+            player.style.display = 'none';
+            btn.style.display = 'none';
+            msg.style.display = 'block';
         }
     </script>
+
+// [900] BUFFER HOLLERITH: JURISDICCIÓN, IDENTIDAD Y AUDITORÍA
+// Reemplazo holístico para SEA-ALS - Protocolo de Aterrizaje
+
+const SOVEREIGNTY = (() => {
+    const MASTER_SCALE = 1.0; 
+
+    return {
+        establish: (name, title, email, count) => {
+            const doc = document.documentElement;
+            // 1. Soberanía Visual 1:1 (Grid Fijo)
+            doc.style.overflow = "hidden";
+            doc.style.touchAction = "none";
+            doc.style.transform = `scale(${MASTER_SCALE})`;
+            doc.style.transformOrigin = "0 0";
+
+            // 2. Notificación de Cortesía y Registro
+            const msg = document.createElement('div');
+            msg.id = "user_courtesy_f11";
+            msg.innerHTML = `
+                <strong>Sesión #${count}</strong> | ${name} [${title}]<br>
+                <small>Privacidad SEA: Contacto solo para mejoras pedagógicas.</small><br>
+                Oprima &lt;F11&gt; para modo Oasis.
+            `;
+            
+            Object.assign(msg.style, {
+                position: "fixed", top: "20px", left: "50%", transform: "translateX(-50%)",
+                backgroundColor: "rgba(50, 50, 50, 0.95)", color: "white",
+                padding: "15px 30px", borderRadius: "8px", fontFamily: "monospace",
+                zIndex: "9999", border: "1px solid #8E9294", textAlign: "center",
+                boxShadow: "0 4px 15px rgba(0,0,0,0.5)", fontSize: "14px"
+            });
+
+            document.body.appendChild(msg);
+            setTimeout(() => { msg.style.opacity = '0'; setTimeout(()=>msg.remove(), 1000); }, 7000);
+        },
+
+        requestEntry: () => {
+            // Auditoría Local de Sesiones
+            let count = localStorage.getItem('sea_visit_count') || 0;
+            count = parseInt(count) + 1;
+            localStorage.setItem('sea_visit_count', count);
+
+            const consent = "\n\n(Privacidad: Información protegida por el protocolo pro bono de SEA-ALS).";
+            
+            const name = prompt(`SEA-ALS (Visita #${count})\nIngrese su Primer Nombre:${consent}`);
+            if (name) {
+                const title = prompt(`Ingrese su Título/Cargo (ej. Docente, Director):${consent}`);
+                const email = prompt(`Ingrese su Correo para actualizaciones de SEA:${consent}`);
+                
+                if (title && email) {
+                    SOVEREIGNTY.establish(name, title, email, count);
+                    // Registro forense en consola para tu auditoría inmediata
+                    console.log(`AUDIT_LOG: ${name} | ${title} | ${email} | Sesión: ${count}`);
+                }
+            }
+        }
+    };
+})();
+
+// Punto de Entrada tras Latencia de Servidor
+window.onload = () => { setTimeout(SOVEREIGNTY.requestEntry, 500); };
+
+// # END_900_SOVEREIGNTY_DATA_CORE
+
+/* PLACE THIS BEFORE YOUR LAST LINE OF CODE, 
+   BETWEEN SCRIPT AND BODY TO CLAIM Z-SPACE 
+*/
+
+function lockVMC() {
+    // 1. Zoom Control: Locks at 100% to prevent grid distortion
+    document.body.style.zoom = "100%";
+
+    // 2. F11 Courtesy Alert: Triggered if the menu bar occupies Z-Space
+    if (!window.screenTop && !window.screenY) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = "Para accessar el menu, oprima la tecla <F11>";
+        alertBox.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#adb5bd; color:#000; padding:10px; border:2px solid #8e979e; z-index:10000; font-family:monospace;";
+        document.body.appendChild(alertBox);
+        
+        // Brief flash then fade
+        setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
+    }
+}
+
+window.onload = lockVMC;
+        
+</body>
+</html>tml>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
 </body>
 </html>
