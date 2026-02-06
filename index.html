@@ -24,7 +24,7 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* VMC Anchored at (0,0) - Content 8.5x11, Total Width 9.0in with .25in frame */
+        /* VMC Anchored at (0,0) of Viewport - Content 8.5x11, Total Width 9.0in with .25in frame */
         #vmc-viewport {
             width: 8.5in;
             height: 11in;
@@ -88,10 +88,10 @@
             z-index: 10;
         }
 
-        /* Modern Vision Utilization: Right Panel */
+        /* side-panel Utilization: Right of VMC */
         #side-panel {
             position: absolute;
-            left: 9.0in; /* Anchored immediately after VMC frame */
+            left: 9.0in; /* Total width of VMC + Borders */
             top: 0;
             right: 0;
             height: 11in;
@@ -101,16 +101,16 @@
         }
 
         #nano-canton {
-            height: 220px;
+            height: 240px;
             background: var(--sea-blue);
             color: #fff;
-            padding: 40px;
+            padding: 30px;
             border-bottom: 10px solid var(--pewter);
             position: relative;
         }
 
         #nano-canton::after {
-            content: 'KT-ALPHA';
+            content: 'KT-01';
             position: absolute;
             bottom: 10px;
             right: 20px;
@@ -135,19 +135,19 @@
         }
 
         .credit-item {
-            font-size: 12px;
+            font-size: 11px;
             color: #1a1a1a;
-            padding: 14px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(0,0,0,0.08);
             text-transform: uppercase;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             display: flex;
             justify-content: space-between;
         }
 
         .btn-sea {
-            padding: 14px 24px;
+            padding: 12px 20px;
             background: #fff;
             border: 2px solid var(--pewter);
             color: var(--sea-blue);
@@ -161,7 +161,7 @@
         #toast {
             position: absolute;
             top: 40px;
-            left: 4.25in; /* Centered in VMC */
+            left: 4.25in;
             transform: translateX(-50%);
             background: var(--sea-blue);
             color: white;
@@ -174,7 +174,6 @@
             border-radius: 2px;
         }
 
-        /* Custom Range Slider Styling */
         input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #ddd; border-radius: 2px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -8px; }
@@ -204,28 +203,27 @@
     </div>
 
     <div id="side-panel">
-        <!-- Nano Canton: High-Density Information Block -->
         <div id="nano-canton">
-            <h2 class="text-2xl font-black tracking-tighter border-b-4 border-blue-400/40 mb-6 pb-2">NANO CANTON</h2>
-            <div class="grid grid-cols-2 gap-y-3 text-[11px] font-black tracking-widest opacity-80">
-                <div class="text-blue-200">SYSTEM ARCH:</div> <div>SEA-ALS v2.6.01</div>
+            <h2 class="text-xl font-black tracking-tighter border-b-2 border-blue-400/40 mb-4 pb-1">NANO CANTON</h2>
+            <div class="grid grid-cols-2 gap-y-2 text-[10px] font-black tracking-widest opacity-80 mb-6">
+                <div class="text-blue-200">SYSTEM ARCH:</div> <div>SEA-ALS v2.6</div>
                 <div class="text-blue-200">CORE MODULE:</div> <div>KT FOUNDATION</div>
-                <div class="text-blue-200">GRID CALIBR:</div> <div>0.25" FIXED</div>
-                <div class="text-blue-200">PRINT ESTATE:</div> <div>1:1 MLA STD</div>
+                <div class="text-blue-200">ESTATE:</div> <div>1:1 MLA</div>
+                <div class="text-blue-200">COORDS (X,Y):</div> <div id="coord-display">(0, 0)</div>
             </div>
+            <button onclick="toggleFullscreen()" class="w-full py-2 bg-blue-900/50 border border-blue-400/30 text-[10px] font-black tracking-[0.3em] hover:bg-blue-400 hover:text-white transition-colors">
+                [ ENGAGE FULLSCREEN VISION ]
+            </button>
         </div>
 
-        <!-- Flag Credits: Striped area for attributions -->
         <div id="flag-credits">
             <h3 class="text-sm font-black mb-8 text-blue-900 border-b-2 border-blue-900 inline-block tracking-widest">SYSTEM ATTRIBUTIONS</h3>
             <div class="credit-item"><span>Architecture:</span> <span>ADVANCED LEARNING SYSTEM</span></div>
             <div class="credit-item"><span>PENSUM:</span> <span>FOUNDATION KT-01</span></div>
             <div class="credit-item"><span>Interface:</span> <span>VMC CONSOLE</span></div>
             <div class="credit-item"><span>Numerical:</span> <span>SICHUAN / HUAMA</span></div>
-            <div class="credit-item"><span>Heritage:</span> <span>SICHUAN OPERA MASK</span></div>
             <div class="credit-item"><span>Storage:</span> <span>GC BUCKET: NOENBALDE</span></div>
             <div class="credit-item"><span>Calibration:</span> <span>8.5"x11" FIXED GRID</span></div>
-            <div class="credit-item"><span>Protocol:</span> <span>KNOWLEDGE TRANSFER</span></div>
             <div class="credit-item"><span>Status:</span> <span>COMMITTED v260206.1</span></div>
         </div>
     </div>
@@ -236,8 +234,6 @@
         let currentVal = 1;
         let faces = ['Kine', 'Sichuan', 'Hindu-Arabic'];
         let faceIdx = 0;
-        
-        // Base URL mapped from current bucket structure
         const bucketBase = "https://storage.googleapis.com/noenbalde/Activos/Imagenes/05%20Kine/";
 
         const card = document.getElementById('active-card');
@@ -250,16 +246,11 @@
 
         function updateIndex(val) {
             currentVal = parseInt(val);
-            // Display requires 3-digit Formal Naming (Modern Vision)
             const id3 = String(currentVal).padStart(3, '0'); 
-            // Current Bucket requires 2-digit naming (Legacy/Staging)
             const id2 = String(currentVal).padStart(2, '0'); 
-            
             const type = faces[faceIdx];
             
-            // Labels reflect the formal standard
             const labelName = `${id3} ${type}.jpg`;
-            // Fetch reflects the physical bucket reality
             const bucketName = `${id2} ${type}.jpg`;
 
             card.style.transform = 'scale(0.97) translateY(5px)';
@@ -269,18 +260,10 @@
                 fileLabel.innerText = labelName;
                 text.innerText = id3;
                 
-                // Fetch using current bucket naming convention
                 const fetchUrl = `${bucketBase}${encodeURIComponent(bucketName)}`;
-                
                 img.src = fetchUrl;
-                img.onload = () => { 
-                    img.classList.remove('hidden'); 
-                    text.classList.add('hidden'); 
-                };
-                img.onerror = () => { 
-                    img.classList.add('hidden'); 
-                    text.classList.remove('hidden'); 
-                };
+                img.onload = () => { img.classList.remove('hidden'); text.classList.add('hidden'); };
+                img.onerror = () => { img.classList.add('hidden'); text.classList.remove('hidden'); };
                 
                 card.style.transform = 'scale(1) translateY(0)';
             }, 50);
@@ -294,7 +277,6 @@
         }
 
         function wipe() {
-            // Visual reset transition - Tactile Reset Experience
             card.style.transform = 'translateX(100vw)';
             card.style.opacity = '0';
             
@@ -316,7 +298,22 @@
             setTimeout(() => toast.style.opacity = '0', 1500);
         }
 
-        // System Initialization
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    notify(`Error engaging fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Monitoring Viewport/Monitor relation
+        window.addEventListener('resize', () => {
+            const isFullscreen = !!document.fullscreenElement;
+            document.getElementById('coord-display').innerText = isFullscreen ? '(0, 0) MONITOR' : '(0, 0) VIEWPORT';
+        });
+
         window.onload = () => updateIndex(1);
     </script>
 </body>
