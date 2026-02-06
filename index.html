@@ -3,237 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Transfer Foundation Index</title>
+    <title>KT Foundation - Sea Flag Z-Layer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* 1 Cellite = 10px | 10 Cellites = 100px Square Mod */
+            --cellite: 10px;
             --pewter: #8E918F;
             --cream: #FAF9F6;
-            --grid-size: 0.25in;
             --sea-blue: #002147;
-            --stripe-red: #B22234;
+            --flag-red: #B22234;
             --stripe-white: #FFFFFF;
+            
+            /* Calibration (96 DPI): 1 inch = 9.6 cellites */
+            --frame-units: 2.4;    /* .25" Pewter Frame */
+            --usable-w-units: 57.6; /* 6.0" Usable Interior */
+            --usable-h-units: 105.6; /* 11.0" Full Height */
+            
+            /* Calculated Block Width: 6.5" (62.4 cellites / 624px) */
+            --block-w-px: calc((var(--usable-w-units) + (var(--frame-units) * 2)) * var(--cellite));
+            --block-h-px: calc(var(--usable-h-units) * var(--cellite));
+
+            /* Typography: Atkinson Hyperlegible 14pt */
+            --font-main: 'Atkinson Hyperlegible', sans-serif;
+            --size-standard: 14pt;
         }
 
         body {
-            background-color: #0a0a0a;
+            background-color: #050505;
             margin: 0;
             padding: 0;
             overflow-x: auto;
             overflow-y: hidden;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: var(--font-main);
+            font-size: var(--size-standard);
+            color: #fff;
         }
 
-        /* VMC Anchored at (0,0) of Viewport - Content 8.5x11, Total Width 9.0in with .25in frame */
-        #vmc-viewport {
-            width: 8.5in;
-            height: 11in;
-            background-color: var(--cream);
-            position: absolute;
-            top: 0;
-            left: 0;
-            box-shadow: 20px 0 50px rgba(0,0,0,0.9);
-            border: 0.25in solid var(--pewter);
-            display: flex;
-            flex-direction: column;
-            user-select: none;
-            z-index: 50;
-        }
-
-        #grid-layer {
-            position: absolute;
+        /* MASTER GRID: 10x10 Cellite Mod (100px) */
+        #master-grid-overlay {
+            position: fixed;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
-            background-size: var(--grid-size) var(--grid-size);
+                linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: calc(10 * var(--cellite)) calc(10 * var(--cellite));
             pointer-events: none;
-            z-index: 1;
+            z-index: 1000;
         }
 
-        #display-area {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Card Specifications: 3.5" x 2.0" Business Card Twin */
-        .kine-card {
-            width: 3.5in;
-            height: 2.0in;
-            background: white;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .vmc-layer {
             position: absolute;
-        }
-
-        .card-image { max-width: 94%; max-height: 90%; object-fit: contain; }
-        .card-text-fallback { font-size: 100px; font-weight: 900; color: var(--sea-blue); letter-spacing: -6px; }
-        .card-label { position: absolute; bottom: 8px; right: 12px; font-size: 9px; color: #94a3b8; font-weight: bold; letter-spacing: 1px; }
-
-        #controls {
-            height: 130px;
-            border-top: 2px solid #e2e8f0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background: #ffffff;
-            z-index: 10;
-        }
-
-        /* Modern Vision Utilization: Right Panel */
-        #side-panel {
-            position: absolute;
-            left: 9.0in; 
             top: 0;
-            right: 0;
-            height: 11in;
+            height: var(--block-h-px);
+            width: var(--block-w-px);
+            border: calc(var(--frame-units) * var(--cellite)) solid var(--pewter);
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            min-width: 480px;
-            background: #0a0a0a;
-        }
-
-        #nano-canton {
-            height: 280px;
-            background: var(--sea-blue);
-            color: #fff;
-            padding: 40px;
-            border-bottom: 12px solid var(--pewter);
-            position: relative;
             overflow: hidden;
         }
 
-        #nano-canton::after {
-            content: 'KT-ALPHA';
-            position: absolute;
-            bottom: -15px;
-            right: -10px;
-            font-size: 90px;
-            font-weight: 950;
-            color: rgba(255, 255, 255, 0.04);
-            pointer-events: none;
+        /* Z-LAYER 1: LANDING ZONE (IDLING) | Anchor (0, 0) */
+        #layer-landing {
+            left: 0;
+            background-color: var(--cream);
+            z-index: 100;
         }
 
-        /* Flag Credits: Striped area for attributions */
-        #flag-credits {
+        /* Z-LAYER 2: PENSUM / SEA FLAG Z-LAYER | Anchor (624, 0) */
+        #layer-pensum {
+            left: var(--block-w-px);
+            background-color: #0a0a0a;
+            z-index: 200;
+        }
+
+        .internal-estate {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Asset Twin: 3.5" x 2.0" */
+        .kine-card-twin {
+            width: calc(33.6 * var(--cellite));
+            height: calc(19.2 * var(--cellite));
+            background: white;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .card-image { max-width: 92%; max-height: 88%; object-fit: contain; }
+        .card-label { position: absolute; bottom: 8px; right: 12px; font-size: 11px; color: #999; font-weight: bold; }
+
+        #vmc-controls {
+            height: calc(15 * var(--cellite));
+            background: #fff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 calc(2 * var(--cellite));
+        }
+
+        .btn-kt {
+            padding: 10px 20px;
+            border: 2px solid var(--pewter);
+            color: var(--sea-blue);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #fff;
+        }
+
+        /* NANO CANTON: Flag Blue Header */
+        .nano-canton {
+            height: calc(36 * var(--cellite)); /* 360px */
+            background: var(--sea-blue);
+            padding: calc(4 * var(--cellite));
+            border-bottom: calc(1 * var(--cellite)) solid var(--pewter);
+            position: relative;
+            z-index: 10;
+        }
+
+        .nano-canton h2 {
+            font-size: 24pt;
+            font-weight: 950;
+            letter-spacing: -1px;
+            margin-bottom: calc(2 * var(--cellite));
+        }
+
+        .canton-data {
+            font-size: 12pt;
+            font-weight: 700;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* FLAG STRIPES: Old Glory Attributions */
+        .flag-stripes-area {
             flex: 1;
             background: repeating-linear-gradient(
                 0deg,
-                var(--stripe-white),
-                var(--stripe-white) 44px,
-                #f5f5f5 44px,
-                #f5f5f5 88px
+                #FFFFFF,
+                #FFFFFF calc(5.3 * var(--cellite)),
+                #f5f5f5 calc(5.3 * var(--cellite)),
+                #f5f5f5 calc(10.6 * var(--cellite))
             );
-            padding: 40px 60px;
-            overflow-y: auto;
-            border-left: 3px solid #000;
-        }
-
-        .credit-item {
-            font-size: 11px;
             color: #000;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.12);
-            text-transform: uppercase;
-            font-weight: 900;
-            letter-spacing: 2px;
+            overflow-y: auto;
+            border-left: 2px solid #000;
+        }
+
+        .stripe-item {
+            height: calc(5.3 * var(--cellite));
             display: flex;
+            align-items: center;
             justify-content: space-between;
-        }
-
-        .btn-sea {
-            padding: 14px 24px;
-            background: #fff;
-            border: 2px solid var(--pewter);
-            color: var(--sea-blue);
-            font-weight: 900;
-            font-size: 10px;
-            letter-spacing: 2.5px;
-            transition: all 0.2s;
+            padding: 0 calc(6 * var(--cellite));
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
-        .btn-sea:hover { background: var(--sea-blue); color: #fff; transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
-        #toast {
-            position: absolute;
-            top: 40px;
-            left: 4.25in;
+        .stripe-item span:first-child { opacity: 0.6; font-size: 11pt; }
+
+        #promotion-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
             transform: translateX(-50%);
             background: var(--sea-blue);
             color: white;
             padding: 10px 30px;
-            font-size: 12px;
-            font-weight: 900;
+            font-weight: bold;
             opacity: 0;
-            z-index: 100;
+            z-index: 2000;
             transition: opacity 0.3s;
-            border-radius: 2px;
-            letter-spacing: 1px;
         }
 
         input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #ddd; border-radius: 2px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #ddd; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; }
     </style>
 </head>
 <body>
 
-    <div id="vmc-viewport">
-        <div id="grid-layer"></div>
-        <div id="display-area">
-            <div id="active-card" class="kine-card">
-                <div id="card-type" class="absolute top-4 left-4 text-[10px] font-black text-slate-300 tracking-[0.4em] uppercase">TYPE: KINE</div>
-                <img id="asset-img" class="card-image hidden" src="" alt="Numeral Asset">
-                <div id="numeral-text" class="card-text-fallback">001</div>
-                <div id="filename" class="card-label">001 Kine.jpg</div>
+    <div id="master-grid-overlay"></div>
+
+    <!-- Z-LAYER 1: LANDING ZONE (IDLING) -->
+    <div id="layer-landing" class="vmc-layer">
+        <div class="internal-estate">
+            <div id="active-card" class="kine-card-twin">
+                <div class="absolute top-4 left-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">Idling Landing Zone</div>
+                <img id="asset-img" class="card-image hidden" src="" alt="Asset">
+                <div id="numeral-text" class="text-[100px] font-black text-[#002147]">001</div>
+                <div id="filename" class="card-label">001 KINE.JPG</div>
             </div>
         </div>
-        <div id="controls">
-            <button class="btn-sea" onclick="wipe()">[ WIPE ]</button>
-            <div class="flex flex-col items-center gap-3">
-                <span class="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase">INDEX SWIPE</span>
-                <input type="range" id="index-slider" min="1" max="100" value="1" class="w-80" oninput="updateIndex(this.value)">
-                <span id="val-display" class="text-4xl font-black text-[#002147] tracking-tighter">001</span>
+        <div id="vmc-controls">
+            <button class="btn-kt" onclick="wipe()">[ Wipe ]</button>
+            <div class="flex flex-col items-center">
+                <input type="range" id="index-slider" min="1" max="100" value="1" class="w-64" oninput="updateIndex(this.value)">
+                <div id="val-display" class="font-bold text-blue-900 mt-2 text-3xl">001</div>
             </div>
-            <button class="btn-sea" onclick="cycleFace()">[ CYCLE FACE ]</button>
+            <button class="btn-kt" onclick="cycleFace()">[ Promote ]</button>
         </div>
     </div>
 
-    <div id="side-panel">
-        <div id="nano-canton">
-            <h2 class="text-2xl font-black tracking-tighter border-b-4 border-blue-400/40 mb-6 pb-2">NANO CANTON</h2>
-            <div class="grid grid-cols-2 gap-y-4 text-[12px] font-black tracking-widest opacity-90 mb-8">
-                <div class="text-blue-300">SYSTEM ARCH:</div> <div>SEA-ALS v2.6.01</div>
-                <div class="text-blue-300">CORE MODULE:</div> <div>KT FOUNDATION</div>
-                <div class="text-blue-300">ESTATE:</div> <div>1:1 MLA</div>
-                <div class="text-blue-300">COORDS (X,Y):</div> <div id="coord-display">(0, 0)</div>
+    <!-- Z-LAYER 2: SEA FLAG Z-LAYER -->
+    <div id="layer-pensum" class="vmc-layer">
+        <div class="nano-canton">
+            <h2 class="uppercase tracking-tighter">Nano Canton</h2>
+            <div class="canton-data space-y-2 uppercase">
+                <div class="flex justify-between border-b border-white/20 pb-1"><span>System:</span> <span>SEA-ALS v2.6.01</span></div>
+                <div class="flex justify-between border-b border-white/20 pb-1"><span>Core:</span> <span>KT Foundation</span></div>
+                <div class="flex justify-between border-b border-white/20 pb-1"><span>Estate:</span> <span>1:1 MLA Calibrated</span></div>
+                <div class="flex justify-between"><span>Coords:</span> <span id="coord-display">(0, 0) Monitor</span></div>
             </div>
-            <button onclick="toggleFullscreen()" class="w-full py-4 bg-blue-900/50 border-2 border-blue-400/30 text-[11px] font-black tracking-[0.4em] hover:bg-blue-400 hover:text-white transition-all uppercase">
-                [ ENGAGE FULLSCREEN VISION ]
-            </button>
         </div>
-
-        <div id="flag-credits">
-            <h3 class="text-sm font-black mb-10 text-blue-900 border-b-2 border-blue-900 inline-block tracking-[0.2em] uppercase">SYSTEM ATTRIBUTIONS</h3>
-            <div class="credit-item"><span>Architecture:</span> <span>ADVANCED LEARNING SYSTEM</span></div>
-            <div class="credit-item"><span>PENSUM:</span> <span>FOUNDATION KT-01</span></div>
-            <div class="credit-item"><span>Interface:</span> <span>VMC CONSOLE</span></div>
-            <div class="credit-item"><span>Numerical:</span> <span>SICHUAN / HUAMA</span></div>
-            <div class="credit-item"><span>Storage:</span> <span>GC BUCKET: NOENBALDE</span></div>
-            <div class="credit-item"><span>Calibration:</span> <span>8.5"x11" FIXED GRID</span></div>
-            <div class="credit-item"><span>Status:</span> <span>COMMITTED v260206.1</span></div>
+        
+        <div class="flag-stripes-area">
+            <div class="stripe-item"><span>Architecture</span> <span>Advanced Learning System</span></div>
+            <div class="stripe-item"><span>Pensum</span> <span>Foundation KT-01</span></div>
+            <div class="stripe-item"><span>Interface</span> <span>VMC Console</span></div>
+            <div class="stripe-item"><span>Numerical</span> <span>Sichuan / Huama</span></div>
+            <div class="stripe-item"><span>Frame</span> <span>.25" Pewter Standard</span></div>
+            <div class="stripe-item"><span>Grid</span> <span>10 Cellite / 100px</span></div>
+            <div class="stripe-item"><span>Typography</span> <span>Atkinson 14pt</span></div>
+            <div class="stripe-item"><span>Heritage</span> <span>Sichuan Opera Mask</span></div>
+            <div class="stripe-item"><span>Bucket</span> <span>noenbalde</span></div>
+            <div class="stripe-item"><span>Estate</span> <span>Dual 6" Areas</span></div>
+            <div class="stripe-item"><span>Status</span> <span>Idling Landing Zone</span></div>
+            <div class="stripe-item"><span>Commit</span> <span>v260206.1</span></div>
+            <div class="stripe-item" style="border-bottom: none;"><span>Protocol</span> <span>Knowledge Transfer</span></div>
         </div>
     </div>
 
-    <div id="toast">Index Updated</div>
+    <div id="promotion-toast">Layer Promoted</div>
 
     <script>
         let currentVal = 1;
@@ -245,23 +263,19 @@
         const img = document.getElementById('asset-img');
         const text = document.getElementById('numeral-text');
         const fileLabel = document.getElementById('filename');
-        const typeLabel = document.getElementById('card-type');
         const valDisplay = document.getElementById('val-display');
-        const toast = document.getElementById('toast');
+        const toast = document.getElementById('promotion-toast');
 
         function updateIndex(val) {
             currentVal = parseInt(val);
             const id3 = String(currentVal).padStart(3, '0'); 
-            const id2 = String(currentVal).padStart(2, '0'); // Legacy fallback
+            const id2 = String(currentVal).padStart(2, '0');
             const type = faces[faceIdx];
             
-            // UI consistently shows Formal Naming
             valDisplay.innerText = id3;
-            fileLabel.innerText = `${id3} ${type}.jpg`;
+            fileLabel.innerText = `${id3} ${type.toUpperCase()}.JPG`;
             text.innerText = id3;
-            card.style.transform = 'scale(0.97) translateY(5px)';
 
-            // Robust fetch logic with legacy fallback
             const tryFetch = (id) => {
                 const fileName = `${id} ${type}.jpg`;
                 img.src = `${bucketBase}${encodeURIComponent(fileName)}`;
@@ -270,67 +284,47 @@
             img.onload = () => { 
                 img.classList.remove('hidden'); 
                 text.classList.add('hidden'); 
-                card.style.transform = 'scale(1) translateY(0)';
             };
 
             let attempts = 0;
             img.onerror = () => {
                 if (attempts === 0) {
                     attempts++;
-                    tryFetch(id2); // Try 2-digit naming if 3-digit fails
-                } else {
+                    tryFetch(id2); 
+  A              } else {
                     img.classList.add('hidden'); 
                     text.classList.remove('hidden'); 
-                    card.style.transform = 'scale(1) translateY(0)';
                 }
             };
 
-            tryFetch(id3); // Start with 3-digit Formal
+            tryFetch(id3); 
         }
 
         function cycleFace() {
             faceIdx = (faceIdx + 1) % faces.length;
-            typeLabel.innerText = `TYPE: ${faces[faceIdx].toUpperCase()}`;
             updateIndex(currentVal);
-            notify(`FACE: ${faces[faceIdx].toUpperCase()}`);
+            showToast(`Promoted to ${faces[faceIdx].toUpperCase()}`);
         }
 
         function wipe() {
-            card.style.transform = 'translateX(100vw) rotate(5deg)';
+            card.style.transform = 'translateX(100vw)';
             card.style.opacity = '0';
-            
             setTimeout(() => {
                 currentVal = 1;
                 faceIdx = 0;
                 document.getElementById('index-slider').value = 1;
-                typeLabel.innerText = `TYPE: KINE`;
                 updateIndex(1);
-                card.style.transform = 'translateX(0) rotate(0deg)';
+                card.style.transform = 'translateX(0)';
                 card.style.opacity = '1';
-                notify("SYSTEM WIPE: RESET COMPLETE");
+                showToast("System Wipe Complete");
             }, 400);
         }
 
-        function notify(msg) {
+        function showToast(msg) {
             toast.innerText = msg;
             toast.style.opacity = '1';
             setTimeout(() => toast.style.opacity = '0', 1500);
         }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    notify(`Fullscreen Error: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        window.addEventListener('resize', () => {
-            const isFullscreen = !!document.fullscreenElement;
-            document.getElementById('coord-display').innerText = isFullscreen ? '(0, 0) MONITOR' : '(0, 0) VIEWPORT';
-        });
 
         window.onload = () => updateIndex(1);
     </script>
