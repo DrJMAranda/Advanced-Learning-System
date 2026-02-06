@@ -1,287 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VMC v7.0 - SEA-ALS Staging Site</title>
+    <title>VMC v7.2 - SEA-ALS Flag-State Final Calibration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* CELLITE CALIBRATION: 10px per unit | 100px per square */
+            /* 1 Cellite = 10px | 10 Cellites = Mod de 100px */
             --cellite: 10px;
             --pewter: #8E918F;
             --cream: #FAF9F6;
             --sea-blue: #002147;
-            --flag-red: #B22234;
+            --stripe-white: #FFFFFF;
             
-            /* DIMENSIONS (96 DPI Standard) */
-            --frame-u: 2.4;      /* .25" Pewter Frame */
-            --usable-w-u: 57.6;   /* 6.0" Usable Width */
-            --usable-h-u: 105.6;  /* 11.0" Full Height */
-            --flag-h-u: 48.0;     /* 5.0" QII Height */
-
-            /* CALCULATED PIXELS */
-            --block-w-px: calc((var(--usable-w-u) + (var(--frame-u) * 2)) * var(--cellite)); /* 624px */
-            --block-h-px: calc(var(--usable-h-u) * var(--cellite)); /* 1056px */
-            --q2-h-px: calc((var(--flag-h-u) + (var(--frame-u) * 2)) * var(--cellite)); /* 528px */
-
-            /* TYPOGRAPHY */
+            /* CALIBRACIÓN HARDWARE (96 DPI) */
+            --inch: 9.6; 
+            --total-h-u: 105.6; /* 11.0" Altura Total */
+            --total-w-u: 124.8; /* 13.0" Ancho Total */
+            
+            /* CÁLCULO DE FRANJAS: 13 Franjas para 11" */
+            --stripe-h: 8.123; 
+            
+            /* CANTON: 7 Franjas de profundidad para alineación Old Glory */
+            --canton-size: calc(var(--stripe-h) * 7 * var(--cellite));
+            
+            /* TIPOGRAFÍA */
             --font-atkinson: 'Atkinson Hyperlegible', sans-serif;
             --size-14pt: 14pt;
         }
 
         body {
-            background-color: #050505;
+            background-color: #000;
             margin: 0;
             padding: 0;
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow: auto;
             font-family: var(--font-atkinson);
             font-size: var(--size-14pt);
             color: #fff;
         }
 
-        /* MASTER MODULAR GRID: 10x10 Cellites (100px) */
+        /* REJILLA MAESTRA: 10x10 Cellite Bedrock */
         #master-grid {
             position: fixed;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
             background-size: calc(10 * var(--cellite)) calc(10 * var(--cellite));
             pointer-events: none;
             z-index: 1000;
         }
 
-        .quadrant {
-            position: absolute;
-            border: calc(var(--frame-u) * var(--cellite)) solid var(--pewter);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
+        #flag-monitor {
+            position: relative;
+            width: calc(var(--total-w-u) * var(--cellite));
+            height: calc(var(--total-h-u) * var(--cellite));
+            background: #000;
             overflow: hidden;
         }
 
-        /* QUADRANT II: SEA FLAG LANDING ZONE (0,0) */
-        #q-ii-flag {
-            top: 0;
-            left: 0;
-            width: var(--block-w-px);
-            height: var(--q2-h-px);
-            background-color: #0a0a0a;
-            z-index: 500;
-        }
-
-        /* QUADRANT III: STUDENT KT INSTRUMENTS (0, 52.8) */
-        #q-iii-instruments {
-            top: var(--q2-h-px);
-            left: 0;
-            width: var(--block-w-px);
-            height: calc(var(--block-h-px) - var(--q2-h-px));
-            background-color: var(--cream);
-            z-index: 400;
-            color: #1a1a1a;
-        }
-
-        /* QUADRANTS I & IV: PENSUM CONSOLE (62.4, 0) */
-        #q-i-iv-pensum {
-            top: 0;
-            left: var(--block-w-px);
-            width: var(--block-w-px);
-            height: var(--block-h-px);
-            background-color: #fcfcfc;
-            z-index: 300;
-            color: #000;
-        }
-
-        /* NANO CANTON */
-        .nano-canton {
-            height: calc(18 * var(--cellite));
-            background: var(--sea-blue);
-            padding: calc(2 * var(--cellite));
-            border-bottom: calc(0.5 * var(--cellite)) solid var(--pewter);
-            color: #fff;
-            position: relative;
-        }
-
-        .version-tag {
+        /* NANO CANTON - UBICACIÓN DE ESTRELLAS (FLUSH) */
+        #nano-canton {
             position: absolute;
-            top: calc(1 * var(--cellite));
-            right: calc(1 * var(--cellite));
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.4);
+            top: 0;
+            left: 0;
+            width: var(--canton-size);
+            height: var(--canton-size);
+            background-color: var(--sea-blue);
+            z-index: 500;
+            /* Borde superfluo eliminado */
+            padding: calc(3 * var(--cellite));
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        /* FLAG STRIPES (OLD GLORY EMULATION) */
-        .flag-stripes {
-            flex: 1;
-            background: repeating-linear-gradient(
-                0deg,
-                #FFFFFF,
-                #FFFFFF calc(4.3 * var(--cellite)),
-                #f5f5f5 calc(4.3 * var(--cellite)),
-                #f5f5f5 calc(8.6 * var(--cellite))
-            );
-            color: #000;
+        #nano-canton h2 {
+            font-size: 24pt;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: #fff;
         }
 
-        .stripe-row {
-            height: calc(4.3 * var(--cellite));
+        /* FRANJAS (IDLING LANDING ZONE) */
+        #stripes-system {
+            position: absolute;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stripe {
+            height: calc(var(--stripe-h) * var(--cellite));
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 calc(3 * var(--cellite));
+            padding-right: calc(5 * var(--cellite));
+            box-sizing: border-box;
             font-weight: 700;
             text-transform: uppercase;
             font-size: 11pt;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* INSTRUMENT PANEL (QIII) */
-        #kt-dashboard {
-            flex: 1;
+        /* Franjas superiores respetan el espacio del Cantón */
+        .stripe.short { padding-left: calc(var(--canton-size) + calc(3 * var(--cellite))); }
+        .stripe.long { padding-left: calc(3 * var(--cellite)); }
+
+        .stripe:nth-child(odd) { background-color: var(--stripe-white); color: #000; }
+        .stripe:nth-child(even) { background-color: #f6f6f6; color: #000; }
+
+        /* CAPAS Z (INTERFAZ ACTIVA) */
+        .z-layer {
+            position: absolute;
+            box-sizing: border-box;
+            transition: opacity 0.3s ease;
+        }
+
+        /* QIII: INSTRUMENTOS */
+        #q-iii-instruments {
+            top: var(--canton-size);
+            left: 0;
+            width: var(--canton-size);
+            height: calc(calc(var(--total-h-u) * var(--cellite)) - var(--canton-size));
+            z-index: 600;
+            background: rgba(250, 249, 246, 0.96);
+            border-top: calc(0.24 * var(--cellite)) solid var(--pewter);
+            color: #1a1a1a;
             padding: calc(2 * var(--cellite));
             display: flex;
             flex-direction: column;
+        }
+
+        /* QI & IV: PENSUM */
+        #q-i-iv-pensum {
+            top: 0;
+            left: var(--canton-size);
+            width: calc(calc(var(--total-w-u) * var(--cellite)) - var(--canton-size));
+            height: 100%;
+            z-index: 400;
+            background: rgba(252, 252, 252, 0.88);
+            border-left: calc(0.24 * var(--cellite)) solid var(--pewter);
+            padding: calc(4 * var(--cellite));
+            color: #000;
         }
 
         .asset-stage {
             flex: 1;
             background: #fff;
-            border: 2px solid #ddd;
+            border: 1px solid #ddd;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            margin-bottom: calc(2 * var(--cellite));
-        }
-
-        .pollito-link {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            filter: grayscale(1);
-            transition: filter 0.3s;
-        }
-        .pollito-link:hover { filter: grayscale(0); }
-
-        .vmc-ui-controls {
-            height: calc(10 * var(--cellite));
-            background: #eee;
-            border: 1px solid #ccc;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 calc(2 * var(--cellite));
-        }
-
-        /* PENSUM */
-        .pensum-hdr {
-            height: calc(22 * var(--cellite));
-            background: var(--sea-blue);
-            color: #fff;
-            padding: calc(3 * var(--cellite));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .pensum-content {
-            padding: calc(4 * var(--cellite));
-        }
-
-        .data-point {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid #eee;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 12pt;
+            margin-bottom: 20px;
         }
 
         .btn-vmc {
             background: #fff;
             border: 2px solid var(--pewter);
-            padding: 10px 18px;
+            padding: 8px 16px;
             font-weight: 700;
             font-size: 10pt;
             text-transform: uppercase;
-            cursor: pointer;
         }
 
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: #ddd; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 26px; width: 26px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -10px; border: 3px solid #fff; }
+        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
+        input[type=range]::-webkit-slider-runnable-track { height: 6px; background: #ddd; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--sea-blue); cursor: pointer; margin-top: -9px; border: 3px solid #fff; }
     </style>
 </head>
 <body>
 
     <div id="master-grid"></div>
 
-    <!-- QUADRANT II: SEA FLAG LANDING ZONE -->
-    <div id="q-ii-flag" class="quadrant">
-        <div class="nano-canton">
-            <div class="version-tag">VMC v7.0.STAGING</div>
-            <h2 class="text-2xl font-black uppercase tracking-tighter">Nano Canton</h2>
-            <div class="text-[11pt] font-bold opacity-80">
-                SEA-ALS | FOUNDATION KT_01
+    <div id="flag-monitor">
+        
+        <!-- LAS FRANJAS (OLD GLORY CONFIGURATION) -->
+        <div id="stripes-system">
+            <!-- 7 Franjas Cortas -->
+            <div class="stripe short"><span>Desarrollador:</span><span>ARAGEM</span></div>
+            <div class="stripe short"><span>Contacto:</span><span>jmaf.phd@gmail.com</span></div>
+            <div class="stripe short"><span>Versión:</span><span>CVP 1</span></div>
+            <div class="stripe short"><span>Sistema:</span><span>SEA-ALS v7.2</span></div>
+            <div class="stripe short"><span>Tipografía:</span><span>Atkinson 14pt</span></div>
+            <div class="stripe short"><span>Escala:</span><span>100px / 10 Cellite</span></div>
+            <div class="stripe short"><span>Grid:</span><span>Laminar Flow</span></div>
+            <!-- 6 Franjas Largas -->
+            <div class="stripe long"><span>Calibración:</span><span>8.5" x 11" 1:1 MLA</span></div>
+            <div class="stripe long"><span>Protocolo:</span><span>Transferencia de Conocimiento</span></div>
+            <div class="stripe long"><span>Unidad 4:</span><span>Transición Preparada</span></div>
+            <div class="stripe long"><span>Origen:</span><span>Monitor (0,0) Anchored</span></div>
+            <div class="stripe long"><span>Estado:</span><span>Staging Site Active</span></div>
+            <div class="stripe long"><span>Compromiso:</span><span>v260206.1</span></div>
+        </div>
+
+        <!-- EL CANTON (FLUSH TO TOP-LEFT) -->
+        <div id="nano-canton">
+            <div class="text-[10px] opacity-60 mb-2 font-bold tracking-widest">SEA-ALS v7.2</div>
+            <h2>BIENVENIDO<br>SEA</h2>
+            <div class="text-[11pt] font-bold opacity-80 mt-4 leading-tight">
+                PENSUM<br>DESARROLLADO POR<br>ARAGEM
             </div>
         </div>
-        <div class="flag-stripes">
-            <div class="stripe-row"><span>Architecture</span><span>ADVANCED LEARNING SYSTEM</span></div>
-            <div class="stripe-row"><span>Pensum</span><span>FOUNDATION MASTERED</span></div>
-            <div class="stripe-row"><span>Interface</span><span>VMC_ENGINE_7.0</span></div>
-            <div class="stripe-row"><span>Status</span><span>IDLING LANDING ZONE</span></div>
-        </div>
-    </div>
 
-    <!-- QUADRANT III: STUDENT KT INSTRUMENTS -->
-    <div id="q-iii-instruments" class="quadrant">
-        <div id="kt-dashboard">
+        <!-- QIII: HERRAMIENTAS -->
+        <div id="q-iii-instruments" class="z-layer">
             <div class="asset-stage">
-                <div class="pollito-link" title="Melodic Dashboard Link">🐥</div>
-                <div id="asset-display" class="text-7xl font-black text-[#002147]">001</div>
-                <div class="absolute bottom-2 left-4 text-[10px] font-bold text-slate-300">001 KINE.JPG</div>
+                <div id="asset-display" class="text-6xl font-black text-[#002147]">001</div>
+                <div class="absolute bottom-2 left-4 text-[9px] font-bold text-slate-300">001 KINE.JPG</div>
             </div>
-            <div class="vmc-ui-controls">
-                <button class="btn-vmc" onclick="wipe()">[ Wipe ]</button>
-                <div class="flex flex-col items-center">
-                    <input type="range" class="w-40" min="1" max="100" value="1" oninput="updateAsset(this.value)">
-                    <span id="asset-val" class="font-bold text-blue-900 mt-1">001</span>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold uppercase">Índice</span>
+                    <span id="asset-val" class="font-bold text-blue-900">001</span>
                 </div>
-                <button class="btn-vmc" onclick="promote()">[ Promote ]</button>
+                <input type="range" min="1" max="100" value="1" oninput="updateAsset(this.value)">
+                <div class="flex gap-2">
+                    <button class="btn-vmc flex-1" onclick="wipe()">Wipe</button>
+                    <button class="btn-vmc flex-1">Promote</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- QUADRANTS I & IV: PENSUM CONSOLE -->
-    <div id="q-i-iv-pensum" class="quadrant">
-        <div class="pensum-hdr">
-            <h1 class="text-4xl font-black tracking-widest uppercase">PENSUM</h1>
-            <p class="text-sm opacity-80 uppercase font-bold">ACCELERATED MASTER TRACK</p>
-        </div>
-        <div class="pensum-content">
-            <div class="data-point"><span>Modulation</span><span>10x10 CELLITE MOD</span></div>
-            <div class="data-point"><span>Typography</span><span>ATKINSON 14PT</span></div>
-            <div class="data-point"><span>Anchor</span><span>QUAD II (0,0) ANCHORED</span></div>
-            <div class="data-point"><span>Scale</span><span>100PX / 10 CELLITE</span></div>
-            <div class="data-point"><span>Status</span><span>POSITIVE UPGRADE STAGED</span></div>
-            <div class="data-point"><span>Calibration</span><span>8.5" x 11" 1:1 MLA</span></div>
+        <!-- QI & IV: PENSUM -->
+        <div id="q-i-iv-pensum" class="z-layer">
+            <div class="mb-6">
+                <h1 class="text-5xl font-black tracking-tighter uppercase mb-1">PENSUM</h1>
+                <p class="text-sm font-bold opacity-60">TRACK ACELERADO DE FUNDAMENTACIÓN</p>
+            </div>
             
-            <div class="mt-10 pt-6 border-t-4 border-blue-900">
-                <h3 class="font-black text-blue-900 uppercase mb-2">VMC_v7.0_LOG:</h3>
-                <p class="text-sm leading-snug text-gray-700 font-bold">
-                    Units 1-3 formally demoted to Preschool Mastery. Arithmetic Level 1 transition ready. The Value is the Constant. The Face is the Variable.
+            <div class="space-y-2">
+                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Modulación</span><span>10x10 Cellite</span></div>
+                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Coordenada</span><span>1:1 MLA Fixed</span></div>
+                <div class="flex justify-between border-b py-2 font-bold text-sm"><span>Identidad</span><span>CVP 1 / ARAGEM</span></div>
+            </div>
+
+            <div class="mt-8 p-5 border-4 border-blue-900 bg-white">
+                <h3 class="font-black text-blue-900 uppercase mb-2 text-sm">Log:</h3>
+                <p class="text-[11px] leading-relaxed font-bold uppercase">
+                    Layout recalibrado. El Cantón y las franjas poseen el monitor al 100%. Sin bordes superfluos. Flujo laminar asegurado para la Unidad 4.
                 </p>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -289,12 +261,6 @@
             const formatted = String(v).padStart(3, '0');
             document.getElementById('asset-val').innerText = formatted;
             document.getElementById('asset-display').innerText = formatted;
-        }
-
-        function promote() {
-            const current = document.getElementById('asset-val').innerText;
-            console.log(`Promoting Face for Value: ${current}`);
-            // Logic for Sichuan/Hindu-Arabic mask switching
         }
 
         function wipe() {
