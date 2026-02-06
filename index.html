@@ -27,7 +27,25 @@
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
         .collapsible-content ul { list-style: none; padding: 5px; margin: 0; }
         .module-link { text-decoration: none; color: #0044cc; display: block; padding: 2px 0; font-size: 0.70em; }
-    </style>
+
+ /* AUDIT: Level 2 Title Specification 
+           IDENTIFICATION: Reclaiming grid sovereignty by stripping 'bolder' inheritance */
+        .collapsible-content ul li {
+            font-size: 14pt !important;    /* Consented 14pt scale */
+            font-weight: 400 !important;   /* Strips surreptitious browser bolding */
+            line-height: 1.1 !important;    /* Sovereign vertical estate [cite: 2026-01-07] */
+            margin-top: 10px !important;    /* Precise section separation */
+            color: #000 !important;        /* Pure black for instructional density */
+        }
+
+        /* AUDIT: Level 3 Module Links 
+           IDENTIFICATION: Isolates .module-link to prevent inheritance bloat */
+        .collapsible-content ul li .module-link {
+            font-size: 0.70em !important;   /* Protects intended compact scale */
+            margin-left: 15px !important;   /* Defined hierarchical indentation */
+            font-weight: normal !important; /* Vetoes 'bolder' leak-through */
+        }
+      </style>
 </head>
 <body>
     <nav id="left-menu" class="beveled-frame">
