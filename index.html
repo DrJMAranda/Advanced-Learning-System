@@ -1,40 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta name="viewport" content="width=1280, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Educación Avanzada© (SEA)©</title>
- <style>
-    /* 1. Pull the high-density font from Google's live library */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
-
-    :root {
-        --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
-        --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
-    }
+    <meta name="viewport" content="width=1280, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sistema de Educación Avanzada© (SEA-ALS)©</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+        :root {
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3;
+            --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+        /* THE 1280x1024 VERTICAL BOLT */
+        body { 
+            width: 1280px !important; height: 1024px !important; 
+            margin: 0 !important; padding: 0 !important; 
+            overflow: hidden !important; display: block !important;
+            background: var(--color-lighthouse); font-family: serif; 
+        }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
-        #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
-        #credits { text-align: center; margin-bottom: 10px; }
-        #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
-        #video-player { width: 100%; height: 100%; display: none; }
-        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
-        #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
-        .collapsible-section { margin-bottom: 2px; }
+        #left-menu { width: 350px; height: 1024px; float: left; background: var(--color-lighthouse); padding: 10px; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
+        #content-area { width: 930px; height: 1024px; float: left; position: relative; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        #landing-msg { width: 600px; height: 800px; background: #000 url('https://storage.googleapis.com/noenbalde/Staging/VMCV6.png') no-repeat center top; background-size: contain; }
+        #video-player { width: 600px; height: auto; display: none; }
+        #return-btn { position: absolute; top: 20px; left: 20px; z-index: 100; background: rgba(51, 51, 51, 0.9); color: white; border: 1px solid #fff; padding: 10px 20px; cursor: pointer; display: none; }
         .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
-        .collapsible-header:before { content: '≡ '; transition: transform 0.3s; display: inline-block; }
-        .collapsible-header.open:before { transform: rotate(90deg); }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
-        .collapsible-content ul { list-style: none; padding: 5px; margin: 0; }
         .module-link { text-decoration: none; color: #0044cc; display: block; padding: 2px 0; font-size: 0.70em; }
-    </style>
-</head>
-<body>
 
-body {
+{
     width: 1280px !important;
     height: 1024px !important; /* The Vertical Bolt */
     margin: 0 !important;
@@ -50,6 +43,10 @@ body {
     vertical-align: middle;       /* The Centerline Pivot */
     display: block;
 }
+        
+    </style>
+</head>
+<body>
     
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
