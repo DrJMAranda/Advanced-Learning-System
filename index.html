@@ -2,245 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1280, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema de Educación Avanzada© (SEA-ALS)©</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Educación Avanzada© (SEA)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+        @import url('https://storage.googleapis.com/noenbalde/Fonts/AtkinsonHyperlegibleMono-Regular.otf');
         :root {
-            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3;
+            --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
             --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
         }
-        /* THE 1280x1024 VERTICAL BOLT */
-        body { 
-            width: 1280px !important; height: 1024px !important; 
-            margin: 0 !important; padding: 0 !important; 
-            overflow: hidden !important; display: block !important;
-            background: var(--color-lighthouse); font-family: serif; 
-        }
         .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-        #left-menu { width: 350px; height: 1024px; float: left; background: var(--color-lighthouse); padding: 10px; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
-        #content-area { width: 930px; height: 1024px; float: left; position: relative; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        #landing-msg { width: 600px; height: 800px; background: #000 url('https://storage.googleapis.com/noenbalde/Staging/VMCV6.png') no-repeat center top; background-size: contain; }
-        #video-player { width: 600px; height: auto; display: none; }
-        #return-btn { position: absolute; top: 20px; left: 20px; z-index: 100; background: rgba(51, 51, 51, 0.9); color: white; border: 1px solid #fff; padding: 10px 20px; cursor: pointer; display: none; }
-        .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
+        body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
+#left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
+        #credits { text-align: center; margin-bottom: 20px; }
+        #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
+        #video-player { width: 100%; height: 100%; display: none; }
+        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
+        #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
+        .collapsible-section { margin-bottom: 2px; }
+        .collapsible-header { cursor: pointer; display: block; padding: 8px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
+        .collapsible-header:before { content: '≡ '; transition: transform 0.3s; display: inline-block; }
+        .collapsible-header.open:before { transform: rotate(90deg); }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
-        .module-link { text-decoration: none; color: #0044cc; display: block; padding: 2px 0; font-size: 0.70em; }
-
-{
-    width: 1280px !important;
-    height: 1024px !important; /* The Vertical Bolt */
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important; /* Total paralysis of movement */
-    display: block !important;    /* Evicting the Flex squatter */
-    background: var(--color-lighthouse);
-}
-
-.sea-line {
-    height: 20px !important;      /* 0.2" Vertical Unit */
-    line-height: 20px !important; /* Center-on-Center verticality */
-    vertical-align: middle;       /* The Centerline Pivot */
-    display: block;
-}
-        
+        .collapsible-content ul { list-style: none; padding: 10px; margin: 0; }
+        .module-link { text-decoration: none; color: #0044cc; display: block; padding: 3px 0; font-size: 0.95em; }
     </style>
 </head>
 <body>
-    
     <nav id="left-menu" class="beveled-frame">
         <div id="credits">
             <h3>Bienvenido SEA</h3>
-            <p><b>Pensum</b><br>
+            <p><b>Pensum K-6</b><br>
             Desarrollado por ARAGEM<br>
             <a href="https://storage.googleapis.com/noenbalde/Staging/CVP%201.mp4" target="_blank"><u>CVP 1</u></a></p>      
-            <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank">BTC© AF662jm</a></p>
+            <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%201st%20Grade%20Math%20Learning%20Guide%20and%20Student%20Text%20231217%202300%20TN.pdf" target="_blank">BTC AF662jm</a></p>
         </div>
 
         <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleSection(this)">K~G1 Aritmética</span>
+            <span class="collapsible-header" onclick="toggleSection(this)">(K~1) Aritmética</span>
             <div class="collapsible-content">
                 <ul>
-                    <li><b>ARU01 |Nueve|</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2001.mp4')">—ARU01 Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—ARU1S1 Sunya-Sifr Cero</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—ARU1S2 Uno al Cuatro</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Espa%C3%B1ol%200%20al%204.mp4')">—ARU1S2 Castellano 0-4</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/English%200%20to%204.mp4')">—ARU1S2 Inglés 0-4</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/German%200%20bis%204.mp4')">—ARU1S2 Aleman 0-4</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/French%200%20%C3%A1%204.mp4')">—ARU1S2 Francés 0-4</a></li>
-                    <li><a href="#" class="module-link" onclick="play('')">—ARU1S2 Portugués 0-4</a></li>                    
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/BTC%20Preguntas%20-%20Esp.mp4')">—ARU1S2 Preguntas (0-4)</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/Stardust%20Counts%20to%20Five.mp4')">—ARU1S3 Contando 1 a 5</a></li>         
-                    <li><b>ARPR Principios</b></li>
-                    <li>—ARPR01 Subitización</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4')">—ARPR01a Perceptual</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4')">—ARPR01b Conceptual</a></li>
-                    <li>—ARPR02 Orden</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Principia/El%20Orden%20Estable%20250124%202250.mp4')">—ARPR02a Estabilidad</a></li>                    
-                    <li>—ARPR03 Comparacion</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Evans%20Odds.mp4')">—ARPR03a Parity</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4')">—ARPR03b Pares y Nones</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4')">—ARPR03c Paridad</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Cardenality.mp4')">—ARPR03b Cardinalidad</a></li>
-                    <li>—ARPR03b Menor</li>
-                    <li>—ARPR03c Igual</li>
-                    <li>—ARPR03d Mayor</li>
-                    <li>—ARPR04 Cardinalidad</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Springtime%20Kyo.mp4')">—ARPR04a Estable</a></li>
-                    <li>—ARPR05 Ordinalidad</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Ordinales%20-%20Rin.mp4')">—ARPR05a Serial</a></li>
-                    <li>—ARPR06 Magnitud</li>
-                    <li>—ARPR06a Dimensional</li>
-                    <li>—ARPR06b Escalar</li>
-                    <li>—ARPR07 Apareado 1:1</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/One%20for%20One%20Chibi.mp4')">—ARPR07a Correspondencia</a></li>
-                    <li>—ARPR08 Inclusión</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Inclusion.mp4')">—ARPR08a Jerárquica</a></li>
-                    <li>—ARPR08b Partitiva</li>
-                    <li>—ARPR09 Conservación</li>
-                    <li>—ARPR10 Unitización</li>
-                    <li><b>ARU02 |Noventa y Nueve|</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">ARU02 |Noventa y Nueve|</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2002.mp4')">—ARU02A Guia Docente</a></li>
-                    <li><b>ARU03 |Noventa y Nueve|</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">ARU03a |Decillones|</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2003.mp4')">—ARU03b Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4')">—ARU03c Decillones</a></li>
-                    <li><b>ARU04 Principios de Suma</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2004.mp4')">—ARU04 Guia Docente</a></li>
-                    <li><b>UAR05 Fundamentos de Suma</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2005.mp4')">—ARU05 Guia Docente</a></li>
-                    <li><b>ARU06 Suma—Elementos y Algorithmos</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2006.mp4')">—ARU06 Guia Docente</a></li>
-                    <li><b>ARU07 Paridad, Comparación, Conjuntos y Compuestos</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2007.mp4')">—ARU07 Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4')">—ARU07a Conjuntos</a></li>
-                    <li><b>ARU08 Sumas, Signos, y Restas</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2008.mp4')">—ARU08 Guia Docente</a></li> 
-                    <li><b>ARU09 Multiplicación</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2009.mp4')">—ARU09 Guia Docente</a></li>
-                    <li><b>ARU10 División, Partición, y Cuotición</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2010.mp4')">—ARU10 Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4')">—ARU10a División</a></li>
-                    <li><b>ARU11 Fracciones</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2011.mp4')">—ARU11 Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/07%20Small%20Smaller%20Smallest.mp4')">—ARU11a Números Chicos</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4')">—ARU11b Números Racionales</a></li>
-                    <li><b>ARU12 Tiempo</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2012.mp4')">—ARU12 Guia Docente</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4')">—ARUU12a Chronos~Time</a></li>
-                    <li><b>ARU13 Formas y Otras Cosas</b></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2013.mp4')">—ARU13 Guia Docente</a></li>
+                    <li><b>U1 |Nueve|</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—U1S1 Sunya-Sifr Cero</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—U1S2 Uno al Cuatro</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S3ENG.mp4')">—U1S3 Cinco al Nueve</a></li>
+                    <li><b>Principios</b></li>
+                    <li>—PR01 Subitización</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4')">—PR01a Perceptual</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4')">—PR01b Conceptual</a></li>
+                    <li>—PR02 Orden</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Springtime%20Kyo.mp4')">—PR02 Estable</a></li>
+                    <li>—PR03 Comparacion</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Evans%20Odds.mp4')">—PR03a Parity</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Evens%20and%20Odds.mp4')">—PR03b Pares y Nones</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Parity.mp4')">—PR03c Paridad</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Cardenality.mp4')">—PR03b Cardinalidad</a></li>
+                    <li>—PR03b Menor</li>
+                    <li>—PR03c Igual</li>
+                    <li>—PR03d Mayor</li>
+                    <li>—PR04 Ordinalidad</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Ordinales%20-%20Rin.mp4')">—PRa04 Serial</a></li>
+                    <li>—PR04b Paralela</li>
+                    <li>—PR05 Magnitud</li>
+                    <li>—PR05a Dimensional</li>
+                    <li>—PR05b Escalar</li>
+                    <li>—PR06 Apareado 1:1</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/One%20for%20One%20Chibi.mp4')">—PR06 Correspondencia</a></li>
+                    <li>—PR07 Inclusión</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Inclusion.mp4')">—PR07a Jerárquica</a></li>
+                    <li>—PR07b Partitiva</li>
+                    <li>—PR08 Conservación</li>
+                    <li>—PR09 Unitización</li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U2ENG.mp4')">U02 |Noventa y Nueve|</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U3ENG.mp4')">U03a |Decillones|</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Decillones2.mp4')">—U03b Decillones</a></li>
+                    <li><b>U04 Principios de Suma</b></li>
+                    <li><b>U05 Fundamentos de Suma</b></li>
+                    <li><b>U06 Suma—Elementos y Algorithmos</b></li>
+                    <li><b>U07 Paridad, Comparación, Conjuntos y Compuestos</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Sets.mp4')">—U07a Conjuntos</a></li>
+                    <li><b>U08 Sumas, Signos, y Restas</b></li>
+                    <li><b>U09 Multiplicación</b></li>
+                    <li><b>U10 División, Partición, y Cuotición</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Learning%20to%20Divide.mp4')">—U10a División</a></li>
+                    <li><b>U11 Fracciones</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Rational%20Numbers.mp4')">—U11a Números Racionales</a></li>
+                    <li><b>U12 Tiempo</b></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Chronos.mp4')">—UU12a Chronos~Time</a></li>
+                    <li><b>U13 Formas y Otras Cosas</b></li>
                 </ul>
             </div>
         </div>
 
         <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleSection(this)">G2~G3 Algebra I~II</span>
+            <span class="collapsible-header" onclick="toggleSection(this)">(2~3) Algebra I</span>
             <div class="collapsible-content">
                 <ul>
-                    <li>—AL001 Writing Brace Sets</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20001.pdf"    target="_blank">AL001</a></p><li>
-                    <li>—-AL002 Set Elements</li><br>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20002.pdf"    target="_blank">AL002</a></p>
-                    <li>—AL003 Counting Sets</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20003.pdf"    target="_blank">AL003</a></p>
-                    <li>—-AL004 Numerical Expressions</li><br>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20004.pdf"    target="_blank">AL004</a></p>
-                    <li>—AL005-Addition Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20005.pdf"    target="_blank">AL005</a></p>
-                     <li>—AL006 Subtaction Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20006.pdf"    target="_blank">AL006</a></p>
-                    <li>—AL007 Multiplication Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20007.pdf"    target="_blank">AL007</a></p>
-                    <li>—AL008 Division Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20008.pdf"    target="_blank">AL008</a></p>
-                    <li>—AL009 Multiple Operation Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20009.pdf"    target="_blank">AL009</a></p>
-                    <li>—AL010 Factors and Multiplication</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20010.pdf"    target="_blank">AL010</a></p>
-                    <li>—AL011 Finding the HCF</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20011.pdf"    target="_blank">AL011</a></p>
-                    <li>—AL012 Multiples and the LCM</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C01%20012.pdf"    target="_blank">AL012</a></p>
-                    <li>—AL013 Numerical and Open Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20013.pdf"    target="_blank">AL013</a></p>
-                    <li>—AL014 Evaluating Numerical Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20014.pdf"    target="_blank">AL014</a></p>
-                    <li>—AL015 Commutative and Associative Addition</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20015.pdf"    target="_blank">AL015</a></p>
-                    <li>—AL016 Commutation, Association and One</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20016.pdf"    target="_blank">AL016</a></p>
-                    <li>—AL017 Distributive Law Simplification</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20017.pdf"    target="_blank">AL017</a></p>
-                    <li>—AL018 Simplifying Expressions</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C02%20018.pdf"    target="_blank">AL018</a></p>
-                    <li>—AL019 Sentences and Statements</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20019.pdf"    target="_blank">AL019</a></p>
-                    <li>—AL020 Solving Equations</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20020.pdf"    target="_blank">AL020</a></p>
-                    <li>—AL021 Sets and Truth</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20021.pdf"    target="_blank">AL021</a></p>
-                    <li>—AL022 Solving and Checking</li> 
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Algebra%201C03%20022.pdf"    target="_blank">AL022</a></p>
-                    <li>—ALTQ Tests-Quiz 001-022</li>
-                     <a href="https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Algebra/Quizzes%201%20thru%2022.pdf" target="_blank">ALTQ 001-022</a></p>
-                    <li>—-Continúa 23 a 64GR103</li>
+                    <li>—AL01-03 Conjuntos</li>
+                    <li>—AL04-Evaluando Sumas</li>
+                    <li>—AL05-Evaluando Restas</li>
+                    <li>—AL06-Evaluando Multiplicaciones</li>
+                    <li>—AL07-Evaluando Divisiones</li>
+                    <li>—AL08-Operaciones Multiples</li>
+                    <li>—AL09-Usando Factores</li>
+                    <li>—AL10-Factor Común</li>
+                    <li>—AL11-Multiples y LCM's</li>
+                    <li>—AL12-Expresiones Abiertas</li>
+                    <li>—AL13-Evaluando Expresiones Numéricas</li>
+                    <li>—AL14-Suma: Comutacion y Associación</li>
+                    <li>—AL15-Multiplicacion (C, A y ley del Uno)</li>
+                    <li>—AL16-Ley Distributiva y Simplificación</li>
+                    <li>—AL17-Simplificando Expresiones Abiertas</li>
+                    <li>—AL18-Declaraciones y Oraciones Abiertas</li>
+                    <li>—AL19-Resolviendo Ecuaciones</li>
+                    <li>—AL20-Soluciones con Numeros Naturales</li>
+                    <li>—AL21-Cotejando Soluciones</li>
+                    <li>—-Continua ...AL64</li><br>
                 </ul>
             </div>
         </div>
 
-        <div class="collapsible-section">
-            <span class="collapsible-header" onclick="toggleSection(this)">G2~G3 Geometry</span>
-            <div class="collapsible-content">
-                <ul>
-                    <li>—GESH 03 Triangles</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/03%20Triangles%C2%A9.mp4')">GESH 03 Triangles</a></li> 
-                    <li>—GESH 04 Squares</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/04%20Squares.mp4')">GESH 04 Squares</a></li>                     
-                    <li>—GESH 05 Pentagons</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/05%20Pentagons.mp4')">GESH 05 Pentagons</a></li> 
-                    <li>—GESH 06 Hexagons</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Geometry/06%20Hexagons.mp4')">GESH 06 Hexagons</a></li> 
-
-
-                
-                </ul>
-            </div>
-        </div>
-                
         <div class="collapsible-section">
             <span class="collapsible-header" onclick="toggleSection(this)">(K~6) Comunicación</span>
             <div class="collapsible-content">
                 <ul>
                     <li>-GR - Gramática</li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Grammar.mp4')">—G00a Grammática</a></li>
-                    <li>—GR01-Sujeto</li>
-                    <li>—GR02-Predicado</li>
-                    <li>—GR02-Oración Sencilla</li>
-                    <li>—GR03-Modificadores</li>
+                    <li>—GR01-El Sujeto</li>
+                    <li>—GR02-El Predicado</li>
+                    <li>—GR02-La Oración Sencilla</li>
+                    <li>—GR03-Los Modificadores</li>
                     <li>—GR04-Mejorando las Oraciones</li>
                     <li>—GR05-Entendiendo la Oración</li>
                     <li>—GR06-Verbos</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Lingu%C3%ADstica/Verbs/Verbs%200001-0010.mp4')">GR Verbs 0001-0010</a></li>
                     <li>—GR07-Concordancia entre Sujeto y Verbo</li>
                     <li>—GR08-Mejorando las Oraciones</li>
                     <li>—GR09-Usando el Modificador Correcto</li>
-                    <li>—GR10-Pronombre</li>
-                    <li>—GR11-Letras Meayúsculas</li>
-                    <li>—GR12-Coma</li>
-                    <li>—GR13-Apostrofe</li>
-                    <li>—GR13-Comillas</li>
+                    <li>—GR10-El Pronombre</li>
+                    <li>—GR11-Las Letras Meayúsculas</li>
+                    <li>—GR12-La Coma</li>
+                    <li>—GR13-El Apostrofe</li>
+                    <li>—GR13-Las Comillas</li>
                     <li>—-Continua ...GR103</li>
                     <li><i>GF - Forma</i></li>
                     <li>-GF01 - Morfología</li>
-                    <li>-GF02 - Fonología y Fonética</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Phonetics/CF%20A%20E%20I%20O%20U.mp4')">GFCA01 Castellano Vocales</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Phonetics/Castellano%20Cartilla.mp4')">GFCA02 Castellano Cartilla</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4')">GFEN01 English Enunciation</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4')">GFEN02 English Enunciation</a></li>
-                    <li>-GF03 - Clases de Palabras</li>
+                    <li>-GF03 - Fonología</li>
+                    <li>-GF04 - Fonética</li>
+                    <li>-GF05 - Clases de Palabras</li>
+                    <li>-GF05 - Producción</li>
                     <li><i>-GI - Concepto</i></li>
                     <li>-GI05 - Significado</li>
                     <li>-GI05 - Synónimo</li>
@@ -249,11 +157,13 @@
                     <li>-GI05 - Implicacion</li>
                     <li><i>OR - Orden</i></li>
                     <li>-ORO1 - Nombre</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LN001 Nombres 001</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4')">LN002 Nombres 002</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4')">LN003 Nombres 003</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4')">LN004 Nombres 004</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4')">LN005 Nombres 005</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV1.mp4')">LN001 Nombres 1</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV2.mp4')">LN002 Nombres 2</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV3.mp4')">LN003 Nombres 3</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV4.mp4')">LN004 Nombres 4</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV5.mp4')">LN005 Nombres 5</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV6.mp4')">LN006 Nombres 6</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Vocabulary/LV7.mp4')">LN007 Nombres 7</a></li>
                     <li>-OR02 - Pronombre</li>
                     <li>-ORO3 - Artículo</li>
                     <li>-ORO4 - Adjetivo</li>
@@ -270,7 +180,7 @@
                     <li>-GA03 - RAE</li>
                     <li><b>-LI - Literatura</b></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Language/Literature/LLAesop1.mp4')">LTFB ~ Esopo 001</a></li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Mans%20Best%20Friend.mp4')">LTML ~ Mejor Amigo del Hombre</a></li>
+                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Mans%20Best%20Friend.mp4')">LTML ~ El Mejor Amigo del Hombre</a></li>
                     <li>-LTFT</li>
                     <li>-LTPR</li>
                     <li>-LTCL1</li>
@@ -284,11 +194,8 @@
             <div class="collapsible-content">
                 <ul>
                     <li>EM01 Astronomía</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Astronomy/Polaris.mp4')">AS Polaris</a></li>
                     <li>EM02 Biología</li>
                     <li>EM03 Física</li>
-                    <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Physics/F%C3%ADsica%202.mp4')">FI Ventaja Mecánica</a></li>
-                       <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Science/Physics/Gallileos%20Measures.mp4')">FI Galileo y Mensura</a></li>
                     <li>EM04 Química</li>
                     <li>EM05 Horticultura</li>
                     <li>EM05 Metereología</li>
@@ -302,7 +209,7 @@
                 <ul>
                     <li>EX04 Rhetorica</li>
                     <li>EX04 Artes Visuales</li>
-                    <li>EX02 Artes Applicadas</li>
+                    <li>EX02 Arte Applicadas</li>
                     <li>EX03 Artes Escénicas</li>
                     <li>EX02 Artes en Papel</li>
                     <li>EX02 Artes Marciales</li>
@@ -317,8 +224,8 @@
 
     <main id="content-area">
         <button id="return-btn" onclick="stopVideo()">&larr; Volver</button>
-<div id="landing-msg" style="width: 6in; height: 10in; background: rgb(174, 178, 183) url('https://storage.googleapis.com/noenbalde/Staging/VMCV6.jpg') no-repeat center top; background-size: contain; margin: 0 auto;"></div>
-<video id="video-player" style="display: none; width: 6in; height: auto; margin: 0 auto;" controls controlsList="nodownload" oncontextmenu="return false;"></video>
+<div id="landing-msg" style="width: 7in; height: 10in; background: rgb(174, 178, 183) url('https://storage.googleapis.com/noenbalde/Staging/VMC%20v6%20PNG.png') no-repeat center top; background-size: contain; margin: 0 auto;"></div>
+<video id="video-player" style="display: none; width: 7in; height: auto; margin: 0 auto;" controls controlsList="nodownload" oncontextmenu="return false;"></video>
 
     <script>
         function toggleSection(header) {
@@ -347,94 +254,5 @@
             msg.style.display = 'block';
         }
     </script>
-
-// [900] BUFFER HOLLERITH: JURISDICCIÓN, IDENTIDAD Y AUDITORÍA
-// Reemplazo holístico para SEA-ALS - Protocolo de Aterrizaje
-
-const SOVEREIGNTY = (() => {
-    const MASTER_SCALE = 1.0; 
-
-    return {
-        establish: (name, title, email, count) => {
-            const doc = document.documentElement;
-            // 1. Soberanía Visual 1:1 (Grid Fijo)
-            doc.style.overflow = "hidden";
-            doc.style.touchAction = "none";
-            doc.style.transform = `scale(${MASTER_SCALE})`;
-            doc.style.transformOrigin = "0 0";
-
-            // 2. Notificación de Cortesía y Registro
-            const msg = document.createElement('div');
-            msg.id = "user_courtesy_f11";
-            msg.innerHTML = `
-                <strong>Sesión #${count}</strong> | ${name} [${title}]<br>
-                <small>Privacidad SEA: Contacto solo para mejoras pedagógicas.</small><br>
-                Oprima &lt;F11&gt; para modo Oasis.
-            `;
-            
-            Object.assign(msg.style, {
-                position: "fixed", top: "20px", left: "50%", transform: "translateX(-50%)",
-                backgroundColor: "rgba(50, 50, 50, 0.95)", color: "white",
-                padding: "15px 30px", borderRadius: "8px", fontFamily: "monospace",
-                zIndex: "9999", border: "1px solid #8E9294", textAlign: "center",
-                boxShadow: "0 4px 15px rgba(0,0,0,0.5)", fontSize: "14px"
-            });
-
-            document.body.appendChild(msg);
-            setTimeout(() => { msg.style.opacity = '0'; setTimeout(()=>msg.remove(), 1000); }, 7000);
-        },
-
-        requestEntry: () => {
-            // Auditoría Local de Sesiones
-            let count = localStorage.getItem('sea_visit_count') || 0;
-            count = parseInt(count) + 1;
-            localStorage.setItem('sea_visit_count', count);
-
-            const consent = "\n\n(Privacidad: Información protegida por el protocolo pro bono de SEA-ALS).";
-            
-            const name = prompt(`SEA-ALS (Visita #${count})\nIngrese su Primer Nombre:${consent}`);
-            if (name) {
-                const title = prompt(`Ingrese su Título/Cargo (ej. Docente, Director):${consent}`);
-                const email = prompt(`Ingrese su Correo para actualizaciones de SEA:${consent}`);
-                
-                if (title && email) {
-                    SOVEREIGNTY.establish(name, title, email, count);
-                    // Registro forense en consola para tu auditoría inmediata
-                    console.log(`AUDIT_LOG: ${name} | ${title} | ${email} | Sesión: ${count}`);
-                }
-            }
-        }
-    };
-})();
-
-// Punto de Entrada tras Latencia de Servidor
-window.onload = () => { setTimeout(SOVEREIGNTY.requestEntry, 500); };
-
-// # END_900_SOVEREIGNTY_DATA_CORE
-
-/* PLACE THIS BEFORE YOUR LAST LINE OF CODE, 
-   BETWEEN SCRIPT AND BODY TO CLAIM Z-SPACE 
-*/
-
-function lockVMC() {
-    // 1. Zoom Control: Locks at 100% to prevent grid distortion
-    document.body.style.zoom = "100%";
-
-    // 2. F11 Courtesy Alert: Triggered if the menu bar occupies Z-Space
-    if (!window.screenTop && !window.screenY) {
-        const alertBox = document.createElement('div');
-        alertBox.innerHTML = "Para accessar el menu, oprima la tecla <F11>";
-        alertBox.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#adb5bd; color:#000; padding:10px; border:2px solid #8e979e; z-index:10000; font-family:monospace;";
-        document.body.appendChild(alertBox);
-        
-        // Brief flash then fade
-        setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
-    }
-}
-
-window.onload = lockVMC;
-
-ID: VMC6imageSource: https://storage.googleapis.com/noenbalde/Staging/VMCV6.pngCoordinates: (0, 0)
-            
 </body>
 </html>
