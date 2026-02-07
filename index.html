@@ -1,12 +1,10 @@
-<!doctype html>
-<h<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Educación Avanzada© (SEA)©</title>
-
-<style>
+ <style>
     /* 1. Pull the high-density font from Google's live library */
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
 
@@ -14,53 +12,22 @@
         --color-lighthouse: #f4f4f4; --color-stealth: #d3d3d3; --color-menu: #333; --color-accent-active: #ffdd88;
         --bevel-shadow-light: rgba(255, 255, 255, 0.7); --bevel-shadow-dark: rgba(0, 0, 0, 0.3);
     }
-    
-    .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
-    
-    body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
-
-    /* AUDIT: Reclaiming the 2" Stolen Estate */
-    #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
-    
-    #credits { text-align: center; margin-bottom: 10px; }
-    #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
-    #video-player { width: 100%; height: 100%; display: none; }
-    #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
-    #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
-    
-    .collapsible-section { margin-bottom: 2px; }
-    .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
-    .collapsible-header:before { content: '≡ '; transition: transform 0.2s; display: inline-block; }
-    .collapsible-header.open:before { transform: rotate(90deg); }
-    
-    .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
-    
-    /* AUDIT: Resetting List-Style to Evict Surreptitious Margins */
-    .collapsible-content ul { list-style: none; padding: 0 10px !important; margin: 0; }
-
-    /* AUDIT: Level 2 Title Specification - Reclaiming Grid Sovereignty */
-    .collapsible-content ul li {
-        font-size: 14pt !important;
-        font-weight: 400 !important;
-        line-height: 1.1 !important;
-        margin-top: 10px !important;
-        color: #000 !important;
-    }
-
-    /* SPECIFICATION: 5 Lines Per Vertical Inch (14.4pt Total)
-       IDENTIFICATION: Merged Master Lock for Level 3 Launch Lines */
-    .collapsible-content ul li .module-link {
-        display: block !important;
-        text-decoration: none !important;
-        color: #0044cc !important;
-        font-size: 11pt !important;
-        line-height: 14.4pt !important;  /* The "5 LPI" Master Lock [cite: 2026-02-06] */
-        margin-left: 18px !important;
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
-    }
-</style>
-    
+        .beveled-frame { box-shadow: inset 1px 1px 3px var(--bevel-shadow-light), inset -1px -1px 3px var(--bevel-shadow-dark); border: 1px solid var(--color-stealth); }
+        body { margin: 0; font-family: serif; height: 100vh; display: flex; align-items: flex-start; background: var(--color-lighthouse); overflow: hidden; }
+        #left-menu { width: 350px; min-width: 350px; max-width: 350px; flex: none; background: var(--color-lighthouse); padding: 10px; height: 100vh; overflow-y: auto; box-sizing: border-box; border-right: 1px solid var(--color-stealth); }
+        #credits { text-align: center; margin-bottom: 10px; }
+        #content-area { flex-grow: 1; display: flex; flex-direction: column; position: relative; background: #000; }
+        #video-player { width: 100%; height: 100%; display: none; }
+        #return-btn { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(51, 51, 51, 0.8); color: white; border: none; padding: 8px 15px; cursor: pointer; display: none; border-radius: 4px; }
+        #landing-msg { color: white; text-align: center; margin: auto; padding: 20px; }
+        .collapsible-section { margin-bottom: 2px; }
+        .collapsible-header { cursor: pointer; display: block; padding: 5px; background: #eee; border: 1px solid #ddd; font-weight: bold; }
+        .collapsible-header:before { content: '≡ '; transition: transform 0.3s; display: inline-block; }
+        .collapsible-header.open:before { transform: rotate(90deg); }
+        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fff; }
+        .collapsible-content ul { list-style: none; padding: 5px; margin: 0; }
+        .module-link { text-decoration: none; color: #0044cc; display: block; padding: 2px 0; font-size: 0.70em; }
+    </style>
 </head>
 <body>
     <nav id="left-menu" class="beveled-frame">
@@ -76,7 +43,7 @@
             <span class="collapsible-header" onclick="toggleSection(this)">K~G1 Aritmética</span>
             <div class="collapsible-content">
                 <ul>
-                    <li>ARU01 |Nueve|</li>
+                    <li><b>ARU01 |Nueve|</b></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC/Unit%2001.mp4')">—ARU01 Guia Docente</a></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S1ENG.mp4')">—ARU1S1 Sunya-Sifr Cero</a></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/A1U1S2ENG.mp4')">—ARU1S2 Uno al Cuatro</a></li>
@@ -87,7 +54,7 @@
                     <li><a href="#" class="module-link" onclick="play('')">—ARU1S2 Portugués 0-4</a></li>                    
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/BTC%20Preguntas%20-%20Esp.mp4')">—ARU1S2 Preguntas (0-4)</a></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Curriculum/Mathematics/Arithmetic/BTC%20Unit1/Stardust%20Counts%20to%20Five.mp4')">—ARU1S3 Contando 1 a 5</a></li>         
-                    <li>ARPR Principios</li>
+                    <li><b>ARPR Principios</b></li>
                     <li>—ARPR01 Subitización</li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Staging/Subitizaci%C3%B3n%20Perceptual.mp4')">—ARPR01a Perceptual</a></li>
                     <li><a href="#" class="module-link" onclick="play('https://storage.googleapis.com/noenbalde/Videos/Zebras%20and%20Lions%C2%A9.mp4')">—ARPR01b Conceptual</a></li>
@@ -449,13 +416,5 @@ function lockVMC() {
 
 window.onload = lockVMC;
         
-</body>
-</html>tml>
-<head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
-</head>
-
-<body>
 </body>
 </html>
