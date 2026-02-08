@@ -255,38 +255,23 @@
         }
     </script>
 
-<template id="INI-Z-P-FLOOR" data-sum="23"></template>
+<template id="INI-EXPANDER" data-sum="18"></template>
+function toggleSection(header) {
+    const content = header.nextElementSibling;
+    
+    // ACTION 1: Force State Measurement
+    const isOpen = content.style.maxHeight !== "";
 
-<div id="Z-P-FLOOR" style="
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: rgba(142, 146, 148, 0.9); /* 10% Stealth */
-    z-index: 9998;
-    pointer-events: none;
-    display: block;
-    transition: opacity 0.1s;
-">
-    <div id="PEWTER-FRAME" style="
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        border: 25px solid rgba(142, 146, 148, 0.95);
-        box-sizing: border-box;
-    ">
-        <button id="SEA-TOGGLE" onclick="seaDismissal()" style="
-            position: absolute;
-            bottom: 30px; right: 30px;
-            width: 100px; height: 35px;
-            background: #111; color: #0f0;
-            pointer-events: auto;
-            z-index: 9999;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-        ">DUTY: ACTIVE</button>
-    </div>
-</div>
-
-<template id="END-Z-P-FLOOR"></template>
+    // ACTION 2: Execute 1:1 Result
+    if (isOpen) {
+        content.style.maxHeight = "";        // Result A: Atomic Closure
+        header.classList.remove('open');
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px"; // Result B: Atomic Expansion
+        header.classList.add('open');
+    }
+}
+<template id="END-EXPANDER"></template>
 
 
         
