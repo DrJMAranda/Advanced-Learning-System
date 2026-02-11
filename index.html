@@ -2,9 +2,55 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>SEA/ALS ESTATE 1</title>
+<style>
+  /* The Sovereign Stage: No scaling, no scrollbars */
+  body { 
+    margin: 0; 
+    padding: 0; 
+    background: #1a1a1a; /* Neutral backdrop */
+    overflow: hidden; 
+  }
+
+  #estate-1 {
+    position: relative;
+    width: 1280px;
+    height: 1040px;
+    margin: 0 auto; /* Center the stage in the physical monitor */
+    background: #000; /* The black Cartesian board */
+  }
+
+  /* The Virmon: Reified in Quadrant II */
+  #virmon {
+    position: absolute;
+    left: 660px; /* Center + 20px Gutter */
+    top: 40px;   /* Top Margin */
+    width: 500px; /* 5 Inches */
+    height: 600px; /* 6 Inches */
+    background: #050505; 
+    z-index: 1;
+  }
+
+  /* The 20px Pewter Frame: Symmetric Visual Lock */
+  #pewter-frame {
+    position: absolute;
+    left: 640px; /* Anchored to center-line */
+    top: 20px;
+    width: 540px; /* Virmon + 20px frame padding */
+    height: 640px;
+    border: 20px solid #8e9294; /* Pewter visual element */
+    z-index: 2; /* Sits on top of the Virmon */
+    pointer-events: none;
+  }
+</style>
 </head>
 
 <body>
+  <div id="estate-1">
+    <div id="virmon">
+       </div>
+    
+    <div id="pewter-frame"></div>
+  </div>
 </body>
 </html>
