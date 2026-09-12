@@ -1,161 +1,61 @@
 <DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- ================================================================= -->
-<!-- Open: ESTOPPEL & HEAD METADATA CONFIGURATION BLOCK                -->
-<!-- ================================================================= -->
-<meta charset="utf-8">
-<title>Sistema Educacional Avanzado - Estoppel Gate</title>
-
-<!-- ================================================================= -->
-<!-- SIGNPOST: ABSOLUTE ESTOPPEL - BROWSER DEFAULTS EVICTED            -->
-<!-- ================================================================= -->
+<meta charset="UTF-8">
 <style>
-  /* ESTOPPEL: HALT ALL BROWSER ASSUMPTIONS */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-size: 14pt;
-    font-family: monospace;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: normal;
-    text-transform: none;
-    color: inherit;
-    background: transparent;
+  .console-container {
+    position: relative;
+    width: 320px; /* Adjust to match your grid width */
+    height: 250px; /* Adjust to match your grid height */
   }
-</style>
-</head>
- <!-- ================================================================= -->
-<!-- Close: ESTOPPEL & HEAD METADATA CONFIGURATION BLOCK                -->
-<!-- ================================================================= --> 
-  
-<!-- ================================================================= -->
-<!-- Open: HEAD METADATA & CONFIGURATION BLOCK                     -->
-<!-- ================================================================= -->
-<meta charset="utf-8">
-<title>Sistema Educacional Avanzado - Dropzone & Lazarus Signage</title>
-
-<!-- ================================================================= -->
-<!-- SIGNPOST: CORE STYLESHEET - 6x4 ABSOLUTE GRID SPECIFICATION       -->
-<!-- ================================================================= -->
-<style>
-  :root {
-    --bg-color: #121212;
-    --border-color: #4a5568;
-    --text-color: #e2e8f0;
-    --gold-color: #ecc94b;
-    --muted-color: #a0aec0;
-  }
-  body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: monospace;
-    margin: 0;
-    padding: 40px;
+  .z-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
+    font-family: monospace;
+    border: 2px solid #557;
   }
-  .vmc-frame {
-    width: 6in;
-    min-height: 4in;
-    border: 0.25in solid #333;
-    padding: 20px;
-    box-sizing: border-box;
-    background: #1a202c;
+  #keyboard-layer {
+    background: #eef;
+    z-index: 1;
   }
-  h1 {
-    color: var(--gold-color);
-    font-size: 1.2rem;
-    margin-top: 0;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 8px;
+  #student-panel-layer {
+    background: #fee;
+    z-index: 0; /* Hidden underneath by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
   }
-  .signage-ledger {
-    font-size: 0.85rem;
-    color: var(--muted-color);
-    margin-bottom: 15px;
-  }
-  .dropzone {
-    border: 2px dashed var(--border-color);
-    padding: 20px;
-    text-align: center;
-    background: #2d3748;
-    margin-top: 20px;
-  }
-  .dropzone img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 15px auto 0 auto;
-    border: 1px solid var(--border-color);
+  /* Active state for toggling */
+  .console-container.show-student #student-panel-layer {
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
   }
 </style>
 </head>
-
 <body>
-<!-- ================================================================= -->
-<!-- Close: HEAD METADATA & CONFIGURATION BLOCK       -->
-<!-- ================================================================= -->
-  
-<!-- ================================================================= -->
-<!-- Open: VIRTUAL MONITOR CONSOLE (VMC) VIEWPORT FRAME ROOT       -->
-<!-- ================================================================= -->
-<div class="vmc-frame">
-
-  <!-- SIGNPOST: LAZARUS SIGNAGE LEDGER HEADER -->
-  <h1>Lazarus Signage: Active Registry</h1>
-  <div class="signage-ledger">
-    [Status: Routing Online] | [Leader: Tax without Syn] | [Grid: 6x4 Absolute]
+<div class="console-container" id="consoleBox">
+  <!-- Layer 0: Sichuan Alpha + Num Board -->
+  <div class="z-layer" id="keyboard-layer">
+    [ Sichuan Alpha + Num Board ]
+  </div>  
+  <!-- Layer 1: Simulated Student Panel -->
+  <div class="z-layer" id="student-panel-layer">
+    [ Simulated Student Panel ]
   </div>
-
-  <!-- =============================================================== -->
-  <!-- SIGNPOST: DROPZONE STAGING AREA FOR ACTIVE PAYLOADS             -->
-  <!-- =============================================================== -->
-  <div class="dropzone" id="dropzone-stage">
-    <p style="margin: 0; color: #cbd5e0; font-weight: bold;">DROPZONE STAGING AREA</p>
-    <p style="font-size: 0.8rem; color: var(--muted-color); margin-top: 5px;">Awaiting active payload stream...</p>
-    
-    <!-- SIGNPOST: ACTIVE BINARY PAYLOAD INJECTION (Ferry Stream) -->
-    <img src="https://storage.googleapis.com/noenbalde/Imagemes/06.32%20ferry.JPG" alt="06.32 ferry viewport stream">
-  </div>
-
 </div>
-<!-- END VMC FRAME -->
-
+<button onclick="togglePanel()">Toggle Alpha / Student Panel</button>
+<script>
+  function togglePanel() {
+    const box = document.getElementById('consoleBox');
+    box.classList.toggle('show-student');
+  }
+</script>
 </body>
-<!-- ================================================================= -->
-<!-- Close: VIRTUAL MONITOR CONSOLE (VMC) VIEWPORT FRAME ROOT       -->
-<!-- ================================================================= -->
-
-<!-- ================================================================= -->
-<!-- Open: KNOWLEDGE TRANSFER UNIT (KTU) MODULE                       -->
-<!-- ================================================================= -->
-<div class="ktu-frame" style="width: 6in; min-height: 4in; border: 0.25in solid #333; padding: 20px; box-sizing: border-box; background: #1a202c; font-size: 14pt; font-family: monospace; margin-top: 20px;">
-
-  <!-- SIGNPOST: KTU HEADER & SIGNAGE LEDGER -->
-  <h1 style="color: #ecc94b; font-size: 1.2rem; margin-top: 0; border-bottom: 1px solid #4a5568; padding-bottom: 8px;">Knowledge Transfer Unit: Active</h1>
-  <div class="signage-ledger" style="font-size: 0.85rem; color: #a0aec0; margin-bottom: 15px;">
-    [Status: Initialized] | [Font: 14pt Monospace] | [Grid: 6x4 Absolute]
-  </div>
-  
-  <!-- =============================================================== -->
-  <!-- Open: KTU CONTENT STAGING AREA                              -->
-  <!-- =============================================================== -->
-  <div class="ktu-content" style="border: 2px dashed #4a5568; padding: 20px; background: #2d3748;">
-    <p style="margin: 0; color: #cbd5e0; font-weight: bold;">KTU FRAMEWORK ACTIVE</p>
-    <p style="font-size: 14pt; color: #a0aec0; margin-top: 10px;">Awaiting instructional payloads and tactile logic streams...</p>
-  </div>
-
-</div>
-    <!-- =============================================================== -->
-  <!-- Close: KTU CONTENT STAGING AREA                              -->
-  <!-- =============================================================== -->
-  <!-- ================================================================= -->
-<!-- Close: KNOWLEDGE TRANSFER UNIT (KTU) MODULE                       -->
-<!-- ================================================================= -->
-  
 </html>
