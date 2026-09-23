@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Learning System - SEA</title>
     
-    <!-- CORE STYLES: Minimal centered layout, monospace typography -->
+    <!-- CORE STYLES & SSS COORDINATE MATRIX -->
     <style>
         body {
             margin: 0;
@@ -26,14 +26,6 @@
             height: 100vh;
             box-sizing: border-box;
         }
-        .handshake-box {
-            border: 1px solid #999;
-            padding: 20px;
-            background: #fff;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        }
 
         /* ============================================================================== */
         /* OPEN 002 SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)              */
@@ -45,24 +37,56 @@
             display: flex;              /* SSS: Modelo flexible para alinear hijos */
             flex-direction: column;     /* SSS: Apilamiento vertical de elementos */
             box-sizing: border-box;     /* SSS: Incluye padding y bordes en el ancho total */
+            position: relative;         /* SSS: Contenedor de referencia para elementos absolutos */
         }
         /* ============================================================================== */
         /* CLOSE SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)                 */
+        /* ============================================================================== */
+
+        /* ============================================================================== */
+        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) CON 14PT MONOSPACE            */
+        /* ============================================================================== */
+        .user-layer-z {
+            font-family: monospace;     /* SSS: Tipografía monoespaciada exacta */
+            font-size: 14pt;            /* SSS: Tamaño de fuente fijo a 14 puntos */
+            position: absolute;         /* SSS: Posicionamiento absoluto respecto al master */
+            top: 0px;                   /* SSS: Latitud Y = 0 (anclaje superior exacto) */
+            left: 0px;                  /* SSS: Longitud X = 0 (anclaje izquierdo exacto) */
+        }
+        /* ============================================================================== */
+        /* CLOSE SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) CON 14PT MONOSPACE               */
         /* ============================================================================== */
     </style>
 </head>
 <body>
 
-    <!-- MAIN HANDSHAKE CONTAINER -->
-    <div class="handshake-box">
-        <h2>Advanced Learning System</h2>
-        <p>System transitioning to native desktop architecture.</p>
-        <p><em>Tabula Rasa.</em></p>
+    <!-- ============================================================================== -->
+    <!-- OPEN 004 SSS: MASTER CONTAINER DOM NODE                                        -->
+    <!-- ============================================================================== -->
+    <div class="master-container">
+
+        <!-- ============================================================================== -->
+        <!-- OPEN 005 SSS: USER LAYER Z INITIALIZATION AT LAT 0, LON 0 (0,0,0)              -->
+        <!-- ============================================================================== -->
+        <div class="user-layer-z">
+            Sistemas de Educación Avanzada&copy;<br>
+            SEA Bienvenido por<br>
+            José M. Aranda_Figueroa, PhD<br>
+            en colaboración con Gemini<br>
+            jmaf.phd@gmail.com
+        </div>
+        <!-- ============================================================================== -->
+        <!-- CLOSE SSS: USER LAYER Z INITIALIZATION AT LAT 0, LON 0 (0,0,0)                 -->
+        <!-- ============================================================================== -->
+
     </div>
+    <!-- ============================================================================== -->
+    <!-- CLOSE SSS: MASTER CONTAINER DOM NODE                                           -->
+    <!-- ============================================================================== -->
 
 </body>
 </html>
 
-<!-- ============================================================================ -->
-<!-- CLOSE 001 HANDSHAKE MODULE                                                   -->
-<!-- ============================================================================ -->
+<!-- ============================================================================== -->
+<!-- CLOSE 001 HANDSHAKE MODULE                                                     -->
+<!-- ============================================================================== -->
