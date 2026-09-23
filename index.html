@@ -1,7 +1,6 @@
-HTML
 <!-- ============================================================================== -->
-<!-- ADVANCED LEARNING SYSTEM (SEA) - MINIMAL HANDSHAKE HTML                         -->
-<!-- Purpose: GitHub Pages entry point (prevents 404) during native VB migration   -->
+<!-- OPEN 001 ADVANCED LEARNING SYSTEM (SEA) - MINIMAL HANDSHAKE HTML               -->
+<!-- Purpose: GitHub Pages entry point (prevents 404) during native VB migration    -->
 <!-- ============================================================================== -->
 
 <!DOCTYPE html>
@@ -35,6 +34,21 @@ HTML
             text-align: center;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
+
+        /* ============================================================================== */
+        /* OPEN 002 SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)              */
+        /* ============================================================================== */
+        .master-container {
+            width: var(--kty-width);    /* SSS: Ancho fijo exacto del KatyVU */
+            height: 100vh;              /* SSS: Ocupa toda la altura vertical disponible */
+            margin: 0 auto;             /* SSS: Centrado horizontal automático */
+            display: flex;              /* SSS: Modelo flexible para alinear hijos */
+            flex-direction: column;     /* SSS: Apilamiento vertical de elementos */
+            box-sizing: border-box;     /* SSS: Incluye padding y bordes en el ancho total */
+        }
+        /* ============================================================================== */
+        /* CLOSE SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)                 */
+        /* ============================================================================== */
     </style>
 </head>
 <body>
@@ -49,6 +63,6 @@ HTML
 </body>
 </html>
 
-<!-- ============================================================================== -->
-<!-- END OF HANDSHAKE MODULE                                                        -->
-<!-- ============================================================================== -->
+<!-- ============================================================================ -->
+<!-- CLOSE 001 HANDSHAKE MODULE                                                   -->
+<!-- ============================================================================ -->
