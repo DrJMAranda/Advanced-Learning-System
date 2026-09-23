@@ -1,77 +1,82 @@
 <!-- ============================================================================== -->
-<!-- OPEN 001 ADVANCED LEARNING SYSTEM (SEA) - MINIMAL HANDSHAKE HTML               -->
-<!-- Purpose: GitHub Pages entry point (prevents 404) during native VB migration    -->
+<!-- OPEN 001 ADVANCED LEARNING SYSTEM (SEA) - VMC REFERENCE FRAME                  -->
 <!-- ============================================================================== -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CHARACTER ENCODING & VIEWPORT SETUP -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Learning System - SEA</title>
     
-    <!-- CORE STYLES & SSS COORDINATE MATRIX -->
     <style>
         body {
             margin: 0;
-            padding: 40px;
+            padding: 20px;
             background: #f4f4f4;
             color: #222;
             font-family: monospace;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100vh;
+            align-items: flex-start;
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
         /* ============================================================================== */
-        /* OPEN 002 SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)              */
+        /* OPEN 002 SSS: MASTER CONTAINER (650PX - 1 KTY-WIDE)                            */
         /* ============================================================================== */
         .master-container {
-            width: var(--kty-width);    /* SSS: Ancho fijo exacto del KatyVU */
-            height: 100vh;              /* SSS: Ocupa toda la altura vertical disponible */
-            margin: 0 auto;             /* SSS: Centrado horizontal automático */
-            display: flex;              /* SSS: Modelo flexible para alinear hijos */
-            flex-direction: column;     /* SSS: Apilamiento vertical de elementos */
-            box-sizing: border-box;     /* SSS: Incluye padding y bordes en el ancho total */
-            position: relative;         /* SSS: Contenedor de referencia para elementos absolutos */
+            width: 650px;               /* SSS: Ancho exacto del monitor virtual */
+            position: relative;         /* SSS: Anclaje para elementos absolutos */
+            box-sizing: border-box;
         }
         /* ============================================================================== */
-        /* CLOSE SSS: MASTER CONTAINER (1 KTY-WIDE, FULL VERTICAL ESTATE)                 */
+        /* CLOSE SSS: MASTER CONTAINER                                                  */
         /* ============================================================================== */
 
         /* ============================================================================== */
-        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) FLANCO IZQUIERDO (MANO IZQ)   */
+        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS (10 LÍNEAS SUPERIORES)                   */
         /* ============================================================================== */
         .user-layer-z {
-            font-family: monospace;     /* SSS: Tipografía monoespaciada exacta */
-            font-size: 9pt;             /* SSS: Reducido a escala compacta y precisa */
-            line-height: 1.2;           /* SSS: Compactación vertical milimétrica */
-            position: absolute;         /* SSS: Posicionamiento absoluto respecto al master */
-            top: 4px;                   /* SSS: Margen superior mínimo de resguardo */
-            left: 4px;                  /* SSS: Anclaje exacto en el flanco izquierdo */
-            padding: 4px;               /* SSS: Cuadro delimitador contenido */
-            background: rgba(255,255,255,0.85); /* SSS: Capa de aislamiento visual */
-            border: 1px solid #ccc;     /* SSS: Perímetro limpio */
+            font-family: monospace;     
+            font-size: 11pt;            
+            line-height: 1.4;           
+            position: absolute;
+            top: 0px;                   
+            left: 0px;                  
+            width: 650px;               
         }
         /* ============================================================================== */
-        /* CLOSE SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) FLANCO IZQUIERDO                */
+        /* CLOSE SSS: USER LAYER Z                                                      */
+        /* ============================================================================== */
+
+        /* ============================================================================== */
+        /* OPEN 004 SSS: VMC CONTAINER (VISUAL REFERENCE FRAME)                           */
+        /* ============================================================================== */
+        .vmc-container {
+            width: 650px;               /* SSS: Ancho de referencia de 650px */
+            height: 400px;              /* SSS: Alto del monitor virtual */
+            position: absolute;
+            top: 180px;                 /* SSS: Ubicado justo debajo de las 10 líneas */
+            left: 0px;
+            border: 2px dashed #666;    /* SSS: Línea discontinua para referencia visual */
+            background: #fff;           /* SSS: Fondo limpio de prueba */
+            box-sizing: border-box;
+        }
+        /* ============================================================================== */
+        /* CLOSE SSS: VMC CONTAINER                                                     */
         /* ============================================================================== */
     </style>
 </head>
 <body>
 
     <!-- ============================================================================== -->
-    <!-- OPEN 004 SSS: MASTER CONTAINER DOM NODE                                        -->
+    <!-- OPEN 005 SSS: MASTER CONTAINER DOM NODE                                        -->
     <!-- ============================================================================== -->
     <div class="master-container">
 
-        <!-- ============================================================================== -->
-        <!-- OPEN 005 SSS: USER LAYER Z INITIALIZATION AT LAT 0, LON 0 (0,0,0)              -->
-        <!-- ============================================================================== -->
+        <!-- USER LAYER Z: CRÉDITOS -->
         <div class="user-layer-z">
             Sistemas de Educación Avanzada&copy;<br>
             SEA Bienvenido por<br>
@@ -79,18 +84,20 @@
             en colaboración con Gemini<br>
             jmaf.phd@gmail.com
         </div>
-        <!-- ============================================================================== -->
-        <!-- CLOSE SSS: USER LAYER Z INITIALIZATION AT LAT 0, LON 0 (0,0,0)                 -->
-        <!-- ============================================================================== -->
+
+        <!-- VMC CONTAINER: REFERENCIA VISUAL VACÍA -->
+        <div class="vmc-container">
+            <!-- Espacio reservado para el motor virtual VMC -->
+        </div>
 
     </div>
     <!-- ============================================================================== -->
-    <!-- CLOSE SSS: MASTER CONTAINER DOM NODE                                           -->
+    <!-- CLOSE 005 SSS: MASTER CONTAINER DOM NODE                                       -->
     <!-- ============================================================================== -->
 
 </body>
 </html>
 
 <!-- ============================================================================== -->
-<!-- CLOSE 001 HANDSHAKE MODULE                                                     -->
+<!-- CLOSE 001 ADVANCED LEARNING SYSTEM (SEA) - VMC REFERENCE FRAME                 -->
 <!-- ============================================================================== -->
