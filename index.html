@@ -44,17 +44,21 @@
         /* ============================================================================== */
 
         /* ============================================================================== */
-        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) CON 14PT MONOSPACE            */
+        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) FLANCO IZQUIERDO (MANO IZQ)   */
         /* ============================================================================== */
         .user-layer-z {
             font-family: monospace;     /* SSS: Tipografía monoespaciada exacta */
-            font-size: 14pt;            /* SSS: Tamaño de fuente fijo a 14 puntos */
+            font-size: 9pt;             /* SSS: Reducido a escala compacta y precisa */
+            line-height: 1.2;           /* SSS: Compactación vertical milimétrica */
             position: absolute;         /* SSS: Posicionamiento absoluto respecto al master */
-            top: 0px;                   /* SSS: Latitud Y = 0 (anclaje superior exacto) */
-            left: 0px;                  /* SSS: Longitud X = 0 (anclaje izquierdo exacto) */
+            top: 4px;                   /* SSS: Margen superior mínimo de resguardo */
+            left: 4px;                  /* SSS: Anclaje exacto en el flanco izquierdo */
+            padding: 4px;               /* SSS: Cuadro delimitador contenido */
+            background: rgba(255,255,255,0.85); /* SSS: Capa de aislamiento visual */
+            border: 1px solid #ccc;     /* SSS: Perímetro limpio */
         }
         /* ============================================================================== */
-        /* CLOSE SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) CON 14PT MONOSPACE               */
+        /* CLOSE SSS: USER LAYER Z – CRÉDITOS EN (0,0,0) FLANCO IZQUIERDO                */
         /* ============================================================================== */
     </style>
 </head>
