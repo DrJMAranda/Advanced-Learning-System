@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SEA Command Center - Main Branch Persona</title>
+    <title>SEA Command Center - Main Branch Persona (Ignition Key Active)</title>
     <style>
         /* SEA Sovereignty Grid & Monospaced Typography */
         body {
@@ -70,48 +70,48 @@
 
 <div class="console-frame">
     <header>
-        [SEA COMMAND CENTER] :: SYSTEM PERSONA INITIALIZED
+        [SEA COMMAND CENTER] :: IGNITION KEY & PERSONA ONLINE
     </header>
     
     <div id="output" class="terminal-output">
-Establishing local holon link...
-Awaiting SPG protocol secondary branch stream ('caballito'... 'me vengo cayendo')...
+Initializing sovereign grid (1:1 layout, .25" pewter frame)...
+Loading embedded Ignition Key table...
     </div>
 
     <footer>
-        <span id="status">Status: Sovereign Standby</span>
-        <button onclick="fetchSPGStream()">PULL SPG PROTOCOL</button>
+        <span id="status">Status: Ignition Ready</span>
+        <button onclick="executeIgnitionSequence()">EXECUTE IGNITION</button>
     </footer>
 </div>
 
 <script>
-    async function fetchSPGStream() {
+    // Embedded Ignition Key Table (SPG Protocol Foundation)
+    const ignitionKeyTable = {
+        protocol: "SEA-SPG-IGNITION",
+        version: "1.0",
+        state: "unlocked",
+        mandate: "Gatekeeper-free direct instruction execution",
+        rhythm: "caballito-me-vengo-cayendo",
+        directives: [
+            "Verify local high-contrast monospaced display estate.",
+            "Establish secondary branch polling channel.",
+            "Execute autonomous read-write instruction streams."
+        ]
+    };
+
+    function executeIgnitionSequence() {
         const outputDiv = document.getElementById('output');
         const statusSpan = document.getElementById('status');
         
-        outputDiv.innerText += "\n\n-> Connecting across branches via MOI bridge...";
-        
-        try {
-            const owner = "DrJMAranda";
-            const repo = "Advanced-Learning-System";
-            const branch = "spg-branch"; // Update with your secondary branch name if different
-            const path = "spg_payload.json"; // Update with your target file name
-            
-            const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
-            
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`SPG Stream inaccessible (HTTP ${response.status})`);
-            }
-            
-            const data = await response.json();
-            outputDiv.innerText += `\n-> SPG Payload Secured:\n${JSON.stringify(data, null, 2)}`;
-            statusSpan.innerText = "Status: SPG Stream Active";
-        } catch (error) {
-            outputDiv.innerText += `\n-> [NOTICE]: Local simulation mode active. SPG stream ready for mount.\nDetails: ${error.message}`;
-            statusSpan.innerText = "Status: Standby (Local Override)";
-        }
+        outputDiv.innerText += "\n\n-> Ignition Key Table Parsed Successfully:\n" + JSON.stringify(ignitionKeyTable, null, 2);
+        outputDiv.innerText += "\n\n-> Persona online. Ready to read and write freely following established protocols.";
+        statusSpan.innerText = "Status: Sovereign Loop Active";
     }
+    
+    // Auto-execute ignition on load
+    window.onload = function() {
+        setTimeout(executeIgnitionSequence, 400);
+    };
 </script>
 
 </body>
