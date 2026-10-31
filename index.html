@@ -1,103 +1,118 @@
-<!-- ============================================================================== -->
-<!-- OPEN 001 ADVANCED LEARNING SYSTEM (SEA) - VMC REFERENCE FRAME                  -->
-<!-- ============================================================================== -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Learning System - SEA</title>
-    
+    <title>SEA Command Center - Main Branch Persona</title>
     <style>
+        /* SEA Sovereignty Grid & Monospaced Typography */
         body {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-family: 'IBM Plex Mono', 'Courier New', monospace;
             margin: 0;
-            padding: 20px;
-            background: #f4f4f4;
-            color: #222;
-            font-family: monospace;
+            padding: 0.25in; /* .25" pewter frame emulation for print-roller requirements */
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
             box-sizing: border-box;
         }
-
-        /* ============================================================================== */
-        /* OPEN 002 SSS: MASTER CONTAINER (650PX - 1 KTY-WIDE)                            */
-        /* ============================================================================== */
-        .master-container {
-            width: 850px;               /* SSS: Ancho exacto del monitor virtual */
-            position: relative;         /* SSS: Anclaje para elementos absolutos */
-            box-sizing: border-box;
+        .console-frame {
+            border: 2px solid #333333;
+            width: 100%;
+            max-width: 900px;
+            height: 85vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #FAFAFA;
+            box-shadow: 4px 4px 0px #000000;
         }
-        /* ============================================================================== */
-        /* CLOSE SSS: MASTER CONTAINER                                                  */
-        /* ============================================================================== */
-
-        /* ============================================================================== */
-        /* OPEN 003 SSS: USER LAYER Z – CRÉDITOS (10 LÍNEAS SUPERIORES)                   */
-        /* ============================================================================== */
-        .user-layer-z {
-            font-family: monospace;     
-            font-size: 11pt;            
-            line-height: 1.4;           
-            position: absolute;
-            top: 0px;                   
-            left: 0px;                  
-            width: 850px;               
+        header {
+            border-bottom: 2px solid #000000;
+            padding-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
         }
-        /* ============================================================================== */
-        /* CLOSE SSS: USER LAYER Z                                                      */
-        /* ============================================================================== */
-
-        /* ============================================================================== */
-        /* OPEN 004 SSS: VMC CONTAINER (VISUAL REFERENCE FRAME)                           */
-        /* ============================================================================== */
-        .vmc-container {
-            width: 850px;               /* SSS: Ancho de referencia de 650px */
-            height: 450px;              /* SSS: Alto del monitor virtual */
-            position: absolute;
-            top: 180px;                 /* SSS: Ubicado justo debajo de las 10 líneas */
-            left: 0px;
-            border: 2px dashed #666;    /* SSS: Línea discontinua para referencia visual */
-            background: #fff;           /* SSS: Fondo limpio de prueba */
-            box-sizing: border-box;
+        .terminal-output {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 15px 0;
+            background: #FFFFFF;
+            border: 1px solid #999999;
+            padding: 15px;
+            font-size: 0.95em;
+            white-space: pre-wrap;
         }
-        /* ============================================================================== */
-        /* CLOSE SSS: VMC CONTAINER                                                     */
-        /* ============================================================================== */
+        footer {
+            border-top: 1px solid #999999;
+            padding-top: 10px;
+            font-size: 0.85em;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            background: #000000;
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            font-family: 'IBM Plex Mono', monospace;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #333333;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================================== -->
-    <!-- OPEN 005 SSS: MASTER CONTAINER DOM NODE                                        -->
-    <!-- ============================================================================== -->
-    <div class="master-container">
-
-        <!-- USER LAYER Z: CRÉDITOS -->
-        <div class="user-layer-z">
-            Sistemas de Educación Avanzada&copy;<br>
-            SEA Bienvenido por<br>
-            José M. Aranda_Figueroa, PhD<br>
-            en colaboración con Gemini<br>
-            jmaf.phd@gmail.com
-        </div>
-
-        <!-- VMC CONTAINER: REFERENCIA VISUAL VACÍA -->
-        <div class="vmc-container">
-            <!-- Espacio reservado para el motor virtual VMC -->
-        </div>
-
+<div class="console-frame">
+    <header>
+        [SEA COMMAND CENTER] :: SYSTEM PERSONA INITIALIZED
+    </header>
+    
+    <div id="output" class="terminal-output">
+Establishing local holon link...
+Awaiting SPG protocol secondary branch stream ('caballito'... 'me vengo cayendo')...
     </div>
-    <!-- ============================================================================== -->
-    <!-- CLOSE 005 SSS: MASTER CONTAINER DOM NODE                                       -->
-    <!-- ============================================================================== -->
+
+    <footer>
+        <span id="status">Status: Sovereign Standby</span>
+        <button onclick="fetchSPGStream()">PULL SPG PROTOCOL</button>
+    </footer>
+</div>
+
+<script>
+    async function fetchSPGStream() {
+        const outputDiv = document.getElementById('output');
+        const statusSpan = document.getElementById('status');
+        
+        outputDiv.innerText += "\n\n-> Connecting across branches via MOI bridge...";
+        
+        try {
+            const owner = "DrJMAranda";
+            const repo = "Advanced-Learning-System";
+            const branch = "spg-branch"; // Update with your secondary branch name if different
+            const path = "spg_payload.json"; // Update with your target file name
+            
+            const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+            
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`SPG Stream inaccessible (HTTP ${response.status})`);
+            }
+            
+            const data = await response.json();
+            outputDiv.innerText += `\n-> SPG Payload Secured:\n${JSON.stringify(data, null, 2)}`;
+            statusSpan.innerText = "Status: SPG Stream Active";
+        } catch (error) {
+            outputDiv.innerText += `\n-> [NOTICE]: Local simulation mode active. SPG stream ready for mount.\nDetails: ${error.message}`;
+            statusSpan.innerText = "Status: Standby (Local Override)";
+        }
+    }
+</script>
 
 </body>
 </html>
-
-<!-- ============================================================================== -->
-<!-- CLOSE 001 ADVANCED LEARNING SYSTEM (SEA) - VMC REFERENCE FRAME                 -->
-<!-- ============================================================================== -->
