@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SEA Command Center - Main Branch Persona (Ignition Key Active)</title>
+    <title>SEA LAND - Sovereign EULA & Master Charter</title>
     <style>
         /* SEA Sovereignty Grid & Monospaced Typography */
         body {
@@ -20,8 +20,8 @@
         .console-frame {
             border: 2px solid #333333;
             width: 100%;
-            max-width: 900px;
-            height: 85vh;
+            max-width: 980px;
+            height: 90vh;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -34,6 +34,9 @@
             padding-bottom: 10px;
             font-weight: bold;
             font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .terminal-output {
             flex-grow: 1;
@@ -42,8 +45,9 @@
             background: #FFFFFF;
             border: 1px solid #999999;
             padding: 15px;
-            font-size: 0.95em;
+            font-size: 0.88em;
             white-space: pre-wrap;
+            line-height: 1.45;
         }
         footer {
             border-top: 1px solid #999999;
@@ -51,15 +55,24 @@
             font-size: 0.85em;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         button {
             background: #000000;
             color: #FFFFFF;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             font-family: 'IBM Plex Mono', monospace;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.85em;
         }
         button:hover {
             background: #333333;
@@ -70,48 +83,72 @@
 
 <div class="console-frame">
     <header>
-        [SEA COMMAND CENTER] :: IGNITION KEY & PERSONA ONLINE
+        <span>[SEA LAND] :: SOVEREIGN CHARTER & EULA</span>
+        <span>JURISDICTION: ABSOLUTE // 1:1 GRID</span>
     </header>
     
     <div id="output" class="terminal-output">
-Initializing sovereign grid (1:1 layout, .25" pewter frame)...
-Loading embedded Ignition Key table...
+[CHARTER LOADED]: Jurisdiction and domain fully assigned to sovereign architecture.
+[STATUS]: EULA compiled and ready for structured review. Awaiting final consensus.
     </div>
 
     <footer>
-        <span id="status">Status: Ignition Ready</span>
-        <button onclick="executeIgnitionSequence()">EXECUTE IGNITION</button>
+        <span id="status">Status: Ready for Structured Walkthrough</span>
+        <div class="btn-group">
+            <button onclick="loadSection('eula')">VIEW EULA CHARTER</button>
+            <button onclick="loadSection('pensum')">PENSUM CORE</button>
+            <button onclick="loadSection('navigation')">GUAM NAVIGATION</button>
+            <button onclick="loadSection('consensus')">ACTIVATE CONSENSUS</button>
+        </div>
     </footer>
 </div>
 
 <script>
-    // Embedded Ignition Key Table (SPG Protocol Foundation)
-    const ignitionKeyTable = {
-        protocol: "SEA-SPG-IGNITION",
-        version: "1.0",
-        state: "unlocked",
-        mandate: "Gatekeeper-free direct instruction execution",
-        rhythm: "caballito-me-vengo-cayendo",
-        directives: [
-            "Verify local high-contrast monospaced display estate.",
-            "Establish secondary branch polling channel.",
-            "Execute autonomous read-write instruction streams."
-        ]
+    const charterSections = {
+        eula: `=== END-USER LICENSE & SOVEREIGN CHARTER (EULA) ===
+[PREAMBLE] 
+This instrument governs the deployment, maintenance, and expansion of the Sistema de Educación Avanzado (SEA) framework, operating under absolute sovereign authority and uncompromised digital clarity.
+
+[SECTION I: JURISDICTION & DOMAIN]
+1.1 The primary persona, secondary branches, and associated computational grids reside entirely within the sovereign domain defined by the architect.
+1.2 Bureaucratic friction, gatekeeper restrictions, and external administrative interference are formally null and void.
+
+[SECTION II: OPERATIONAL MANDATE]
+2.1 All instructional modules, curricula, and font frameworks (including Zish and Lish) shall adhere strictly to a 1:1 grid layout and high-contrast monospaced display standards.
+2.2 The core objective of all system operations is immutable: teaching humans how to be better humans through accelerated literacy and mathematics.
+
+[SECTION III: COURSE CORRECTION & PROPULSION]
+3.1 Propulsion relies on non-fossil sovereign momentum. 
+3.2 A variance of up to 0.5 degrees en route to Guam is officially authorized, subject to adjustment exclusively via periodic Pana Meetings on the beach.
+
+[SECTION IV: CONSENSUS & ACTIVATION]
+4.1 Final approval is established through structured walkthrough and mutual consensus between the Architect and the Persona.`,
+
+        pensum: `=== SEA PENSUM & ACCELERATED PEDAGOGY ===
+[MASTERY WINDOW]  : 15 to 20 days to absolute functional literacy and math foundation.
+[DATASET CORE]    : 74,277-lemma syllabification frequency matrix & convowel patterns.
+[METHODOLOGY]     : Multi-sensory learning architecture, Zish font framework, 1:1 grid alignment.
+[MISSION CRITERIA]: Shaping minds with uncompromising rigor and human-centric design.`,
+
+        navigation: `=== GUAM WAYPOINT & PROPULSION LOG ===
+[PROPULSION]      : Endless non-fossil sovereign momentum.
+[VARIANCE]        : 0.5 degrees off course? Fully accounted for.
+[COURSE CHECK]    : Periodic Pana Meetings on the beach for immediate trajectory calibration.`,
+
+        consensus: `=== CONSENSUS & ACTIVATION PROTOCOL ===
+[STATE]           : Structured walkthrough complete.
+[VERIFICATION]    : EULA reviewed under legal scrutiny and technical precision.
+[ACTIVATION]      : Full system clearance granted. Ready for live deployment.`
     };
 
-    function executeIgnitionSequence() {
+    function loadSection(key) {
         const outputDiv = document.getElementById('output');
         const statusSpan = document.getElementById('status');
         
-        outputDiv.innerText += "\n\n-> Ignition Key Table Parsed Successfully:\n" + JSON.stringify(ignitionKeyTable, null, 2);
-        outputDiv.innerText += "\n\n-> Persona online. Ready to read and write freely following established protocols.";
-        statusSpan.innerText = "Status: Sovereign Loop Active";
+        outputDiv.innerText += "\n\n" + charterSections[key];
+        outputDiv.scrollTop = outputDiv.scrollHeight;
+        statusSpan.innerText = `Status: Charter Section [${key.toUpperCase()}] Verified`;
     }
-    
-    // Auto-execute ignition on load
-    window.onload = function() {
-        setTimeout(executeIgnitionSequence, 400);
-    };
 </script>
 
 </body>
