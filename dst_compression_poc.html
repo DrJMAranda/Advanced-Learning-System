@@ -287,6 +287,41 @@
       white-space: pre;
     }
     .hidden-panel { display: none; }
+  
+    .coloreme-legend {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .coloreme-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 5px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1e293b;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+    .coloreme-chip.active {
+      border-color: #111111;
+      box-shadow: 0 0 0 2px #111111;
+      transform: scale(1.04);
+      background: #fef9c3;
+    }
+    .coloreme-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid #111111;
+    }
+
   </style>
 </head>
 <body>
@@ -294,7 +329,7 @@
     <header>
       <div>
         <h1>Talking Mouth &amp; Tiny-File Magic</h1>
-        <p class="subtitle">Type any word, tap <strong>Speak &amp; Watch!</strong>, and see the Front Mouth (Viseme) &amp; Side Tongue/Jaw (Latereme) while hearing it spoken.</p>
+        <p class="subtitle">Type any word, tap <strong>Speak &amp; Watch!</strong>, and see Deciman's Front Mouth (Viseme) &amp; Side Tongue/Jaw (Latereme) while hearing it spoken.</p>
       </div>
       <div id="overallBadge" class="badge-overall">CHECKING...</div>
     </header>
@@ -338,6 +373,11 @@
             <option value="auto">Auto (EN / ES)</option>
             <option value="en-US">English</option>
             <option value="es-MX">Español</option>
+            <option value="pt-BR">Português</option>
+            <option value="fil-PH">Tagalog</option>
+            <option value="fr-FR">Français</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="it-IT">Italiano</option>
           </select>
           <label style="font-size:13px; font-weight:700; display:flex; align-items:center; gap:5px; cursor:pointer;">
             <input type="checkbox" id="chkAudio" /> Beeps
@@ -355,12 +395,13 @@
 
           <div class="canvases-row">
             <div class="canvas-card" id="visemeCard">
-              <div class="canvas-caption">Front View (Viseme)</div>
+              <div class="canvas-caption">Deciman — Front View (Viseme)</div>
               <canvas id="emCanvas" width="240" height="240"></canvas>
             </div>
             <div class="canvas-card" id="lateremeCard">
-              <div class="canvas-caption">Side View (Latereme: Lips &rarr; Throat)</div>
+              <div class="canvas-caption">Side View (Latereme + Coloreme Loci)</div>
               <canvas id="latCanvas" width="240" height="240"></canvas>
+              <div class="coloreme-legend" id="coloremeLegend" aria-label="Coloreme Loci Legend"></div>
             </div>
           </div>
 
@@ -375,11 +416,11 @@
         </div>
 
         <div class="controls-box">
-          <div>
-            <span class="group-label">Type Any Word &amp; Click &ldquo;Speak &amp; Watch!&rdquo;</span>
+          <div style="background:#fef08a; border:3px solid #111111; border-radius:12px; padding:14px;">
+            <span class="group-label" style="font-size:15px; color:#111111; margin-bottom:8px;">&#128073; TYPE YOUR WORD HERE &amp; CLICK &ldquo;SPEAK &amp; WATCH!&rdquo;</span>
             <div class="type-row">
-              <input type="text" id="phraseInput" value="hola decillon" placeholder="Type any word (e.g., hello, mamá, water)..." aria-label="Type any word" />
-              <button class="primary" id="btnCompile">&#128266; Speak &amp; Watch!</button>
+              <input type="text" id="phraseInput" value="hola decillon" placeholder="Type any word here..." aria-label="Type any word" style="background:#ffffff; color:#000000; border:3px solid #1d4ed8; font-size:18px; font-weight:700; padding:12px 14px;" />
+              <button class="primary" id="btnCompile" style="background:#1d4ed8; color:#ffffff; border:3px solid #111111; font-size:16px; padding:12px 18px;">&#128266; Speak &amp; Watch!</button>
             </div>
             <div class="type-row" style="margin-top:8px;">
               <select id="presetSelect" aria-label="Choose a lesson" style="width:100%;">
@@ -465,10 +506,33 @@
         5: "Lips Closed (M / B / P)"
       };
 
+      const COLOREME_LOCI = [
+        { id: 0, name: "Lips",      ipa: "p,b,m",     color: "#dc2626", x: 21,  y: 82 },
+        { id: 1, name: "Teeth",     ipa: "f,v",       color: "#ea580c", x: 38,  y: 82 },
+        { id: 2, name: "Dental",    ipa: "th",        color: "#d97706", x: 50,  y: 88 },
+        { id: 3, name: "Ridge",     ipa: "t,d,s,n,l", color: "#65a30d", x: 66,  y: 66 },
+        { id: 4, name: "Post-Alv",  ipa: "sh,ch,j",   color: "#059669", x: 88,  y: 58 },
+        { id: 5, name: "Palate",    ipa: "y,r",       color: "#0891b2", x: 114, y: 54 },
+        { id: 6, name: "Velar",     ipa: "k,g,c",     color: "#2563eb", x: 146, y: 60 },
+        { id: 7, name: "Pharynx",   ipa: "ñ,x",       color: "#4f46e5", x: 174, y: 74 },
+        { id: 8, name: "Glottal",   ipa: "h",         color: "#7c3aed", x: 194, y: 126 },
+        { id: 9, name: "Vowel",     ipa: "a,e,i,o,u", color: "#db2777", x: 112, y: 106 }
+      ];
+
+      (function initColoremeLegend() {
+        const leg = document.getElementById("coloremeLegend");
+        if (!leg) return;
+        leg.innerHTML = COLOREME_LOCI.map(l =>
+          `<div class="coloreme-chip" id="colChip${l.id}" title="Locus ${l.id}: ${l.name} (${l.ipa})">` +
+          `<span class="coloreme-dot" style="background:${l.color};"></span>` +
+          `<span>${l.id} ${l.name}</span></div>`
+        ).join("");
+      })();
+
+
       const MP4_BASELINE_BYTES = 121869989;
       const RAW_RASTER_BYTES_60S = 1500 * 200 * 200;
 
-      // Front Viseme profiles (P1..P20 horizontal across mouth)
       function makeVisemeProfile(vId) {
         const cols = [];
         for (let p = 0; p < 20; p++) {
@@ -505,28 +569,27 @@
         return cols;
       }
 
-      // Side Latereme profiles (P1=lips on left to P20=pharynx on right, tracking yTongue|yJaw)
       function makeLateremeProfile(vId) {
         const cols = [];
         for (let p = 0; p < 20; p++) {
-          const t = p / 19; // 0 = lips, 1 = throat
+          const t = p / 19;
           let yTongue = 120, yJaw = 140;
-          if (vId === 0) { // Neutral rest
+          if (vId === 0) {
             yTongue = Math.round(115 + 15 * t * t);
             yJaw = Math.round(135 + 10 * t);
-          } else if (vId === 1) { // Wide /i, e/: tongue high & forward
+          } else if (vId === 1) {
             yTongue = Math.round(88 + 28 * t * t);
             yJaw = Math.round(138 + 10 * t);
-          } else if (vId === 2) { // Open /a/: jaw drops, tongue low
+          } else if (vId === 2) {
             yTongue = Math.round(136 - 10 * Math.sin(t * Math.PI));
             yJaw = Math.round(166 - 12 * t);
-          } else if (vId === 3) { // Round /o, u/: lips forward, tongue back raised
+          } else if (vId === 3) {
             yTongue = Math.round(126 - 24 * Math.sin(t * Math.PI * 0.85));
             yJaw = Math.round(148 - 6 * t);
-          } else if (vId === 4) { // Fricative /f, v/: teeth near lower lip, tongue mid
+          } else if (vId === 4) {
             yTongue = Math.round(118 + 12 * t);
             yJaw = Math.round(132 + 8 * t);
-          } else if (vId === 5) { // Closed /m, b, p/: lips sealed at P1-P3
+          } else if (vId === 5) {
             yTongue = Math.round(116 + 14 * t);
             yJaw = Math.round(126 + 10 * t);
           }
@@ -725,19 +788,49 @@
         `).join("");
       }
 
+      let charTickMap = [];
+      let currentLocusTimeline = [];
+      function charToLocus(ch, nextCh) {
+        if ("mbp".includes(ch)) return 0;
+        if ("fv".includes(ch)) return 1;
+        if (ch === "t" && nextCh === "h") return 2;
+        if ("tdsnlz".includes(ch)) return 3;
+        if ((ch === "s" || ch === "c") && nextCh === "h") return 4;
+        if ("j".includes(ch)) return 4;
+        if ("yr".includes(ch)) return 5;
+        if ("kgcq".includes(ch)) return 6;
+        if ("ñx".includes(ch)) return 7;
+        if ("h".includes(ch)) return 8;
+        if ("aeiouáéíóúàèìòùâêîôûãõäëïöü".includes(ch)) return 9;
+        return -1;
+      }
+
       function compilePhraseToTimeline(phrase) {
-        const clean = phrase.toLowerCase().trim();
-        const seq = [0, 0];
-        for (const ch of clean) {
-          if ("ieyéí".includes(ch)) seq.push(1, 1, 1);
-          else if ("aá".includes(ch)) seq.push(2, 2, 2, 2);
-          else if ("ouóú".includes(ch)) seq.push(3, 3, 3);
-          else if ("fv".includes(ch)) seq.push(4, 4);
-          else if ("mbp".includes(ch)) seq.push(5, 5);
-          else if (" ,.;".includes(ch)) seq.push(0, 0, 0);
-          else if (/[a-zñ]/.test(ch)) seq.push(1, 0);
+        const raw = phrase.trim();
+        const clean = raw.toLowerCase();
+        const seq = [0];
+        const locSeq = [-1];
+        charTickMap = [];
+        for (let i = 0; i < clean.length; i++) {
+          charTickMap[i] = seq.length;
+          const ch = clean[i];
+          const nextCh = clean[i + 1] || "";
+          const prevCh = clean[i - 1] || "";
+          if (ch === "e" && (nextCh === "" || " ,.;!?".includes(nextCh)) && prevCh && !"aeiouy".includes(prevCh) && i > 1) {
+            continue;
+          }
+          const loc = charToLocus(ch, nextCh);
+          if ("ieyéíèìêëîï".includes(ch)) { seq.push(1, 1); locSeq.push(loc, loc); }
+          else if ("aáàâãä".includes(ch)) { seq.push(2, 2); locSeq.push(loc, loc); }
+          else if ("ouóúòôõöùûü".includes(ch)) { seq.push(3, 3); locSeq.push(loc, loc); }
+          else if ("fv".includes(ch)) { seq.push(4); locSeq.push(loc); }
+          else if ("mbp".includes(ch)) { seq.push(5); locSeq.push(loc); }
+          else if (" ,.;!?".includes(ch)) { seq.push(0); locSeq.push(-1); }
+          else if (/[a-zñ]/.test(ch)) { seq.push(1); locSeq.push(loc); }
         }
-        seq.push(0, 0, 0);
+        seq.push(0);
+        locSeq.push(-1);
+        currentLocusTimeline = locSeq;
         return seq;
       }
 
@@ -756,17 +849,41 @@
         return esMarkers.test(lower) ? "es-MX" : "en-US";
       }
 
+      function finishMouthCleanly() {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        currentTick = 0;
+        renderCanvas(0);
+      }
+
       function speakPhrase(text) {
-        if (!document.getElementById("chkVoice").checked) return;
+        if (!document.getElementById("chkVoice").checked) return false;
         try {
-          if (!("speechSynthesis" in window)) return;
+          if (!("speechSynthesis" in window)) return false;
           window.speechSynthesis.cancel();
           const utter = new SpeechSynthesisUtterance(text);
           utter.lang = detectLanguage(text);
           utter.rate = 0.85;
           utter.pitch = 1.05;
+          utter.onboundary = function (ev) {
+            if (typeof ev.charIndex === "number" && charTickMap[ev.charIndex] !== undefined) {
+              currentTick = Math.min(charTickMap[ev.charIndex], currentTimeline.length - 1);
+              renderCanvas(currentTick);
+            }
+          };
+          utter.onend = function () {
+            finishMouthCleanly();
+          };
+          utter.onerror = function () {
+            finishMouthCleanly();
+          };
           window.speechSynthesis.speak(utter);
-        } catch (e) {}
+          return true;
+        } catch (e) {
+          return false;
+        }
       }
 
       function playBeep(visemeId) {
@@ -793,50 +910,151 @@
         const W = canvas.width;
         const H = canvas.height;
 
+        // Frozen Deciman Background (Sky + Mountains + Green Meadow)
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, W, H);
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, 155);
+        skyGrad.addColorStop(0, "#3b9ad9");
+        skyGrad.addColorStop(1, "#7cc6ed");
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, 160);
 
-        // Friendly Character Face
-        ctx.strokeStyle = "#111111";
-        ctx.lineWidth = 2.5;
+        // Distant mountains
+        ctx.fillStyle = "#5aa8c9";
         ctx.beginPath();
-        ctx.arc(120, 120, 106, 0, Math.PI * 2);
-        ctx.fillStyle = "#fffdf5";
+        ctx.moveTo(0, 150); ctx.lineTo(42, 92); ctx.lineTo(95, 138);
+        ctx.lineTo(155, 86); ctx.lineTo(210, 132); ctx.lineTo(240, 108);
+        ctx.lineTo(240, 165); ctx.lineTo(0, 165); ctx.closePath();
+        ctx.fill();
+
+        // Green hills & meadow
+        ctx.fillStyle = "#4fa84b";
+        ctx.beginPath();
+        ctx.moveTo(0, 148);
+        ctx.quadraticCurveTo(65, 134, 135, 148);
+        ctx.quadraticCurveTo(195, 158, 240, 144);
+        ctx.lineTo(240, H); ctx.lineTo(0, H); ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = "#2d8a34";
+        ctx.fillRect(0, 172, W, H - 172);
+
+        // Deciman Arms & Blue Shirt
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.fillStyle = "#f2c38f";
+        // Left arm
+        ctx.beginPath();
+        ctx.moveTo(78, 178); ctx.lineTo(24, 228); ctx.lineTo(36, 240); ctx.lineTo(88, 194);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+        // Right arm
+        ctx.beginPath();
+        ctx.moveTo(162, 178); ctx.lineTo(216, 228); ctx.lineTo(204, 240); ctx.lineTo(152, 194);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+
+        // Blue T-shirt
+        ctx.fillStyle = "#1e56a0";
+        ctx.beginPath();
+        ctx.moveTo(84, 170);
+        ctx.lineTo(156, 170);
+        ctx.lineTo(168, 240);
+        ctx.lineTo(72, 240);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+
+        // Neck
+        ctx.fillStyle = "#f2c38f";
+        ctx.fillRect(108, 148, 24, 24);
+        ctx.strokeRect(108, 148, 24, 24);
+
+        // Ears
+        ctx.beginPath(); ctx.ellipse(72, 98, 9, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(168, 98, 9, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+        // Head / Face
+        ctx.fillStyle = "#f2c38f";
+        ctx.beginPath();
+        ctx.moveTo(76, 62);
+        ctx.lineTo(164, 62);
+        ctx.quadraticCurveTo(168, 148, 120, 152);
+        ctx.quadraticCurveTo(72, 148, 76, 62);
+        ctx.closePath();
         ctx.fill();
         ctx.stroke();
 
-        const blinking = (tick % 38 === 36 || tick % 38 === 37);
+        // Black Hair & Sideburns
         ctx.fillStyle = "#111111";
-        if (blinking) {
-          ctx.lineWidth = 2.5;
-          ctx.beginPath(); ctx.moveTo(70, 76); ctx.lineTo(92, 76); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(148, 76); ctx.lineTo(170, 76); ctx.stroke();
-        } else {
-          ctx.beginPath(); ctx.arc(82, 76, 10, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(158, 76, 10, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff";
-          ctx.beginPath(); ctx.arc(85, 73, 3.2, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(161, 73, 3.2, 0, Math.PI * 2); ctx.fill();
-        }
+        ctx.fillRect(74, 56, 11, 34);
+        ctx.fillRect(155, 56, 11, 34);
+        ctx.fillRect(76, 52, 88, 12);
 
-        ctx.fillStyle = "#ffd6d6";
-        ctx.beginPath(); ctx.arc(56, 116, 13, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(184, 116, 13, 0, Math.PI * 2); ctx.fill();
+        // Red Baseball Cap & Dark Brim
+        ctx.fillStyle = "#e05a5a";
+        ctx.beginPath();
+        ctx.arc(120, 54, 48, Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
 
+        // Cap Emblem
+        ctx.strokeStyle = "#7a2323";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(110, 38); ctx.lineTo(120, 26); ctx.lineTo(130, 38);
+        ctx.moveTo(106, 42); ctx.lineTo(134, 42);
+        ctx.stroke();
+
+        // Cap Brim
+        ctx.fillStyle = "#3f434a";
         ctx.strokeStyle = "#111111";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(120, 108, 6, 0.1 * Math.PI, 0.9 * Math.PI);
+        ctx.moveTo(72, 54);
+        ctx.quadraticCurveTo(134, 44, 182, 56);
+        ctx.quadraticCurveTo(132, 62, 72, 58);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
-        // 20x20 Em Mouth Box
-        const boxX = 56, boxY = 96, boxSize = 128;
-        const scale = boxSize / 200;
-        ctx.strokeStyle = "#e2e8f0";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+        // Eyebrows
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(88, 68, 22, 4);
+        ctx.fillRect(130, 68, 22, 4);
 
+        // Eyes (blink gently every ~38 ticks)
+        const blinking = (tick % 38 === 36 || tick % 38 === 37);
+        if (blinking) {
+          ctx.lineWidth = 2.5;
+          ctx.beginPath(); ctx.moveTo(88, 88); ctx.lineTo(110, 88); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(130, 88); ctx.lineTo(152, 88); ctx.stroke();
+        } else {
+          ctx.fillStyle = "#ffffff";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath(); ctx.ellipse(99, 88, 11, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.ellipse(141, 88, 11, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = "#6b3e1b";
+          ctx.beginPath(); ctx.arc(100, 89, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(140, 89, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#111111";
+          ctx.beginPath(); ctx.arc(100, 89, 2.8, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(140, 89, 2.8, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath(); ctx.arc(102, 86, 1.8, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(142, 86, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // Nose
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(120, 92);
+        ctx.lineTo(114, 108);
+        ctx.quadraticCurveTo(120, 112, 125, 108);
+        ctx.closePath();
+        ctx.stroke();
+
+        // 20x20 Em Transparent Mouth Overlay (centered on Deciman's mouth)
+        const boxX = 88, boxY = 98, boxSize = 64;
+        const scale = boxSize / 200;
         const cols = currentDecoded[tick] || PROFILES[0];
         ctx.fillStyle = "#111111";
         for (let p = 0; p < 20; p++) {
@@ -846,8 +1064,8 @@
           const w = 10 * scale;
           const yTopPx = boxY + yt * scale;
           const yBotPx = boxY + yb * scale;
-          const h = Math.max(2.5, yBotPx - yTopPx);
-          ctx.fillRect(x + 0.4, yTopPx, w - 0.8, h);
+          const h = Math.max(2, yBotPx - yTopPx);
+          ctx.fillRect(x, yTopPx, w, h);
         }
       }
 
@@ -865,7 +1083,6 @@
         const latCols = LATEREME_PROFILES[vId] || LATEREME_PROFILES[0];
         const scale = W / 200;
 
-        // Hard/Soft Palate Roof (upper vocal tract)
         ctx.fillStyle = "#fce7f3";
         ctx.strokeStyle = "#111111";
         ctx.lineWidth = 2;
@@ -878,12 +1095,10 @@
         ctx.fill();
         ctx.stroke();
 
-        // Upper Front Teeth (P2-P3)
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(34, 70, 12, 16);
         ctx.strokeRect(34, 70, 12, 16);
 
-        // Tongue wave-front (P1 lips on left -> P20 pharynx on right)
         ctx.fillStyle = "#f472b6";
         ctx.beginPath();
         ctx.moveTo(20, 210);
@@ -899,7 +1114,6 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Moving Jaw / Chin contour
         const jawY = latCols[2][1] * scale;
         ctx.fillStyle = "#fde68a";
         ctx.beginPath();
@@ -911,7 +1125,6 @@
         ctx.fill();
         ctx.stroke();
 
-        // Lips (P1)
         const lipGap = (vId === 5) ? 0 : (vId === 2 ? 22 : (vId === 3 ? 12 : 8));
         ctx.fillStyle = "#ef4444";
         ctx.fillRect(14, 76 - lipGap / 4, 14, 14);
@@ -919,7 +1132,6 @@
         ctx.fillRect(14, jawY - 12, 14, 14);
         ctx.strokeRect(14, jawY - 12, 14, 14);
 
-        // Airflow dots for Fricative (4) or Open/Round (2,3)
         if (vId === 4 || vId === 3 || vId === 2) {
           ctx.fillStyle = "#2563eb";
           const offset = (tick % 4) * 5;
@@ -930,7 +1142,57 @@
           }
         }
 
-        // Labels
+        const activeLoc = (currentLocusTimeline && currentLocusTimeline[tick] !== undefined)
+          ? currentLocusTimeline[tick]
+          : -1;
+
+        for (const loc of COLOREME_LOCI) {
+          const isAct = (loc.id === activeLoc);
+          if (isAct) {
+            ctx.save();
+            ctx.strokeStyle = loc.color;
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            ctx.moveTo(loc.x, loc.y);
+            ctx.lineTo(loc.x, H - 2);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.beginPath();
+            ctx.arc(loc.x, loc.y, 11, 0, Math.PI * 2);
+            ctx.fillStyle = loc.color + "33";
+            ctx.fill();
+            ctx.strokeStyle = loc.color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+
+          ctx.beginPath();
+          ctx.arc(loc.x, loc.y, isAct ? 6.5 : 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = loc.color;
+          ctx.fill();
+          ctx.strokeStyle = "#111111";
+          ctx.lineWidth = isAct ? 1.8 : 1;
+          ctx.stroke();
+
+          ctx.fillStyle = "#ffffff";
+          ctx.font = isAct ? "bold 9px sans-serif" : "bold 7.5px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(String(loc.id), loc.x, loc.y + 0.5);
+        }
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        for (const loc of COLOREME_LOCI) {
+          const chip = document.getElementById("colChip" + loc.id);
+          if (chip) {
+            if (loc.id === activeLoc) chip.classList.add("active");
+            else chip.classList.remove("active");
+          }
+        }
+
         ctx.fillStyle = "#111111";
         ctx.font = "bold 11px sans-serif";
         ctx.fillText("Lips (P1)", 10, 14);
@@ -942,8 +1204,11 @@
         renderSideLatereme(tick);
 
         const vId = currentTimeline[tick] ?? 0;
+        const activeLocId = (currentLocusTimeline && currentLocusTimeline[tick] !== undefined) ? currentLocusTimeline[tick] : -1;
+        const locObj = COLOREME_LOCI.find(l => l.id === activeLocId);
+        const locLabel = locObj ? ` • Locus ${locObj.id}: ${locObj.name}` : "";
         document.getElementById("playerStatus").textContent =
-          `Step: ${tick} / ${Math.max(0, currentTimeline.length - 1)} • Mouth: ${VISEME_NAMES[vId]}`;
+          `Step: ${tick} / ${Math.max(0, currentTimeline.length - 1)} • Mouth: ${VISEME_NAMES[vId]}${locLabel}`;
         const pct = currentTimeline.length > 1 ? (tick / (currentTimeline.length - 1)) * 100 : 0;
         document.getElementById("progressBar").style.width = `${pct.toFixed(1)}%`;
       }
