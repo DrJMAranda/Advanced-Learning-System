@@ -3,21 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SEA~ALS | Knowledge Transfer Unit (KTU)</title>
+  <title>SEA~ALS | KTU Silent Sequence</title>
   <style>
     :root {
       --bg-paper: #FAF6EE;
       --ink-black: #000000;
       --pewter: #8E9294;
-      --accent: #222222;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--pewter);
       color: var(--ink-black);
@@ -29,8 +22,6 @@
       min-height: 100vh;
       padding: 0.25in;
     }
-
-    /* 1:1 Portrait Frame with .25" Pewter Margin */
     .ktu-frame {
       width: 100%;
       max-width: 8.5in;
@@ -42,14 +33,12 @@
       justify-content: space-between;
       padding: 0.5in;
     }
-
     .title-block {
       border-bottom: 2px solid var(--ink-black);
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       line-height: 1.4;
-      font-size: 12pt;
+      font-size: 11pt;
     }
-
     .stage {
       flex: 1;
       display: flex;
@@ -57,31 +46,27 @@
       align-items: center;
       justify-content: center;
       gap: 24px;
-      padding: 24px 0;
+      padding: 20px 0;
     }
-
-    /* Imageme + Viseme Synchronized Viewport */
     .visual-bay {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 32px;
+      gap: 28px;
       width: 100%;
     }
-
     .card-box {
       border: 2px solid var(--ink-black);
       background: #FFFFFF;
-      width: 260px;
-      height: 260px;
+      width: 280px;
+      height: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
     }
-
     .card-label {
       position: absolute;
       top: 6px;
@@ -89,54 +74,48 @@
       font-size: 10pt;
       font-weight: bold;
     }
-
     .card-box img {
-      max-width: 210px;
-      max-height: 210px;
+      max-width: 225px;
+      max-height: 225px;
       object-fit: contain;
     }
-
     .viseme-glyph {
-      font-size: 48pt;
+      font-size: 44pt;
       font-weight: bold;
-      letter-spacing: 2px;
     }
-
-    /* Fixed-Grid Monospace Text Readout */
-    .lexeme-display {
+    /* Silent-Film Intertitle Style Lexeme Box */
+    .intertitle-box {
+      width: 100%;
+      min-height: 84px;
+      border: 3px double var(--ink-black);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
       font-size: 32pt;
       font-weight: bold;
-      letter-spacing: 0.15em;
-      min-height: 54px;
-      text-align: center;
-      border-top: 1px solid var(--ink-black);
-      border-bottom: 1px solid var(--ink-black);
-      padding: 8px 24px;
-      width: 100%;
+      letter-spacing: 0.18em;
     }
-
     .phase-indicator {
       font-size: 12pt;
+      font-weight: bold;
       height: 24px;
     }
-
-    /* Speedometer & Transport Controls */
     .controls {
       border-top: 2px solid var(--ink-black);
-      padding-top: 16px;
+      padding-top: 14px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
     }
-
     .btn-group {
       display: flex;
       gap: 8px;
       align-items: center;
     }
-
     button {
       font-family: inherit;
       font-size: 13pt;
@@ -147,16 +126,15 @@
       padding: 8px 16px;
       cursor: pointer;
     }
-
     button:active {
       background: var(--ink-black);
       color: var(--bg-paper);
     }
-
     .speed-readout {
       font-size: 13pt;
       font-weight: bold;
-      padding: 0 8px;
+      min-width: 84px;
+      text-align: center;
     }
   </style>
 </head>
@@ -165,78 +143,74 @@
     <header class="title-block">
       <div>Sistemas de Educación Avanzada&copy; / SEA Bienvenido por</div>
       <div>José M. Aranda-Figueroa, PhD &mdash; en colaboración con Gemini</div>
-      <div>jmaf.phd@gmail.com | KTU Silent-Sequence + Viseme Sync</div>
+      <div>jmaf.phd@gmail.com | KTU Silent-Movie Mode (Pure Visual Loop)</div>
     </header>
 
     <main class="stage">
       <div class="visual-bay">
-        <!-- Imageme Slot (GCS noembalde/imagemes) -->
         <div class="card-box">
           <span class="card-label">IMAGEME [T1]</span>
           <img id="imageme-img" src="" alt="Imageme" />
         </div>
 
-        <!-- Viseme / Latereme Slot -->
         <div class="card-box">
-          <span class="card-label">VISEME [ATHENA]</span>
+          <span class="card-label">ATHENA [VISEME]</span>
           <img id="viseme-img" src="" alt="" style="display:none;" />
           <div id="viseme-fallback" class="viseme-glyph">[ — ]</div>
         </div>
       </div>
 
-      <div id="lexeme-box" class="lexeme-display">&nbsp;</div>
-      <div id="phase-box" class="phase-indicator">READY</div>
+      <div id="lexeme-box" class="intertitle-box">&nbsp;</div>
+      <div id="phase-box" class="phase-indicator">SILENT REEL READY</div>
     </main>
 
     <footer class="controls">
       <div class="btn-group">
-        <button id="btn-start">START</button>
-        <button id="btn-stop">STOP</button>
-        <button id="btn-next">NEXT</button>
+        <button id="btn-start">ROLL</button>
+        <button id="btn-stop">CUT</button>
+        <button id="btn-next">FRAME +1</button>
       </div>
 
       <div class="btn-group">
-        <span>DELAY:</span>
-        <!-- Inverted Speedometer: + reduces delay (faster), - increases delay (slower) -->
-        <button id="btn-faster" title="Faster (Smaller Delay)">+</button>
+        <span>TEMPO:</span>
+        <!-- Inverted Speedometer: + = faster (smaller ms), - = slower (larger ms) -->
+        <button id="btn-faster">+</button>
         <span id="delay-val" class="speed-readout">900 ms</span>
-        <button id="btn-slower" title="Slower (Larger Delay)">-</button>
+        <button id="btn-slower">-</button>
       </div>
     </footer>
   </div>
 
   <script>
-    // Base paths (GCS Type 1 Imagemes & Viseme Assets)
     const IMAGEME_BASE = "https://storage.googleapis.com/noembalde/imagemes/";
-    const VISEME_BASE  = "visemes/"; // Local or repo viseme sprite directory
+    const VISEME_BASE  = "visemes/";
 
-    // Deterministic Grapheme-to-Viseme Map (Athena Articulation Set)
     const VISEME_MAP = {
-      "A": { code: "V01_AA", glyph: "[ AA ]", img: "v_aa.png" },
-      "E": { code: "V02_EH", glyph: "[ EH ]", img: "v_eh.png" },
-      "I": { code: "V03_IY", glyph: "[ IY ]", img: "v_iy.png" },
-      "O": { code: "V04_OW", glyph: "[ OW ]", img: "v_ow.png" },
-      "U": { code: "V05_UW", glyph: "[ UW ]", img: "v_uw.png" },
-      "B": { code: "V06_BMP", glyph: "[ BMP ]", img: "v_bmp.png" },
-      "P": { code: "V06_BMP", glyph: "[ BMP ]", img: "v_bmp.png" },
-      "M": { code: "V06_BMP", glyph: "[ BMP ]", img: "v_bmp.png" },
-      "F": { code: "V07_FV",  glyph: "[ FV ]",  img: "v_fv.png" },
-      "V": { code: "V07_FV",  glyph: "[ FV ]",  img: "v_fv.png" },
-      "T": { code: "V08_TDN", glyph: "[ TDN ]", img: "v_tdn.png" },
-      "D": { code: "V08_TDN", glyph: "[ TDN ]", img: "v_tdn.png" },
-      "N": { code: "V08_TDN", glyph: "[ TDN ]", img: "v_tdn.png" },
-      "L": { code: "V09_L",   glyph: "[ L ]",   img: "v_l.png" },
-      "R": { code: "V10_R",   glyph: "[ R ]",   img: "v_r.png" },
-      "S": { code: "V11_SZ",  glyph: "[ SZ ]",  img: "v_sz.png" },
-      "Z": { code: "V11_SZ",  glyph: "[ SZ ]",  img: "v_sz.png" },
-      "C": { code: "V12_KG",  glyph: "[ KG ]",  img: "v_kg.png" },
-      "K": { code: "V12_KG",  glyph: "[ KG ]",  img: "v_kg.png" },
-      "G": { code: "V12_KG",  glyph: "[ KG ]",  img: "v_kg.png" },
-      "REST": { code: "V00_REST", glyph: "[ — ]", img: "v_rest.png" }
+      "A": { glyph: "[ AA ]",  img: "v_aa.png" },
+      "E": { glyph: "[ EH ]",  img: "v_eh.png" },
+      "I": { glyph: "[ IY ]",  img: "v_iy.png" },
+      "O": { glyph: "[ OW ]",  img: "v_ow.png" },
+      "U": { glyph: "[ UW ]",  img: "v_uw.png" },
+      "B": { glyph: "[ BMP ]", img: "v_bmp.png" },
+      "P": { glyph: "[ BMP ]", img: "v_bmp.png" },
+      "M": { glyph: "[ BMP ]", img: "v_bmp.png" },
+      "F": { glyph: "[ FV ]",  img: "v_fv.png" },
+      "V": { glyph: "[ FV ]",  img: "v_fv.png" },
+      "T": { glyph: "[ TDN ]", img: "v_tdn.png" },
+      "D": { glyph: "[ TDN ]", img: "v_tdn.png" },
+      "N": { glyph: "[ TDN ]", img: "v_tdn.png" },
+      "L": { glyph: "[ L ]",   img: "v_l.png" },
+      "R": { glyph: "[ R ]",   img: "v_r.png" },
+      "S": { glyph: "[ SZ ]",  img: "v_sz.png" },
+      "Z": { glyph: "[ SZ ]",  img: "v_sz.png" },
+      "C": { glyph: "[ KG ]",  img: "v_kg.png" },
+      "K": { glyph: "[ KG ]",  img: "v_kg.png" },
+      "G": { glyph: "[ KG ]",  img: "v_kg.png" },
+      "REST": { glyph: "[ — ]", img: "v_rest.png" }
     };
 
-    // Sample Type-1 Lexical Gestalts (Non-voicing first element in T1/T2 pair)
-    const GESTALTS = [
+    // Pure Silent Sequence: T1 (Silent Imageme) -> T2 (Intertitle + Silent Visemes)
+    const REEL = [
       { word: "CAT",  file: "cat.jpg",  visemes: ["C", "A", "T"] },
       { word: "DOG",  file: "dog.jpg",  visemes: ["D", "O", "G"] },
       { word: "SUN",  file: "sun.jpg",  visemes: ["S", "U", "N"] },
@@ -244,10 +218,10 @@
       { word: "BED",  file: "bed.jpg",  visemes: ["B", "E", "D"] }
     ];
 
-    let currentIndex = 0;
-    let baseDelay = 900; // ms (smaller = faster, larger = slower)
+    let idx = 0;
+    let baseDelay = 900;
     let timerId = null;
-    let running = false;
+    let rolling = false;
 
     const imagemeImg = document.getElementById("imageme-img");
     const visemeImg = document.getElementById("viseme-img");
@@ -256,7 +230,7 @@
     const phaseBox = document.getElementById("phase-box");
     const delayVal = document.getElementById("delay-val");
 
-    function renderViseme(key) {
+    function setViseme(key) {
       const v = VISEME_MAP[key] || VISEME_MAP["REST"];
       visemeFallback.textContent = v.glyph;
       visemeImg.src = VISEME_BASE + v.img;
@@ -270,87 +244,84 @@
       };
     }
 
-    function runGestalt(index) {
+    function playFrame(i) {
       clearTimeout(timerId);
-      const item = GESTALTS[index % GESTALTS.length];
+      const item = REEL[i % REEL.length];
 
-      // Step 1 (T1): Silent Imageme presentation (first element non-voicing)
+      // T1: Silent Imageme first (no voice, no text)
       imagemeImg.src = IMAGEME_BASE + item.file;
       lexemeBox.innerHTML = "&nbsp;";
-      renderViseme("REST");
+      setViseme("REST");
       phaseBox.textContent = "T1: IMAGEME (SILENT)";
 
       timerId = setTimeout(() => {
-        if (!running) return;
-        // Step 2 (T2): Orthographic Lexeme + Synchronized Viseme Sequence
+        if (!rolling) return;
+        // T2: Intertitle + Silent Viseme Articulation
         lexemeBox.textContent = item.word;
-        phaseBox.textContent = "T2: VISEME SEQUENCE";
+        phaseBox.textContent = "T2: INTERTITLE + VISEMES";
 
         let step = 0;
-        const stepInterval = Math.max(150, Math.floor(baseDelay / item.visemes.length));
+        const stepMs = Math.max(150, Math.floor(baseDelay / item.visemes.length));
 
-        function nextViseme() {
-          if (!running) return;
+        function stepViseme() {
+          if (!rolling) return;
           if (step < item.visemes.length) {
-            renderViseme(item.visemes[step]);
+            setViseme(item.visemes[step]);
             step++;
-            timerId = setTimeout(nextViseme, stepInterval);
+            timerId = setTimeout(stepViseme, stepMs);
           } else {
-            renderViseme("REST");
-            phaseBox.textContent = "PAUSE";
+            setViseme("REST");
+            phaseBox.textContent = "INTER-FRAME PAUSE";
             timerId = setTimeout(() => {
-              if (!running) return;
-              currentIndex = (currentIndex + 1) % GESTALTS.length;
-              runGestalt(currentIndex);
+              if (!rolling) return;
+              idx = (idx + 1) % REEL.length;
+              playFrame(idx);
             }, baseDelay);
           }
         }
-        nextViseme();
+        stepViseme();
       }, baseDelay);
     }
 
     document.getElementById("btn-start").addEventListener("click", () => {
-      if (running) return;
-      running = true;
-      runGestalt(currentIndex);
+      if (rolling) return;
+      rolling = true;
+      playFrame(idx);
     });
 
     document.getElementById("btn-stop").addEventListener("click", () => {
-      running = false;
+      rolling = false;
       clearTimeout(timerId);
-      renderViseme("REST");
-      phaseBox.textContent = "STOPPED";
+      setViseme("REST");
+      phaseBox.textContent = "CUT";
     });
 
     document.getElementById("btn-next").addEventListener("click", () => {
       clearTimeout(timerId);
-      currentIndex = (currentIndex + 1) % GESTALTS.length;
-      if (running) {
-        runGestalt(currentIndex);
+      idx = (idx + 1) % REEL.length;
+      if (rolling) {
+        playFrame(idx);
       } else {
-        const item = GESTALTS[currentIndex];
+        const item = REEL[idx];
         imagemeImg.src = IMAGEME_BASE + item.file;
         lexemeBox.textContent = item.word;
-        renderViseme("REST");
-        phaseBox.textContent = "MANUAL STEP";
+        setViseme("REST");
+        phaseBox.textContent = "STILL FRAME";
       }
     });
 
-    // + reduces delay (faster)
     document.getElementById("btn-faster").addEventListener("click", () => {
       baseDelay = Math.max(200, baseDelay - 100);
       delayVal.textContent = baseDelay + " ms";
     });
 
-    // - increases delay (slower)
     document.getElementById("btn-slower").addEventListener("click", () => {
       baseDelay = Math.min(3000, baseDelay + 100);
       delayVal.textContent = baseDelay + " ms";
     });
 
-    // Initial idle state
-    imagemeImg.src = IMAGEME_BASE + GESTALTS[0].file;
-    renderViseme("REST");
+    imagemeImg.src = IMAGEME_BASE + REEL[0].file;
+    setViseme("REST");
   </script>
 </body>
 </html>
