@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KT Silent Egg — Column 1-2-3</title>
+<title>KT Silent Egg</title>
 <style>
   body {
     margin: 0;
@@ -38,15 +38,35 @@
     font-size: 22px;
     font-weight: bold;
   }
-  button {
+  #pace-bar {
     width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  #pace-readout {
+    flex: 1.2;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #000000;
+    background: #FFFFFF;
+    padding: 7px 4px;
+  }
+  button {
+    flex: 1;
     padding: 8px;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     background: #FFFFFF;
     color: #000000;
     border: 2px solid #000000;
+  }
+  #go {
+    width: 300px;
+    display: block;
   }
 </style>
 </head>
@@ -56,31 +76,56 @@
   <div id="slot-2-es" class="row"></div>
   <div id="slot-3-en" class="row"></div>
 </div>
+
+<div id="pace-bar">
+  <button id="slower">-</button>
+  <div id="pace-readout">1.50s</div>
+  <button id="faster">+</button>
+</div>
 <button id="go">PRESENT</button>
 
 <script>
 const esEl = document.getElementById("slot-2-es");
 const enEl = document.getElementById("slot-3-en");
+const readoutEl = document.getElementById("pace-readout");
 
-function beat(ms) {
-  return new Promise(r => setTimeout(r, ms));
+const STEP_MS = 250;
+const MIN_MS  = 500;
+const MAX_MS  = 4000;
+let delayMs   = 1500;
+let busy      = false;
+
+function updateReadout() {
+  readoutEl.textContent = (delayMs / 1000).toFixed(2) + "s";
 }
 
-async function presentEs(lemma) {
-  esEl.textContent = lemma;
-  await beat(1200);
+function beat() {
+  return new Promise(r => setTimeout(r, delayMs));
 }
 
-async function presentEn(lemma) {
-  enEl.textContent = lemma;
-  await beat(1200);
-}
+document.getElementById("slower").onclick = () => {
+  delayMs = Math.min(MAX_MS, delayMs + STEP_MS);
+  updateReadout();
+};
+
+document.getElementById("faster").onclick = () => {
+  delayMs = Math.max(MIN_MS, delayMs - STEP_MS);
+  updateReadout();
+};
 
 document.getElementById("go").onclick = async () => {
+  if (busy) return;
+  busy = true;
   esEl.textContent = "";
   enEl.textContent = "";
-  await presentEs("tiburón");
-  await presentEn("shark");
+
+  await beat();
+  esEl.textContent = "tiburón";
+
+  await beat();
+  enEl.textContent = "shark";
+
+  busy = false;
 };
 </script>
 </body>
