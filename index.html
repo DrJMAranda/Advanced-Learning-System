@@ -3,222 +3,263 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SEA / KTU Fixed-Layout Viseme &amp; DST</title>
+  <title>SEA / KTU — 1-Loop / 4-Call Z-Space Sidecar</title>
   <style>
     :root {
       --bg: #ffffff;
       --paper: #faf6ee;
       --fg: #111111;
-      --muted: #444444;
       --border: #111111;
-      --grid: rgba(17, 17, 17, 0.16);
+      --grid: rgba(17, 17, 17, 0.14);
       --mono: "Consolas", "Courier New", monospace;
     }
     *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0;
-      padding: 16px;
+      padding: 8px;
       background: #777777;
       color: var(--fg);
       font-family: var(--mono);
     }
-    .sheet {
-      width: 760px;
-      max-width: 100%;
+    .vmc-sheet {
+      width: 100%;
+      max-width: 6.5in;
       margin: 0 auto;
       background: var(--bg);
       border: 2px solid var(--border);
-      box-shadow: 6px 6px 0 var(--border);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .top-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 10px;
-    }
-    .top-bar input[type="text"] {
-      font-family: var(--mono);
-      font-size: 14px;
-      padding: 6px 10px;
-      border: 1.5px solid var(--border);
-      background: var(--paper);
-      color: var(--fg);
-      width: 220px;
+      box-shadow: 5px 5px 0 var(--border);
+      display: grid;
+      grid-template-rows: 3.5in 2in 0.5in auto;
     }
     button {
       font-family: var(--mono);
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 6px 10px;
+      padding: 4px 7px;
       border: 1.5px solid var(--border);
       background: var(--bg);
       color: var(--fg);
       cursor: pointer;
     }
-    button.primary { background: var(--fg); color: var(--bg); }
-
-    /* Zone 1: Fixed Top Stage */
+    button.on, button.primary { background: var(--fg); color: var(--bg); }
+    input[type="text"] {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 4px 6px;
+      border: 1.5px solid var(--border);
+      background: var(--paper);
+      color: var(--fg);
+      width: 120px;
+    }
+    .vmc-top {
+      height: 3.5in;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 12px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .vmc-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .z-toggles { display: flex; gap: 4px; }
     .stage-box {
       position: relative;
-      height: 230px;
+      flex: 1;
       border: 2px solid var(--border);
       background-color: var(--bg);
       background-image:
         linear-gradient(to right, var(--grid) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
       background-size: 24px 24px;
+      overflow: hidden;
+    }
+    .z-layer {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
     }
-    .stage-box canvas { display: block; }
-
-    /* Zone 2: Fixed 3-Column Middle Row */
-    .mid-row {
-      display: grid;
-      grid-template-columns: 160px 1fr 180px;
-      gap: 12px;
-      align-items: center;
-    }
-    .portrait-slot, .tract-slot {
-      border: 1.5px solid var(--border);
+    .z-layer.is-off { display: none; }
+    .z-layer.z-imageme  { z-index: 1; }
+    .z-layer.z-viseme   { z-index: 2; }
+    .z-layer.z-latereme { z-index: 3; }
+    .z-layer.z-raised   { z-index: 10; background: rgba(255, 255, 255, 0.88); }
+    .stage-badge {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      z-index: 20;
+      font-size: 10px;
+      font-weight: 700;
       background: var(--paper);
-      padding: 6px;
-      text-align: center;
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+    }
+    .midriff {
+      height: 2in;
+      display: grid;
+      grid-template-columns: 1fr 2in 1fr;
+      align-items: center;
+      padding: 0 8px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .seme-2x2 {
+      height: 1.85in;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+    }
+    .seme-cell {
+      border: 1px solid var(--border);
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      overflow: hidden;
     }
     .center-stack {
+      width: 2in;
       display: flex;
       flex-direction: column;
-      gap: 8px;
       align-items: center;
+      gap: 4px;
+      padding: 0 6px;
     }
     .pair-line {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
       width: 100%;
-      justify-content: center;
     }
-    .wave-bar {
+    .wave-canvas {
       height: 22px;
       flex: 1;
-      max-width: 170px;
       border: 1.5px solid var(--border);
-      background: linear-gradient(90deg, #555 15%, #999 45%, #333 75%, #888 100%);
+      background: var(--paper);
+      display: block;
     }
     .word-tag {
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 700;
       letter-spacing: 2px;
+      cursor: pointer;
     }
-
-    /* Zone 3: Fixed Bottom Split Ergonomic Deck */
-    .deck-row {
-      border-top: 1.5px solid var(--border);
-      padding-top: 10px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 10px;
-      align-items: end;
-    }
-    .key-cluster {
-      display: grid;
-      grid-template-columns: repeat(4, 34px);
-      gap: 3px;
-      justify-content: center;
-    }
-    .key-cluster.left-pad { transform: rotate(-14deg); }
-    .key-cluster.right-pad { transform: rotate(14deg); }
-    .k-cap {
-      height: 28px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      font-size: 11px;
-      font-weight: 700;
+    .vocab-texteme-band {
+      height: 0.5in;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .space-bar {
-      padding: 4px 14px;
-      border: 1.5px solid var(--border);
-      background: var(--bg);
+      gap: 10px;
+      padding: 0 10px;
+      background: var(--paper);
+      border-bottom: 1.5px solid var(--border);
       font-size: 12px;
       font-weight: 700;
     }
+    .ticker-vocab, .fixed-texteme {
+      padding: 3px 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      white-space: nowrap;
+    }
+    .fixed-texteme { letter-spacing: 1.5px; }
     .status-strip {
-      font-size: 12px;
-      border-top: 1.5px solid var(--border);
-      padding-top: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 8px;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
     }
   </style>
 </head>
 <body>
-  <div class="sheet">
-    <div class="top-bar">
-      <div>
-        <input type="text" id="wordInput" value="pollito chick" aria-label="Word input" />
-        <button class="primary" id="btnPlay">&#9654; Play</button>
-        <button id="btnStop">&#9724; Stop</button>
+  <div class="vmc-sheet">
+    <div class="vmc-top">
+      <div class="vmc-bar">
+        <div class="z-toggles" aria-label="Z-Space Layer On/Off Toggles">
+          <button type="button" id="toggleZ1" class="on">Z1 Imageme: ON</button>
+          <button type="button" id="toggleZ2">Z2 Viseme: OFF</button>
+          <button type="button" id="toggleZ3">Z3 Latereme: OFF</button>
+        </div>
+        <div>
+          <input type="text" id="wordInput" value="pollito chick" aria-label="Phrase input" />
+          <button type="button" class="primary" id="btnPlay">&#9654; Play</button>
+          <button type="button" id="btnStop">&#9724; Stop</button>
+        </div>
       </div>
-      <div>
-        <button id="btnFaster" title="Smaller delay = faster">+ Faster</button>
-        <button id="btnSlower" title="Larger delay = slower">- Slower</button>
-        <span id="delayLabel">40ms</span>
+
+      <div class="stage-box">
+        <span class="stage-badge" id="stageBadge">Z-TOP: Z1 IMAGEME</span>
+        <div class="z-layer z-imageme" id="layerZ1">
+          <canvas id="canvasZ1" width="220" height="205"></canvas>
+        </div>
+        <div class="z-layer z-viseme is-off" id="layerZ2">
+          <canvas id="canvasZ2" width="220" height="205"></canvas>
+        </div>
+        <div class="z-layer z-latereme is-off" id="layerZ3">
+          <canvas id="canvasZ3" width="220" height="205"></canvas>
+        </div>
       </div>
     </div>
 
-    <!-- Fixed Zone 1: Top Stage -->
-    <div class="stage-box">
-      <canvas id="stageCanvas" width="220" height="210"></canvas>
-    </div>
-
-    <!-- Fixed Zone 2: Middle Row -->
-    <div class="mid-row">
-      <div class="portrait-slot">
-        <canvas id="portraitCanvas" width="144" height="144"></canvas>
+    <div class="midriff">
+      <div class="seme-2x2" aria-label="Left 2x2 semes">
+        <div class="seme-cell"><canvas id="portraitCanvas" width="60" height="60"></canvas></div>
+        <div class="seme-cell">S1</div>
+        <div class="seme-cell">S2</div>
+        <div class="seme-cell">S3</div>
       </div>
 
       <div class="center-stack">
         <div class="pair-line">
-          <span>&#128266;</span>
-          <div class="wave-bar"></div>
+          <button type="button" id="btnVoxEs" title="Voxeme ES">&#128266;</button>
+          <canvas id="waveSpanish" class="wave-canvas" width="120" height="22"></canvas>
         </div>
-        <div class="word-tag" id="tagPrimary">p o l l i t o</div>
+        <div class="word-tag" id="tagSpanish">p o l l i t o</div>
+
         <div class="pair-line">
-          <span>&#128266;</span>
-          <div class="wave-bar"></div>
+          <button type="button" id="btnVoxEn" title="Voxeme EN">&#128266;</button>
+          <canvas id="waveEnglish" class="wave-canvas" width="120" height="22"></canvas>
         </div>
-        <div class="word-tag" id="tagSecondary">c h i c k</div>
+        <div class="word-tag" id="tagEnglish">c h i c k</div>
       </div>
 
-      <div class="tract-slot">
-        <canvas id="tractCanvas" width="164" height="144"></canvas>
+      <div class="seme-2x2" aria-label="Right 2x2 semes">
+        <div class="seme-cell">Ocs<br/>Slot</div>
+        <div class="seme-cell">S5</div>
+        <div class="seme-cell">S6</div>
+        <div class="seme-cell">S7</div>
       </div>
     </div>
 
-    <!-- Fixed Zone 3: Bottom Split Keyboard -->
-    <div class="deck-row">
-      <div class="key-cluster left-pad" id="leftPad"></div>
-      <div class="space-bar" id="spaceBar">Q | space | J</div>
-      <div class="key-cluster right-pad" id="rightPad"></div>
+    <div class="vocab-texteme-band">
+      <button type="button" class="ticker-vocab" id="vocabTickerBtn" title="Tap to cycle vocabulary">pollito / chick</button>
+      <span class="fixed-texteme" id="fixedTexteme">[c-h-i-c-k]</span>
     </div>
 
     <div class="status-strip">
-      <span id="statusTick">Tick: 0</span>
-      <span id="statusViseme">Viseme: 0 (Rest)</span>
-      <span id="statusDst">DST: 0 deltas</span>
+      <span id="statusInfo">Tick: 0 | Z-Top: Z1 | DST: 0 deltas</span>
+      <div>
+        <label style="cursor:pointer; margin-right:6px;"><input type="checkbox" id="chkVoxeme" checked /> Voxeme</label>
+        <button type="button" id="btnFaster" title="Smaller delay = faster">+ Faster</button>
+        <button type="button" id="btnSlower" title="Larger delay = slower">- Slower</button>
+        <span id="delayLabel">40ms</span>
+      </div>
     </div>
   </div>
 
@@ -226,242 +267,332 @@
     (function () {
       "use strict";
 
-      /* Single inline patcher state: no competing clocks or resets */
+      /* Safe no-op placeholder helper: if fn is missing, no hay problema */
+      function callOrPass(fn, ...args) {
+        return typeof fn === "function" ? fn(...args) : undefined;
+      }
+
       const Patcher = {
         delayMs: 40,
         minMs: 12,
         maxMs: 240,
         stepMs: 8,
         t1SilentFirst: true,
+        layers: { z1: true, z2: false, z3: false },
+        zOrder: ["z1", "z2", "z3"],
         stepSpeed(sign) {
           this.delayMs = sign > 0
             ? Math.max(this.minMs, this.delayMs - this.stepMs)
             : Math.min(this.maxMs, this.delayMs + this.stepMs);
           document.getElementById("delayLabel").textContent = this.delayMs + "ms";
         },
+        toggleLayer(key) {
+          this.layers[key] = !this.layers[key];
+          this.zOrder = this.zOrder.filter(k => k !== key);
+          if (this.layers[key]) this.zOrder.push(key);
+          else this.zOrder.unshift(key);
+          syncZDom();
+        },
+        topActiveKey() {
+          for (let i = this.zOrder.length - 1; i >= 0; i--) {
+            if (this.layers[this.zOrder[i]]) return this.zOrder[i];
+          }
+          return null;
+        },
         isSilentFirst(tick) {
           return this.t1SilentFirst && tick > 0 && tick % 2 === 1;
         }
       };
 
-      const VISEME_SHAPES = {
-        0: { label: "0 (Rest)",  mouthW: 16, mouthH: 3 },
-        1: { label: "1 (Smile)", mouthW: 28, mouthH: 8 },
-        2: { label: "2 (Open)",  mouthW: 24, mouthH: 18 },
-        3: { label: "3 (Round)", mouthW: 12, mouthH: 14 },
-        4: { label: "4 (F/V)",   mouthW: 22, mouthH: 6 },
-        5: { label: "5 (M/B/P)", mouthW: 20, mouthH: 2 }
-      };
+      const VOCAB_BANK = [
+        { es: "pollito", en: "chick", label: "pollito / chick", esSpaced: "p o l l i t o", enSpaced: "c h i c k", xenoTexteme: "[c-h-i-c-k]", jpgUrl: "" },
+        { es: "hola",    en: "hello", label: "hola / hello",    esSpaced: "h o l a",       enSpaced: "h e l l o",   xenoTexteme: "[h-e-l-l-o]", jpgUrl: "" },
+        { es: "uno",     en: "one",   label: "uno / one",       esSpaced: "u n o",         enSpaced: "o n e",       xenoTexteme: "[o-n-e]",     jpgUrl: "" }
+      ];
+      let vocabIdx = 0;
+      let loadedJpg = null;
 
-      const LOCI_DOTS = [
-        { x: 34,  y: 78, c: "#dc2626" },
-        { x: 48,  y: 76, c: "#ea580c" },
-        { x: 60,  y: 72, c: "#eab308" },
-        { x: 74,  y: 66, c: "#65a30d" },
-        { x: 88,  y: 62, c: "#16a34a" },
-        { x: 102, y: 64, c: "#0891b2" },
-        { x: 114, y: 74, c: "#2563eb" },
-        { x: 120, y: 90, c: "#7c3aed" },
-        { x: 116, y: 108, c: "#db2777" }
+      function makeVisemeProfile(vId) {
+        const cols = [];
+        for (let p = 0; p < 20; p++) {
+          const d = Math.abs(p - 9.5) / 9.5;
+          let yTop = 100, yBot = 100;
+          if (vId === 0) { yTop = 98 + 2 * d * d; yBot = 102 - 2 * d * d; }
+          else if (vId === 1) { yTop = 88 + 10 * d * d; yBot = 112 - 10 * d * d; }
+          else if (vId === 2 && d <= 0.82) {
+            const s = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.82, 2)));
+            yTop = 100 - 48 * s; yBot = 100 + 52 * s;
+          } else if (vId === 3) {
+            if (d > 0.55) { yTop = -1; yBot = -1; }
+            else {
+              const s = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.55, 2)));
+              yTop = 100 - 32 * s; yBot = 100 + 34 * s;
+            }
+          } else if (vId === 4) { yTop = 94 + 4 * d * d; yBot = 106 - 4 * d * d; }
+          cols.push([Math.round(yTop), Math.round(yBot)]);
+        }
+        return cols;
+      }
+
+      const PROFILES = {};
+      for (let v = 0; v < 6; v++) PROFILES[v] = makeVisemeProfile(v);
+
+      const COLOREME_LOCI = [
+        { id: 0, color: "#dc2626", x: 30,  y: 102 },
+        { id: 1, color: "#ea580c", x: 48,  y: 102 },
+        { id: 2, color: "#d97706", x: 62,  y: 108 },
+        { id: 3, color: "#65a30d", x: 80,  y: 86 },
+        { id: 4, color: "#059669", x: 102, y: 78 },
+        { id: 5, color: "#0891b2", x: 128, y: 74 },
+        { id: 6, color: "#2563eb", x: 156, y: 80 },
+        { id: 7, color: "#4f46e5", x: 180, y: 94 },
+        { id: 8, color: "#7c3aed", x: 194, y: 140 },
+        { id: 9, color: "#db2777", x: 126, y: 122 }
       ];
 
-      function buildTimeline(text) {
-        const clean = (text || "").toLowerCase();
-        const seq = [0];
+      function charToLocus(ch, nextCh) {
+        if ("mbp".includes(ch)) return 0;
+        if ("fv".includes(ch)) return 1;
+        if (ch === "t" && nextCh === "h") return 2;
+        if ("tdsnlz".includes(ch)) return 3;
+        if (((ch === "s" || ch === "c") && nextCh === "h") || ch === "j") return 4;
+        if ("yr".includes(ch)) return 5;
+        if ("kgcq".includes(ch)) return 6;
+        if ("ñx".includes(ch)) return 7;
+        if ("h".includes(ch)) return 8;
+        if ("aeiouáéíóú".includes(ch)) return 9;
+        return -1;
+      }
+
+      function compileTimeline(phrase) {
+        const clean = (phrase || "").toLowerCase().trim();
+        const vis = [0], loc = [-1];
         for (let i = 0; i < clean.length; i++) {
-          const ch = clean[i];
-          if ("aáàâ".includes(ch)) seq.push(2, 2);
-          else if ("eiíìy".includes(ch)) seq.push(1, 1);
-          else if ("ouóúòù".includes(ch)) seq.push(3, 3);
-          else if ("fv".includes(ch)) seq.push(4);
-          else if ("mbp".includes(ch)) seq.push(5);
-          else if (/[a-zñ]/.test(ch)) seq.push(1);
-          else seq.push(0);
+          const ch = clean[i], nextCh = clean[i + 1] || "", l = charToLocus(ch, nextCh);
+          if ("ieyéí".includes(ch)) { vis.push(1, 1); loc.push(l, l); }
+          else if ("aá".includes(ch)) { vis.push(2, 2); loc.push(l, l); }
+          else if ("ouóú".includes(ch)) { vis.push(3, 3); loc.push(l, l); }
+          else if ("fv".includes(ch)) { vis.push(4); loc.push(l); }
+          else if ("mbp".includes(ch)) { vis.push(5); loc.push(l); }
+          else if (" ,.;!?".includes(ch)) { vis.push(0); loc.push(-1); }
+          else if (/[a-zñ]/.test(ch)) { vis.push(1); loc.push(l); }
         }
-        seq.push(0);
-        return seq;
+        vis.push(0); loc.push(-1);
+        return { vis, loc };
       }
 
-      function countDstDeltas(seq) {
-        let deltas = 0;
-        let prev = -1;
+      function countDeltas(seq) {
+        let d = 0, prev = -1;
         for (let i = 0; i < seq.length; i++) {
-          if (seq[i] !== prev) {
-            deltas++;
-            prev = seq[i];
+          if (seq[i] !== prev) { d++; prev = seq[i]; }
+        }
+        return d;
+      }
+
+      /* --- 4 SUBROUTINES CALLED BY THE SINGLE LOOP (with safe placeholder fallback) --- */
+
+      /* Call 1: Render active Z-layer on top stage */
+      function call1Stage(ctxVars) {
+        const c1 = document.getElementById("canvasZ1");
+        const ctx1 = c1.getContext("2d");
+        ctx1.clearRect(0, 0, c1.width, c1.height);
+        if (loadedJpg && loadedJpg.complete && loadedJpg.naturalWidth > 0) {
+          ctx1.drawImage(loadedJpg, 10, 14, c1.width - 20, c1.height - 22);
+        } else {
+          const bob = Math.sin(ctxVars.tick * 0.25) * 2;
+          ctx1.fillStyle = "#facc15"; ctx1.strokeStyle = "#111111"; ctx1.lineWidth = 2;
+          ctx1.beginPath(); ctx1.ellipse(110, 130 + bob, 42, 48, 0, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+          ctx1.beginPath(); ctx1.arc(115, 70 + bob, 29, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+          ctx1.fillStyle = "#111111";
+          ctx1.beginPath(); ctx1.arc(125, 62 + bob, 4.5, 0, Math.PI * 2); ctx1.fill();
+          ctx1.fillStyle = "#ea580c";
+          ctx1.beginPath(); ctx1.moveTo(143, 68 + bob); ctx1.lineTo(159, 73 + bob); ctx1.lineTo(143, 78 + bob); ctx1.closePath();
+          ctx1.fill(); ctx1.stroke();
+          ctx1.strokeStyle = "#ea580c"; ctx1.lineWidth = 2.5;
+          ctx1.beginPath(); ctx1.moveTo(98, 178); ctx1.lineTo(91, 196); ctx1.moveTo(122, 178); ctx1.lineTo(129, 196); ctx1.stroke();
+        }
+
+        const c2 = document.getElementById("canvasZ2");
+        const ctx2 = c2.getContext("2d");
+        ctx2.clearRect(0, 0, c2.width, c2.height);
+        ctx2.fillStyle = "#f2c38f"; ctx2.strokeStyle = "#111111"; ctx2.lineWidth = 2;
+        ctx2.beginPath(); ctx2.ellipse(110, 108, 64, 76, 0, 0, Math.PI * 2); ctx2.fill(); ctx2.stroke();
+        ctx2.fillStyle = "#111111";
+        ctx2.beginPath(); ctx2.arc(86, 80, 6, 0, Math.PI * 2); ctx2.arc(134, 80, 6, 0, Math.PI * 2); ctx2.fill();
+        const cols = PROFILES[ctxVars.vId] || PROFILES[0];
+        const scale = 80 / 200;
+        for (let p = 0; p < 20; p++) {
+          const [yt, yb] = cols[p];
+          if (yt === -1) continue;
+          ctx2.fillRect(70 + p * 10 * scale, 90 + yt * scale, 10 * scale, Math.max(2, (yb - yt) * scale));
+        }
+
+        const c3 = document.getElementById("canvasZ3");
+        const ctx3 = c3.getContext("2d");
+        ctx3.clearRect(0, 0, c3.width, c3.height);
+        ctx3.fillStyle = "#fce7f3"; ctx3.strokeStyle = "#111111"; ctx3.lineWidth = 2;
+        ctx3.beginPath(); ctx3.moveTo(26, 90); ctx3.quadraticCurveTo(106, 54, 196, 94); ctx3.lineTo(196, 30); ctx3.lineTo(26, 30); ctx3.closePath();
+        ctx3.fill(); ctx3.stroke();
+        const lift = ctxVars.vId === 1 ? -16 : (ctxVars.vId === 2 ? 14 : (ctxVars.vId === 3 ? -6 : 0));
+        ctx3.fillStyle = "#f472b6";
+        ctx3.beginPath(); ctx3.moveTo(30, 182); ctx3.quadraticCurveTo(102, 116 + lift, 180, 182); ctx3.closePath();
+        ctx3.fill(); ctx3.stroke();
+        for (const loc of COLOREME_LOCI) {
+          ctx3.beginPath(); ctx3.arc(loc.x, loc.y, loc.id === ctxVars.locId ? 8 : 5, 0, Math.PI * 2);
+          ctx3.fillStyle = loc.color; ctx3.fill(); ctx3.strokeStyle = "#111111"; ctx3.lineWidth = loc.id === ctxVars.locId ? 2 : 1; ctx3.stroke();
+        }
+      }
+
+      /* Call 2: Render midriff half-waves & semes */
+      function call2Midriff(ctxVars) {
+        const drawWave = (id, mode) => {
+          const c = document.getElementById(id), ctx = c.getContext("2d"), w = c.width, h = c.height;
+          ctx.clearRect(0, 0, w, h); ctx.fillStyle = "#faf6ee"; ctx.fillRect(0, 0, w, h);
+          ctx.strokeStyle = "#4f46e5"; ctx.lineWidth = 1.2;
+          for (let x = 2; x < w - 2; x += 2) {
+            const nx = x / w;
+            const env = mode === "es"
+              ? Math.max(0.1, Math.min(1, Math.exp(-Math.pow((nx - 0.18) / 0.09, 2)) + Math.exp(-Math.pow((nx - 0.5) / 0.14, 2)) * 0.65 + Math.exp(-Math.pow((nx - 0.82) / 0.08, 2))))
+              : Math.max(0.12, Math.exp(-Math.pow((nx - 0.36) / 0.16, 2)) * 0.85);
+            const spk = Math.max(2, (h - 4) * env * (0.72 + 0.28 * Math.abs(Math.sin(x * 0.65 + ctxVars.tick * 0.4))));
+            ctx.beginPath(); ctx.moveTo(x, h - 2); ctx.lineTo(x, h - 2 - spk); ctx.stroke();
           }
-        }
-        return deltas;
+        };
+        drawWave("waveSpanish", "es");
+        drawWave("waveEnglish", "en");
       }
 
-      function renderStage(tick, vId) {
-        const c = document.getElementById("stageCanvas");
-        const ctx = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
-
-        const shape = VISEME_SHAPES[vId] || VISEME_SHAPES[0];
-        const bob = Math.sin(tick * 0.35) * 2;
-
-        /* Body & head */
-        ctx.fillStyle = "#facc15";
-        ctx.strokeStyle = "#111111";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.ellipse(110, 134 + bob, 44, 52, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(114, 72 + bob, 32, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        /* Wing */
-        ctx.beginPath();
-        ctx.ellipse(88, 128 + bob, 14, 26, 0.25, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        /* Eye */
-        ctx.fillStyle = "#111111";
-        ctx.beginPath();
-        ctx.arc(124, 64 + bob, 5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(126, 62 + bob, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-
-        /* Inline Viseme Mouth */
-        ctx.fillStyle = "#111111";
-        ctx.beginPath();
-        ctx.ellipse(136, 79 + bob, shape.mouthW * 0.5, shape.mouthH * 0.5, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        /* Feet */
-        ctx.strokeStyle = "#ea580c";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(96, 184); ctx.lineTo(90, 202); ctx.lineTo(78, 204);
-        ctx.moveTo(124, 184); ctx.lineTo(130, 202); ctx.lineTo(142, 204);
-        ctx.stroke();
+      /* Call 3: Voxeme / T1-T2 silent-first gate hook */
+      function call3VoxemeGate(ctxVars) {
+        if (Patcher.isSilentFirst(ctxVars.tick)) return;
+        /* Optional per-tick voxeme hook stays passive unless explicitly triggered */
       }
 
-      function renderPortrait() {
-        const c = document.getElementById("portraitCanvas");
-        const ctx = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
-        ctx.fillStyle = "#d8cfc2";
-        ctx.fillRect(0, 0, c.width, c.height);
-
-        ctx.fillStyle = "#b89f88";
-        ctx.strokeStyle = "#111111";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.ellipse(72, 68, 28, 36, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = "#3a2e25";
-        ctx.beginPath();
-        ctx.arc(72, 54, 28, Math.PI, 0);
-        ctx.fill();
-
-        ctx.fillStyle = "#8d7b6c";
-        ctx.beginPath();
-        ctx.ellipse(72, 126, 46, 22, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+      /* Call 4: Commit status readout & return */
+      function call4DeltaStatus(ctxVars) {
+        document.getElementById("statusInfo").textContent =
+          `Tick: ${ctxVars.tick} | Z-Top: ${(ctxVars.topKey || "none").toUpperCase()} | Viseme: ${ctxVars.vId} | DST: ${ctxVars.deltas} deltas`;
       }
 
-      function renderTract(tick) {
-        const c = document.getElementById("tractCanvas");
-        const ctx = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
-        ctx.fillStyle = "#f4f1ea";
-        ctx.fillRect(0, 0, c.width, c.height);
+      /* Optional placeholder hooks (safe no-op when unassigned) */
+      const placeholderHooks = {
+        onLoopStart: null,
+        onLoopEnd: null
+      };
 
-        ctx.strokeStyle = "#111111";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(22, 76);
-        ctx.quadraticCurveTo(75, 22, 134, 48);
-        ctx.lineTo(124, 136);
-        ctx.stroke();
-
-        const activeIdx = tick % LOCI_DOTS.length;
-        for (let i = 0; i < LOCI_DOTS.length; i++) {
-          const d = LOCI_DOTS[i];
-          ctx.fillStyle = d.c;
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, i === activeIdx ? 5.5 : 3.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-        }
-      }
-
-      function buildPads() {
-        const leftKeys = ["C1","C2","C3","Q","K","Y","U","N","W","P","O","I","X","H","C",""];
-        const rightKeys = ["J","F1","F2","F3","R","D","E","F","S","T","G","V","S","L","M","Z"];
-        const lp = document.getElementById("leftPad");
-        const rp = document.getElementById("rightPad");
-        lp.innerHTML = leftKeys.map(k => `<div class="k-cap">${k}</div>`).join("");
-        rp.innerHTML = rightKeys.map(k => `<div class="k-cap">${k}</div>`).join("");
-      }
-
-      let timeline = buildTimeline("pollito chick");
+      let compiled = compileTimeline("pollito chick");
       let tick = 0;
       let timer = null;
 
-      function updateView() {
-        const vId = timeline[tick] || 0;
-        const shape = VISEME_SHAPES[vId] || VISEME_SHAPES[0];
-        renderStage(tick, vId);
-        renderTract(tick);
-        document.getElementById("statusTick").textContent = "Tick: " + tick;
-        document.getElementById("statusViseme").textContent = "Viseme: " + shape.label;
-        document.getElementById("statusDst").textContent = "DST: " + countDstDeltas(timeline) + " deltas";
+      /* THE SINGLE LOOP: load/assign vars once -> 4 calls -> return */
+      function runSingleLoopStep() {
+        callOrPass(placeholderHooks.onLoopStart, tick);
+
+        /* Load/assign loop variables once */
+        const loopVars = {
+          tick: tick,
+          vId: compiled.vis[tick] ?? 0,
+          locId: compiled.loc[tick] ?? -1,
+          topKey: Patcher.topActiveKey(),
+          deltas: countDeltas(compiled.vis)
+        };
+
+        callOrPass(call1Stage, loopVars);
+        callOrPass(call2Midriff, loopVars);
+        callOrPass(call3VoxemeGate, loopVars);
+        callOrPass(call4DeltaStatus, loopVars);
+
+        callOrPass(placeholderHooks.onLoopEnd, loopVars);
+        return loopVars;
+      }
+
+      function emitVoxeme(text, lang) {
+        if (!document.getElementById("chkVoxeme").checked) return;
+        try {
+          if (!("speechSynthesis" in window)) return;
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = lang; u.rate = 0.88;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+
+      function syncZDom() {
+        const topKey = Patcher.topActiveKey();
+        const cfg = {
+          z1: { el: document.getElementById("layerZ1"), btn: document.getElementById("toggleZ1"), label: "Z1 Imageme" },
+          z2: { el: document.getElementById("layerZ2"), btn: document.getElementById("toggleZ2"), label: "Z2 Viseme" },
+          z3: { el: document.getElementById("layerZ3"), btn: document.getElementById("toggleZ3"), label: "Z3 Latereme" }
+        };
+        for (const k of ["z1", "z2", "z3"]) {
+          const on = Patcher.layers[k], top = topKey === k;
+          cfg[k].el.classList.toggle("is-off", !on);
+          cfg[k].el.classList.toggle("z-raised", top);
+          cfg[k].btn.classList.toggle("on", on);
+          cfg[k].btn.textContent = `${cfg[k].label}: ${on ? "ON" : "OFF"}`;
+        }
+        document.getElementById("stageBadge").textContent = topKey ? `Z-TOP: ${cfg[topKey].label.toUpperCase()}` : "Z-TOP: NONE";
+        runSingleLoopStep();
       }
 
       function stopLoop() {
-        if (timer !== null) {
-          clearInterval(timer);
-          timer = null;
-        }
+        if (timer !== null) { clearInterval(timer); timer = null; }
+        try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {}
       }
 
-      function startLoop() {
+      function startLoop(withVox) {
         stopLoop();
-        timeline = buildTimeline(document.getElementById("wordInput").value);
+        const phrase = document.getElementById("wordInput").value || "pollito chick";
+        compiled = compileTimeline(phrase);
         tick = 0;
-        updateView();
+        runSingleLoopStep();
+        if (withVox) {
+          const item = VOCAB_BANK[vocabIdx];
+          emitVoxeme(phrase, phrase.includes(item.es) ? "es-MX" : "en-US");
+        }
         timer = setInterval(() => {
-          tick++;
-          if (tick >= timeline.length) {
-            tick = 0;
-          }
-          updateView();
+          tick = (tick + 1) % compiled.vis.length;
+          runSingleLoopStep();
         }, Patcher.delayMs);
       }
 
-      document.getElementById("btnPlay").addEventListener("click", startLoop);
-      document.getElementById("btnStop").addEventListener("click", () => {
-        stopLoop();
-        tick = 0;
-        updateView();
-      });
-      document.getElementById("btnFaster").addEventListener("click", () => {
-        Patcher.stepSpeed(+1);
-        if (timer !== null) startLoop();
-      });
-      document.getElementById("btnSlower").addEventListener("click", () => {
-        Patcher.stepSpeed(-1);
-        if (timer !== null) startLoop();
+      (function initStaticPortrait() {
+        const c = document.getElementById("portraitCanvas"), ctx = c.getContext("2d");
+        ctx.fillStyle = "#d8cfc2"; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillStyle = "#b89f88"; ctx.strokeStyle = "#111111"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.ellipse(30, 30, 12, 16, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      })();
+
+      document.getElementById("toggleZ1").addEventListener("click", () => Patcher.toggleLayer("z1"));
+      document.getElementById("toggleZ2").addEventListener("click", () => Patcher.toggleLayer("z2"));
+      document.getElementById("toggleZ3").addEventListener("click", () => Patcher.toggleLayer("z3"));
+      document.getElementById("btnPlay").addEventListener("click", () => startLoop(true));
+      document.getElementById("btnStop").addEventListener("click", () => { stopLoop(); tick = 0; runSingleLoopStep(); });
+      document.getElementById("btnVoxEs").addEventListener("click", () => emitVoxeme(VOCAB_BANK[vocabIdx].es, "es-MX"));
+      document.getElementById("btnVoxEn").addEventListener("click", () => emitVoxeme(VOCAB_BANK[vocabIdx].en, "en-US"));
+
+      document.getElementById("vocabTickerBtn").addEventListener("click", () => {
+        vocabIdx = (vocabIdx + 1) % VOCAB_BANK.length;
+        const item = VOCAB_BANK[vocabIdx];
+        document.getElementById("wordInput").value = `${item.es} ${item.en}`;
+        document.getElementById("vocabTickerBtn").textContent = item.label;
+        document.getElementById("tagSpanish").textContent = item.esSpaced;
+        document.getElementById("tagEnglish").textContent = item.enSpaced;
+        document.getElementById("fixedTexteme").textContent = item.xenoTexteme;
+        if (item.jpgUrl) {
+          loadedJpg = new Image();
+          loadedJpg.onload = runSingleLoopStep;
+          loadedJpg.src = item.jpgUrl;
+        } else {
+          loadedJpg = null;
+        }
+        startLoop(true);
       });
 
-      buildPads();
-      renderPortrait();
-      updateView();
+      document.getElementById("btnFaster").addEventListener("click", () => { Patcher.stepSpeed(+1); if (timer !== null) startLoop(false); });
+      document.getElementById("btnSlower").addEventListener("click", () => { Patcher.stepSpeed(-1); if (timer !== null) startLoop(false); });
+
+      syncZDom();
     })();
   </script>
 </body>
