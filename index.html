@@ -1,20 +1,98 @@
-<!--0001 web handshake------------->
 <!DOCTYPE html>
 <html lang="en">
-</html>
-<!--0001 close handshake------------->
-<!--Z0001.1 Em lockout------------->
-<!-- lockout: raw HTML, CSS -->
-<!-- SEA{x, y, z, t, i} -->
-<!-- DST(S, r) = primary key -> all libraries (incl. governed HTML/CSS) -->
-<!-- Lemma (1:1) : Simasia (unequivocal) : image -->
-<!-- i -> rotates POS | role | OSASCOMP | adv. | inflections -->
-<!-- r = roget's num -->
-<!--Z0001.1 close Em lockout------->
-<!--Z0001.2 stdlib CALL------------>
-<script id="zish-stdlib" type="text/zish">
-CALL DST(S, r) INIT PARETO CORE
-CALL DST(S, r) INHERIT -> SUBSET TARGETS
-CALL PASS CPP | SB | JS | HTML | CSS
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KT One Egg</title>
+<style>
+  body {
+    margin: 0;
+    padding: 8px;
+    background: #FAF6EE;
+    color: #000000;
+    font-family: "Courier New", Courier, monospace;
+  }
+  #box {
+    width: 300px;
+    border: 2px solid #000000;
+    background: #FFFFFF;
+    padding: 8px;
+  }
+  #img {
+    display: block;
+    width: 280px;
+    height: 200px;
+    object-fit: contain;
+    border: 1px solid #000000;
+    margin-bottom: 8px;
+  }
+  #vis {
+    border: 1px solid #000000;
+    padding: 6px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  #word {
+    border: 2px solid #000000;
+    padding: 8px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  button {
+    width: 100%;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    background: #FFFFFF;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+</style>
+</head>
+<body>
+<div id="box">
+  <img id="img" src="https://storage.googleapis.com/noenbalde/Imagemes/shark.JPG" alt="shark">
+  <div id="vis">[ --- ]</div>
+  <div id="word">TAP LAY EGG</div>
+  <button id="go">LAY EGG</button>
+</div>
+<script>
+const wordEl = document.getElementById("word");
+const visEl = document.getElementById("vis");
+
+function pulse(label, text) {
+  return new Promise(resolve => {
+    wordEl.textContent = text;
+    const chars = text.split("");
+    let i = 0;
+    const id = setInterval(() => {
+      if (i >= chars.length) {
+        clearInterval(id);
+        visEl.textContent = "[ --- ]";
+        resolve();
+        return;
+      }
+      visEl.textContent = `[ ${label}: ${chars[i]} ]`;
+      i++;
+    }, 150);
+  });
+}
+
+function wait(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+document.getElementById("go").onclick = async () => {
+  await pulse("ES", "tiburón");
+  await wait(250);
+  await pulse("EN", "shark");
+  await wait(250);
+  wordEl.textContent = "1 EGG LAID";
+};
 </script>
-<!--Z0001.2 close stdlib CALL------>
+</body>
+</html>
