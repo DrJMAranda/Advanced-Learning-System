@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KT Silent Egg</title>
+<title>KT Silent Egg + Pianola</title>
 <style>
   body {
     margin: 0;
@@ -21,13 +21,15 @@
     flex-direction: column;
     gap: 8px;
     margin-bottom: 8px;
+    box-sizing: border-box;
   }
   #slot-1-img {
     display: block;
     width: 280px;
-    height: 190px;
+    height: 185px;
     object-fit: contain;
     border: 1px solid #000000;
+    background: #FFFFFF;
   }
   .row {
     height: 36px;
@@ -37,95 +39,280 @@
     justify-content: center;
     font-size: 22px;
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
   }
-  #pace-bar {
+  #gauge-box {
+    width: 300px;
+    border: 2px solid #000000;
+    background: #FFFFFF;
+    padding: 4px 8px 6px 8px;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+    text-align: center;
+    touch-action: none;
+  }
+  #speedo {
+    width: 220px;
+    height: 122px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  #controls {
     width: 300px;
     display: flex;
-    align-items: center;
     gap: 6px;
-    margin-bottom: 6px;
-  }
-  #pace-readout {
-    flex: 1.2;
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    border: 1px solid #000000;
-    background: #FFFFFF;
-    padding: 7px 4px;
   }
   button {
     flex: 1;
-    padding: 8px;
+    padding: 8px 4px;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     background: #FFFFFF;
     color: #000000;
     border: 2px solid #000000;
-  }
-  #go {
-    width: 300px;
-    display: block;
+    cursor: pointer;
   }
 </style>
 </head>
 <body>
 <div id="locus">
-  <img id="slot-1-img" src="https://storage.googleapis.com/noenbalde/Imagemes/shark.JPG" alt="shark">
+  <img id="slot-1-img" alt="">
   <div id="slot-2-es" class="row"></div>
   <div id="slot-3-en" class="row"></div>
 </div>
 
-<div id="pace-bar">
-  <button id="slower">-</button>
-  <div id="pace-readout">1.50s</div>
-  <button id="faster">+</button>
+<div id="gauge-box">
+  <svg id="speedo" viewBox="0 0 220 124">
+    <!-- 180-degree car dial: 0 on left (-90 deg) to FAST on right (+90 deg) -->
+    <path d="M 20 104 A 90 90 0 0 1 200 104" fill="none" stroke="#000000" stroke-width="3"/>
+    <!-- Ticks: 0 (-90°), Mid-Low (-45°), Mid (0°), Mid-High (+45°), Max (+90°) -->
+    <line x1="20"  y1="104" x2="34"  y2="104" stroke="#000000" stroke-width="3"/>
+    <line x1="46"  y1="40"  x2="57"  y2="51"  stroke="#000000" stroke-width="2"/>
+    <line x1="110" y1="14"  x2="110" y2="28"  stroke="#000000" stroke-width="3"/>
+    <line x1="174" y1="40"  x2="163" y2="51"  stroke="#000000" stroke-width="2"/>
+    <line x1="200" y1="104" x2="186" y2="104" stroke="#000000" stroke-width="3"/>
+    <!-- Zero stop on left, FAST on right -->
+    <text x="14"  y="119" font-family="Courier New, monospace" font-size="12" font-weight="bold" fill="#000000">0</text>
+    <text x="172" y="119" font-family="Courier New, monospace" font-size="12" font-weight="bold" fill="#000000">FAST</text>
+    <!-- Needle: -90 deg = left zero stop; 0 deg = mid speed; +90 deg = fastest -->
+    <g id="needle" transform="rotate(0 110 104)">
+      <line x1="110" y1="104" x2="110" y2="22" stroke="#000000" stroke-width="4"/>
+      <polygon points="110,16 105,28 115,28" fill="#000000"/>
+    </g>
+    <!-- Center hub -->
+    <circle cx="110" cy="104" r="7" fill="#000000"/>
+  </svg>
 </div>
-<button id="go">PRESENT</button>
+
+<div id="controls">
+  <button id="go">PRESENT</button>
+  <button id="sound-btn">PIANOLA: ON</button>
+</div>
 
 <script>
-const esEl = document.getElementById("slot-2-es");
-const enEl = document.getElementById("slot-3-en");
-const readoutEl = document.getElementById("pace-readout");
+const BUCKET_BASE = "https://storage.googleapis.com/noenbalde/Imagemes/";
 
-const STEP_MS = 250;
-const MIN_MS  = 500;
-const MAX_MS  = 4000;
-let delayMs   = 1500;
-let busy      = false;
+// Compact manifest record; set skip: true for known "perico sordo" entries
+const MANIFEST = [
+  { file: "shark.JPG",         es: "tiburón",         en: "shark",          skip: false },
+  { file: "sheep.JPG",         es: "oveja",           en: "sheep",          skip: false },
+  { file: "ship.JPG",          es: "barco",           en: "ship",           skip: false },
+  { file: "shirt.JPG",         es: "camisa",          en: "shirt",          skip: false },
+  { file: "shoe.jpg",          es: "zapato",          en: "shoe",           skip: false },
+  { file: "acrobat.JPG",       es: "acróbata",        en: "acrobat",        skip: false },
+  { file: "accountbility.JPG", es: "responsabilidad", en: "accountability", skip: true  }
+];
 
-function updateReadout() {
-  readoutEl.textContent = (delayMs / 1000).toFixed(2) + "s";
+const imgEl    = document.getElementById("slot-1-img");
+const esEl     = document.getElementById("slot-2-es");
+const enEl     = document.getElementById("slot-3-en");
+const svgEl    = document.getElementById("speedo");
+const needleEl = document.getElementById("needle");
+const goBtn    = document.getElementById("go");
+const soundBtn = document.getElementById("sound-btn");
+
+const MIN_ANGLE  = -90;   // Left stop: 0 / slowest dwell
+const MAX_ANGLE  =  90;   // Right stop: FAST / shortest dwell
+const SLOW_MS    = 3200;
+const FAST_MS    = 500;
+const WINDOW     = 6;     // 6-egg rolling scout buffer
+const TIMEOUT_MS = 5000;  // 5000ms guard for Cebu / far-north links
+
+let angleDeg = 0;         // Preselected mid speed halfway along arc
+let dragging = false;
+let running  = false;
+let soundOn  = true;
+
+function getDwellMs() {
+  const ratio = (angleDeg - MIN_ANGLE) / (MAX_ANGLE - MIN_ANGLE);
+  return Math.round(SLOW_MS - ratio * (SLOW_MS - FAST_MS));
 }
+
+function setNeedleFromClientXY(clientX, clientY) {
+  const rect = svgEl.getBoundingClientRect();
+  const cx = rect.left + rect.width * (110 / 220);
+  const cy = rect.top  + rect.height * (104 / 124);
+  const dx = clientX - cx;
+  const dy = cy - clientY;
+  let deg = Math.atan2(dx, Math.max(0.001, dy)) * (180 / Math.PI);
+  if (dy <= 0) deg = dx < 0 ? MIN_ANGLE : MAX_ANGLE;
+  deg = Math.max(MIN_ANGLE, Math.min(MAX_ANGLE, deg));
+  angleDeg = deg;
+  needleEl.setAttribute("transform", `rotate(${angleDeg.toFixed(1)} 110 104)`);
+}
+
+svgEl.addEventListener("pointerdown", e => {
+  dragging = true;
+  svgEl.setPointerCapture(e.pointerId);
+  setNeedleFromClientXY(e.clientX, e.clientY);
+});
+svgEl.addEventListener("pointermove", e => {
+  if (dragging) setNeedleFromClientXY(e.clientX, e.clientY);
+});
+svgEl.addEventListener("pointerup", () => { dragging = false; });
+
+soundBtn.onclick = () => {
+  soundOn = !soundOn;
+  soundBtn.textContent = soundOn ? "PIANOLA: ON" : "PIANOLA: OFF";
+  if (!soundOn && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+};
 
 function beat() {
-  return new Promise(r => setTimeout(r, delayMs));
+  return new Promise(r => setTimeout(r, getDwellMs()));
 }
 
-document.getElementById("slower").onclick = () => {
-  delayMs = Math.min(MAX_MS, delayMs + STEP_MS);
-  updateReadout();
-};
+// Pianola voice step: speaks lemma in target language, bounded by beat() so audio never stalls visuals
+function speakAndBeat(text, lang) {
+  const dwell = getDwellMs();
+  if (!soundOn || !("speechSynthesis" in window)) {
+    return new Promise(r => setTimeout(r, dwell));
+  }
 
-document.getElementById("faster").onclick = () => {
-  delayMs = Math.max(MIN_MS, delayMs - STEP_MS);
-  updateReadout();
-};
+  return new Promise(resolve => {
+    let finished = false;
+    const done = () => {
+      if (!finished) {
+        finished = true;
+        resolve();
+      }
+    };
 
-document.getElementById("go").onclick = async () => {
-  if (busy) return;
-  busy = true;
-  esEl.textContent = "";
-  enEl.textContent = "";
+    try {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = lang;
+      // Scale speech rate slightly as the 180° speedometer sweeps toward FAST
+      const ratio = (angleDeg - MIN_ANGLE) / (MAX_ANGLE - MIN_ANGLE);
+      utter.rate = Number((0.85 + ratio * 0.55).toFixed(2));
 
-  await beat();
-  esEl.textContent = "tiburón";
+      let speechEnded = false;
+      let beatEnded = false;
+      const checkBoth = () => { if (speechEnded && beatEnded) done(); };
 
-  await beat();
-  enEl.textContent = "shark";
+      utter.onend = () => { speechEnded = true; checkBoth(); };
+      utter.onerror = () => { speechEnded = true; checkBoth(); };
 
-  busy = false;
+      setTimeout(() => { beatEnded = true; checkBoth(); }, dwell);
+      // Hard ceiling guard in case a mobile TTS engine hangs on onend
+      setTimeout(done, Math.max(dwell + 1200, 2600));
+
+      window.speechSynthesis.speak(utter);
+    } catch (_) {
+      setTimeout(done, dwell);
+    }
+  });
+}
+
+// Perico sordo guard: resolves null on error or 5000ms timeout
+function probeImageme(url, timeoutMs = TIMEOUT_MS) {
+  return new Promise(resolve => {
+    const probe = new Image();
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) { settled = true; resolve(null); }
+    }, timeoutMs);
+
+    probe.onload = () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(url);
+      }
+    };
+    probe.onerror = () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(null);
+      }
+    };
+    probe.src = url;
+  });
+}
+
+goBtn.onclick = async () => {
+  if (running) {
+    running = false;
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    goBtn.textContent = "PRESENT";
+    return;
+  }
+
+  // Unlock speech engine on direct user tap for mobile Safari/Chrome
+  if (soundOn && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  running = true;
+  goBtn.textContent = "STOP";
+
+  const queue = MANIFEST.filter(item => !item.skip);
+  const buffer = new Map();
+  let nextToFetch = 0;
+
+  function topUp() {
+    while (buffer.size < WINDOW && nextToFetch < queue.length) {
+      const idx = nextToFetch++;
+      buffer.set(idx, probeImageme(BUCKET_BASE + queue[idx].file));
+    }
+  }
+
+  topUp();
+
+  for (let i = 0; i < queue.length; i++) {
+    if (!running) break;
+    const item = queue[i];
+
+    const readyUrl = await buffer.get(i);
+    buffer.delete(i);
+    topUp();
+
+    if (!readyUrl || !running) continue; // Perico sordo: silent skip
+
+    // 1. Imageme sits alone on top
+    imgEl.src = readyUrl;
+    esEl.textContent = "";
+    enEl.textContent = "";
+    await beat();
+    if (!running) break;
+
+    // 2. Spanish Lemma appears in middle + Pianola speaks Spanish
+    esEl.textContent = item.es;
+    await speakAndBeat(item.es, "es-ES");
+    if (!running) break;
+
+    // 3. English Lemma appears at bottom + Pianola speaks English
+    enEl.textContent = item.en;
+    await speakAndBeat(item.en, "en-US");
+  }
+
+  running = false;
+  goBtn.textContent = "PRESENT";
 };
 </script>
 </body>
