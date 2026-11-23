@@ -3,325 +3,466 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SEA~ALS | KTU Silent Sequence</title>
+  <title>SEA / KTU Fixed-Layout Viseme &amp; DST</title>
   <style>
     :root {
-      --bg-paper: #FAF6EE;
-      --ink-black: #000000;
-      --pewter: #8E9294;
+      --bg: #ffffff;
+      --paper: #faf6ee;
+      --fg: #111111;
+      --muted: #444444;
+      --border: #111111;
+      --grid: rgba(17, 17, 17, 0.16);
+      --mono: "Consolas", "Courier New", monospace;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      background-color: var(--pewter);
-      color: var(--ink-black);
-      font-family: 'B612 Mono', 'IBM Plex Mono', 'Courier New', Courier, monospace;
-      font-size: 14pt;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 0.25in;
+      margin: 0;
+      padding: 16px;
+      background: #777777;
+      color: var(--fg);
+      font-family: var(--mono);
     }
-    .ktu-frame {
-      width: 100%;
-      max-width: 8.5in;
-      min-height: 11in;
-      background-color: var(--bg-paper);
-      border: 2px solid var(--ink-black);
+    .sheet {
+      width: 760px;
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      box-shadow: 6px 6px 0 var(--border);
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 0.5in;
+      gap: 14px;
     }
-    .title-block {
-      border-bottom: 2px solid var(--ink-black);
-      padding-bottom: 10px;
-      line-height: 1.4;
-      font-size: 11pt;
-    }
-    .stage {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      padding: 20px 0;
-    }
-    .visual-bay {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      width: 100%;
-    }
-    .card-box {
-      border: 2px solid var(--ink-black);
-      background: #FFFFFF;
-      width: 280px;
-      height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .card-label {
-      position: absolute;
-      top: 6px;
-      left: 8px;
-      font-size: 10pt;
-      font-weight: bold;
-    }
-    .card-box img {
-      max-width: 225px;
-      max-height: 225px;
-      object-fit: contain;
-    }
-    .viseme-glyph {
-      font-size: 44pt;
-      font-weight: bold;
-    }
-    /* Silent-Film Intertitle Style Lexeme Box */
-    .intertitle-box {
-      width: 100%;
-      min-height: 84px;
-      border: 3px double var(--ink-black);
-      background: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 24px;
-      font-size: 32pt;
-      font-weight: bold;
-      letter-spacing: 0.18em;
-    }
-    .phase-indicator {
-      font-size: 12pt;
-      font-weight: bold;
-      height: 24px;
-    }
-    .controls {
-      border-top: 2px solid var(--ink-black);
-      padding-top: 14px;
+    .top-bar {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      gap: 8px;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
     }
-    .btn-group {
+    .top-bar input[type="text"] {
+      font-family: var(--mono);
+      font-size: 14px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border);
+      background: var(--paper);
+      color: var(--fg);
+      width: 220px;
+    }
+    button {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      cursor: pointer;
+    }
+    button.primary { background: var(--fg); color: var(--bg); }
+
+    /* Zone 1: Fixed Top Stage */
+    .stage-box {
+      position: relative;
+      height: 230px;
+      border: 2px solid var(--border);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size: 24px 24px;
       display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage-box canvas { display: block; }
+
+    /* Zone 2: Fixed 3-Column Middle Row */
+    .mid-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 180px;
+      gap: 12px;
+      align-items: center;
+    }
+    .portrait-slot, .tract-slot {
+      border: 1.5px solid var(--border);
+      background: var(--paper);
+      padding: 6px;
+      text-align: center;
+    }
+    .center-stack {
+      display: flex;
+      flex-direction: column;
       gap: 8px;
       align-items: center;
     }
-    button {
-      font-family: inherit;
-      font-size: 13pt;
-      font-weight: bold;
-      background: #FFFFFF;
-      color: var(--ink-black);
-      border: 2px solid var(--ink-black);
-      padding: 8px 16px;
-      cursor: pointer;
+    .pair-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
     }
-    button:active {
-      background: var(--ink-black);
-      color: var(--bg-paper);
+    .wave-bar {
+      height: 22px;
+      flex: 1;
+      max-width: 170px;
+      border: 1.5px solid var(--border);
+      background: linear-gradient(90deg, #555 15%, #999 45%, #333 75%, #888 100%);
     }
-    .speed-readout {
-      font-size: 13pt;
-      font-weight: bold;
-      min-width: 84px;
-      text-align: center;
+    .word-tag {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    /* Zone 3: Fixed Bottom Split Ergonomic Deck */
+    .deck-row {
+      border-top: 1.5px solid var(--border);
+      padding-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: end;
+    }
+    .key-cluster {
+      display: grid;
+      grid-template-columns: repeat(4, 34px);
+      gap: 3px;
+      justify-content: center;
+    }
+    .key-cluster.left-pad { transform: rotate(-14deg); }
+    .key-cluster.right-pad { transform: rotate(14deg); }
+    .k-cap {
+      height: 28px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .space-bar {
+      padding: 4px 14px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .status-strip {
+      font-size: 12px;
+      border-top: 1.5px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="ktu-frame">
-    <header class="title-block">
-      <div>Sistemas de Educación Avanzada&copy; / SEA Bienvenido por</div>
-      <div>José M. Aranda-Figueroa, PhD &mdash; en colaboración con Gemini</div>
-      <div>jmaf.phd@gmail.com | KTU Silent-Movie Mode (Pure Visual Loop)</div>
-    </header>
+  <div class="sheet">
+    <div class="top-bar">
+      <div>
+        <input type="text" id="wordInput" value="pollito chick" aria-label="Word input" />
+        <button class="primary" id="btnPlay">&#9654; Play</button>
+        <button id="btnStop">&#9724; Stop</button>
+      </div>
+      <div>
+        <button id="btnFaster" title="Smaller delay = faster">+ Faster</button>
+        <button id="btnSlower" title="Larger delay = slower">- Slower</button>
+        <span id="delayLabel">40ms</span>
+      </div>
+    </div>
 
-    <main class="stage">
-      <div class="visual-bay">
-        <div class="card-box">
-          <span class="card-label">IMAGEME [T1]</span>
-          <img id="imageme-img" src="" alt="Imageme" />
+    <!-- Fixed Zone 1: Top Stage -->
+    <div class="stage-box">
+      <canvas id="stageCanvas" width="220" height="210"></canvas>
+    </div>
+
+    <!-- Fixed Zone 2: Middle Row -->
+    <div class="mid-row">
+      <div class="portrait-slot">
+        <canvas id="portraitCanvas" width="144" height="144"></canvas>
+      </div>
+
+      <div class="center-stack">
+        <div class="pair-line">
+          <span>&#128266;</span>
+          <div class="wave-bar"></div>
         </div>
-
-        <div class="card-box">
-          <span class="card-label">ATHENA [VISEME]</span>
-          <img id="viseme-img" src="" alt="" style="display:none;" />
-          <div id="viseme-fallback" class="viseme-glyph">[ — ]</div>
+        <div class="word-tag" id="tagPrimary">p o l l i t o</div>
+        <div class="pair-line">
+          <span>&#128266;</span>
+          <div class="wave-bar"></div>
         </div>
+        <div class="word-tag" id="tagSecondary">c h i c k</div>
       </div>
 
-      <div id="lexeme-box" class="intertitle-box">&nbsp;</div>
-      <div id="phase-box" class="phase-indicator">SILENT REEL READY</div>
-    </main>
-
-    <footer class="controls">
-      <div class="btn-group">
-        <button id="btn-start">ROLL</button>
-        <button id="btn-stop">CUT</button>
-        <button id="btn-next">FRAME +1</button>
+      <div class="tract-slot">
+        <canvas id="tractCanvas" width="164" height="144"></canvas>
       </div>
+    </div>
 
-      <div class="btn-group">
-        <span>TEMPO:</span>
-        <!-- Inverted Speedometer: + = faster (smaller ms), - = slower (larger ms) -->
-        <button id="btn-faster">+</button>
-        <span id="delay-val" class="speed-readout">900 ms</span>
-        <button id="btn-slower">-</button>
-      </div>
-    </footer>
+    <!-- Fixed Zone 3: Bottom Split Keyboard -->
+    <div class="deck-row">
+      <div class="key-cluster left-pad" id="leftPad"></div>
+      <div class="space-bar" id="spaceBar">Q | space | J</div>
+      <div class="key-cluster right-pad" id="rightPad"></div>
+    </div>
+
+    <div class="status-strip">
+      <span id="statusTick">Tick: 0</span>
+      <span id="statusViseme">Viseme: 0 (Rest)</span>
+      <span id="statusDst">DST: 0 deltas</span>
+    </div>
   </div>
 
   <script>
-    const IMAGEME_BASE = "https://storage.googleapis.com/noembalde/imagemes/";
-    const VISEME_BASE  = "visemes/";
+    (function () {
+      "use strict";
 
-    const VISEME_MAP = {
-      "A": { glyph: "[ AA ]",  img: "v_aa.png" },
-      "E": { glyph: "[ EH ]",  img: "v_eh.png" },
-      "I": { glyph: "[ IY ]",  img: "v_iy.png" },
-      "O": { glyph: "[ OW ]",  img: "v_ow.png" },
-      "U": { glyph: "[ UW ]",  img: "v_uw.png" },
-      "B": { glyph: "[ BMP ]", img: "v_bmp.png" },
-      "P": { glyph: "[ BMP ]", img: "v_bmp.png" },
-      "M": { glyph: "[ BMP ]", img: "v_bmp.png" },
-      "F": { glyph: "[ FV ]",  img: "v_fv.png" },
-      "V": { glyph: "[ FV ]",  img: "v_fv.png" },
-      "T": { glyph: "[ TDN ]", img: "v_tdn.png" },
-      "D": { glyph: "[ TDN ]", img: "v_tdn.png" },
-      "N": { glyph: "[ TDN ]", img: "v_tdn.png" },
-      "L": { glyph: "[ L ]",   img: "v_l.png" },
-      "R": { glyph: "[ R ]",   img: "v_r.png" },
-      "S": { glyph: "[ SZ ]",  img: "v_sz.png" },
-      "Z": { glyph: "[ SZ ]",  img: "v_sz.png" },
-      "C": { glyph: "[ KG ]",  img: "v_kg.png" },
-      "K": { glyph: "[ KG ]",  img: "v_kg.png" },
-      "G": { glyph: "[ KG ]",  img: "v_kg.png" },
-      "REST": { glyph: "[ — ]", img: "v_rest.png" }
-    };
-
-    // Pure Silent Sequence: T1 (Silent Imageme) -> T2 (Intertitle + Silent Visemes)
-    const REEL = [
-      { word: "CAT",  file: "cat.jpg",  visemes: ["C", "A", "T"] },
-      { word: "DOG",  file: "dog.jpg",  visemes: ["D", "O", "G"] },
-      { word: "SUN",  file: "sun.jpg",  visemes: ["S", "U", "N"] },
-      { word: "MAP",  file: "map.jpg",  visemes: ["M", "A", "P"] },
-      { word: "BED",  file: "bed.jpg",  visemes: ["B", "E", "D"] }
-    ];
-
-    let idx = 0;
-    let baseDelay = 900;
-    let timerId = null;
-    let rolling = false;
-
-    const imagemeImg = document.getElementById("imageme-img");
-    const visemeImg = document.getElementById("viseme-img");
-    const visemeFallback = document.getElementById("viseme-fallback");
-    const lexemeBox = document.getElementById("lexeme-box");
-    const phaseBox = document.getElementById("phase-box");
-    const delayVal = document.getElementById("delay-val");
-
-    function setViseme(key) {
-      const v = VISEME_MAP[key] || VISEME_MAP["REST"];
-      visemeFallback.textContent = v.glyph;
-      visemeImg.src = VISEME_BASE + v.img;
-      visemeImg.onload = () => {
-        visemeImg.style.display = "block";
-        visemeFallback.style.display = "none";
+      /* Single inline patcher state: no competing clocks or resets */
+      const Patcher = {
+        delayMs: 40,
+        minMs: 12,
+        maxMs: 240,
+        stepMs: 8,
+        t1SilentFirst: true,
+        stepSpeed(sign) {
+          this.delayMs = sign > 0
+            ? Math.max(this.minMs, this.delayMs - this.stepMs)
+            : Math.min(this.maxMs, this.delayMs + this.stepMs);
+          document.getElementById("delayLabel").textContent = this.delayMs + "ms";
+        },
+        isSilentFirst(tick) {
+          return this.t1SilentFirst && tick > 0 && tick % 2 === 1;
+        }
       };
-      visemeImg.onerror = () => {
-        visemeImg.style.display = "none";
-        visemeFallback.style.display = "block";
+
+      const VISEME_SHAPES = {
+        0: { label: "0 (Rest)",  mouthW: 16, mouthH: 3 },
+        1: { label: "1 (Smile)", mouthW: 28, mouthH: 8 },
+        2: { label: "2 (Open)",  mouthW: 24, mouthH: 18 },
+        3: { label: "3 (Round)", mouthW: 12, mouthH: 14 },
+        4: { label: "4 (F/V)",   mouthW: 22, mouthH: 6 },
+        5: { label: "5 (M/B/P)", mouthW: 20, mouthH: 2 }
       };
-    }
 
-    function playFrame(i) {
-      clearTimeout(timerId);
-      const item = REEL[i % REEL.length];
+      const LOCI_DOTS = [
+        { x: 34,  y: 78, c: "#dc2626" },
+        { x: 48,  y: 76, c: "#ea580c" },
+        { x: 60,  y: 72, c: "#eab308" },
+        { x: 74,  y: 66, c: "#65a30d" },
+        { x: 88,  y: 62, c: "#16a34a" },
+        { x: 102, y: 64, c: "#0891b2" },
+        { x: 114, y: 74, c: "#2563eb" },
+        { x: 120, y: 90, c: "#7c3aed" },
+        { x: 116, y: 108, c: "#db2777" }
+      ];
 
-      // T1: Silent Imageme first (no voice, no text)
-      imagemeImg.src = IMAGEME_BASE + item.file;
-      lexemeBox.innerHTML = "&nbsp;";
-      setViseme("REST");
-      phaseBox.textContent = "T1: IMAGEME (SILENT)";
+      function buildTimeline(text) {
+        const clean = (text || "").toLowerCase();
+        const seq = [0];
+        for (let i = 0; i < clean.length; i++) {
+          const ch = clean[i];
+          if ("aáàâ".includes(ch)) seq.push(2, 2);
+          else if ("eiíìy".includes(ch)) seq.push(1, 1);
+          else if ("ouóúòù".includes(ch)) seq.push(3, 3);
+          else if ("fv".includes(ch)) seq.push(4);
+          else if ("mbp".includes(ch)) seq.push(5);
+          else if (/[a-zñ]/.test(ch)) seq.push(1);
+          else seq.push(0);
+        }
+        seq.push(0);
+        return seq;
+      }
 
-      timerId = setTimeout(() => {
-        if (!rolling) return;
-        // T2: Intertitle + Silent Viseme Articulation
-        lexemeBox.textContent = item.word;
-        phaseBox.textContent = "T2: INTERTITLE + VISEMES";
-
-        let step = 0;
-        const stepMs = Math.max(150, Math.floor(baseDelay / item.visemes.length));
-
-        function stepViseme() {
-          if (!rolling) return;
-          if (step < item.visemes.length) {
-            setViseme(item.visemes[step]);
-            step++;
-            timerId = setTimeout(stepViseme, stepMs);
-          } else {
-            setViseme("REST");
-            phaseBox.textContent = "INTER-FRAME PAUSE";
-            timerId = setTimeout(() => {
-              if (!rolling) return;
-              idx = (idx + 1) % REEL.length;
-              playFrame(idx);
-            }, baseDelay);
+      function countDstDeltas(seq) {
+        let deltas = 0;
+        let prev = -1;
+        for (let i = 0; i < seq.length; i++) {
+          if (seq[i] !== prev) {
+            deltas++;
+            prev = seq[i];
           }
         }
-        stepViseme();
-      }, baseDelay);
-    }
-
-    document.getElementById("btn-start").addEventListener("click", () => {
-      if (rolling) return;
-      rolling = true;
-      playFrame(idx);
-    });
-
-    document.getElementById("btn-stop").addEventListener("click", () => {
-      rolling = false;
-      clearTimeout(timerId);
-      setViseme("REST");
-      phaseBox.textContent = "CUT";
-    });
-
-    document.getElementById("btn-next").addEventListener("click", () => {
-      clearTimeout(timerId);
-      idx = (idx + 1) % REEL.length;
-      if (rolling) {
-        playFrame(idx);
-      } else {
-        const item = REEL[idx];
-        imagemeImg.src = IMAGEME_BASE + item.file;
-        lexemeBox.textContent = item.word;
-        setViseme("REST");
-        phaseBox.textContent = "STILL FRAME";
+        return deltas;
       }
-    });
 
-    document.getElementById("btn-faster").addEventListener("click", () => {
-      baseDelay = Math.max(200, baseDelay - 100);
-      delayVal.textContent = baseDelay + " ms";
-    });
+      function renderStage(tick, vId) {
+        const c = document.getElementById("stageCanvas");
+        const ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
 
-    document.getElementById("btn-slower").addEventListener("click", () => {
-      baseDelay = Math.min(3000, baseDelay + 100);
-      delayVal.textContent = baseDelay + " ms";
-    });
+        const shape = VISEME_SHAPES[vId] || VISEME_SHAPES[0];
+        const bob = Math.sin(tick * 0.35) * 2;
 
-    imagemeImg.src = IMAGEME_BASE + REEL[0].file;
-    setViseme("REST");
+        /* Body & head */
+        ctx.fillStyle = "#facc15";
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(110, 134 + bob, 44, 52, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(114, 72 + bob, 32, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        /* Wing */
+        ctx.beginPath();
+        ctx.ellipse(88, 128 + bob, 14, 26, 0.25, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        /* Eye */
+        ctx.fillStyle = "#111111";
+        ctx.beginPath();
+        ctx.arc(124, 64 + bob, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(126, 62 + bob, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        /* Inline Viseme Mouth */
+        ctx.fillStyle = "#111111";
+        ctx.beginPath();
+        ctx.ellipse(136, 79 + bob, shape.mouthW * 0.5, shape.mouthH * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        /* Feet */
+        ctx.strokeStyle = "#ea580c";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(96, 184); ctx.lineTo(90, 202); ctx.lineTo(78, 204);
+        ctx.moveTo(124, 184); ctx.lineTo(130, 202); ctx.lineTo(142, 204);
+        ctx.stroke();
+      }
+
+      function renderPortrait() {
+        const c = document.getElementById("portraitCanvas");
+        const ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.fillStyle = "#d8cfc2";
+        ctx.fillRect(0, 0, c.width, c.height);
+
+        ctx.fillStyle = "#b89f88";
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.ellipse(72, 68, 28, 36, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#3a2e25";
+        ctx.beginPath();
+        ctx.arc(72, 54, 28, Math.PI, 0);
+        ctx.fill();
+
+        ctx.fillStyle = "#8d7b6c";
+        ctx.beginPath();
+        ctx.ellipse(72, 126, 46, 22, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      function renderTract(tick) {
+        const c = document.getElementById("tractCanvas");
+        const ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.fillStyle = "#f4f1ea";
+        ctx.fillRect(0, 0, c.width, c.height);
+
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(22, 76);
+        ctx.quadraticCurveTo(75, 22, 134, 48);
+        ctx.lineTo(124, 136);
+        ctx.stroke();
+
+        const activeIdx = tick % LOCI_DOTS.length;
+        for (let i = 0; i < LOCI_DOTS.length; i++) {
+          const d = LOCI_DOTS[i];
+          ctx.fillStyle = d.c;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, i === activeIdx ? 5.5 : 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
+
+      function buildPads() {
+        const leftKeys = ["C1","C2","C3","Q","K","Y","U","N","W","P","O","I","X","H","C",""];
+        const rightKeys = ["J","F1","F2","F3","R","D","E","F","S","T","G","V","S","L","M","Z"];
+        const lp = document.getElementById("leftPad");
+        const rp = document.getElementById("rightPad");
+        lp.innerHTML = leftKeys.map(k => `<div class="k-cap">${k}</div>`).join("");
+        rp.innerHTML = rightKeys.map(k => `<div class="k-cap">${k}</div>`).join("");
+      }
+
+      let timeline = buildTimeline("pollito chick");
+      let tick = 0;
+      let timer = null;
+
+      function updateView() {
+        const vId = timeline[tick] || 0;
+        const shape = VISEME_SHAPES[vId] || VISEME_SHAPES[0];
+        renderStage(tick, vId);
+        renderTract(tick);
+        document.getElementById("statusTick").textContent = "Tick: " + tick;
+        document.getElementById("statusViseme").textContent = "Viseme: " + shape.label;
+        document.getElementById("statusDst").textContent = "DST: " + countDstDeltas(timeline) + " deltas";
+      }
+
+      function stopLoop() {
+        if (timer !== null) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function startLoop() {
+        stopLoop();
+        timeline = buildTimeline(document.getElementById("wordInput").value);
+        tick = 0;
+        updateView();
+        timer = setInterval(() => {
+          tick++;
+          if (tick >= timeline.length) {
+            tick = 0;
+          }
+          updateView();
+        }, Patcher.delayMs);
+      }
+
+      document.getElementById("btnPlay").addEventListener("click", startLoop);
+      document.getElementById("btnStop").addEventListener("click", () => {
+        stopLoop();
+        tick = 0;
+        updateView();
+      });
+      document.getElementById("btnFaster").addEventListener("click", () => {
+        Patcher.stepSpeed(+1);
+        if (timer !== null) startLoop();
+      });
+      document.getElementById("btnSlower").addEventListener("click", () => {
+        Patcher.stepSpeed(-1);
+        if (timer !== null) startLoop();
+      });
+
+      buildPads();
+      renderPortrait();
+      updateView();
+    })();
   </script>
 </body>
 </html>
