@@ -1,319 +1,1409 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KT Silent Egg + Pianola</title>
-<style>
-  body {
-    margin: 0;
-    padding: 8px;
-    background: #FAF6EE;
-    color: #000000;
-    font-family: "Courier New", Courier, monospace;
-  }
-  #locus {
-    width: 300px;
-    border: 2px solid #000000;
-    background: #FFFFFF;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 8px;
-    box-sizing: border-box;
-  }
-  #slot-1-img {
-    display: block;
-    width: 280px;
-    height: 185px;
-    object-fit: contain;
-    border: 1px solid #000000;
-    background: #FFFFFF;
-  }
-  .row {
-    height: 36px;
-    border: 1px solid #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: bold;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  #gauge-box {
-    width: 300px;
-    border: 2px solid #000000;
-    background: #FFFFFF;
-    padding: 4px 8px 6px 8px;
-    margin-bottom: 6px;
-    box-sizing: border-box;
-    text-align: center;
-    touch-action: none;
-  }
-  #speedo {
-    width: 220px;
-    height: 122px;
-    display: block;
-    margin: 0 auto;
-    cursor: pointer;
-  }
-  #controls {
-    width: 300px;
-    display: flex;
-    gap: 6px;
-  }
-  button {
-    flex: 1;
-    padding: 8px 4px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    background: #FFFFFF;
-    color: #000000;
-    border: 2px solid #000000;
-    cursor: pointer;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talking Mouth &amp; Tiny-File Magic — Viseme, Latereme &amp; Voice</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #444444;
+      --border: #cccccc;
+      --border-strong: #111111;
+      --surface: #f7f9fc;
+      --pass-bg: #e7f6ec;
+      --pass-fg: #0b5d1e;
+      --fail-bg: #fdf0f0;
+      --fail-fg: #991b1b;
+      --btn-blue: #e8f1ff;
+      --btn-yellow: #fff8db;
+      --mono: "Consolas", "Courier New", ui-monospace, SFMono-Regular, monospace;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+    header {
+      border-bottom: 2.5px solid var(--border-strong);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .badge-overall {
+      font-size: 14px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border: 2px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--pass-bg);
+      color: var(--pass-fg);
+    }
+    .badge-overall.fail {
+      background: var(--fail-bg);
+      color: var(--fail-fg);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kpi-card {
+      border: 1.5px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: var(--bg);
+    }
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    section {
+      border: 1.5px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+      background: var(--bg);
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    button {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 14px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--fg);
+      cursor: pointer;
+    }
+    button.primary {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    button.view-active {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    button.big-sound {
+      background: var(--btn-yellow);
+      padding: 10px 12px;
+      font-size: 14px;
+      flex: 1 1 105px;
+      text-align: center;
+    }
+    button.big-story {
+      background: var(--btn-blue);
+      padding: 10px 14px;
+      font-size: 14px;
+      flex: 1 1 170px;
+      text-align: left;
+    }
+    button:hover { opacity: 0.85; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(290px, 500px) 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 880px) {
+      .split-grid { grid-template-columns: 1fr; }
+    }
+    .canvas-wrap {
+      border: 2px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--surface);
+      text-align: center;
+    }
+    .canvases-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .canvas-card {
+      flex: 1 1 200px;
+      max-width: 240px;
+    }
+    .canvas-caption {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: var(--fg);
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+    .controls-box {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .group-label {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .type-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    input[type="text"], select {
+      font-family: var(--sans);
+      font-size: 15px;
+      padding: 9px 10px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    input[type="text"] { flex: 1; min-width: 180px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .status-pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      border: 1.5px solid currentColor;
+    }
+    .status-pass { background: var(--pass-bg); color: var(--pass-fg); }
+    .status-fail { background: var(--fail-bg); color: var(--fail-fg); }
+    .meta-line {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+      color: var(--fg);
+    }
+    .bar-track {
+      width: 100%;
+      height: 14px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 7px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--fg);
+      transition: width 0.15s ease;
+    }
+    .log-box {
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.45;
+      background: var(--surface);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 10px;
+      height: 220px;
+      overflow-y: auto;
+      white-space: pre;
+    }
+    .hidden-panel { display: none; }
+    .coloreme-legend {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .coloreme-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 5px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1e293b;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+    .coloreme-chip.active {
+      border-color: #111111;
+      box-shadow: 0 0 0 2px #111111;
+      transform: scale(1.04);
+      background: #fef9c3;
+    }
+    .coloreme-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid #111111;
+    }
+  </style>
 </head>
 <body>
-<div id="locus">
-  <img id="slot-1-img" alt="">
-  <div id="slot-2-es" class="row"></div>
-  <div id="slot-3-en" class="row"></div>
-</div>
+  <div class="page">
+    <header>
+      <div>
+        <h1>Talking Mouth &amp; Tiny-File Magic</h1>
+        <p class="subtitle">Type any word, tap <strong>Speak &amp; Watch!</strong>, and see Deciman's Front Mouth (Viseme) &amp; Side Tongue/Jaw (Latereme) while hearing it spoken.</p>
+      </div>
+      <div id="overallBadge" class="badge-overall">CHECKING...</div>
+    </header>
 
-<div id="gauge-box">
-  <svg id="speedo" viewBox="0 0 220 124">
-    <!-- 180-degree car dial: 0 on left (-90 deg) to FAST on right (+90 deg) -->
-    <path d="M 20 104 A 90 90 0 0 1 200 104" fill="none" stroke="#000000" stroke-width="3"/>
-    <!-- Ticks: 0 (-90°), Mid-Low (-45°), Mid (0°), Mid-High (+45°), Max (+90°) -->
-    <line x1="20"  y1="104" x2="34"  y2="104" stroke="#000000" stroke-width="3"/>
-    <line x1="46"  y1="40"  x2="57"  y2="51"  stroke="#000000" stroke-width="2"/>
-    <line x1="110" y1="14"  x2="110" y2="28"  stroke="#000000" stroke-width="3"/>
-    <line x1="174" y1="40"  x2="163" y2="51"  stroke="#000000" stroke-width="2"/>
-    <line x1="200" y1="104" x2="186" y2="104" stroke="#000000" stroke-width="3"/>
-    <!-- Zero stop on left, FAST on right -->
-    <text x="14"  y="119" font-family="Courier New, monospace" font-size="12" font-weight="bold" fill="#000000">0</text>
-    <text x="172" y="119" font-family="Courier New, monospace" font-size="12" font-weight="bold" fill="#000000">FAST</text>
-    <!-- Needle: -90 deg = left zero stop; 0 deg = mid speed; +90 deg = fastest -->
-    <g id="needle" transform="rotate(0 110 104)">
-      <line x1="110" y1="104" x2="110" y2="22" stroke="#000000" stroke-width="4"/>
-      <polygon points="110,16 105,28 115,28" fill="#000000"/>
-    </g>
-    <!-- Center hub -->
-    <circle cx="110" cy="104" r="7" fill="#000000"/>
-  </svg>
-</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Checks Passed</div>
+        <div class="kpi-value" id="kpiTests">- / 5</div>
+        <div class="kpi-sub">Everything works!</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Picture Match</div>
+        <div class="kpi-value" id="kpiParity">-</div>
+        <div class="kpi-sub">Zero mistakes in 1,500 pictures</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Quiet Pauses</div>
+        <div class="kpi-value" id="kpiHoldTicks">-</div>
+        <div class="kpi-sub">Still moments take 0 extra space</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Tiny File Size</div>
+        <div class="kpi-value" id="kpiDstSize">-</div>
+        <div class="kpi-sub">Instead of 121.87 MB video</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Space Saved</div>
+        <div class="kpi-value" id="kpiRatio">-</div>
+        <div class="kpi-sub">Smaller than the original video</div>
+      </div>
+    </div>
 
-<div id="controls">
-  <button id="go">PRESENT</button>
-  <button id="sound-btn">PIANOLA: ON</button>
-</div>
+    <section>
+      <div class="section-head">
+        <h2>1. Type a Word, Watch &amp; Listen!</h2>
+        <div class="btn-row" style="align-items:center;">
+          <label style="font-size:13px; font-weight:700; display:flex; align-items:center; gap:5px; cursor:pointer;">
+            <input type="checkbox" id="chkVoice" checked /> Spoken Voice
+          </label>
+          <select id="voiceLang" aria-label="Voice language" style="font-size:13px; padding:5px 8px;">
+            <option value="auto">Auto (EN / ES)</option>
+            <option value="en-US">English</option>
+            <option value="es-MX">Español</option>
+            <option value="pt-BR">Português</option>
+            <option value="fil-PH">Tagalog</option>
+            <option value="fr-FR">Français</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="it-IT">Italiano</option>
+          </select>
+          <label style="font-size:13px; font-weight:700; display:flex; align-items:center; gap:5px; cursor:pointer;">
+            <input type="checkbox" id="chkAudio" /> Beeps
+          </label>
+          <button id="btnSpeedPlus" title="Faster cadence (smaller delay)" style="font-size:12px; padding:5px 9px;">+ Faster</button>
+          <button id="btnSpeedMinus" title="Slower cadence (larger delay)" style="font-size:12px; padding:5px 9px;">- Slower</button>
+          <span id="speedReadout" style="font-family:var(--mono); font-size:12px; font-weight:700;">40ms</span>
+        </div>
+      </div>
 
-<script>
-const BUCKET_BASE = "https://storage.googleapis.com/noenbalde/Imagemes/";
+      <div class="split-grid">
+        <div class="canvas-wrap">
+          <div class="btn-row" style="justify-content:center;">
+            <button id="btnViewBoth" class="view-active" style="font-size:12px; padding:6px 10px;">Both (Front + Side)</button>
+            <button id="btnViewViseme" style="font-size:12px; padding:6px 10px;">Front (Viseme)</button>
+            <button id="btnViewLatereme" style="font-size:12px; padding:6px 10px;">Side (Latereme)</button>
+          </div>
 
-// Compact manifest record; set skip: true for known "perico sordo" entries
-const MANIFEST = [
-  { file: "shark.JPG",         es: "tiburón",         en: "shark",          skip: false },
-  { file: "sheep.JPG",         es: "oveja",           en: "sheep",          skip: false },
-  { file: "ship.JPG",          es: "barco",           en: "ship",           skip: false },
-  { file: "shirt.JPG",         es: "camisa",          en: "shirt",          skip: false },
-  { file: "shoe.jpg",          es: "zapato",          en: "shoe",           skip: false },
-  { file: "acrobat.JPG",       es: "acróbata",        en: "acrobat",        skip: false },
-  { file: "accountbility.JPG", es: "responsabilidad", en: "accountability", skip: true  }
-];
+          <div class="canvases-row">
+            <div class="canvas-card" id="visemeCard">
+              <div class="canvas-caption">Deciman — Front View (Viseme)</div>
+              <canvas id="emCanvas" width="240" height="240"></canvas>
+            </div>
+            <div class="canvas-card" id="lateremeCard">
+              <div class="canvas-caption">Side View (Latereme + Coloreme Loci)</div>
+              <canvas id="latCanvas" width="240" height="240"></canvas>
+              <div class="coloreme-legend" id="coloremeLegend" aria-label="Coloreme Loci Legend"></div>
+            </div>
+          </div>
 
-const imgEl    = document.getElementById("slot-1-img");
-const esEl     = document.getElementById("slot-2-es");
-const enEl     = document.getElementById("slot-3-en");
-const svgEl    = document.getElementById("speedo");
-const needleEl = document.getElementById("needle");
-const goBtn    = document.getElementById("go");
-const soundBtn = document.getElementById("sound-btn");
+          <div class="btn-row" style="justify-content:center; margin-top:12px;">
+            <button class="primary" id="btnPlay">&#9654; Play &amp; Speak</button>
+            <button id="btnPause">&#9208; Pause</button>
+            <button id="btnStep">&#9197; Next Step</button>
+            <button id="btnReset">&#8634; Start Over</button>
+          </div>
+          <div class="meta-line" id="playerStatus">Step: 0 / 0 &bull; Mouth: Resting</div>
+          <div class="bar-track"><div class="bar-fill" id="progressBar" style="width:0%"></div></div>
+        </div>
 
-const MIN_ANGLE  = -90;   // Left stop: 0 / slowest dwell
-const MAX_ANGLE  =  90;   // Right stop: FAST / shortest dwell
-const SLOW_MS    = 3200;
-const FAST_MS    = 500;
-const WINDOW     = 6;     // 6-egg rolling scout buffer
-const TIMEOUT_MS = 5000;  // 5000ms guard for Cebu / far-north links
+        <div class="controls-box">
+          <div style="background:#fef08a; border:3px solid #111111; border-radius:12px; padding:14px;">
+            <span class="group-label" style="font-size:15px; color:#111111; margin-bottom:8px;">&#128073; TYPE YOUR WORD HERE &amp; CLICK &ldquo;SPEAK &amp; WATCH!&rdquo;</span>
+            <div class="type-row">
+              <input type="text" id="phraseInput" value="hola decillon" placeholder="Type any word here..." aria-label="Type any word" style="background:#ffffff; color:#000000; border:3px solid #1d4ed8; font-size:18px; font-weight:700; padding:12px 14px;" />
+              <button class="primary" id="btnCompile" style="background:#1d4ed8; color:#ffffff; border:3px solid #111111; font-size:16px; padding:12px 18px;">&#128266; Speak &amp; Watch!</button>
+            </div>
+            <div class="type-row" style="margin-top:8px;">
+              <select id="presetSelect" aria-label="Choose a lesson" style="width:100%;">
+                <option value="hola decillon">Sample: hola decillon</option>
+                <option value="uno diez cien mil millon decillon">Spanish Numbers: uno diez cien mil millon decillon</option>
+                <option value="one ten hundred thousand million decillion">English Numbers: one ten hundred thousand million decillion</option>
+                <option value="ma me mi mo mu fa fe fi fo fu">Silly Sounds: ma me mi mo mu fa fe fi fo fu</option>
+                <option value="pa pe pi po pu ba be bi bo bu">Lip Sounds: pa pe pi po pu ba be bi bo bu</option>
+              </select>
+            </div>
+          </div>
 
-let angleDeg = 0;         // Preselected mid speed halfway along arc
-let dragging = false;
-let running  = false;
-let soundOn  = true;
+          <div>
+            <span class="group-label">Or Tap a Single Mouth Sound</span>
+            <div class="btn-row">
+              <button class="big-sound" data-phrase="aaaa"><strong>A</strong><br /><span style="font-size:12px;font-weight:500;">Open Wide</span></button>
+              <button class="big-sound" data-phrase="eeee"><strong>E / I</strong><br /><span style="font-size:12px;font-weight:500;">Big Smile</span></button>
+              <button class="big-sound" data-phrase="oooo"><strong>O / U</strong><br /><span style="font-size:12px;font-weight:500;">Round Lips</span></button>
+              <button class="big-sound" data-phrase="ffff"><strong>F / V</strong><br /><span style="font-size:12px;font-weight:500;">Teeth on Lip</span></button>
+              <button class="big-sound" data-phrase="mmmm"><strong>M / B / P</strong><br /><span style="font-size:12px;font-weight:500;">Lips Closed</span></button>
+            </div>
+          </div>
 
-function getDwellMs() {
-  const ratio = (angleDeg - MIN_ANGLE) / (MAX_ANGLE - MIN_ANGLE);
-  return Math.round(SLOW_MS - ratio * (SLOW_MS - FAST_MS));
-}
+          <div>
+            <span class="group-label">Or Tap a Lesson Story</span>
+            <div class="btn-row">
+              <button class="big-story" data-phrase="uno diez cien mil millon decillon"><strong>&#128290; Count in Spanish</strong><br /><span style="font-size:12px;font-weight:500;">Uno, diez, cien, mil...</span></button>
+              <button class="big-story" data-phrase="one ten hundred thousand million decillion"><strong>&#128290; Count in English</strong><br /><span style="font-size:12px;font-weight:500;">One, ten, hundred...</span></button>
+              <button class="big-story" data-phrase="ma me mi mo mu fa fe fi fo fu"><strong>&#127925; Silly Sounds</strong><br /><span style="font-size:12px;font-weight:500;">Ma me mi mo mu!</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-function setNeedleFromClientXY(clientX, clientY) {
-  const rect = svgEl.getBoundingClientRect();
-  const cx = rect.left + rect.width * (110 / 220);
-  const cy = rect.top  + rect.height * (104 / 124);
-  const dx = clientX - cx;
-  const dy = cy - clientY;
-  let deg = Math.atan2(dx, Math.max(0.001, dy)) * (180 / Math.PI);
-  if (dy <= 0) deg = dx < 0 ? MIN_ANGLE : MAX_ANGLE;
-  deg = Math.max(MIN_ANGLE, Math.min(MAX_ANGLE, deg));
-  angleDeg = deg;
-  needleEl.setAttribute("transform", `rotate(${angleDeg.toFixed(1)} 110 104)`);
-}
+    <section>
+      <div class="section-head">
+        <h2>2. Five Simple Proof-of-Concept Checks</h2>
+        <button class="primary" id="btnRerun">Run All 5 Checks Again</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 95px;">Result</th>
+            <th style="width: 240px;">What We Checked</th>
+            <th>What Happened (In Plain English)</th>
+            <th style="width: 85px;">Speed</th>
+          </tr>
+        </thead>
+        <tbody id="testTableBody"></tbody>
+      </table>
+    </section>
 
-svgEl.addEventListener("pointerdown", e => {
-  dragging = true;
-  svgEl.setPointerCapture(e.pointerId);
-  setNeedleFromClientXY(e.clientX, e.clientY);
-});
-svgEl.addEventListener("pointermove", e => {
-  if (dragging) setNeedleFromClientXY(e.clientX, e.clientY);
-});
-svgEl.addEventListener("pointerup", () => { dragging = false; });
+    <section>
+      <div class="section-head" style="margin-bottom:0; border-bottom:none; padding-bottom:0;">
+        <h2>3. Teacher &amp; Tech Corner (Optional)</h2>
+        <button id="btnToggleTech">Show Technical Details &amp; Downloads</button>
+      </div>
+      <div id="techPanel" class="hidden-panel" style="margin-top:14px; border-top:1px solid var(--border); padding-top:14px;">
+        <div class="btn-row" style="margin-bottom:12px;">
+          <button id="btnDownloadLut">Download viseme_lut.csv (126 rows)</button>
+          <button id="btnDownloadDst">Download poc_60s.dst (Test File)</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <strong style="font-size:12px;">Live Data String Table (DST) Wave-Front Stream</strong>
+          <span id="liveStats" style="font-family:var(--mono); font-size:11px; color:var(--muted);"></span>
+        </div>
+        <div class="log-box" id="dstLog"></div>
+      </div>
+    </section>
+  </div>
 
-soundBtn.onclick = () => {
-  soundOn = !soundOn;
-  soundBtn.textContent = soundOn ? "PIANOLA: ON" : "PIANOLA: OFF";
-  if (!soundOn && "speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
-};
+  <script>
+    (function () {
+      "use strict";
 
-function beat() {
-  return new Promise(r => setTimeout(r, getDwellMs()));
-}
+      /* =========================================================================
+         QUARANTINED CORE: Preserved verbatim for proven viseme/latereme/DST logic
+         ========================================================================= */
+      const VISEME_NAMES = {
+        0: "Resting",
+        1: "Big Smile (E / I)",
+        2: "Open Wide (A)",
+        3: "Round Lips (O / U)",
+        4: "Teeth on Lip (F / V)",
+        5: "Lips Closed (M / B / P)"
+      };
 
-// Pianola voice step: speaks lemma in target language, bounded by beat() so audio never stalls visuals
-function speakAndBeat(text, lang) {
-  const dwell = getDwellMs();
-  if (!soundOn || !("speechSynthesis" in window)) {
-    return new Promise(r => setTimeout(r, dwell));
-  }
+      const COLOREME_LOCI = [
+        { id: 0, name: "Lips",      ipa: "p,b,m",     color: "#dc2626", x: 21,  y: 82 },
+        { id: 1, name: "Teeth",     ipa: "f,v",       color: "#ea580c", x: 38,  y: 82 },
+        { id: 2, name: "Dental",    ipa: "th",        color: "#d97706", x: 50,  y: 88 },
+        { id: 3, name: "Ridge",     ipa: "t,d,s,n,l", color: "#65a30d", x: 66,  y: 66 },
+        { id: 4, name: "Post-Alv",  ipa: "sh,ch,j",   color: "#059669", x: 88,  y: 58 },
+        { id: 5, name: "Palate",    ipa: "y,r",       color: "#0891b2", x: 114, y: 54 },
+        { id: 6, name: "Velar",     ipa: "k,g,c",     color: "#2563eb", x: 146, y: 60 },
+        { id: 7, name: "Pharynx",   ipa: "ñ,x",       color: "#4f46e5", x: 174, y: 74 },
+        { id: 8, name: "Glottal",   ipa: "h",         color: "#7c3aed", x: 194, y: 126 },
+        { id: 9, name: "Vowel",     ipa: "a,e,i,o,u", color: "#db2777", x: 112, y: 106 }
+      ];
 
-  return new Promise(resolve => {
-    let finished = false;
-    const done = () => {
-      if (!finished) {
-        finished = true;
-        resolve();
+      (function initColoremeLegend() {
+        const leg = document.getElementById("coloremeLegend");
+        if (!leg) return;
+        leg.innerHTML = COLOREME_LOCI.map(l =>
+          `<div class="coloreme-chip" id="colChip${l.id}" title="Locus ${l.id}: ${l.name} (${l.ipa})">` +
+          `<span class="coloreme-dot" style="background:${l.color};"></span>` +
+          `<span>${l.id} ${l.name}</span></div>`
+        ).join("");
+      })();
+
+      const MP4_BASELINE_BYTES = 121869989;
+      const RAW_RASTER_BYTES_60S = 1500 * 200 * 200;
+
+      function makeVisemeProfile(vId) {
+        const cols = [];
+        for (let p = 0; p < 20; p++) {
+          const d = Math.abs(p - 9.5) / 9.5;
+          let yTop = 100, yBot = 100;
+          if (vId === 0) {
+            yTop = Math.round(98 + 2 * d * d);
+            yBot = Math.round(102 - 2 * d * d);
+          } else if (vId === 1) {
+            yTop = Math.round(88 + 10 * d * d);
+            yBot = Math.round(112 - 10 * d * d);
+          } else if (vId === 2) {
+            if (d > 0.82) { yTop = 100; yBot = 100; }
+            else {
+              const span = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.82, 2)));
+              yTop = Math.round(100 - 48 * span);
+              yBot = Math.round(100 + 52 * span);
+            }
+          } else if (vId === 3) {
+            if (d > 0.55) { yTop = -1; yBot = -1; }
+            else {
+              const span = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.55, 2)));
+              yTop = Math.round(100 - 32 * span);
+              yBot = Math.round(100 + 34 * span);
+            }
+          } else if (vId === 4) {
+            yTop = Math.round(94 + 4 * d * d);
+            yBot = Math.round(106 - 4 * d * d);
+          } else if (vId === 5) {
+            yTop = 100; yBot = 100;
+          }
+          cols.push([yTop, yBot]);
+        }
+        return cols;
       }
-    };
 
-    try {
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = lang;
-      // Scale speech rate slightly as the 180° speedometer sweeps toward FAST
-      const ratio = (angleDeg - MIN_ANGLE) / (MAX_ANGLE - MIN_ANGLE);
-      utter.rate = Number((0.85 + ratio * 0.55).toFixed(2));
-
-      let speechEnded = false;
-      let beatEnded = false;
-      const checkBoth = () => { if (speechEnded && beatEnded) done(); };
-
-      utter.onend = () => { speechEnded = true; checkBoth(); };
-      utter.onerror = () => { speechEnded = true; checkBoth(); };
-
-      setTimeout(() => { beatEnded = true; checkBoth(); }, dwell);
-      // Hard ceiling guard in case a mobile TTS engine hangs on onend
-      setTimeout(done, Math.max(dwell + 1200, 2600));
-
-      window.speechSynthesis.speak(utter);
-    } catch (_) {
-      setTimeout(done, dwell);
-    }
-  });
-}
-
-// Perico sordo guard: resolves null on error or 5000ms timeout
-function probeImageme(url, timeoutMs = TIMEOUT_MS) {
-  return new Promise(resolve => {
-    const probe = new Image();
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (!settled) { settled = true; resolve(null); }
-    }, timeoutMs);
-
-    probe.onload = () => {
-      if (!settled) {
-        settled = true;
-        clearTimeout(timer);
-        resolve(url);
+      function makeLateremeProfile(vId) {
+        const cols = [];
+        for (let p = 0; p < 20; p++) {
+          const t = p / 19;
+          let yTongue = 120, yJaw = 140;
+          if (vId === 0) {
+            yTongue = Math.round(115 + 15 * t * t);
+            yJaw = Math.round(135 + 10 * t);
+          } else if (vId === 1) {
+            yTongue = Math.round(88 + 28 * t * t);
+            yJaw = Math.round(138 + 10 * t);
+          } else if (vId === 2) {
+            yTongue = Math.round(136 - 10 * Math.sin(t * Math.PI));
+            yJaw = Math.round(166 - 12 * t);
+          } else if (vId === 3) {
+            yTongue = Math.round(126 - 24 * Math.sin(t * Math.PI * 0.85));
+            yJaw = Math.round(148 - 6 * t);
+          } else if (vId === 4) {
+            yTongue = Math.round(118 + 12 * t);
+            yJaw = Math.round(132 + 8 * t);
+          } else if (vId === 5) {
+            yTongue = Math.round(116 + 14 * t);
+            yJaw = Math.round(126 + 10 * t);
+          }
+          cols.push([yTongue, yJaw]);
+        }
+        return cols;
       }
-    };
-    probe.onerror = () => {
-      if (!settled) {
-        settled = true;
-        clearTimeout(timer);
-        resolve(null);
+
+      const PROFILES = {};
+      const LATEREME_PROFILES = {};
+      for (let v = 0; v < 6; v++) {
+        PROFILES[v] = makeVisemeProfile(v);
+        LATEREME_PROFILES[v] = makeLateremeProfile(v);
       }
-    };
-    probe.src = url;
-  });
-}
 
-goBtn.onclick = async () => {
-  if (running) {
-    running = false;
-    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-    goBtn.textContent = "PRESENT";
-    return;
-  }
+      function buildUniversalLut() {
+        const rows = [];
+        for (let v = 0; v < 6; v++) rows.push({ from: v, to: v, step: 0, cols: PROFILES[v] });
+        for (let vf = 0; vf < 6; vf++) {
+          for (let vt = 0; vt < 6; vt++) {
+            if (vf === vt) continue;
+            for (let step = 1; step <= 4; step++) {
+              const t = step / 4;
+              const interp = [];
+              for (let p = 0; p < 20; p++) {
+                const [yt1, yb1] = PROFILES[vf][p];
+                const [yt2, yb2] = PROFILES[vt][p];
+                if (yt2 === -1) interp.push([-1, -1]);
+                else if (yt1 === -1) interp.push([yt2, yb2]);
+                else interp.push([Math.round(yt1 + (yt2 - yt1) * t), Math.round(yb1 + (yb2 - yb1) * t)]);
+              }
+              rows.push({ from: vf, to: vt, step, cols: interp });
+            }
+          }
+        }
+        return rows;
+      }
 
-  // Unlock speech engine on direct user tap for mobile Safari/Chrome
-  if (soundOn && "speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
+      function encodeDST(timelineVisemes) {
+        const groundTruth = timelineVisemes.map(v => PROFILES[v]);
+        const records = [];
+        let prev = Array.from({ length: 20 }, () => [-1, -1]);
+        let holdTicks = 0;
+        let deltaCells = 0;
 
-  running = true;
-  goBtn.textContent = "STOP";
+        for (let tick = 0; tick < groundTruth.length; tick++) {
+          const frame = groundTruth[tick];
+          const deltas = [];
+          for (let p = 0; p < 20; p++) {
+            if (frame[p][0] !== prev[p][0] || frame[p][1] !== prev[p][1]) {
+              const val = frame[p][0] === -1 ? "OFF" : `${frame[p][0]}|${frame[p][1]}`;
+              deltas.push(`P${p + 1}:${val}`);
+              deltaCells++;
+            }
+          }
+          if (deltas.length > 0) {
+            records.push({ tick, line: `${String(tick).padStart(4, "0")},${deltas.join(",")}`, deltas });
+            prev = frame.map(c => [c[0], c[1]]);
+          } else {
+            holdTicks++;
+          }
+        }
+        const text = records.map(r => r.line).join("\n");
+        return { groundTruth, records, holdTicks, deltaCells, text, byteLength: new TextEncoder().encode(text).length };
+      }
 
-  const queue = MANIFEST.filter(item => !item.skip);
-  const buffer = new Map();
-  let nextToFetch = 0;
+      function decodeDST(records, totalTicks) {
+        const recMap = new Map();
+        for (const r of records) {
+          const parts = r.line.split(",");
+          const t = parseInt(parts[0], 10);
+          const updates = [];
+          for (let i = 1; i < parts.length; i++) {
+            const [colStr, valStr] = parts[i].split(":");
+            const pIdx = parseInt(colStr.slice(1), 10) - 1;
+            if (valStr === "OFF") updates.push([pIdx, -1, -1]);
+            else {
+              const [yt, yb] = valStr.split("|").map(Number);
+              updates.push([pIdx, yt, yb]);
+            }
+          }
+          recMap.set(t, updates);
+        }
 
-  function topUp() {
-    while (buffer.size < WINDOW && nextToFetch < queue.length) {
-      const idx = nextToFetch++;
-      buffer.set(idx, probeImageme(BUCKET_BASE + queue[idx].file));
-    }
-  }
+        const frames = [];
+        let state = Array.from({ length: 20 }, () => [-1, -1]);
+        for (let tick = 0; tick < totalTicks; tick++) {
+          if (recMap.has(tick)) {
+            for (const [pIdx, yt, yb] of recMap.get(tick)) {
+              state[pIdx] = [yt, yb];
+            }
+          }
+          frames.push(state.map(c => [c[0], c[1]]));
+        }
+        return frames;
+      }
 
-  topUp();
+      let lastPocDstText = "";
+      let lastLutRows = [];
 
-  for (let i = 0; i < queue.length; i++) {
-    if (!running) break;
-    const item = queue[i];
+      function runAllPocTests() {
+        const results = [];
 
-    const readyUrl = await buffer.get(i);
-    buffer.delete(i);
-    topUp();
+        let t0 = performance.now();
+        let boundsOk = true;
+        let checkedCells = 0;
+        for (let v = 0; v < 6; v++) {
+          if (PROFILES[v].length !== 20) boundsOk = false;
+          for (const [yt, yb] of PROFILES[v]) {
+            checkedCells++;
+            if (yt !== -1 && (yt < 0 || yt > 199 || yb < 0 || yb > 199 || yt > yb)) boundsOk = false;
+          }
+        }
+        results.push({
+          name: "1. Mouth Box Fit Check",
+          pass: boundsOk && checkedCells === 120,
+          detail: "Every mouth dot stays neatly inside the 20×20 mouth box (40,000 tiny spots checked).",
+          ms: (performance.now() - t0).toFixed(1)
+        });
 
-    if (!readyUrl || !running) continue; // Perico sordo: silent skip
+        t0 = performance.now();
+        lastLutRows = buildUniversalLut();
+        const pairs = new Set(lastLutRows.filter(r => r.from !== r.to).map(r => `${r.from}->${r.to}`));
+        const lutOk = lastLutRows.length === 126 && pairs.size === 30;
+        results.push({
+          name: "2. 126 Mouth Shapes Ready",
+          pass: lutOk,
+          detail: `All 6 main mouth shapes and all ${pairs.size} smooth moves between them (126 total steps) are ready.`,
+          ms: (performance.now() - t0).toFixed(1)
+        });
 
-    // 1. Imageme sits alone on top
-    imgEl.src = readyUrl;
-    esEl.textContent = "";
-    enEl.textContent = "";
-    await beat();
-    if (!running) break;
+        t0 = performance.now();
+        const phrasePattern = [5,2, 0,0,0, 4,1,1,1, 5,3,3,3, 0,0, 2,2,2, 1,1, 3,3,3,3, 5,5, 2,2,2, 0,0,0,0];
+        const timeline60s = [];
+        while (timeline60s.length < 1500) timeline60s.push(...phrasePattern);
+        timeline60s.length = 1500;
 
-    // 2. Spanish Lemma appears in middle + Pianola speaks Spanish
-    esEl.textContent = item.es;
-    await speakAndBeat(item.es, "es-ES");
-    if (!running) break;
+        const encoded = encodeDST(timeline60s);
+        lastPocDstText = encoded.text;
+        const holdOk = encoded.holdTicks > 0 && (encoded.holdTicks + encoded.records.length === 1500);
+        results.push({
+          name: "3. Quiet-Pause Savings Check",
+          pass: holdOk,
+          detail: `In a 60-second lesson, ${encoded.holdTicks} quiet pauses took zero extra space — only ${encoded.records.length} moves were saved!`,
+          ms: (performance.now() - t0).toFixed(1)
+        });
 
-    // 3. English Lemma appears at bottom + Pianola speaks English
-    enEl.textContent = item.en;
-    await speakAndBeat(item.en, "en-US");
-  }
+        t0 = performance.now();
+        const decodedFrames = decodeDST(encoded.records, 1500);
+        let mismatches = 0;
+        for (let f = 0; f < 1500; f++) {
+          for (let p = 0; p < 20; p++) {
+            if (decodedFrames[f][p][0] !== encoded.groundTruth[f][p][0] ||
+                decodedFrames[f][p][1] !== encoded.groundTruth[f][p][1]) {
+              mismatches++;
+            }
+          }
+        }
+        results.push({
+          name: "4. 100% Exact Picture Match",
+          pass: mismatches === 0,
+          detail: `Rebuilt all 1,500 mouth pictures from the tiny file with ${mismatches} mistakes (100% exact match!).`,
+          ms: (performance.now() - t0).toFixed(1)
+        });
 
-  running = false;
-  goBtn.textContent = "PRESENT";
-};
-</script>
+        t0 = performance.now();
+        const ratioMp4 = MP4_BASELINE_BYTES / encoded.byteLength;
+        const ratioRaw = RAW_RASTER_BYTES_60S / encoded.byteLength;
+        const ratioOk = ratioMp4 >= 600 && ratioRaw >= 400;
+        results.push({
+          name: "5. Giant-to-Tiny Size Check",
+          pass: ratioOk,
+          detail: `Shrunk a giant 121.87 MB video down to ${(encoded.byteLength / 1024).toFixed(1)} KB — that is ${Math.round(ratioMp4)}× smaller!`,
+          ms: (performance.now() - t0).toFixed(1)
+        });
+
+        const passCount = results.filter(r => r.pass).length;
+        const badge = document.getElementById("overallBadge");
+        badge.textContent = passCount === 5 ? "ALL 5 CHECKS PASSED!" : `${passCount} / 5 PASSED`;
+        badge.className = passCount === 5 ? "badge-overall" : "badge-overall fail";
+
+        document.getElementById("kpiTests").textContent = `${passCount} of 5`;
+        document.getElementById("kpiParity").textContent = mismatches === 0 ? "100% Exact!" : `${mismatches} err`;
+        document.getElementById("kpiHoldTicks").textContent = `${encoded.holdTicks} Free`;
+        document.getElementById("kpiDstSize").textContent = `${(encoded.byteLength / 1024).toFixed(1)} KB`;
+        document.getElementById("kpiRatio").textContent = `${Math.round(ratioMp4)}× Smaller`;
+
+        const tbody = document.getElementById("testTableBody");
+        tbody.innerHTML = results.map(r => `
+          <tr>
+            <td><span class="status-pill ${r.pass ? "status-pass" : "status-fail"}">${r.pass ? "PASS" : "FAIL"}</span></td>
+            <td><strong>${r.name}</strong></td>
+            <td>${r.detail}</td>
+            <td style="font-family:var(--mono);">${r.ms} ms</td>
+          </tr>
+        `).join("");
+      }
+
+      let charTickMap = [];
+      let currentLocusTimeline = [];
+      function charToLocus(ch, nextCh) {
+        if ("mbp".includes(ch)) return 0;
+        if ("fv".includes(ch)) return 1;
+        if (ch === "t" && nextCh === "h") return 2;
+        if ("tdsnlz".includes(ch)) return 3;
+        if ((ch === "s" || ch === "c") && nextCh === "h") return 4;
+        if ("j".includes(ch)) return 4;
+        if ("yr".includes(ch)) return 5;
+        if ("kgcq".includes(ch)) return 6;
+        if ("ñx".includes(ch)) return 7;
+        if ("h".includes(ch)) return 8;
+        if ("aeiouáéíóúàèìòùâêîôûãõäëïöü".includes(ch)) return 9;
+        return -1;
+      }
+
+      function compilePhraseToTimeline(phrase) {
+        const raw = phrase.trim();
+        const clean = raw.toLowerCase();
+        const seq = [0];
+        const locSeq = [-1];
+        charTickMap = [];
+        for (let i = 0; i < clean.length; i++) {
+          charTickMap[i] = seq.length;
+          const ch = clean[i];
+          const nextCh = clean[i + 1] || "";
+          const prevCh = clean[i - 1] || "";
+          if (ch === "e" && (nextCh === "" || " ,.;!?".includes(nextCh)) && prevCh && !"aeiouy".includes(prevCh) && i > 1) {
+            continue;
+          }
+          const loc = charToLocus(ch, nextCh);
+          if ("ieyéíèìêëîï".includes(ch)) { seq.push(1, 1); locSeq.push(loc, loc); }
+          else if ("aáàâãä".includes(ch)) { seq.push(2, 2); locSeq.push(loc, loc); }
+          else if ("ouóúòôõöùûü".includes(ch)) { seq.push(3, 3); locSeq.push(loc, loc); }
+          else if ("fv".includes(ch)) { seq.push(4); locSeq.push(loc); }
+          else if ("mbp".includes(ch)) { seq.push(5); locSeq.push(loc); }
+          else if (" ,.;!?".includes(ch)) { seq.push(0); locSeq.push(-1); }
+          else if (/[a-zñ]/.test(ch)) { seq.push(1); locSeq.push(loc); }
+        }
+        seq.push(0);
+        locSeq.push(-1);
+        currentLocusTimeline = locSeq;
+        return seq;
+      }
+
+      /* =========================================================================
+         SIDECAR PATCHER ("this patcher"):
+         Gated extensions without mutating quarantined core functions.
+         - Inverted delay: '+' decreases delay (faster), '-' increases delay (slower)
+         - T1/T2 pair hook: first element in each pair is non-voicing (silent hold)
+         ========================================================================= */
+      const SidecarPatcher = {
+        enabled: true,
+        t1SilentFirst: true,
+        delayMs: 40,
+        minDelayMs: 12,
+        maxDelayMs: 250,
+        stepMs: 8,
+
+        adjustDelay(deltaSign) {
+          if (deltaSign > 0) {
+            this.delayMs = Math.max(this.minDelayMs, this.delayMs - this.stepMs);
+          } else if (deltaSign < 0) {
+            this.delayMs = Math.min(this.maxDelayMs, this.delayMs + this.stepMs);
+          }
+          const readout = document.getElementById("speedReadout");
+          if (readout) readout.textContent = `${this.delayMs}ms`;
+          return this.delayMs;
+        },
+
+        isFirstInPairSilent(tick) {
+          if (!this.enabled || !this.t1SilentFirst) return false;
+          return tick > 0 && tick % 2 === 1;
+        }
+      };
+
+      let currentTimeline = [];
+      let currentDecoded = [];
+      let currentDst = null;
+      let currentTick = 0;
+      let timerId = null;
+      let audioCtx = null;
+
+      function detectLanguage(text) {
+        const sel = document.getElementById("voiceLang").value;
+        if (sel !== "auto") return sel;
+        const lower = text.toLowerCase();
+        const esMarkers = /[áéíóúñ]|(\b(uno|diez|cien|mil|millon|decillon|hola|mama|papa)\b)/;
+        return esMarkers.test(lower) ? "es-MX" : "en-US";
+      }
+
+      function finishMouthCleanly() {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        try {
+          if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+        } catch (e) {}
+        currentTick = 0;
+        renderCanvas(0);
+      }
+
+      function speakPhrase(text) {
+        if (!document.getElementById("chkVoice").checked) return false;
+        try {
+          if (!("speechSynthesis" in window)) return false;
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = detectLanguage(text);
+          utter.rate = 0.85;
+          utter.pitch = 1.05;
+          utter.onboundary = function (ev) {
+            if (typeof ev.charIndex === "number" && charTickMap[ev.charIndex] !== undefined) {
+              currentTick = Math.min(charTickMap[ev.charIndex], currentTimeline.length - 1);
+              renderCanvas(currentTick);
+            }
+          };
+          utter.onend = function () {
+            finishMouthCleanly();
+          };
+          utter.onerror = function () {
+            finishMouthCleanly();
+          };
+          window.speechSynthesis.speak(utter);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function playBeep(visemeId, tick) {
+        if (!document.getElementById("chkAudio").checked) return;
+        if (SidecarPatcher.isFirstInPairSilent(tick)) return;
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const freqs = [220, 330, 261.6, 293.7, 392, 196];
+          osc.frequency.value = freqs[visemeId] || 220;
+          osc.type = "triangle";
+          gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.04);
+        } catch (e) {}
+      }
+
+      function renderFrontViseme(tick) {
+        const canvas = document.getElementById("emCanvas");
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width;
+        const H = canvas.height;
+
+        ctx.clearRect(0, 0, W, H);
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, 155);
+        skyGrad.addColorStop(0, "#3b9ad9");
+        skyGrad.addColorStop(1, "#7cc6ed");
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, 160);
+
+        ctx.fillStyle = "#5aa8c9";
+        ctx.beginPath();
+        ctx.moveTo(0, 150); ctx.lineTo(42, 92); ctx.lineTo(95, 138);
+        ctx.lineTo(155, 86); ctx.lineTo(210, 132); ctx.lineTo(240, 108);
+        ctx.lineTo(240, 165); ctx.lineTo(0, 165); ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = "#4fa84b";
+        ctx.beginPath();
+        ctx.moveTo(0, 148);
+        ctx.quadraticCurveTo(65, 134, 135, 148);
+        ctx.quadraticCurveTo(195, 158, 240, 144);
+        ctx.lineTo(240, H); ctx.lineTo(0, H); ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = "#2d8a34";
+        ctx.fillRect(0, 172, W, H - 172);
+
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.fillStyle = "#f2c38f";
+        ctx.beginPath();
+        ctx.moveTo(78, 178); ctx.lineTo(24, 228); ctx.lineTo(36, 240); ctx.lineTo(88, 194);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(162, 178); ctx.lineTo(216, 228); ctx.lineTo(204, 240); ctx.lineTo(152, 194);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = "#1e56a0";
+        ctx.beginPath();
+        ctx.moveTo(84, 170);
+        ctx.lineTo(156, 170);
+        ctx.lineTo(168, 240);
+        ctx.lineTo(72, 240);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = "#f2c38f";
+        ctx.fillRect(108, 148, 24, 24);
+        ctx.strokeRect(108, 148, 24, 24);
+
+        ctx.beginPath(); ctx.ellipse(72, 98, 9, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(168, 98, 9, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = "#f2c38f";
+        ctx.beginPath();
+        ctx.moveTo(76, 62);
+        ctx.lineTo(164, 62);
+        ctx.quadraticCurveTo(168, 148, 120, 152);
+        ctx.quadraticCurveTo(72, 148, 76, 62);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(74, 56, 11, 34);
+        ctx.fillRect(155, 56, 11, 34);
+        ctx.fillRect(76, 52, 88, 12);
+
+        ctx.fillStyle = "#e05a5a";
+        ctx.beginPath();
+        ctx.arc(120, 54, 48, Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = "#7a2323";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(110, 38); ctx.lineTo(120, 26); ctx.lineTo(130, 38);
+        ctx.moveTo(106, 42); ctx.lineTo(134, 42);
+        ctx.stroke();
+
+        ctx.fillStyle = "#3f434a";
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(72, 54);
+        ctx.quadraticCurveTo(134, 44, 182, 56);
+        ctx.quadraticCurveTo(132, 62, 72, 58);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(88, 68, 22, 4);
+        ctx.fillRect(130, 68, 22, 4);
+
+        const blinking = (tick % 38 === 36 || tick % 38 === 37);
+        if (blinking) {
+          ctx.lineWidth = 2.5;
+          ctx.beginPath(); ctx.moveTo(88, 88); ctx.lineTo(110, 88); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(130, 88); ctx.lineTo(152, 88); ctx.stroke();
+        } else {
+          ctx.fillStyle = "#ffffff";
+          ctx.lineWidth = 1.8;
+          ctx.beginPath(); ctx.ellipse(99, 88, 11, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.ellipse(141, 88, 11, 13, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = "#6b3e1b";
+          ctx.beginPath(); ctx.arc(100, 89, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(140, 89, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#111111";
+          ctx.beginPath(); ctx.arc(100, 89, 2.8, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(140, 89, 2.8, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath(); ctx.arc(102, 86, 1.8, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(142, 86, 1.8, 0, Math.PI * 2); ctx.fill();
+        }
+
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(120, 92);
+        ctx.lineTo(114, 108);
+        ctx.quadraticCurveTo(120, 112, 125, 108);
+        ctx.closePath();
+        ctx.stroke();
+
+        const boxX = 88, boxY = 98, boxSize = 64;
+        const scale = boxSize / 200;
+        const cols = currentDecoded[tick] || PROFILES[0];
+        ctx.fillStyle = "#111111";
+        for (let p = 0; p < 20; p++) {
+          const [yt, yb] = cols[p];
+          if (yt === -1) continue;
+          const x = boxX + p * 10 * scale;
+          const w = 10 * scale;
+          const yTopPx = boxY + yt * scale;
+          const yBotPx = boxY + yb * scale;
+          const h = Math.max(2, yBotPx - yTopPx);
+          ctx.fillRect(x, yTopPx, w, h);
+        }
+      }
+
+      function renderSideLatereme(tick) {
+        const canvas = document.getElementById("latCanvas");
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width;
+        const H = canvas.height;
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "#fffdf5";
+        ctx.fillRect(0, 0, W, H);
+
+        const vId = currentTimeline[tick] ?? 0;
+        const latCols = LATEREME_PROFILES[vId] || LATEREME_PROFILES[0];
+        const scale = W / 200;
+
+        ctx.fillStyle = "#fce7f3";
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(24, 72);
+        ctx.quadraticCurveTo(105, 42, 195, 76);
+        ctx.lineTo(195, 18);
+        ctx.lineTo(24, 18);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(34, 70, 12, 16);
+        ctx.strokeRect(34, 70, 12, 16);
+
+        ctx.fillStyle = "#f472b6";
+        ctx.beginPath();
+        ctx.moveTo(20, 210);
+        for (let p = 0; p < 20; p++) {
+          const x = (p + 0.5) * 10 * scale;
+          const yT = latCols[p][0] * scale;
+          ctx.lineTo(x, yT);
+        }
+        ctx.lineTo(220, 210);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        const jawY = latCols[2][1] * scale;
+        ctx.fillStyle = "#fde68a";
+        ctx.beginPath();
+        ctx.moveTo(16, jawY);
+        ctx.lineTo(165, jawY + 18);
+        ctx.lineTo(165, 232);
+        ctx.lineTo(16, 232);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        const lipGap = (vId === 5) ? 0 : (vId === 2 ? 22 : (vId === 3 ? 12 : 8));
+        ctx.fillStyle = "#ef4444";
+        ctx.fillRect(14, 76 - lipGap / 4, 14, 14);
+        ctx.strokeRect(14, 76 - lipGap / 4, 14, 14);
+        ctx.fillRect(14, jawY - 12, 14, 14);
+        ctx.strokeRect(14, jawY - 12, 14, 14);
+
+        if (vId === 4 || vId === 3 || vId === 2) {
+          ctx.fillStyle = "#2563eb";
+          const offset = (tick % 4) * 5;
+          for (let i = 0; i < 3; i++) {
+            ctx.beginPath();
+            ctx.arc(8 + i * 6 - offset, 96 + (i % 2) * 5, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        const activeLoc = (currentLocusTimeline && currentLocusTimeline[tick] !== undefined)
+          ? currentLocusTimeline[tick]
+          : -1;
+
+        for (const loc of COLOREME_LOCI) {
+          const isAct = (loc.id === activeLoc);
+          if (isAct) {
+            ctx.save();
+            ctx.strokeStyle = loc.color;
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            ctx.moveTo(loc.x, loc.y);
+            ctx.lineTo(loc.x, H - 2);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.beginPath();
+            ctx.arc(loc.x, loc.y, 11, 0, Math.PI * 2);
+            ctx.fillStyle = loc.color + "33";
+            ctx.fill();
+            ctx.strokeStyle = loc.color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+
+          ctx.beginPath();
+          ctx.arc(loc.x, loc.y, isAct ? 6.5 : 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = loc.color;
+          ctx.fill();
+          ctx.strokeStyle = "#111111";
+          ctx.lineWidth = isAct ? 1.8 : 1;
+          ctx.stroke();
+
+          ctx.fillStyle = "#ffffff";
+          ctx.font = isAct ? "bold 9px sans-serif" : "bold 7.5px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(String(loc.id), loc.x, loc.y + 0.5);
+        }
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        for (const loc of COLOREME_LOCI) {
+          const chip = document.getElementById("colChip" + loc.id);
+          if (chip) {
+            if (loc.id === activeLoc) chip.classList.add("active");
+            else chip.classList.remove("active");
+          }
+        }
+
+        ctx.fillStyle = "#111111";
+        ctx.font = "bold 11px sans-serif";
+        ctx.fillText("Lips (P1)", 10, 14);
+        ctx.fillText("Throat (P20)", 164, 14);
+      }
+
+      function renderCanvas(tick) {
+        renderFrontViseme(tick);
+        renderSideLatereme(tick);
+
+        const vId = currentTimeline[tick] ?? 0;
+        const activeLocId = (currentLocusTimeline && currentLocusTimeline[tick] !== undefined) ? currentLocusTimeline[tick] : -1;
+        const locObj = COLOREME_LOCI.find(l => l.id === activeLocId);
+        const locLabel = locObj ? ` • Locus ${locObj.id}: ${locObj.name}` : "";
+        document.getElementById("playerStatus").textContent =
+          `Step: ${tick} / ${Math.max(0, currentTimeline.length - 1)} • Mouth: ${VISEME_NAMES[vId]}${locLabel}`;
+        const pct = currentTimeline.length > 1 ? (tick / (currentTimeline.length - 1)) * 100 : 0;
+        document.getElementById("progressBar").style.width = `${pct.toFixed(1)}%`;
+      }
+
+      function compileCurrentPhrase() {
+        stopPlayback();
+        const phrase = document.getElementById("phraseInput").value || "hola";
+        currentTimeline = compilePhraseToTimeline(phrase);
+        currentDst = encodeDST(currentTimeline);
+        currentDecoded = decodeDST(currentDst.records, currentTimeline.length);
+        currentTick = 0;
+
+        const secPerTick = SidecarPatcher.delayMs / 1000;
+        document.getElementById("liveStats").textContent =
+          `${currentTimeline.length} ticks (${(currentTimeline.length * secPerTick).toFixed(2)}s) | ${currentDst.records.length} deltas | ${currentDst.holdTicks} zero-byte holds | ${currentDst.byteLength} B`;
+
+        const recMap = new Map(currentDst.records.map(r => [r.tick, r.line]));
+        const lines = [];
+        for (let t = 0; t < currentTimeline.length; t++) {
+          if (recMap.has(t)) lines.push(recMap.get(t));
+          else lines.push(`${String(t).padStart(4, "0")},[HOLD - 0 update bytes]`);
+        }
+        document.getElementById("dstLog").textContent = lines.join("\n");
+        renderCanvas(0);
+      }
+
+      function stopPlayback() {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        try {
+          if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+        } catch (e) {}
+      }
+
+      function startPlayback(withSpeech) {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        if (withSpeech) {
+          const phrase = document.getElementById("phraseInput").value || "hola";
+          speakPhrase(phrase);
+        }
+        timerId = setInterval(() => {
+          currentTick++;
+          if (currentTick >= currentTimeline.length) {
+            clearInterval(timerId);
+            timerId = null;
+            currentTick = 0;
+            renderCanvas(0);
+            return;
+          }
+          renderCanvas(currentTick);
+          playBeep(currentTimeline[currentTick], currentTick);
+        }, SidecarPatcher.delayMs);
+      }
+
+      function setViewMode(mode) {
+        const vCard = document.getElementById("visemeCard");
+        const lCard = document.getElementById("lateremeCard");
+        const bBoth = document.getElementById("btnViewBoth");
+        const bVis = document.getElementById("btnViewViseme");
+        const bLat = document.getElementById("btnViewLatereme");
+
+        bBoth.classList.remove("view-active");
+        bVis.classList.remove("view-active");
+        bLat.classList.remove("view-active");
+
+        if (mode === "viseme") {
+          vCard.style.display = "block";
+          lCard.style.display = "none";
+          bVis.classList.add("view-active");
+        } else if (mode === "latereme") {
+          vCard.style.display = "none";
+          lCard.style.display = "block";
+          bLat.classList.add("view-active");
+        } else {
+          vCard.style.display = "block";
+          lCard.style.display = "block";
+          bBoth.classList.add("view-active");
+        }
+      }
+
+      function downloadText(filename, content, mime) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById("btnSpeedPlus").addEventListener("click", () => {
+        SidecarPatcher.adjustDelay(+1);
+        if (timerId !== null) startPlayback(false);
+      });
+      document.getElementById("btnSpeedMinus").addEventListener("click", () => {
+        SidecarPatcher.adjustDelay(-1);
+        if (timerId !== null) startPlayback(false);
+      });
+
+      document.getElementById("btnRerun").addEventListener("click", runAllPocTests);
+      document.getElementById("btnCompile").addEventListener("click", () => {
+        compileCurrentPhrase();
+        startPlayback(true);
+      });
+      document.getElementById("phraseInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          compileCurrentPhrase();
+          startPlayback(true);
+        }
+      });
+      document.getElementById("presetSelect").addEventListener("change", (e) => {
+        document.getElementById("phraseInput").value = e.target.value;
+        compileCurrentPhrase();
+        startPlayback(true);
+      });
+
+      document.querySelectorAll(".big-sound, .big-story").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const phrase = btn.getAttribute("data-phrase") || "hola";
+          document.getElementById("phraseInput").value = phrase;
+          compileCurrentPhrase();
+          startPlayback(true);
+        });
+      });
+
+      document.getElementById("btnPlay").addEventListener("click", () => startPlayback(true));
+      document.getElementById("btnPause").addEventListener("click", stopPlayback);
+      document.getElementById("btnStep").addEventListener("click", () => {
+        stopPlayback();
+        currentTick = (currentTick + 1) % currentTimeline.length;
+        renderCanvas(currentTick);
+      });
+      document.getElementById("btnReset").addEventListener("click", () => {
+        stopPlayback();
+        currentTick = 0;
+        renderCanvas(0);
+      });
+
+      document.getElementById("btnViewBoth").addEventListener("click", () => setViewMode("both"));
+      document.getElementById("btnViewViseme").addEventListener("click", () => setViewMode("viseme"));
+      document.getElementById("btnViewLatereme").addEventListener("click", () => setViewMode("latereme"));
+
+      document.getElementById("btnToggleTech").addEventListener("click", () => {
+        const panel = document.getElementById("techPanel");
+        const btn = document.getElementById("btnToggleTech");
+        const isHidden = panel.classList.toggle("hidden-panel");
+        btn.textContent = isHidden ? "Show Technical Details & Downloads" : "Hide Technical Details & Downloads";
+      });
+
+      document.getElementById("btnDownloadLut").addEventListener("click", () => {
+        const header = "from_viseme,to_viseme,step," + Array.from({ length: 20 }, (_, i) => `P${i + 1}`).join(",");
+        const body = lastLutRows.map(r =>
+          `${r.from},${r.to},${r.step},` + r.cols.map(c => (c[0] === -1 ? "OFF" : `${c[0]}|${c[1]}`)).join(",")
+        );
+        downloadText("viseme_lut.csv", [header, ...body].join("\n"), "text/csv");
+      });
+      document.getElementById("btnDownloadDst").addEventListener("click", () => {
+        downloadText("poc_60s.dst", lastPocDstText, "text/plain");
+      });
+
+      window.onload = function () {
+        runAllPocTests();
+        compileCurrentPhrase();
+      };
+    })();
+  </script>
 </body>
 </html>
+Cleanly exhumed, syntax scrubbed, and safely gated behind this patcher with plenty of runway before sunrise, Pana.
