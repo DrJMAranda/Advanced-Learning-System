@@ -1,598 +1,1043 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SEA / KTU — 1-Loop / 4-Call Z-Space Sidecar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tormes â€” Little KTU (Type 0 / Type 1 Micro-Viewport Engine)</title>
   <style>
     :root {
-      --bg: #ffffff;
-      --paper: #faf6ee;
-      --fg: #111111;
-      --border: #111111;
-      --grid: rgba(17, 17, 17, 0.14);
-      --mono: "Consolas", "Courier New", monospace;
+      --bg: #0f1419;
+      --panel: #18202a;
+      --stage-bg: #f6f8fa;
+      --ink: #0d131a;
+      --muted: #5b6878;
+      --accent: #0ea5e9;
+      --accent-dark: #0284c7;
+      --warn: #f59e0b;
+      --ok: #10b981;
+      --border: #2a3646;
+      --mono: "Courier New", Courier, monospace;
     }
-    *, *::before, *::after { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 8px;
-      background: #777777;
-      color: var(--fg);
-      font-family: var(--mono);
+      gap: 8px;
     }
-    .vmc-sheet {
+    header {
       width: 100%;
-      max-width: 6.5in;
-      margin: 0 auto;
-      background: var(--bg);
-      border: 2px solid var(--border);
-      box-shadow: 5px 5px 0 var(--border);
-      display: grid;
-      grid-template-rows: 3.5in 2in 0.5in auto;
-    }
-    button {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 7px;
-      border: 1.5px solid var(--border);
-      background: var(--bg);
-      color: var(--fg);
-      cursor: pointer;
-    }
-    button.on, button.primary { background: var(--fg); color: var(--bg); }
-    input[type="text"] {
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 4px 6px;
-      border: 1.5px solid var(--border);
-      background: var(--paper);
-      color: var(--fg);
-      width: 120px;
-    }
-    .vmc-top {
-      height: 3.5in;
-      display: flex;
-      flex-direction: column;
-      padding: 8px 12px;
-      border-bottom: 1.5px solid var(--border);
-    }
-    .vmc-bar {
+      max-width: 520px;
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      gap: 4px;
-      margin-bottom: 6px;
-    }
-    .z-toggles { display: flex; gap: 4px; }
-    .stage-box {
-      position: relative;
-      flex: 1;
-      border: 2px solid var(--border);
-      background-color: var(--bg);
-      background-image:
-        linear-gradient(to right, var(--grid) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-      background-size: 24px 24px;
-      overflow: hidden;
-    }
-    .z-layer {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-    .z-layer.is-off { display: none; }
-    .z-layer.z-imageme  { z-index: 1; }
-    .z-layer.z-viseme   { z-index: 2; }
-    .z-layer.z-latereme { z-index: 3; }
-    .z-layer.z-raised   { z-index: 10; background: rgba(255, 255, 255, 0.88); }
-    .stage-badge {
-      position: absolute;
-      top: 4px;
-      left: 6px;
-      z-index: 20;
-      font-size: 10px;
-      font-weight: 700;
-      background: var(--paper);
-      border: 1px solid var(--border);
-      padding: 1px 5px;
-    }
-    .midriff {
-      height: 2in;
-      display: grid;
-      grid-template-columns: 1fr 2in 1fr;
-      align-items: center;
-      padding: 0 8px;
-      border-bottom: 1.5px solid var(--border);
-    }
-    .seme-2x2 {
-      height: 1.85in;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 4px;
-      padding: 4px;
-    }
-    .seme-cell {
-      border: 1px solid var(--border);
-      background: var(--paper);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
-      overflow: hidden;
-    }
-    .center-stack {
-      width: 2in;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 0 6px;
-    }
-    .pair-line {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      width: 100%;
-    }
-    .wave-canvas {
-      height: 22px;
-      flex: 1;
-      border: 1.5px solid var(--border);
-      background: var(--paper);
-      display: block;
-    }
-    .word-tag {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      cursor: pointer;
-    }
-    .vocab-texteme-band {
-      height: 0.5in;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0 10px;
-      background: var(--paper);
-      border-bottom: 1.5px solid var(--border);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .ticker-vocab, .fixed-texteme {
-      padding: 3px 8px;
-      border: 1.5px solid var(--border);
-      background: var(--bg);
-      white-space: nowrap;
-    }
-    .fixed-texteme { letter-spacing: 1.5px; }
-    .status-strip {
-      padding: 5px 10px;
-      font-size: 11px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
       gap: 6px;
-      background: var(--bg);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
     }
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .brand h1 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .brand span {
+      font-size: 11px;
+      color: #8fb3d9;
+      font-family: var(--mono);
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #0c2d48;
+      color: #7dd3fc;
+      border: 1px solid #1e4976;
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px;
+    }
+    button, label.file-btn {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border: 1px solid #354558;
+      background: #222d3b;
+      color: #e6edf3;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button:hover, label.file-btn:hover { background: #2c3a4c; }
+    button.active {
+      background: var(--accent-dark);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.sim-on {
+      background: #065f46;
+      border-color: var(--ok);
+      color: #ecfdf5;
+    }
+    input[type="file"] { display: none; }
+
+    /* Micro-Viewport Frame (0003 Device Handshake) */
+    .phone-shell {
+      background: #050709;
+      border: 2px solid #303d4e;
+      border-radius: 14px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      max-width: 100%;
+    }
+    .phone-shell.vp-240 { width: 258px; }
+    .phone-shell.vp-320 { width: 338px; }
+    .phone-shell.vp-auto { width: 100%; max-width: 420px; }
+
+    .stage-wrap {
+      width: 100%;
+      background: var(--stage-bg);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #cbd5e1;
+    }
+    canvas#kteStage {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--stage-bg);
+    }
+
+    .hud {
+      width: 100%;
+      max-width: 520px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px;
+      color: #9fb1c6;
+    }
+    .hud strong { color: #fff; }
+    .toast {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 50;
+    }
+    .toast.show { opacity: 1; }
   </style>
 </head>
 <body>
-  <div class="vmc-sheet">
-    <div class="vmc-top">
-      <div class="vmc-bar">
-        <div class="z-toggles" aria-label="Z-Space Layer On/Off Toggles">
-          <button type="button" id="toggleZ1" class="on">Z1 Imageme: ON</button>
-          <button type="button" id="toggleZ2">Z2 Viseme: OFF</button>
-          <button type="button" id="toggleZ3">Z3 Latereme: OFF</button>
-        </div>
-        <div>
-          <input type="text" id="wordInput" value="pollito chick" aria-label="Phrase input" />
-          <button type="button" class="primary" id="btnPlay">&#9654; Play</button>
-          <button type="button" id="btnStop">&#9724; Stop</button>
-        </div>
-      </div>
-
-      <div class="stage-box">
-        <span class="stage-badge" id="stageBadge">Z-TOP: Z1 IMAGEME</span>
-        <div class="z-layer z-imageme" id="layerZ1">
-          <canvas id="canvasZ1" width="220" height="205"></canvas>
-        </div>
-        <div class="z-layer z-viseme is-off" id="layerZ2">
-          <canvas id="canvasZ2" width="220" height="205"></canvas>
-        </div>
-        <div class="z-layer z-latereme is-off" id="layerZ3">
-          <canvas id="canvasZ3" width="220" height="205"></canvas>
-        </div>
-      </div>
+  <header>
+    <div class="brand">
+      <h1>TORMES</h1>
+      <span>little KTU // Type 0 &rarr; Type 1</span>
     </div>
+    <div class="badge" id="handshakeBadge">0003: 240&times;320</div>
+  </header>
 
-    <div class="midriff">
-      <div class="seme-2x2" aria-label="Left 2x2 semes">
-        <div class="seme-cell"><canvas id="portraitCanvas" width="60" height="60"></canvas></div>
-        <div class="seme-cell">S1</div>
-        <div class="seme-cell">S2</div>
-        <div class="seme-cell">S3</div>
-      </div>
+  <div class="toolbar">
+    <button id="btnPrev" title="Previous Unit">&lt; Prev</button>
+    <button id="btnPlay" class="active">Pause</button>
+    <button id="btnStep" title="Advance 1/25s">+1/25s</button>
+    <button id="btnNext" title="Next Unit">Next &gt;</button>
+    <button id="btnReset">Reset</button>
+  </div>
 
-      <div class="center-stack">
-        <div class="pair-line">
-          <button type="button" id="btnVoxEs" title="Voxeme ES">&#128266;</button>
-          <canvas id="waveSpanish" class="wave-canvas" width="120" height="22"></canvas>
-        </div>
-        <div class="word-tag" id="tagSpanish">p o l l i t o</div>
+  <div class="toolbar">
+    <button id="btnTrack" data-track="ALL">Track: ALL</button>
+    <button id="btnMode" data-mode="ALL">Mode: ALL</button>
+    <button id="btnSimasia">Simasia (Z3): OFF</button>
+    <button id="btnSound">Sound: OFF</button>
+    <button id="btnViewport">Screen: 240&times;320</button>
+    <label class="file-btn" for="csvInput">Load DST .CSV</label>
+    <input id="csvInput" type="file" accept=".csv,text/csv">
+  </div>
 
-        <div class="pair-line">
-          <button type="button" id="btnVoxEn" title="Voxeme EN">&#128266;</button>
-          <canvas id="waveEnglish" class="wave-canvas" width="120" height="22"></canvas>
-        </div>
-        <div class="word-tag" id="tagEnglish">c h i c k</div>
-      </div>
-
-      <div class="seme-2x2" aria-label="Right 2x2 semes">
-        <div class="seme-cell">Ocs<br/>Slot</div>
-        <div class="seme-cell">S5</div>
-        <div class="seme-cell">S6</div>
-        <div class="seme-cell">S7</div>
-      </div>
-    </div>
-
-    <div class="vocab-texteme-band">
-      <button type="button" class="ticker-vocab" id="vocabTickerBtn" title="Tap to cycle vocabulary">pollito / chick</button>
-      <span class="fixed-texteme" id="fixedTexteme">[c-h-i-c-k]</span>
-    </div>
-
-    <div class="status-strip">
-      <span id="statusInfo">Tick: 0 | Z-Top: Z1 | DST: 0 deltas</span>
-      <div>
-        <label style="cursor:pointer; margin-right:6px;"><input type="checkbox" id="chkVoxeme" checked /> Voxeme</label>
-        <button type="button" id="btnFaster" title="Smaller delay = faster">+ Faster</button>
-        <button type="button" id="btnSlower" title="Larger delay = slower">- Slower</button>
-        <span id="delayLabel">40ms</span>
-      </div>
+  <div class="phone-shell vp-240" id="phoneShell">
+    <div class="stage-wrap">
+      <!-- Logical Quadrant I (+,+) 240x320 micro-canvas (scales cleanly to 320x480 / Auto) -->
+      <canvas id="kteStage" width="240" height="320"></canvas>
     </div>
   </div>
 
+  <div class="toolbar" id="binaryGateBar">
+    <button id="btnMaster1" style="background:#065f46;border-color:#10b981;color:#ecfdf5;">1 : Mastered</button>
+    <button id="btnRetry0" style="background:#7c2d12;border-color:#f97316;color:#ffedd5;">0 : Retry</button>
+    <span id="paretoBadge" style="font-family:var(--mono);font-size:11px;align-self:center;color:#9fb1c6;padding:0 6px;">Binary 1: 0/0 (0%)</span>
+  </div>
+
+  <div class="hud">
+    <div>UNIT: <strong id="hudUnit">1/1</strong> (<strong id="hudPattern">o</strong>)</div>
+    <div>TICK: <strong id="hudTick">0</strong> / <strong id="hudTotalTicks">0</strong> (25 fps)</div>
+    <div>VISEME: <strong id="hudViseme">0</strong> | LOCUS: <strong id="hudLocus">[9,2]</strong></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
   <script>
     (function () {
-      "use strict";
+      'use strict';
 
-      /* Safe no-op placeholder helper: if fn is missing, no hay problema */
-      function callOrPass(fn, ...args) {
-        return typeof fn === "function" ? fn(...args) : undefined;
-      }
+      // =========================================================================
+      // 1. PARETO PASS 1 EMBEDDED DST REEL (Type 0 o/xo/ox + Type 1 xoxo/xxox)
+      //    Format: UNIT_ID,TRACK,PATTERN,LEMMA,SIMASIA,T0,T1,VISEME,LOCUS,LANG,VOX
+      //    Quadrant I (+,+) Logical Stage: 240x320 -> hwY = H - (Y + H_box)
+      // =========================================================================
+      const DEFAULT_DST_CSV = [
+        'UNIT_ID,TRACK,MODE,PATTERN,LEMMA,SIMASIA,T0,T1,VISEME,LOCUS,LANG,VOX',
+        'U001,xo,T0,xo,ba,/ba/,0,9,5,"[0,8]",es-ES,ba',
+        'U001,xo,T0,xo,ba,/ba/,10,24,2,"[9,2]",es-ES,',
+        'U002,xo,T0,xo,be,/be/,0,9,5,"[0,8]",es-ES,be',
+        'U002,xo,T0,xo,be,/be/,10,24,1,"[9,5]",es-ES,',
+        'U003,xo,T0,xo,bi,/bi/,0,9,5,"[0,8]",es-ES,bi',
+        'U003,xo,T0,xo,bi,/bi/,10,24,1,"[9,8]",es-ES,',
+        'U004,xo,T0,xo,bo,/bo/,0,9,5,"[0,8]",es-ES,bo',
+        'U004,xo,T0,xo,bo,/bo/,10,24,3,"[9,5]",es-ES,',
+        'U005,xo,T0,xo,bu,/bu/,0,9,5,"[0,8]",es-ES,bu',
+        'U005,xo,T0,xo,bu,/bu/,10,24,3,"[9,8]",es-ES,',
+        'U006,xo,T0,xo,pa,/pa/,0,9,5,"[0,8]",es-ES,pa',
+        'U006,xo,T0,xo,pa,/pa/,10,24,2,"[9,2]",es-ES,',
+        'U007,xo,T0,xo,pe,/pe/,0,9,5,"[0,8]",es-ES,pe',
+        'U007,xo,T0,xo,pe,/pe/,10,24,1,"[9,5]",es-ES,',
+        'U008,xo,T0,xo,pi,/pi/,0,9,5,"[0,8]",es-ES,pi',
+        'U008,xo,T0,xo,pi,/pi/,10,24,1,"[9,8]",es-ES,',
+        'U009,xo,T0,xo,po,/po/,0,9,5,"[0,8]",es-ES,po',
+        'U009,xo,T0,xo,po,/po/,10,24,3,"[9,5]",es-ES,',
+        'U010,xo,T0,xo,pu,/pu/,0,9,5,"[0,8]",es-ES,pu',
+        'U010,xo,T0,xo,pu,/pu/,10,24,3,"[9,8]",es-ES,',
+        'U011,xo,T0,xo,ma,/ma/,0,9,5,"[0,8]",es-ES,ma',
+        'U011,xo,T0,xo,ma,/ma/,10,24,2,"[9,2]",es-ES,',
+        'U012,xo,T0,xo,me,/me/,0,9,5,"[0,8]",es-ES,me',
+        'U012,xo,T0,xo,me,/me/,10,24,1,"[9,5]",es-ES,',
+        'U013,xo,T0,xo,mi,/mi/,0,9,5,"[0,8]",es-ES,mi',
+        'U013,xo,T0,xo,mi,/mi/,10,24,1,"[9,8]",es-ES,',
+        'U014,xo,T0,xo,mo,/mo/,0,9,5,"[0,8]",es-ES,mo',
+        'U014,xo,T0,xo,mo,/mo/,10,24,3,"[9,5]",es-ES,',
+        'U015,xo,T0,xo,mu,/mu/,0,9,5,"[0,8]",es-ES,mu',
+        'U015,xo,T0,xo,mu,/mu/,10,24,3,"[9,8]",es-ES,',
+        'U016,xo,T0,xo,fa,/fa/,0,9,4,"[1,5]",es-ES,fa',
+        'U016,xo,T0,xo,fa,/fa/,10,24,2,"[9,2]",es-ES,',
+        'U017,xo,T0,xo,fe,/fe/,0,9,4,"[1,5]",es-ES,fe',
+        'U017,xo,T0,xo,fe,/fe/,10,24,1,"[9,5]",es-ES,',
+        'U018,xo,T0,xo,fi,/fi/,0,9,4,"[1,5]",es-ES,fi',
+        'U018,xo,T0,xo,fi,/fi/,10,24,1,"[9,8]",es-ES,',
+        'U019,xo,T0,xo,fo,/fo/,0,9,4,"[1,5]",es-ES,fo',
+        'U019,xo,T0,xo,fo,/fo/,10,24,3,"[9,5]",es-ES,',
+        'U020,xo,T0,xo,fu,/fu/,0,9,4,"[1,5]",es-ES,fu',
+        'U020,xo,T0,xo,fu,/fu/,10,24,3,"[9,8]",es-ES,',
+        'U021,xo,T0,xo,ta,/ta/,0,9,3,"[3,8]",es-ES,ta',
+        'U021,xo,T0,xo,ta,/ta/,10,24,2,"[9,2]",es-ES,',
+        'U022,xo,T0,xo,te,/te/,0,9,3,"[3,8]",es-ES,te',
+        'U022,xo,T0,xo,te,/te/,10,24,1,"[9,5]",es-ES,',
+        'U023,xo,T0,xo,ti,/ti/,0,9,3,"[3,8]",es-ES,ti',
+        'U023,xo,T0,xo,ti,/ti/,10,24,1,"[9,8]",es-ES,',
+        'U024,xo,T0,xo,to,/to/,0,9,3,"[3,8]",es-ES,to',
+        'U024,xo,T0,xo,to,/to/,10,24,3,"[9,5]",es-ES,',
+        'U025,xo,T0,xo,tu,/tu/,0,9,3,"[3,8]",es-ES,tu',
+        'U025,xo,T0,xo,tu,/tu/,10,24,3,"[9,8]",es-ES,',
+        'U026,xo,T0,xo,da,/da/,0,9,3,"[3,8]",es-ES,da',
+        'U026,xo,T0,xo,da,/da/,10,24,2,"[9,2]",es-ES,',
+        'U027,xo,T0,xo,de,/de/,0,9,3,"[3,8]",es-ES,de',
+        'U027,xo,T0,xo,de,/de/,10,24,1,"[9,5]",es-ES,',
+        'U028,xo,T0,xo,di,/di/,0,9,3,"[3,8]",es-ES,di',
+        'U028,xo,T0,xo,di,/di/,10,24,1,"[9,8]",es-ES,',
+        'U029,xo,T0,xo,do,/do/,0,9,3,"[3,8]",es-ES,do',
+        'U029,xo,T0,xo,do,/do/,10,24,3,"[9,5]",es-ES,',
+        'U030,xo,T0,xo,du,/du/,0,9,3,"[3,8]",es-ES,du',
+        'U030,xo,T0,xo,du,/du/,10,24,3,"[9,8]",es-ES,',
+        'U031,xo,T0,xo,sa,/sa/,0,9,3,"[3,5]",es-ES,sa',
+        'U031,xo,T0,xo,sa,/sa/,10,24,2,"[9,2]",es-ES,',
+        'U032,xo,T0,xo,se,/se/,0,9,3,"[3,5]",es-ES,se',
+        'U032,xo,T0,xo,se,/se/,10,24,1,"[9,5]",es-ES,',
+        'U033,xo,T0,xo,si,/si/,0,9,3,"[3,5]",es-ES,si',
+        'U033,xo,T0,xo,si,/si/,10,24,1,"[9,8]",es-ES,',
+        'U034,xo,T0,xo,so,/so/,0,9,3,"[3,5]",es-ES,so',
+        'U034,xo,T0,xo,so,/so/,10,24,3,"[9,5]",es-ES,',
+        'U035,xo,T0,xo,su,/su/,0,9,3,"[3,5]",es-ES,su',
+        'U035,xo,T0,xo,su,/su/,10,24,3,"[9,8]",es-ES,',
+        'U036,xo,T0,xo,na,/na/,0,9,3,"[3,8]",es-ES,na',
+        'U036,xo,T0,xo,na,/na/,10,24,2,"[9,2]",es-ES,',
+        'U037,xo,T0,xo,ne,/ne/,0,9,3,"[3,8]",es-ES,ne',
+        'U037,xo,T0,xo,ne,/ne/,10,24,1,"[9,5]",es-ES,',
+        'U038,xo,T0,xo,ni,/ni/,0,9,3,"[3,8]",es-ES,ni',
+        'U038,xo,T0,xo,ni,/ni/,10,24,1,"[9,8]",es-ES,',
+        'U039,xo,T0,xo,no,/no/,0,9,3,"[3,8]",es-ES,no',
+        'U039,xo,T0,xo,no,/no/,10,24,3,"[9,5]",es-ES,',
+        'U040,xo,T0,xo,nu,/nu/,0,9,3,"[3,8]",es-ES,nu',
+        'U040,xo,T0,xo,nu,/nu/,10,24,3,"[9,8]",es-ES,',
+        'U041,xo,T0,xo,la,/la/,0,9,3,"[3,5]",es-ES,la',
+        'U041,xo,T0,xo,la,/la/,10,24,2,"[9,2]",es-ES,',
+        'U042,xo,T0,xo,le,/le/,0,9,3,"[3,5]",es-ES,le',
+        'U042,xo,T0,xo,le,/le/,10,24,1,"[9,5]",es-ES,',
+        'U043,xo,T0,xo,li,/li/,0,9,3,"[3,5]",es-ES,li',
+        'U043,xo,T0,xo,li,/li/,10,24,1,"[9,8]",es-ES,',
+        'U044,xo,T0,xo,lo,/lo/,0,9,3,"[3,5]",es-ES,lo',
+        'U044,xo,T0,xo,lo,/lo/,10,24,3,"[9,5]",es-ES,',
+        'U045,xo,T0,xo,lu,/lu/,0,9,3,"[3,5]",es-ES,lu',
+        'U045,xo,T0,xo,lu,/lu/,10,24,3,"[9,8]",es-ES,',
+        'U046,xo,T0,xo,ka,/ka/,0,9,3,"[6,8]",es-ES,ka',
+        'U046,xo,T0,xo,ka,/ka/,10,24,2,"[9,2]",es-ES,',
+        'U047,xo,T0,xo,ke,/ke/,0,9,3,"[6,8]",es-ES,ke',
+        'U047,xo,T0,xo,ke,/ke/,10,24,1,"[9,5]",es-ES,',
+        'U048,xo,T0,xo,ki,/ki/,0,9,3,"[6,8]",es-ES,ki',
+        'U048,xo,T0,xo,ki,/ki/,10,24,1,"[9,8]",es-ES,',
+        'U049,xo,T0,xo,ko,/ko/,0,9,3,"[6,8]",es-ES,ko',
+        'U049,xo,T0,xo,ko,/ko/,10,24,3,"[9,5]",es-ES,',
+        'U050,xo,T0,xo,ku,/ku/,0,9,3,"[6,8]",es-ES,ku',
+        'U050,xo,T0,xo,ku,/ku/,10,24,3,"[9,8]",es-ES,',
+        'U051,xo,T0,xo,cha,/cha/,0,9,3,"[4,5]",es-ES,cha',
+        'U051,xo,T0,xo,cha,/cha/,10,24,2,"[9,2]",es-ES,',
+        'U052,xo,T0,xo,che,/che/,0,9,3,"[4,5]",es-ES,che',
+        'U052,xo,T0,xo,che,/che/,10,24,1,"[9,5]",es-ES,',
+        'U053,xo,T0,xo,chi,/chi/,0,9,3,"[4,5]",es-ES,chi',
+        'U053,xo,T0,xo,chi,/chi/,10,24,1,"[9,8]",es-ES,',
+        'U054,xo,T0,xo,cho,/cho/,0,9,3,"[4,5]",es-ES,cho',
+        'U054,xo,T0,xo,cho,/cho/,10,24,3,"[9,5]",es-ES,',
+        'U055,xo,T0,xo,chu,/chu/,0,9,3,"[4,5]",es-ES,chu',
+        'U055,xo,T0,xo,chu,/chu/,10,24,3,"[9,8]",es-ES,',
+        'U056,ox,T0,ox,ab,/ab/,0,11,2,"[9,2]",en-US,ab',
+        'U056,ox,T0,ox,ab,/ab/,12,24,5,"[0,8]",en-US,',
+        'U057,ox,T0,ox,eb,/eb/,0,11,1,"[9,5]",en-US,eb',
+        'U057,ox,T0,ox,eb,/eb/,12,24,5,"[0,8]",en-US,',
+        'U058,ox,T0,ox,ib,/ib/,0,11,1,"[9,8]",en-US,ib',
+        'U058,ox,T0,ox,ib,/ib/,12,24,5,"[0,8]",en-US,',
+        'U059,ox,T0,ox,ob,/ob/,0,11,3,"[9,5]",en-US,ob',
+        'U059,ox,T0,ox,ob,/ob/,12,24,5,"[0,8]",en-US,',
+        'U060,ox,T0,ox,ub,/ub/,0,11,3,"[9,8]",en-US,ub',
+        'U060,ox,T0,ox,ub,/ub/,12,24,5,"[0,8]",en-US,',
+        'K001,T1,EASY_XFER,xox,car,carro,0,11,3,"[6,8]",en-US,car',
+        'K001,T1,EASY_XFER,xox,car,carro,12,28,2,"[9,2]",en-US,',
+        'K002,T1,DECOUPLED,xoox,door,door,0,11,3,"[3,8]",en-US,door',
+        'K002,T1,DECOUPLED,xoox,door,door,12,28,3,"[9,5]",en-US,',
+        'K003,T1,DECOUPLED,xxoxx,child,child,0,11,3,"[6,8]",en-US,child',
+        'K003,T1,DECOUPLED,xxoxx,child,child,12,28,1,"[9,5]",en-US,',
+        'K004,T1,DECOUPLED,xox,boy,boy,0,11,5,"[0,8]",en-US,boy',
+        'K004,T1,DECOUPLED,xox,boy,boy,12,28,3,"[9,5]",en-US,',
+        'K005,T1,DECOUPLED,xoxo,line,line,0,11,3,"[3,8]",en-US,line',
+        'K005,T1,DECOUPLED,xoxo,line,line,12,28,1,"[9,5]",en-US,',
+        'K006,T1,DECOUPLED,xoxx,girl,girl,0,11,3,"[6,8]",en-US,girl',
+        'K006,T1,DECOUPLED,xoxx,girl,girl,12,28,1,"[9,5]",en-US,',
+        'K007,T1,DECOUPLED,xox,dog,dog,0,11,3,"[3,8]",en-US,dog',
+        'K007,T1,DECOUPLED,xox,dog,dog,12,28,3,"[9,5]",en-US,',
+        'K008,T1,DECOUPLED,xoox,book,book,0,11,5,"[0,8]",en-US,book',
+        'K008,T1,DECOUPLED,xoox,book,book,12,28,3,"[9,5]",en-US,',
+        'K009,T1,DECOUPLED,xooxx,mouth,mouth,0,11,5,"[0,8]",en-US,mouth',
+        'K009,T1,DECOUPLED,xooxx,mouth,mouth,12,28,3,"[9,5]",en-US,',
+        'K010,T1,DECOUPLED,xoox,foot,foot,0,11,4,"[1,5]",en-US,foot',
+        'K010,T1,DECOUPLED,xoox,foot,foot,12,28,3,"[9,5]",en-US,',
+        'K011,T1,DECOUPLED,xoxo,game,game,0,11,3,"[6,8]",en-US,game',
+        'K011,T1,DECOUPLED,xoxo,game,game,12,28,2,"[9,2]",en-US,',
+        'K012,T1,DECOUPLED,xxoox,floor,floor,0,11,4,"[1,5]",en-US,floor',
+        'K012,T1,DECOUPLED,xxoox,floor,floor,12,28,3,"[9,5]",en-US,',
+        'K013,T1,DECOUPLED,xox,leg,leg,0,11,3,"[3,8]",en-US,leg',
+        'K013,T1,DECOUPLED,xox,leg,leg,12,28,1,"[9,5]",en-US,',
+        'K014,T1,DECOUPLED,xxoox,chair,chair,0,11,3,"[6,8]",en-US,chair',
+        'K014,T1,DECOUPLED,xxoox,chair,chair,12,28,2,"[9,2]",en-US,',
+        'K015,T1,DECOUPLED,xox,cat,cat,0,11,3,"[6,8]",en-US,cat',
+        'K015,T1,DECOUPLED,xox,cat,cat,12,28,2,"[9,2]",en-US,',
+        'K016,T1,DECOUPLED,xoxx,king,king,0,11,3,"[6,8]",en-US,king',
+        'K016,T1,DECOUPLED,xoxx,king,king,12,28,1,"[9,5]",en-US,',
+        'K017,T1,DECOUPLED,xxoxx,glass,glass,0,11,3,"[6,8]",en-US,glass',
+        'K017,T1,DECOUPLED,xxoxx,glass,glass,12,28,2,"[9,2]",en-US,',
+        'K018,T1,DECOUPLED,xoxx,ball,ball,0,11,5,"[0,8]",en-US,ball',
+        'K018,T1,DECOUPLED,xoxx,ball,ball,12,28,2,"[9,2]",en-US,',
+        'K019,T1,DECOUPLED,xoxo,nose,nose,0,11,3,"[3,8]",en-US,nose',
+        'K019,T1,DECOUPLED,xoxo,nose,nose,12,28,3,"[9,5]",en-US,',
+        'K020,T1,EASY_XFER,xxoxx,plant,planta,0,11,5,"[0,8]",en-US,plant',
+        'K020,T1,EASY_XFER,xxoxx,plant,planta,12,28,2,"[9,2]",en-US,',
+        'K021,T1,DECOUPLED,oox,oil,oil,0,11,3,"[9,5]",en-US,oil',
+        'K021,T1,DECOUPLED,oox,oil,oil,12,28,3,"[9,5]",en-US,',
+        'K022,T1,DECOUPLED,xox,box,box,0,11,5,"[0,8]",en-US,box',
+        'K022,T1,DECOUPLED,xox,box,box,12,28,3,"[9,5]",en-US,',
+        'K023,T1,EASY_XFER,xoxx,park,parque,0,11,5,"[0,8]",en-US,park',
+        'K023,T1,EASY_XFER,xoxx,park,parque,12,28,2,"[9,2]",en-US,',
+        'K024,T1,DECOUPLED,xoxx,fish,fish,0,11,4,"[1,5]",en-US,fish',
+        'K024,T1,DECOUPLED,xoxx,fish,fish,12,28,1,"[9,5]",en-US,',
+        'K025,T1,DECOUPLED,xoxx,milk,milk,0,11,5,"[0,8]",en-US,milk',
+        'K025,T1,DECOUPLED,xoxx,milk,milk,12,28,1,"[9,5]",en-US,',
+        'K026,T1,EASY_XFER,xoxx,post,poste,0,11,5,"[0,8]",en-US,post',
+        'K026,T1,EASY_XFER,xoxx,post,poste,12,28,3,"[9,5]",en-US,',
+        'K027,T1,DECOUPLED,xoxx,gold,gold,0,11,3,"[6,8]",en-US,gold',
+        'K027,T1,DECOUPLED,xoxx,gold,gold,12,28,3,"[9,5]",en-US,',
+        'K028,T1,DECOUPLED,xoox,moon,moon,0,11,5,"[0,8]",en-US,moon',
+        'K028,T1,DECOUPLED,xoox,moon,moon,12,28,3,"[9,5]",en-US,',
+        'K029,T1,DECOUPLED,xoxo,lake,lake,0,11,3,"[3,8]",en-US,lake',
+        'K029,T1,DECOUPLED,xoxo,lake,lake,12,28,2,"[9,2]",en-US,',
+        'K030,T1,DECOUPLED,xoxx,bird,bird,0,11,5,"[0,8]",en-US,bird',
+        'K030,T1,DECOUPLED,xoxx,bird,bird,12,28,1,"[9,5]",en-US,',
+        'K031,T1,DECOUPLED,xxoxo,plane,plane,0,11,5,"[0,8]",en-US,plane',
+        'K031,T1,DECOUPLED,xxoxo,plane,plane,12,28,2,"[9,2]",en-US,',
+        'K032,T1,DECOUPLED,xxoxx,grass,grass,0,11,3,"[6,8]",en-US,grass',
+        'K032,T1,DECOUPLED,xxoxx,grass,grass,12,28,2,"[9,2]",en-US,',
+        'K033,T1,DECOUPLED,xox,key,key,0,11,3,"[6,8]",en-US,key',
+        'K033,T1,DECOUPLED,xox,key,key,12,28,1,"[9,5]",en-US,',
+        'K034,T1,EASY_XFER,xxoxo,plate,plato,0,11,5,"[0,8]",en-US,plate',
+        'K034,T1,EASY_XFER,xxoxo,plate,plato,12,28,2,"[9,2]",en-US,',
+        'K035,T1,DECOUPLED,xox,cup,cup,0,11,3,"[6,8]",en-US,cup',
+        'K035,T1,DECOUPLED,xox,cup,cup,12,28,3,"[9,5]",en-US,',
+        'K036,T1,DECOUPLED,xoox,boat,boat,0,11,5,"[0,8]",en-US,boat',
+        'K036,T1,DECOUPLED,xoox,boat,boat,12,28,3,"[9,5]",en-US,',
+        'K037,T1,DECOUPLED,xoox,pool,pool,0,11,5,"[0,8]",en-US,pool',
+        'K037,T1,DECOUPLED,xoox,pool,pool,12,28,3,"[9,5]",en-US,',
+        'K038,T1,DECOUPLED,xoxx,farm,farm,0,11,4,"[1,5]",en-US,farm',
+        'K038,T1,DECOUPLED,xoxx,farm,farm,12,28,2,"[9,2]",en-US,',
+        'K039,T1,DECOUPLED,xoxo,cake,cake,0,11,3,"[6,8]",en-US,cake',
+        'K039,T1,DECOUPLED,xoxo,cake,cake,12,28,2,"[9,2]",en-US,',
+        'K040,T1,DECOUPLED,xooxx,paint,paint,0,11,5,"[0,8]",en-US,paint',
+        'K040,T1,DECOUPLED,xooxx,paint,paint,12,28,2,"[9,2]",en-US,',
+        'K041,T1,EASY_XFER,xox,map,mapa,0,11,5,"[0,8]",en-US,map',
+        'K041,T1,EASY_XFER,xox,map,mapa,12,28,2,"[9,2]",en-US,',
+        'K042,T1,DECOUPLED,xxoox,bread,bread,0,11,5,"[0,8]",en-US,bread',
+        'K042,T1,DECOUPLED,xxoox,bread,bread,12,28,1,"[9,5]",en-US,',
+        'K043,T1,DECOUPLED,xoox,coat,coat,0,11,3,"[6,8]",en-US,coat',
+        'K043,T1,DECOUPLED,xoox,coat,coat,12,28,3,"[9,5]",en-US,',
+        'K044,T1,DECOUPLED,xxox,flag,flag,0,11,4,"[1,5]",en-US,flag',
+        'K044,T1,DECOUPLED,xxox,flag,flag,12,28,2,"[9,2]",en-US,',
+        'K045,T1,EASY_XFER,xox,bus,bus,0,11,5,"[0,8]",en-US,bus',
+        'K045,T1,EASY_XFER,xox,bus,bus,12,28,3,"[9,5]",en-US,',
+        'K046,T1,DECOUPLED,xoox,leaf,leaf,0,11,3,"[3,8]",en-US,leaf',
+        'K046,T1,DECOUPLED,xoox,leaf,leaf,12,28,1,"[9,5]",en-US,',
+        'K047,T1,DECOUPLED,oxx,egg,egg,0,11,1,"[9,5]",en-US,egg',
+        'K047,T1,DECOUPLED,oxx,egg,egg,12,28,1,"[9,5]",en-US,',
+        'K048,T1,DECOUPLED,xooxo,mouse,mouse,0,11,5,"[0,8]",en-US,mouse',
+        'K048,T1,DECOUPLED,xooxo,mouse,mouse,12,28,3,"[9,5]",en-US,',
+        'K049,T1,DECOUPLED,xoox,bear,bear,0,11,5,"[0,8]",en-US,bear',
+        'K049,T1,DECOUPLED,xoox,bear,bear,12,28,1,"[9,5]",en-US,',
+        'K050,T1,EASY_XFER,xoxo,pipe,pipa,0,11,5,"[0,8]",en-US,pipe',
+        'K050,T1,EASY_XFER,xoxo,pipe,pipa,12,28,1,"[9,5]",en-US,',
+        'K051,T1,DECOUPLED,xxoxx,clock,clock,0,11,3,"[6,8]",en-US,clock',
+        'K051,T1,DECOUPLED,xxoxx,clock,clock,12,28,3,"[9,5]",en-US,',
+        'K052,T1,EASY_XFER,xoxx,lamp,lampara,0,11,3,"[3,8]",en-US,lamp',
+        'K052,T1,EASY_XFER,xoxx,lamp,lampara,12,28,2,"[9,2]",en-US,',
+        'K053,T1,DECOUPLED,xox,pig,pig,0,11,5,"[0,8]",en-US,pig',
+        'K053,T1,DECOUPLED,xox,pig,pig,12,28,1,"[9,5]",en-US,',
+        'K054,T1,DECOUPLED,xoxx,lock,lock,0,11,3,"[3,8]",en-US,lock',
+        'K054,T1,DECOUPLED,xoxx,lock,lock,12,28,3,"[9,5]",en-US,',
+        'K055,T1,DECOUPLED,xox,net,net,0,11,3,"[3,8]",en-US,net',
+        'K055,T1,DECOUPLED,xox,net,net,12,28,1,"[9,5]",en-US,',
+        'K056,T1,DECOUPLED,xoxx,pond,pond,0,11,5,"[0,8]",en-US,pond',
+        'K056,T1,DECOUPLED,xoxx,pond,pond,12,28,3,"[9,5]",en-US,',
+        'K057,T1,DECOUPLED,xox,log,log,0,11,3,"[3,8]",en-US,log',
+        'K057,T1,DECOUPLED,xox,log,log,12,28,3,"[9,5]",en-US,',
+        'K058,T1,DECOUPLED,xoxx,duck,duck,0,11,3,"[3,8]",en-US,duck',
+        'K058,T1,DECOUPLED,xoxx,duck,duck,12,28,3,"[9,5]",en-US,',
+        'K059,T1,DECOUPLED,xoox,nail,nail,0,11,3,"[3,8]",en-US,nail',
+        'K059,T1,DECOUPLED,xoox,nail,nail,12,28,2,"[9,2]",en-US,',
+        'K060,T1,DECOUPLED,xoox,goat,goat,0,11,3,"[6,8]",en-US,goat',
+        'K060,T1,DECOUPLED,xoox,goat,goat,12,28,3,"[9,5]",en-US,',
+        'K061,T1,EASY_XFER,xoxo,pine,pino,0,11,5,"[0,8]",en-US,pine',
+        'K061,T1,EASY_XFER,xoxo,pine,pino,12,28,1,"[9,5]",en-US,',
+        'K062,T1,DECOUPLED,xxoxx,brush,brush,0,11,5,"[0,8]",en-US,brush',
+        'K062,T1,DECOUPLED,xxoxx,brush,brush,12,28,3,"[9,5]",en-US,',
+        'K063,T1,DECOUPLED,xox,nut,nut,0,11,3,"[3,8]",en-US,nut',
+        'K063,T1,DECOUPLED,xox,nut,nut,12,28,3,"[9,5]",en-US,',
+        'K064,T1,DECOUPLED,xxox,frog,frog,0,11,4,"[1,5]",en-US,frog',
+        'K064,T1,DECOUPLED,xxox,frog,frog,12,28,3,"[9,5]",en-US,',
+        'K065,T1,DECOUPLED,xoxx,nest,nest,0,11,3,"[3,8]",en-US,nest',
+        'K065,T1,DECOUPLED,xoxx,nest,nest,12,28,1,"[9,5]",en-US,',
+        'K066,T1,DECOUPLED,xoxx,fork,fork,0,11,4,"[1,5]",en-US,fork',
+        'K066,T1,DECOUPLED,xoxx,fork,fork,12,28,3,"[9,5]",en-US,',
+        'K067,T1,DECOUPLED,xxoxo,glove,glove,0,11,3,"[6,8]",en-US,glove',
+        'K067,T1,DECOUPLED,xxoxo,glove,glove,12,28,3,"[9,5]",en-US,',
+        'K068,T1,DECOUPLED,xoxo,kite,kite,0,11,3,"[6,8]",en-US,kite',
+        'K068,T1,DECOUPLED,xoxo,kite,kite,12,28,1,"[9,5]",en-US,',
+        'K069,T1,DECOUPLED,xoox,pail,pail,0,11,5,"[0,8]",en-US,pail',
+        'K069,T1,DECOUPLED,xoox,pail,pail,12,28,2,"[9,2]",en-US,',
+        'K070,T1,DECOUPLED,xxox,plum,plum,0,11,5,"[0,8]",en-US,plum',
+        'K070,T1,DECOUPLED,xxox,plum,plum,12,28,3,"[9,5]",en-US,',
+        'U061,T1,ONO,xox,pop,pop!,0,9,5,"[0,8]",en-US,pop',
+        'U061,T1,ONO,xox,pop,pop!,10,20,3,"[9,5]",en-US,',
+        'U061,T1,ONO,xox,pop,pop!,21,30,5,"[0,8]",en-US,',
+        'U062,T1,ONO,xox,bum,boom!,0,9,5,"[0,8]",es-ES,bum',
+        'U062,T1,ONO,xox,bum,boom!,10,20,3,"[9,8]",es-ES,',
+        'U062,T1,ONO,xox,bum,boom!,21,30,5,"[0,8]",es-ES,',
+        'U063,o,T0,o,a,/a/,0,24,2,"[9,2]",es-ES,a',
+        'U064,o,T0,o,e,/e/,0,24,1,"[9,5]",es-ES,e',
+        'U065,o,T0,o,i,/i/,0,24,1,"[9,8]",es-ES,i',
+        'U066,o,T0,o,o,/o/,0,24,3,"[9,5]",es-ES,o',
+        'U067,o,T0,o,u,/u/,0,24,3,"[9,8]",es-ES,u'
+      ].join('\n');
 
-      const Patcher = {
-        delayMs: 40,
-        minMs: 12,
-        maxMs: 240,
-        stepMs: 8,
-        t1SilentFirst: true,
-        layers: { z1: true, z2: false, z3: false },
-        zOrder: ["z1", "z2", "z3"],
-        stepSpeed(sign) {
-          this.delayMs = sign > 0
-            ? Math.max(this.minMs, this.delayMs - this.stepMs)
-            : Math.min(this.maxMs, this.delayMs + this.stepMs);
-          document.getElementById("delayLabel").textContent = this.delayMs + "ms";
-        },
-        toggleLayer(key) {
-          this.layers[key] = !this.layers[key];
-          this.zOrder = this.zOrder.filter(k => k !== key);
-          if (this.layers[key]) this.zOrder.push(key);
-          else this.zOrder.unshift(key);
-          syncZDom();
-        },
-        topActiveKey() {
-          for (let i = this.zOrder.length - 1; i >= 0; i--) {
-            if (this.layers[this.zOrder[i]]) return this.zOrder[i];
-          }
-          return null;
-        },
-        isSilentFirst(tick) {
-          return this.t1SilentFirst && tick > 0 && tick % 2 === 1;
-        }
+      // =========================================================================
+      // 2. QUADRANT I (+,+) ROOM RESERVATION MAP (240x320 Logical Grid)
+      //    Bottom-left origin: (0, 0), +x right, +y up.
+      //    Hardware projection: hwY = LOGICAL_H - (Y + H)
+      // =========================================================================
+      const LOGICAL_W = 240;
+      const LOGICAL_H = 320;
+      const ROOMS = {
+        P_LEFT:     { x: 10,  y: 170, z: 2, w: 105, h: 135, label: 'VISEME' },
+        P_RIGHT:    { x: 125, y: 170, z: 2, w: 105, h: 135, label: 'LATEREME' },
+        P_MID:      { x: 10,  y: 78,  z: 2, w: 220, h: 82,  label: 'TEXTEME' },
+        P_MID_BASE: { x: 14,  y: 44,  z: 3, w: 212, h: 26,  label: 'SIMASIA Z3' },
+        P_LOWER:    { x: 10,  y: 10,  z: 1, w: 220, h: 26,  label: 'OCSEME' }
       };
 
-      const VOCAB_BANK = [
-        { es: "pollito", en: "chick", label: "pollito / chick", esSpaced: "p o l l i t o", enSpaced: "c h i c k", xenoTexteme: "[c-h-i-c-k]", jpgUrl: "" },
-        { es: "hola",    en: "hello", label: "hola / hello",    esSpaced: "h o l a",       enSpaced: "h e l l o",   xenoTexteme: "[h-e-l-l-o]", jpgUrl: "" },
-        { es: "uno",     en: "one",   label: "uno / one",       esSpaced: "u n o",         enSpaced: "o n e",       xenoTexteme: "[o-n-e]",     jpgUrl: "" }
-      ];
-      let vocabIdx = 0;
-      let loadedJpg = null;
-
-      function makeVisemeProfile(vId) {
-        const cols = [];
-        for (let p = 0; p < 20; p++) {
-          const d = Math.abs(p - 9.5) / 9.5;
-          let yTop = 100, yBot = 100;
-          if (vId === 0) { yTop = 98 + 2 * d * d; yBot = 102 - 2 * d * d; }
-          else if (vId === 1) { yTop = 88 + 10 * d * d; yBot = 112 - 10 * d * d; }
-          else if (vId === 2 && d <= 0.82) {
-            const s = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.82, 2)));
-            yTop = 100 - 48 * s; yBot = 100 + 52 * s;
-          } else if (vId === 3) {
-            if (d > 0.55) { yTop = -1; yBot = -1; }
-            else {
-              const s = Math.sqrt(Math.max(0, 1 - Math.pow(d / 0.55, 2)));
-              yTop = 100 - 32 * s; yBot = 100 + 34 * s;
-            }
-          } else if (vId === 4) { yTop = 94 + 4 * d * d; yBot = 106 - 4 * d * d; }
-          cols.push([Math.round(yTop), Math.round(yBot)]);
-        }
-        return cols;
-      }
-
-      const PROFILES = {};
-      for (let v = 0; v < 6; v++) PROFILES[v] = makeVisemeProfile(v);
-
-      const COLOREME_LOCI = [
-        { id: 0, color: "#dc2626", x: 30,  y: 102 },
-        { id: 1, color: "#ea580c", x: 48,  y: 102 },
-        { id: 2, color: "#d97706", x: 62,  y: 108 },
-        { id: 3, color: "#65a30d", x: 80,  y: 86 },
-        { id: 4, color: "#059669", x: 102, y: 78 },
-        { id: 5, color: "#0891b2", x: 128, y: 74 },
-        { id: 6, color: "#2563eb", x: 156, y: 80 },
-        { id: 7, color: "#4f46e5", x: 180, y: 94 },
-        { id: 8, color: "#7c3aed", x: 194, y: 140 },
-        { id: 9, color: "#db2777", x: 126, y: 122 }
-      ];
-
-      function charToLocus(ch, nextCh) {
-        if ("mbp".includes(ch)) return 0;
-        if ("fv".includes(ch)) return 1;
-        if (ch === "t" && nextCh === "h") return 2;
-        if ("tdsnlz".includes(ch)) return 3;
-        if (((ch === "s" || ch === "c") && nextCh === "h") || ch === "j") return 4;
-        if ("yr".includes(ch)) return 5;
-        if ("kgcq".includes(ch)) return 6;
-        if ("ñx".includes(ch)) return 7;
-        if ("h".includes(ch)) return 8;
-        if ("aeiouáéíóú".includes(ch)) return 9;
-        return -1;
-      }
-
-      function compileTimeline(phrase) {
-        const clean = (phrase || "").toLowerCase().trim();
-        const vis = [0], loc = [-1];
-        for (let i = 0; i < clean.length; i++) {
-          const ch = clean[i], nextCh = clean[i + 1] || "", l = charToLocus(ch, nextCh);
-          if ("ieyéí".includes(ch)) { vis.push(1, 1); loc.push(l, l); }
-          else if ("aá".includes(ch)) { vis.push(2, 2); loc.push(l, l); }
-          else if ("ouóú".includes(ch)) { vis.push(3, 3); loc.push(l, l); }
-          else if ("fv".includes(ch)) { vis.push(4); loc.push(l); }
-          else if ("mbp".includes(ch)) { vis.push(5); loc.push(l); }
-          else if (" ,.;!?".includes(ch)) { vis.push(0); loc.push(-1); }
-          else if (/[a-zñ]/.test(ch)) { vis.push(1); loc.push(l); }
-        }
-        vis.push(0); loc.push(-1);
-        return { vis, loc };
-      }
-
-      function countDeltas(seq) {
-        let d = 0, prev = -1;
-        for (let i = 0; i < seq.length; i++) {
-          if (seq[i] !== prev) { d++; prev = seq[i]; }
-        }
-        return d;
-      }
-
-      /* --- 4 SUBROUTINES CALLED BY THE SINGLE LOOP (with safe placeholder fallback) --- */
-
-      /* Call 1: Render active Z-layer on top stage */
-      function call1Stage(ctxVars) {
-        const c1 = document.getElementById("canvasZ1");
-        const ctx1 = c1.getContext("2d");
-        ctx1.clearRect(0, 0, c1.width, c1.height);
-        if (loadedJpg && loadedJpg.complete && loadedJpg.naturalWidth > 0) {
-          ctx1.drawImage(loadedJpg, 10, 14, c1.width - 20, c1.height - 22);
-        } else {
-          const bob = Math.sin(ctxVars.tick * 0.25) * 2;
-          ctx1.fillStyle = "#facc15"; ctx1.strokeStyle = "#111111"; ctx1.lineWidth = 2;
-          ctx1.beginPath(); ctx1.ellipse(110, 130 + bob, 42, 48, 0, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
-          ctx1.beginPath(); ctx1.arc(115, 70 + bob, 29, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
-          ctx1.fillStyle = "#111111";
-          ctx1.beginPath(); ctx1.arc(125, 62 + bob, 4.5, 0, Math.PI * 2); ctx1.fill();
-          ctx1.fillStyle = "#ea580c";
-          ctx1.beginPath(); ctx1.moveTo(143, 68 + bob); ctx1.lineTo(159, 73 + bob); ctx1.lineTo(143, 78 + bob); ctx1.closePath();
-          ctx1.fill(); ctx1.stroke();
-          ctx1.strokeStyle = "#ea580c"; ctx1.lineWidth = 2.5;
-          ctx1.beginPath(); ctx1.moveTo(98, 178); ctx1.lineTo(91, 196); ctx1.moveTo(122, 178); ctx1.lineTo(129, 196); ctx1.stroke();
-        }
-
-        const c2 = document.getElementById("canvasZ2");
-        const ctx2 = c2.getContext("2d");
-        ctx2.clearRect(0, 0, c2.width, c2.height);
-        ctx2.fillStyle = "#f2c38f"; ctx2.strokeStyle = "#111111"; ctx2.lineWidth = 2;
-        ctx2.beginPath(); ctx2.ellipse(110, 108, 64, 76, 0, 0, Math.PI * 2); ctx2.fill(); ctx2.stroke();
-        ctx2.fillStyle = "#111111";
-        ctx2.beginPath(); ctx2.arc(86, 80, 6, 0, Math.PI * 2); ctx2.arc(134, 80, 6, 0, Math.PI * 2); ctx2.fill();
-        const cols = PROFILES[ctxVars.vId] || PROFILES[0];
-        const scale = 80 / 200;
-        for (let p = 0; p < 20; p++) {
-          const [yt, yb] = cols[p];
-          if (yt === -1) continue;
-          ctx2.fillRect(70 + p * 10 * scale, 90 + yt * scale, 10 * scale, Math.max(2, (yb - yt) * scale));
-        }
-
-        const c3 = document.getElementById("canvasZ3");
-        const ctx3 = c3.getContext("2d");
-        ctx3.clearRect(0, 0, c3.width, c3.height);
-        ctx3.fillStyle = "#fce7f3"; ctx3.strokeStyle = "#111111"; ctx3.lineWidth = 2;
-        ctx3.beginPath(); ctx3.moveTo(26, 90); ctx3.quadraticCurveTo(106, 54, 196, 94); ctx3.lineTo(196, 30); ctx3.lineTo(26, 30); ctx3.closePath();
-        ctx3.fill(); ctx3.stroke();
-        const lift = ctxVars.vId === 1 ? -16 : (ctxVars.vId === 2 ? 14 : (ctxVars.vId === 3 ? -6 : 0));
-        ctx3.fillStyle = "#f472b6";
-        ctx3.beginPath(); ctx3.moveTo(30, 182); ctx3.quadraticCurveTo(102, 116 + lift, 180, 182); ctx3.closePath();
-        ctx3.fill(); ctx3.stroke();
-        for (const loc of COLOREME_LOCI) {
-          ctx3.beginPath(); ctx3.arc(loc.x, loc.y, loc.id === ctxVars.locId ? 8 : 5, 0, Math.PI * 2);
-          ctx3.fillStyle = loc.color; ctx3.fill(); ctx3.strokeStyle = "#111111"; ctx3.lineWidth = loc.id === ctxVars.locId ? 2 : 1; ctx3.stroke();
-        }
-      }
-
-      /* Call 2: Render midriff half-waves & semes */
-      function call2Midriff(ctxVars) {
-        const drawWave = (id, mode) => {
-          const c = document.getElementById(id), ctx = c.getContext("2d"), w = c.width, h = c.height;
-          ctx.clearRect(0, 0, w, h); ctx.fillStyle = "#faf6ee"; ctx.fillRect(0, 0, w, h);
-          ctx.strokeStyle = "#4f46e5"; ctx.lineWidth = 1.2;
-          for (let x = 2; x < w - 2; x += 2) {
-            const nx = x / w;
-            const env = mode === "es"
-              ? Math.max(0.1, Math.min(1, Math.exp(-Math.pow((nx - 0.18) / 0.09, 2)) + Math.exp(-Math.pow((nx - 0.5) / 0.14, 2)) * 0.65 + Math.exp(-Math.pow((nx - 0.82) / 0.08, 2))))
-              : Math.max(0.12, Math.exp(-Math.pow((nx - 0.36) / 0.16, 2)) * 0.85);
-            const spk = Math.max(2, (h - 4) * env * (0.72 + 0.28 * Math.abs(Math.sin(x * 0.65 + ctxVars.tick * 0.4))));
-            ctx.beginPath(); ctx.moveTo(x, h - 2); ctx.lineTo(x, h - 2 - spk); ctx.stroke();
-          }
-        };
-        drawWave("waveSpanish", "es");
-        drawWave("waveEnglish", "en");
-      }
-
-      /* Call 3: Voxeme / T1-T2 silent-first gate hook */
-      function call3VoxemeGate(ctxVars) {
-        if (Patcher.isSilentFirst(ctxVars.tick)) return;
-        /* Optional per-tick voxeme hook stays passive unless explicitly triggered */
-      }
-
-      /* Call 4: Commit status readout & return */
-      function call4DeltaStatus(ctxVars) {
-        document.getElementById("statusInfo").textContent =
-          `Tick: ${ctxVars.tick} | Z-Top: ${(ctxVars.topKey || "none").toUpperCase()} | Viseme: ${ctxVars.vId} | DST: ${ctxVars.deltas} deltas`;
-      }
-
-      /* Optional placeholder hooks (safe no-op when unassigned) */
-      const placeholderHooks = {
-        onLoopStart: null,
-        onLoopEnd: null
+      const LOCUS_COLORS = {
+        0: '#ef4444', // Bilabial (Lips)
+        1: '#f97316', // Labiodental
+        2: '#eab308', // Dental
+        3: '#22c55e', // Alveolar
+        4: '#14b8a6', // Post-Alveolar
+        5: '#06b6d4', // Palatal
+        6: '#3b82f6', // Velar
+        7: '#6366f1', // Pharyngeal
+        8: '#a855f7', // Glottal
+        9: '#ec4899'  // Vowel Core
       };
 
-      let compiled = compileTimeline("pollito chick");
+      const VISEME_SHAPES = {
+        0: { rx: 14, ry: 2,  open: false, label: '0:Neutral' },
+        1: { rx: 24, ry: 6,  open: true,  label: '1:Wide /i,e/' },
+        2: { rx: 20, ry: 18, open: true,  label: '2:Open /a/' },
+        3: { rx: 10, ry: 11, open: true,  label: '3:Round /o,u/' },
+        4: { rx: 18, ry: 4,  open: false, label: '4:Fricative' },
+        5: { rx: 18, ry: 1,  open: false, label: '5:Closed /b,p,m/' }
+      };
+
+      // =========================================================================
+      // 3. STATE & DST PARSER
+      // =========================================================================
+      let allUnits = [];
+      let filteredUnits = [];
+      let trackFilter = 'ALL';
+      const TRACK_ORDER = ['ALL', 'xo', 'ox', 'T1', 'o'];
+      let modeFilter = 'ALL';
+      const MODE_ORDER = ['ALL', 'EASY_XFER', 'DECOUPLED', 'ONO', 'T0'];
+      let unitIdx = 0;
       let tick = 0;
-      let timer = null;
+      let playing = true;
+      let simasiaOn = false; // Type 0 Decode-First: OFF by default
+      let soundOn = false;
+      let viewportMode = 0; // 0: 240x320, 1: 320x480, 2: Auto
+      const VIEWPORTS = [
+        { cls: 'vp-240', label: '240\u00d7320' },
+        { cls: 'vp-320', label: '320\u00d7480' },
+        { cls: 'vp-auto', label: 'Auto' }
+      ];
+      let lastSpokenKey = '';
+      const masteryMap = new Map();
+      let paretoUnlocked = false;
+      let audioCtx = null;
 
-      /* THE SINGLE LOOP: load/assign vars once -> 4 calls -> return */
-      function runSingleLoopStep() {
-        callOrPass(placeholderHooks.onLoopStart, tick);
-
-        /* Load/assign loop variables once */
-        const loopVars = {
-          tick: tick,
-          vId: compiled.vis[tick] ?? 0,
-          locId: compiled.loc[tick] ?? -1,
-          topKey: Patcher.topActiveKey(),
-          deltas: countDeltas(compiled.vis)
-        };
-
-        callOrPass(call1Stage, loopVars);
-        callOrPass(call2Midriff, loopVars);
-        callOrPass(call3VoxemeGate, loopVars);
-        callOrPass(call4DeltaStatus, loopVars);
-
-        callOrPass(placeholderHooks.onLoopEnd, loopVars);
-        return loopVars;
-      }
-
-      function emitVoxeme(text, lang) {
-        if (!document.getElementById("chkVoxeme").checked) return;
-        try {
-          if (!("speechSynthesis" in window)) return;
-          window.speechSynthesis.cancel();
-          const u = new SpeechSynthesisUtterance(text);
-          u.lang = lang; u.rate = 0.88;
-          window.speechSynthesis.speak(u);
-        } catch (e) {}
-      }
-
-      function syncZDom() {
-        const topKey = Patcher.topActiveKey();
-        const cfg = {
-          z1: { el: document.getElementById("layerZ1"), btn: document.getElementById("toggleZ1"), label: "Z1 Imageme" },
-          z2: { el: document.getElementById("layerZ2"), btn: document.getElementById("toggleZ2"), label: "Z2 Viseme" },
-          z3: { el: document.getElementById("layerZ3"), btn: document.getElementById("toggleZ3"), label: "Z3 Latereme" }
-        };
-        for (const k of ["z1", "z2", "z3"]) {
-          const on = Patcher.layers[k], top = topKey === k;
-          cfg[k].el.classList.toggle("is-off", !on);
-          cfg[k].el.classList.toggle("z-raised", top);
-          cfg[k].btn.classList.toggle("on", on);
-          cfg[k].btn.textContent = `${cfg[k].label}: ${on ? "ON" : "OFF"}`;
+      function parseDST(csvText) {
+        const lines = csvText.trim().split(/\r?\n/);
+        const unitMap = new Map();
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+          const cols = [];
+          let cur = '', inQ = false;
+          for (let c = 0; c < line.length; c++) {
+            const ch = line[c];
+            if (ch === '"') { inQ = !inQ; }
+            else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
+            else { cur += ch; }
+          }
+          cols.push(cur);
+          if (cols.length < 12) continue;
+          const uid = cols[0].trim();
+          const row = {
+            track: cols[1].trim(),
+            mode: cols[2].trim(),
+            pattern: cols[3].trim(),
+            lemma: cols[4].trim(),
+            simasia: cols[5].trim(),
+            t0: parseInt(cols[6], 10) || 0,
+            t1: parseInt(cols[7], 10) || 24,
+            viseme: parseInt(cols[8], 10) || 0,
+            locus: cols[9].trim() || '[9,2]',
+            lang: cols[10].trim() || 'es-ES',
+            vox: cols[11].trim()
+          };
+          if (!unitMap.has(uid)) {
+            unitMap.set(uid, {
+              id: uid,
+              track: row.track,
+              mode: row.mode,
+              pattern: row.pattern,
+              lemma: row.lemma,
+              simasia: row.simasia,
+              maxTick: row.t1,
+              rows: []
+            });
+          }
+          const u = unitMap.get(uid);
+          if (row.t1 > u.maxTick) u.maxTick = row.t1;
+          u.rows.push(row);
         }
-        document.getElementById("stageBadge").textContent = topKey ? `Z-TOP: ${cfg[topKey].label.toUpperCase()}` : "Z-TOP: NONE";
-        runSingleLoopStep();
+        return Array.from(unitMap.values());
       }
 
-      function stopLoop() {
-        if (timer !== null) { clearInterval(timer); timer = null; }
-        try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {}
-      }
-
-      function startLoop(withVox) {
-        stopLoop();
-        const phrase = document.getElementById("wordInput").value || "pollito chick";
-        compiled = compileTimeline(phrase);
+      function applyTrackFilter() {
+        filteredUnits = allUnits.filter(u => {
+          const okTrack = (trackFilter === 'ALL' || u.track === trackFilter);
+          const okMode = (modeFilter === 'ALL' || u.mode === modeFilter);
+          return okTrack && okMode;
+        });
+        if (filteredUnits.length === 0) filteredUnits = allUnits.slice();
+        unitIdx = 0;
         tick = 0;
-        runSingleLoopStep();
-        if (withVox) {
-          const item = VOCAB_BANK[vocabIdx];
-          emitVoxeme(phrase, phrase.includes(item.es) ? "es-MX" : "en-US");
-        }
-        timer = setInterval(() => {
-          tick = (tick + 1) % compiled.vis.length;
-          runSingleLoopStep();
-        }, Patcher.delayMs);
+        lastSpokenKey = '';
+        renderFrame();
+        updateParetoHUD();
       }
 
-      (function initStaticPortrait() {
-        const c = document.getElementById("portraitCanvas"), ctx = c.getContext("2d");
-        ctx.fillStyle = "#d8cfc2"; ctx.fillRect(0, 0, c.width, c.height);
-        ctx.fillStyle = "#b89f88"; ctx.strokeStyle = "#111111"; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.ellipse(30, 30, 12, 16, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      })();
+      // =========================================================================
+      // 4. HARDWARE PROJECTION & RENDERING (Quadrant I -> Canvas)
+      // =========================================================================
+      const canvas = document.getElementById('kteStage');
+      const ctx = canvas.getContext('2d');
 
-      document.getElementById("toggleZ1").addEventListener("click", () => Patcher.toggleLayer("z1"));
-      document.getElementById("toggleZ2").addEventListener("click", () => Patcher.toggleLayer("z2"));
-      document.getElementById("toggleZ3").addEventListener("click", () => Patcher.toggleLayer("z3"));
-      document.getElementById("btnPlay").addEventListener("click", () => startLoop(true));
-      document.getElementById("btnStop").addEventListener("click", () => { stopLoop(); tick = 0; runSingleLoopStep(); });
-      document.getElementById("btnVoxEs").addEventListener("click", () => emitVoxeme(VOCAB_BANK[vocabIdx].es, "es-MX"));
-      document.getElementById("btnVoxEn").addEventListener("click", () => emitVoxeme(VOCAB_BANK[vocabIdx].en, "en-US"));
+      function toHwY(y, h) {
+        return LOGICAL_H - (y + h);
+      }
 
-      document.getElementById("vocabTickerBtn").addEventListener("click", () => {
-        vocabIdx = (vocabIdx + 1) % VOCAB_BANK.length;
-        const item = VOCAB_BANK[vocabIdx];
-        document.getElementById("wordInput").value = `${item.es} ${item.en}`;
-        document.getElementById("vocabTickerBtn").textContent = item.label;
-        document.getElementById("tagSpanish").textContent = item.esSpaced;
-        document.getElementById("tagEnglish").textContent = item.enSpaced;
-        document.getElementById("fixedTexteme").textContent = item.xenoTexteme;
-        if (item.jpgUrl) {
-          loadedJpg = new Image();
-          loadedJpg.onload = runSingleLoopStep;
-          loadedJpg.src = item.jpgUrl;
-        } else {
-          loadedJpg = null;
+      function drawRoomFrame(room, title, bgColor, borderColor) {
+        const hy = toHwY(room.y, room.h);
+        ctx.fillStyle = bgColor || '#ffffff';
+        ctx.fillRect(room.x, hy, room.w, room.h);
+        ctx.strokeStyle = borderColor || '#cbd5e1';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(room.x + 0.5, hy + 0.5, room.w - 1, room.h - 1);
+        if (title) {
+          ctx.fillStyle = '#64748b';
+          ctx.font = 'bold 8px "Courier New", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText(title, room.x + 4, hy + 10);
         }
-        startLoop(true);
+        return { x: room.x, y: hy, w: room.w, h: room.h };
+      }
+
+      function drawViseme(box, visemeId, locusStr) {
+        const cx = box.x + box.w / 2;
+        const cy = box.y + box.h / 2 + 6;
+        // 20x20 Em sub-grid hint
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 0.5;
+        for (let g = -36; g <= 36; g += 18) {
+          ctx.beginPath();
+          ctx.moveTo(cx + g, cy - 36);
+          ctx.lineTo(cx + g, cy + 36);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx - 36, cy + g);
+          ctx.lineTo(cx + 36, cy + g);
+          ctx.stroke();
+        }
+        // Face ring
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 38, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Eyes
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(cx - 13, cy - 12, 3, 0, Math.PI * 2);
+        ctx.arc(cx + 13, cy - 12, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Gilbreth Mouth Puck
+        const v = VISEME_SHAPES[visemeId] || VISEME_SHAPES[0];
+        const locusDigit = parseInt((locusStr || '[9,2]').replace(/[^0-9]/g, '')[0] || '9', 10);
+        const puckColor = LOCUS_COLORS[locusDigit] || '#ec4899';
+
+        ctx.fillStyle = v.open ? '#1e1b2e' : puckColor;
+        ctx.strokeStyle = puckColor;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + 14, v.rx, v.ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 9px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(v.label, cx, box.y + box.h - 6);
+      }
+
+      function drawLatereme(box, visemeId, locusStr) {
+        const cx = box.x + 22;
+        const cy = box.y + 26;
+        const locusDigit = parseInt((locusStr || '[9,2]').replace(/[^0-9]/g, '')[0] || '9', 10);
+        const col = LOCUS_COLORS[locusDigit] || '#ec4899';
+
+        // Sagittal vocal tract schematic (connect-the-dots p1->p2)
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cx + 10, cy + 18); // lips
+        ctx.lineTo(cx + 26, cy + 12); // teeth/alveolar
+        ctx.lineTo(cx + 48, cy + 14); // palate
+        ctx.lineTo(cx + 62, cy + 28); // velum
+        ctx.lineTo(cx + 66, cy + 68); // pharynx
+        ctx.stroke();
+
+        // Active articulatory locus dot (0..9)
+        const locusX = cx + 10 + (locusDigit / 9) * 54;
+        const locusY = cy + 18 + (locusDigit > 5 ? (locusDigit - 5) * 9 : 0);
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(locusX, locusY, 7, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Jaw / tongue line
+        const v = VISEME_SHAPES[visemeId] || VISEME_SHAPES[0];
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cx + 10, cy + 22 + v.ry * 0.6);
+        ctx.lineTo(cx + 46, cy + 30 + v.ry * 0.4);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 9px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('LOCUS ' + locusStr, box.x + box.w / 2, box.y + box.h - 6);
+      }
+
+      function drawTexteme(box, unit, activeRow) {
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 34px "Courier New", Courier, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(unit.lemma, box.x + box.w / 2, box.y + box.h / 2 + 2);
+
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#0284c7';
+        ctx.font = 'bold 10px "Courier New", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(unit.track + ' [' + unit.pattern + '] ' + activeRow.lang, box.x + box.w - 6, box.y + 12);
+      }
+
+      function drawSimasiaOculus(box, unit) {
+        if (!simasiaOn) {
+          // Z3 OFF: clean blank oculus for pure Type 0 decoding
+          drawRoomFrame(ROOMS.P_MID_BASE, '', '#e2e8f0', '#cbd5e1');
+          ctx.fillStyle = '#64748b';
+          ctx.font = '10px "Courier New", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('Z3 SIMASIA: OFF (TYPE 0 DECODE)', box.x + box.w / 2, box.y + 16);
+          return;
+        }
+        drawRoomFrame(ROOMS.P_MID_BASE, '', '#ecfdf5', '#10b981');
+        ctx.fillStyle = '#064e3b';
+        ctx.font = 'bold 12px "Courier New", Courier, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(unit.simasia.slice(0, 28), box.x + box.w / 2, box.y + 17);
+      }
+
+      function drawOcseme(box, visemeId, activeTick) {
+        ctx.strokeStyle = '#0ea5e9';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        const midY = box.y + box.h / 2 + 2;
+        const amp = visemeId === 0 ? 1 : (visemeId === 2 ? 8 : 5);
+        for (let px = 6; px < box.w - 6; px += 4) {
+          const py = midY + Math.sin((px + activeTick * 9) * 0.25) * amp;
+          if (px === 6) ctx.moveTo(box.x + px, py);
+          else ctx.lineTo(box.x + px, py);
+        }
+        ctx.stroke();
+      }
+
+      function getActiveRow(unit, t) {
+        for (let i = 0; i < unit.rows.length; i++) {
+          const r = unit.rows[i];
+          if (t >= r.t0 && t <= r.t1) return r;
+        }
+        return unit.rows[0];
+      }
+
+      function speakVox(row, uid) {
+        if (!soundOn || !row.vox) return;
+        const key = uid + ':' + row.t0 + ':' + row.vox;
+        if (key === lastSpokenKey) return;
+        lastSpokenKey = key;
+
+        // Web Audio subtle tick cue + SpeechSynthesis
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.frequency.value = 520;
+          gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.06);
+        } catch (e) {}
+
+        if ('speechSynthesis' in window) {
+          try {
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(row.vox);
+            utter.lang = row.lang || 'es-ES';
+            utter.rate = 0.9;
+            window.speechSynthesis.speak(utter);
+          } catch (e) {}
+        }
+      }
+
+      function renderFrame() {
+        const unit = filteredUnits[unitIdx];
+        if (!unit) return;
+        const row = getActiveRow(unit, tick);
+
+        ctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
+
+        const bLeft = drawRoomFrame(ROOMS.P_LEFT, 'P-LEFT VISEME');
+        const bRight = drawRoomFrame(ROOMS.P_RIGHT, 'P-RIGHT LATEREME');
+        const bMid = drawRoomFrame(ROOMS.P_MID, 'P-MID TEXTEME');
+        const bSim = {
+          x: ROOMS.P_MID_BASE.x,
+          y: toHwY(ROOMS.P_MID_BASE.y, ROOMS.P_MID_BASE.h),
+          w: ROOMS.P_MID_BASE.w,
+          h: ROOMS.P_MID_BASE.h
+        };
+        const bLower = drawRoomFrame(ROOMS.P_LOWER, 'OCSEME');
+
+        drawViseme(bLeft, row.viseme, row.locus);
+        drawLatereme(bRight, row.viseme, row.locus);
+        drawTexteme(bMid, unit, row);
+        drawSimasiaOculus(bSim, unit);
+        drawOcseme(bLower, row.viseme, tick);
+
+        speakVox(row, unit.id);
+
+        document.getElementById('hudUnit').textContent = (unitIdx + 1) + '/' + filteredUnits.length;
+        document.getElementById('hudPattern').textContent = unit.pattern;
+        document.getElementById('hudTick').textContent = String(tick);
+        document.getElementById('hudTotalTicks').textContent = String(unit.maxTick);
+        document.getElementById('hudViseme').textContent = String(row.viseme);
+        document.getElementById('hudLocus').textContent = row.locus;
+      }
+
+      // =========================================================================
+      // 5. 25 FPS CLOCK & CONTROLS
+      // =========================================================================
+      let timerId = null;
+
+      function startClock() {
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(function () {
+          if (!playing || filteredUnits.length === 0) return;
+          const unit = filteredUnits[unitIdx];
+          tick++;
+          if (tick > unit.maxTick) {
+            tick = 0;
+            unitIdx = (unitIdx + 1) % filteredUnits.length;
+            lastSpokenKey = '';
+          }
+          renderFrame();
+        }, 40); // 25 fps = 40 ms
+      }
+
+      function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 2200);
+      }
+
+      document.getElementById('btnPlay').addEventListener('click', function () {
+        playing = !playing;
+        this.textContent = playing ? 'Pause' : 'Play';
+        this.classList.toggle('active', playing);
       });
 
-      document.getElementById("btnFaster").addEventListener("click", () => { Patcher.stepSpeed(+1); if (timer !== null) startLoop(false); });
-      document.getElementById("btnSlower").addEventListener("click", () => { Patcher.stepSpeed(-1); if (timer !== null) startLoop(false); });
+      document.getElementById('btnStep').addEventListener('click', function () {
+        playing = false;
+        const btnPlay = document.getElementById('btnPlay');
+        btnPlay.textContent = 'Play';
+        btnPlay.classList.remove('active');
+        const unit = filteredUnits[unitIdx];
+        tick++;
+        if (tick > unit.maxTick) {
+          tick = 0;
+          unitIdx = (unitIdx + 1) % filteredUnits.length;
+          lastSpokenKey = '';
+        }
+        renderFrame();
+      });
 
-      syncZDom();
+      document.getElementById('btnPrev').addEventListener('click', function () {
+        unitIdx = (unitIdx - 1 + filteredUnits.length) % filteredUnits.length;
+        tick = 0;
+        lastSpokenKey = '';
+        renderFrame();
+      });
+
+      document.getElementById('btnNext').addEventListener('click', function () {
+        unitIdx = (unitIdx + 1) % filteredUnits.length;
+        tick = 0;
+        lastSpokenKey = '';
+        renderFrame();
+      });
+
+      document.getElementById('btnReset').addEventListener('click', function () {
+        unitIdx = 0;
+        tick = 0;
+        lastSpokenKey = '';
+        renderFrame();
+      });
+
+      document.getElementById('btnTrack').addEventListener('click', function () {
+        const nextIdx = (TRACK_ORDER.indexOf(trackFilter) + 1) % TRACK_ORDER.length;
+        trackFilter = TRACK_ORDER[nextIdx];
+        this.textContent = 'Track: ' + trackFilter;
+        applyTrackFilter();
+      });
+
+      document.getElementById('btnMode').addEventListener('click', function () {
+        const nextIdx = (MODE_ORDER.indexOf(modeFilter) + 1) % MODE_ORDER.length;
+        modeFilter = MODE_ORDER[nextIdx];
+        this.textContent = 'Mode: ' + modeFilter;
+        this.classList.toggle('active', modeFilter !== 'ALL');
+        applyTrackFilter();
+      });
+
+      document.getElementById('btnSimasia').addEventListener('click', function () {
+        simasiaOn = !simasiaOn;
+        this.textContent = simasiaOn ? 'Simasia (Z3): ON' : 'Simasia (Z3): OFF';
+        this.classList.toggle('sim-on', simasiaOn);
+        renderFrame();
+      });
+
+      document.getElementById('btnSound').addEventListener('click', function () {
+        soundOn = !soundOn;
+        this.textContent = soundOn ? 'Sound: ON' : 'Sound: OFF';
+        this.classList.toggle('active', soundOn);
+        lastSpokenKey = '';
+        if (soundOn) renderFrame();
+      });
+
+      document.getElementById('btnViewport').addEventListener('click', function () {
+        viewportMode = (viewportMode + 1) % VIEWPORTS.length;
+        const vp = VIEWPORTS[viewportMode];
+        const shell = document.getElementById('phoneShell');
+        shell.className = 'phone-shell ' + vp.cls;
+        this.textContent = 'Screen: ' + vp.label;
+        document.getElementById('handshakeBadge').textContent = '0003: ' + vp.label;
+      });
+
+      document.getElementById('csvInput').addEventListener('change', function (e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          const parsed = parseDST(String(ev.target.result || ''));
+          if (parsed.length > 0) {
+            allUnits = parsed;
+            trackFilter = 'ALL';
+            document.getElementById('btnTrack').textContent = 'Track: ALL';
+            applyTrackFilter();
+            showToast('Loaded ' + parsed.length + ' DST units from ' + file.name);
+          } else {
+            showToast('No valid DST rows found in CSV');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      function updateParetoHUD() {
+        const total = filteredUnits.length || 1;
+        let ones = 0;
+        for (let i = 0; i < filteredUnits.length; i++) {
+          if (masteryMap.get(filteredUnits[i].id) === 1) ones++;
+        }
+        const pct = Math.round((ones / total) * 100);
+        const badge = document.getElementById('paretoBadge');
+        badge.textContent = 'Binary 1: ' + ones + '/' + total + ' (' + pct + '%)';
+        if (pct >= 80 && !paretoUnlocked) {
+          paretoUnlocked = true;
+          simasiaOn = true;
+          const btnSim = document.getElementById('btnSimasia');
+          btnSim.textContent = 'Simasia (Z3): ON';
+          btnSim.classList.add('sim-on');
+          showToast('Pareto 80% Binary 1 reached â€” Simasia (Z3) unlocked!');
+          renderFrame();
+        }
+      }
+
+      document.getElementById('btnMaster1').addEventListener('click', function () {
+        const unit = filteredUnits[unitIdx];
+        if (!unit) return;
+        masteryMap.set(unit.id, 1);
+        updateParetoHUD();
+        unitIdx = (unitIdx + 1) % filteredUnits.length;
+        tick = 0;
+        lastSpokenKey = '';
+        renderFrame();
+      });
+
+      document.getElementById('btnRetry0').addEventListener('click', function () {
+        const unit = filteredUnits[unitIdx];
+        if (!unit) return;
+        masteryMap.set(unit.id, 0);
+        updateParetoHUD();
+        tick = 0;
+        lastSpokenKey = '';
+        renderFrame();
+      });
+
+      // Boot Tormes
+      allUnits = parseDST(DEFAULT_DST_CSV);
+      applyTrackFilter();
+      updateParetoHUD();
+      startClock();
     })();
   </script>
 </body>
