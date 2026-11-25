@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tormes â€” Little KTU (Type 0 / Type 1 Micro-Viewport Engine)</title>
+  <title>Tormes — Little KTU (Type 0 / Type 1 Micro-Viewport Engine)</title>
   <style>
     :root {
       --bg: #0f1419;
@@ -704,7 +704,7 @@
         ctx.fillText(v.label, cx, box.y + box.h - 6);
       }
 
-      function drawLatereme(box, visemeId, locusStr) {
+      function drawLatereme(box, visemeId, locusStr, colorOn) {
         const ox = box.x + 16;
         const oy = box.y + 18;
         const locusDigit = parseInt((locusStr || '[9,2]').replace(/[^0-9]/g, '')[0] || '9', 10);
@@ -761,32 +761,34 @@
         ctx.lineTo(ox + 50, oy + 63 + jawDrop * 0.3);
         ctx.stroke();
 
-        // Articulatory locus coordinates (0=lips, 1-4=alveolar/palate, 5-7=velum/pharynx, 8=glottis, 9=oral vowel core)
-        const locusMap = {
-          0: [ox + 18, oy + 49 + jawDrop * 0.4],
-          1: [ox + 22, oy + 47],
-          2: [ox + 26, oy + 45],
-          3: [ox + 31, oy + 43],
-          4: [ox + 38, oy + 42],
-          5: [ox + 46, oy + 43],
-          6: [ox + 53, oy + 48],
-          7: [ox + 55, oy + 62],
-          8: [ox + 55, oy + 78],
-          9: [ox + 37, oy + 49 + jawDrop * 0.35]
-        };
-        const pt = locusMap[locusDigit] || locusMap[9];
-        ctx.fillStyle = col;
-        ctx.beginPath();
-        ctx.arc(pt[0], pt[1], 5.5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#0f172a';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        // Binary ON/OFF Coloreme: render ONLY when colorOn is true (no <home> fallback)
+        if (colorOn) {
+          const locusMap = {
+            0: [ox + 18, oy + 49 + jawDrop * 0.4],
+            1: [ox + 22, oy + 47],
+            2: [ox + 26, oy + 45],
+            3: [ox + 31, oy + 43],
+            4: [ox + 38, oy + 42],
+            5: [ox + 46, oy + 43],
+            6: [ox + 53, oy + 48],
+            7: [ox + 55, oy + 62],
+            8: [ox + 55, oy + 78],
+            9: [ox + 37, oy + 49 + jawDrop * 0.35]
+          };
+          const pt = locusMap[locusDigit] || locusMap[9];
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          ctx.arc(pt[0], pt[1], 5.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
 
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 9px "Courier New", monospace';
         ctx.textAlign = 'center';
-        ctx.fillText('LOCUS ' + locusStr, box.x + box.w / 2, box.y + box.h - 6);
+        ctx.fillText(colorOn ? ('LOCUS ' + locusStr) : 'LOCUS: OFF', box.x + box.w / 2, box.y + box.h - 6);
       }
 
       function drawTexteme(box, unit, activeRow) {
@@ -894,8 +896,10 @@
         };
         const bLower = drawRoomFrame(ROOMS.P_LOWER, 'OCSEME');
 
+        const colorOn = (row.viseme !== 0) && (row.locus !== 'OFF') && (tick <= row.t1 - 2);
+
         drawViseme(bLeft, row.viseme, row.locus);
-        drawLatereme(bRight, row.viseme, row.locus);
+        drawLatereme(bRight, row.viseme, row.locus, colorOn);
         drawTexteme(bMid, unit, row);
         drawSimasiaOculus(bSim, unit);
         drawOcseme(bLower, row.viseme, tick);
@@ -907,7 +911,7 @@
         document.getElementById('hudTick').textContent = String(tick);
         document.getElementById('hudTotalTicks').textContent = String(unit.maxTick);
         document.getElementById('hudViseme').textContent = String(row.viseme);
-        document.getElementById('hudLocus').textContent = row.locus;
+        document.getElementById('hudLocus').textContent = colorOn ? row.locus : 'OFF';
       }
 
       // =========================================================================
@@ -1052,7 +1056,7 @@
           const btnSim = document.getElementById('btnSimasia');
           btnSim.textContent = 'Simasia (Z3): ON';
           btnSim.classList.add('sim-on');
-          showToast('Pareto 80% Binary 1 reached â€” Simasia (Z3) unlocked!');
+          showToast('Pareto 80% Binary 1 reached — Simasia (Z3) unlocked!');
           renderFrame();
         }
       }
