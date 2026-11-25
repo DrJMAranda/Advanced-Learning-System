@@ -705,37 +705,82 @@
       }
 
       function drawLatereme(box, visemeId, locusStr) {
-        const cx = box.x + 22;
-        const cy = box.y + 26;
+        const ox = box.x + 16;
+        const oy = box.y + 18;
         const locusDigit = parseInt((locusStr || '[9,2]').replace(/[^0-9]/g, '')[0] || '9', 10);
         const col = LOCUS_COLORS[locusDigit] || '#ec4899';
+        const v = VISEME_SHAPES[visemeId] || VISEME_SHAPES[0];
+        const jawDrop = v.open ? Math.min(12, Math.max(3, v.ry * 0.55)) : 0;
 
-        // Sagittal vocal tract schematic (connect-the-dots p1->p2)
+        // Side-profile head, forehead, nose, upper/lower lips, chin & neck (facing left)
+        ctx.fillStyle = '#f8fafc';
         ctx.strokeStyle = '#334155';
         ctx.lineWidth = 2;
+        ctx.lineJoin = 'round';
         ctx.beginPath();
-        ctx.moveTo(cx + 10, cy + 18); // lips
-        ctx.lineTo(cx + 26, cy + 12); // teeth/alveolar
-        ctx.lineTo(cx + 48, cy + 14); // palate
-        ctx.lineTo(cx + 62, cy + 28); // velum
-        ctx.lineTo(cx + 66, cy + 68); // pharynx
+        ctx.moveTo(ox + 28, oy + 4);              // crown/forehead top
+        ctx.lineTo(ox + 22, oy + 20);             // brow
+        ctx.lineTo(ox + 10, oy + 36);             // nose tip
+        ctx.lineTo(ox + 22, oy + 40);             // philtrum
+        ctx.lineTo(ox + 18, oy + 47);             // upper lip
+        ctx.lineTo(ox + 28, oy + 49);             // inner upper mouth
+        ctx.lineTo(ox + 28, oy + 51 + jawDrop);   // inner lower mouth
+        ctx.lineTo(ox + 18, oy + 51 + jawDrop);   // lower lip
+        ctx.lineTo(ox + 21, oy + 63 + jawDrop);   // chin
+        ctx.lineTo(ox + 34, oy + 67 + jawDrop);   // under-chin
+        ctx.lineTo(ox + 38, oy + 88);             // throat front
+        ctx.lineTo(ox + 68, oy + 88);             // neck back
+        ctx.lineTo(ox + 74, oy + 48);             // occiput
+        ctx.lineTo(ox + 68, oy + 14);             // back of crown
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
-        // Active articulatory locus dot (0..9)
-        const locusX = cx + 10 + (locusDigit / 9) * 54;
-        const locusY = cy + 18 + (locusDigit > 5 ? (locusDigit - 5) * 9 : 0);
-        ctx.fillStyle = col;
+        // Side-profile eye
+        ctx.fillStyle = '#1e293b';
         ctx.beginPath();
-        ctx.arc(locusX, locusY, 7, 0, Math.PI * 2);
+        ctx.arc(ox + 32, oy + 25, 2.3, 0, Math.PI * 2);
         ctx.fill();
 
-        // Jaw / tongue line
-        const v = VISEME_SHAPES[visemeId] || VISEME_SHAPES[0];
-        ctx.strokeStyle = '#0f172a';
-        ctx.lineWidth = 2;
+        // Inner sagittal vocal tract: palate -> velum -> pharynx
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1.6;
         ctx.beginPath();
-        ctx.moveTo(cx + 10, cy + 22 + v.ry * 0.6);
-        ctx.lineTo(cx + 46, cy + 30 + v.ry * 0.4);
+        ctx.moveTo(ox + 25, oy + 46); // alveolar ridge
+        ctx.lineTo(ox + 42, oy + 41); // hard palate
+        ctx.lineTo(ox + 54, oy + 47); // velum
+        ctx.lineTo(ox + 56, oy + 84); // pharynx wall
+        ctx.stroke();
+
+        // Tongue / jaw floor
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(ox + 24, oy + 53 + jawDrop * 0.8);
+        ctx.lineTo(ox + 44, oy + 51 + jawDrop * 0.5);
+        ctx.lineTo(ox + 50, oy + 63 + jawDrop * 0.3);
+        ctx.stroke();
+
+        // Articulatory locus coordinates (0=lips, 1-4=alveolar/palate, 5-7=velum/pharynx, 8=glottis, 9=oral vowel core)
+        const locusMap = {
+          0: [ox + 18, oy + 49 + jawDrop * 0.4],
+          1: [ox + 22, oy + 47],
+          2: [ox + 26, oy + 45],
+          3: [ox + 31, oy + 43],
+          4: [ox + 38, oy + 42],
+          5: [ox + 46, oy + 43],
+          6: [ox + 53, oy + 48],
+          7: [ox + 55, oy + 62],
+          8: [ox + 55, oy + 78],
+          9: [ox + 37, oy + 49 + jawDrop * 0.35]
+        };
+        const pt = locusMap[locusDigit] || locusMap[9];
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(pt[0], pt[1], 5.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 1;
         ctx.stroke();
 
         ctx.fillStyle = '#0f172a';
